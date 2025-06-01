@@ -1,9 +1,12 @@
-import { Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Home } from '@/pages/home';
 
 export default function Router() {
   return (
-    <Routes>
-      <Route path="/" element={<></>} />
-    </Routes>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+      </Routes>
+    </BrowserRouter>
   );
 }

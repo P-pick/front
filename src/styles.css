@@ -1,5 +1,6 @@
 @import 'tailwindcss/preflight';
 @import 'tailwindcss/utilities';
+@import 'tailwindcss';
 
 /* 선택적 사용자 정의 스타일 */
 html,
@@ -16,4 +17,9 @@ body,
 #app-wrapper {
   max-width: 375px;
   width: 100%;
+}
+
+@theme {
+  --color-primary: #fa812f;
+  --color-secondary: #fa4032;
 }

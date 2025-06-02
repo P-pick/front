@@ -23,3 +23,8 @@ body,
   --color-primary: #fa812f;
   --color-secondary: #fa4032;
 }
+@layer base {
+  :root {
+    --z-button: 10;
+  }
+}

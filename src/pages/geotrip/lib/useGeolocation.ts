@@ -2,10 +2,7 @@ import type Location from '../types/Location';
 import { useState, useEffect } from 'react';
 
 const useGeolocation = (options?: PositionOptions) => {
-  const [location, setLocation] = useState<Location>({
-    latitude: null,
-    longitude: null,
-  });
+  const [location, setLocation] = useState<Location | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 

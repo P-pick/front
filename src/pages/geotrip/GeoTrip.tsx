@@ -1,4 +1,4 @@
-import api from '@/axios/instance';
+import api from '@/config/instance';
 import BackButton from './ui/BackButton';
 import { useEffect, useState } from 'react';
 

@@ -1,4 +1,4 @@
-import type Location from '../types/Location';
+import type { Location } from '../types';
 import { useState, useEffect } from 'react';
 
 const useGeolocation = (options?: PositionOptions) => {

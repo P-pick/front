@@ -49,3 +49,5 @@ export type Item = {
   lclsSystm3?: string;
   zipcode?: string;
 };
+
+export type TransportMode = 'transit' | 'car' | 'walk';

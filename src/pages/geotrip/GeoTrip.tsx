@@ -1,11 +1,13 @@
 import api from '@/config/instance';
-import BackButton from './ui/BackButton';
+import { BackButton, DistanceTimeInfo, TransportList, MenuIcon } from './ui';
 import { useEffect, useState } from 'react';
 import useGeolocation from './lib/useGeolocation';
-import type { ApiResponse, Item, Location } from './types';
+import type { ApiResponse, Item, Location, TransportMode } from './types';
 
 export default function GeoTrip() {
   const [data, setData] = useState<Item[]>([]);
+  const [transportMode, setTransportMode] = useState<TransportMode>('walk');
+
   const { location, isLoading, error } = useGeolocation({
     enableHighAccuracy: true,
   });
@@ -20,7 +22,6 @@ export default function GeoTrip() {
             radius: '1000',
           },
         });
-        console.log(res);
         setData(res.data.response.body.items.item);
       } catch (error) {
         console.error('데이터를 가져오는 중 오류 발생:', error);
@@ -37,14 +38,38 @@ export default function GeoTrip() {
 
   return (
     <div className="flex flex-col h-full">
-      <BackButton />
-      <div className="h-full w-full">
-        <img
-          className="object-cover w-full h-full absolute z-5"
-          src={data[0].firstimage}
-        />
+      <div className="h-full w-full relative">
+        <div className="w-full absolute flex items-center justify-between top-4 px-5 z-(--z-button)">
+          <BackButton />
+          <ul className="flex gap-[6px]">
+            <li className="rounded-full bg-[#0084FF] w-2 h-2" />
+            <li className="rounded-full bg-[#D9D9D9] w-2 h-2" />
+            <li className="rounded-full bg-[#D9D9D9] w-2 h-2" />
+          </ul>
+          <MenuIcon />
+        </div>
+        <div className="absolute bottom-0 left-5 text-white">
+          <h1 className="text-2xl font-bold">{data[0].title}</h1>
+          <div className="mt-3" />
+          <div className="flex gap-3">
+            <DistanceTimeInfo />
+            <TransportList
+              transportMode={transportMode}
+              setTransportMode={setTransportMode}
+            />
+          </div>
+          <div className="mt-3" />
+          <p>설명 어쩌구저쩌구임시설명</p>
+          <div className="mt-7" />
+          <button
+            type="button"
+            className="cursor-pointer mb-[24px] bg-white rounded-[15px] w-[320px] h-[50px] text-black font-bold text-[16px]"
+          >
+            여행 시작하기
+          </button>
+        </div>
+        <img className="object-cover w-full h-full" src={data[0].firstimage} />
       </div>
-      {data[0].title}
     </div>
   );
 }

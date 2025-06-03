@@ -1,29 +1,35 @@
-import { DistanceTimeInfo, TransportList } from './ui';
-import { useState } from 'react';
+import { BackButton, DistanceTimeInfo, MenuIcon, TransportList } from './ui';
+import { useMemo, useState } from 'react';
 import type { TransportMode } from './types';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Navigation, Mousewheel } from 'swiper/modules';
-import useGetLocationBasedData from './service/getLocationBasedData';
-import GeoTripHeader from '@/pages/geotrip/ui/GeoTripHeader';
+import { useGetLocationBasedData } from './service';
 
 export default function GeoTrip() {
   const [transportMode, setTransportMode] = useState<TransportMode>('walk');
-  const { data } = useGetLocationBasedData();
+  const { data, fetchNextPage, hasNextPage } = useGetLocationBasedData();
+  const slides = useMemo(() => {
+    if (!data) return [];
+    return data.pages.flatMap(page => page.items);
+  }, [data]);
   if (!data) return <div>Loading</div>;
 
   return (
-    <div className="flex flex-col h-full overflow-y-hidden">
+    <section className="flex flex-col h-full w-full">
       <div className="h-full w-full relative">
-        <GeoTripHeader />
+        <div className="w-full absolute flex items-center justify-between top-4 px-5 z-(--z-button)">
+          <BackButton />
+          <MenuIcon />
+        </div>
         <div className="absolute left-0 bottom-0 w-full h-1/2 bg-gradient-to-t from-black/50 to-transparent pointer-events-none z-0" />
-        {/* Outer Vertical Swiper */}
         <Swiper
           direction="vertical"
           modules={[Navigation, Pagination, Mousewheel]}
           pagination={false}
           className="h-full"
+          onReachEnd={() => hasNextPage && fetchNextPage()}
         >
-          {data.pages[0].items.map((slide, index) => (
+          {slides.map((slide, index) => (
             <SwiperSlide key={slide.contentid}>
               <div className="relative text-white w-full h-full  flex flex-col items-center">
                 <Swiper
@@ -46,7 +52,6 @@ export default function GeoTrip() {
                       </SwiperSlide>
                     ))}
                 </Swiper>
-
                 <div className="w-full absolute z-10 bottom-0 left-0 px-4">
                   <h1 className="text-2xl font-bold">{slide.title}</h1>
                   <div className="flex justify-between">
@@ -73,6 +78,6 @@ export default function GeoTrip() {
           ))}
         </Swiper>
       </div>
-    </div>
+    </section>
   );
 }

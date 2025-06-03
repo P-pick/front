@@ -1,7 +1,8 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import api from '@/config/instance';
-import useGeolocation from '../lib/useGeolocation';
+import { useGeolocation } from '../lib';
 import type { ApiResponse, Item, Location } from '../types';
+//임시상수
 const NUM_OF_ROWS = 30;
 
 type GetLocationBasedDataParams = {

@@ -1,7 +1,7 @@
 import { transportation } from '../lib';
 import type { CarRequestBody, PedestrianRequestBody } from '../types';
 import useCarDestination from './getCarData';
-import usePedestrianDestination from './getPedestrainData';
+import usePedestrianDestination from './getPedestrianData';
 
 const getTransportationSelected = (
   vehicle: 'pedestrian' | 'car',

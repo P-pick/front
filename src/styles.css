@@ -1,7 +1,9 @@
 @import 'tailwindcss/preflight';
 @import 'tailwindcss/utilities';
 @import 'tailwindcss';
-
+@import 'swiper/css';
+@import 'swiper/css/navigation';
+@import 'swiper/css/pagination';
 /* 선택적 사용자 정의 스타일 */
 html,
 body,
@@ -26,5 +28,11 @@ body,
 @layer base {
   :root {
     --z-button: 10;
+  }
+}
+
+@layer components {
+  .my-swiper .swiper-pagination {
+    @apply !top-5 h-0 w-0;
   }
 }

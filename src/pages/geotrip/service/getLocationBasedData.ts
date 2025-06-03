@@ -1,8 +1,7 @@
+import { useInfiniteQuery } from '@tanstack/react-query';
 import api from '@/config/instance';
 import useGeolocation from '../lib/useGeolocation';
-import type { ApiResponse, Location } from '@/pages/geotrip/types';
-import { useInfiniteQuery } from '@tanstack/react-query';
-
+import type { ApiResponse, Item, Location } from '../types';
 const NUM_OF_ROWS = 30;
 
 type GetLocationBasedDataParams = {
@@ -10,12 +9,18 @@ type GetLocationBasedDataParams = {
   pageNo: number;
 };
 
+type LocationBasedItemResponse = Promise<{
+  items: Item[];
+  pageNo: number;
+  numOfRows: number;
+  totalCount: number;
+}>;
+
 const getLocationBasedData = async ({
   location,
   pageNo,
-}: GetLocationBasedDataParams) => {
-  if (!location) throw new Error('위치 정보가 유효하지 않습니다.');
-
+}: GetLocationBasedDataParams): LocationBasedItemResponse => {
+  if (!location) return Promise.reject('위치 정보가 없습니다.');
   const response = await api.get<ApiResponse>(`/locationBasedList2`, {
     params: {
       mapX: location.longitude,
@@ -27,30 +32,33 @@ const getLocationBasedData = async ({
     },
   });
 
-  return response.data.response.body;
+  return {
+    items: response.data.response.body.items.item,
+    pageNo: response.data.response.body.pageNo,
+    numOfRows: response.data.response.body.numOfRows,
+    totalCount: response.data.response.body.totalCount,
+  };
 };
 
-const useGetLocationBasedData = (pageNo: number) => {
+const useGetLocationBasedData = () => {
   const { location } = useGeolocation({
     enableHighAccuracy: true,
   });
 
-  const { data } = useInfiniteQuery({
+  const query = useInfiniteQuery({
     queryKey: ['locationBasedData', location],
-    initialPageParam: 1,
-    getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => {
-      if (
-        Math.ceil(lastPage.totalCount / lastPage.numOfRows) - lastPage.pageNo >
-        0
-      )
-        return lastPage.pageNo + 1;
-      return undefined;
-    },
-    queryFn: () => getLocationBasedData({ location, pageNo }),
     enabled: !!location,
+    initialPageParam: 1,
+    queryFn: ({ pageParam }) =>
+      getLocationBasedData({ location, pageNo: pageParam }),
+    getNextPageParam: lastPage => {
+      const currentPage = lastPage.pageNo;
+      const totalPage = Math.ceil(lastPage.totalCount / lastPage.numOfRows);
+      return currentPage < totalPage ? currentPage + 1 : undefined;
+    },
   });
 
-  return { data };
+  return query;
 };
 
 export default useGetLocationBasedData;

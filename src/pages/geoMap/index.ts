@@ -1,1 +1,1 @@
-export {default as GeoMap} from './GeoMap';
+export { default as GeoMap } from './GeoMap';

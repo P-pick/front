@@ -1,8 +1,7 @@
 import axios from 'axios';
 import type { PedestrianRequestBody, PedestrianResponse } from '../types';
 import { useQuery } from '@tanstack/react-query';
-
-const TMAP_APP_KEY = import.meta.env.VITE_TMAP_APP_KEY; // 여기에 실제 API 키 입력
+import { TMAP_APP_KEY } from '../const/TMAP';
 
 const getPedestrianDestinationPathInfo = async (
   pedestrianRequest: PedestrianRequestBody

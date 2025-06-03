@@ -1,17 +1,12 @@
 type CoordType = 'EPSG3857' | 'WGS84GEO' | 'KATECH';
-
-type SearchOption = '0' | '4' | '10' | '30';
-
+type SearchOption = 0 | 4 | 10 | 30;
 type SortType = 'index' | 'custom';
-
-type PedestrianRequestHeaders = {
-  appKey: string; //  API 키
-};
-
-type PedestrianRequestParams = {
-  version?: string; // API 버전, 기본값: "1"
-  callback?: string; // 콜백 함수 이름
-};
+type TollgateFareOptionType = 1 | 2 | 8 | 16;
+type RoadType = 0 | 1 | 2 | 4 | 8 | 16 | 32;
+type dataDirectionOption = 0 | 1;
+type CarType = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
+type CarSearchOption = 0 | 1 | 2 | 3 | 4 | 10 | 12 | 19;
+type DetailPosFlag = 0 | 1 | 2;
 
 type PedestrianRequestBody = {
   startX: number; // 출발지 경도
@@ -30,14 +25,44 @@ type PedestrianRequestBody = {
   sort?: SortType; // 정렬 옵션, 기본값: "index"
 };
 
-type PedestrianGeometry =
+type CarRequestBody = {
+  tollgateFareOption?: TollgateFareOptionType;
+  roadType?: RoadType;
+  directionOption?: dataDirectionOption;
+  endX: number;
+  endY: number;
+  endRpFlag?: string;
+  reqCoordType?: CoordType;
+  startX: number;
+  startY: number;
+  gpsTime?: string;
+  speed?: number;
+  uncetaintyP?: number;
+  uncetaintyA?: number;
+  uncetaintyAP?: number;
+  carType?: CarType;
+  startName?: string;
+  endName?: string;
+  passList?: string;
+  gpsInfoList?: string;
+  detailPosFlag?: string;
+  resCoordType?: string;
+  sort?: SortType;
+  totalValue?: number;
+  trafficInfo?: string;
+  mainRoadInfo?: string;
+};
+
+type Geometry =
   | {
       type: 'Point';
       coordinates: [number, number];
+      traffic?: string;
     }
   | {
       type: 'LineString';
       coordinates: [number, number][];
+      traffic?: string;
     };
 
 interface PedestrianNavigationProperties {
@@ -70,19 +95,53 @@ interface PedestrianNavigationProperties {
   facilityName?: string;
 }
 
+// 길 안내 사용자 정의 프로퍼티
+type GuideProperties = {
+  totalDistance?: string; // 예: "3000"
+  totalTime?: number; // 예: 600
+  totalFare?: string; // 예: "1500"
+  taxiFare?: number; // 예: 363000
+  index?: string;
+  pointIndex?: number;
+  name?: string;
+  description?: string;
+  nextRoadName?: string;
+  turnType?: number;
+  pointType?: 'S' | 'E' | 'B1' | 'B2' | 'B3' | 'N';
+};
+
+// 도로 및 시설물 정보 사용자 정의 프로퍼티
+type RoadProperties = {
+  index?: string;
+  lineIndex?: number;
+  name?: string;
+  description?: string;
+  distance?: number;
+  time?: number;
+  roadType?: number;
+  facilityType?: number;
+};
+
 export interface PedestrianFeature {
   type: 'Feature';
-  geometry: PedestrianGeometry;
+  geometry: Geometry;
   properties: PedestrianNavigationProperties;
 }
 
-export interface PedestrianResponse {
+export interface CarPathFeature {
+  type: 'Feature';
+  geometry: Geometry;
+  properties: GuideProperties | RoadProperties;
+}
+
+interface TMapBaseResponse {
   type: 'FeatureCollection';
+}
+
+export interface PedestrianResponse extends TMapBaseResponse {
   features: PedestrianFeature[];
 }
 
-export type TMapPedestrianRequest = {
-  body: PedestrianRequestBody;
-  headers: PedestrianRequestHeaders;
-  params: PedestrianRequestParams;
-};
+export interface CarResponse extends TMapBaseResponse {
+  features: CarPathFeature[];
+}

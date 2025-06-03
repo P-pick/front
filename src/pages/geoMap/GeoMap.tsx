@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { Map, MapMarker, Polyline } from 'react-kakao-maps-sdk';
 import usePedestrianDestination from './service/getPedestrainData';
 import { transportation } from './lib';
+import getTransportationSelected from './service/getTransportationSelected';
 
 const destination = {
   lat: 37.629362,
@@ -10,6 +11,7 @@ const destination = {
 
 export default function GeoMap() {
   //GuDoYoon 내 위치 정보 가져오기 hook으로 교체 예정
+  const [vehicle, setVehicle] = useState<'car' | 'pedestrian'>('pedestrian');
   const [geoLocation, setGeoLocation] = useState({ lat: 0, lng: 0 });
   useEffect(() => {
     const geolocation = navigator.geolocation;
@@ -21,7 +23,7 @@ export default function GeoMap() {
       });
     });
   }, []);
-  const destinationLocation = usePedestrianDestination({
+  const polylines = getTransportationSelected(vehicle, {
     startX: geoLocation.lng,
     startY: geoLocation.lat,
     startName: '출발지',
@@ -30,7 +32,9 @@ export default function GeoMap() {
     endName: '목적지',
   });
 
-  const polylines = transportation.Pedestrian(destinationLocation?.features);
+  const onChangeVehicle = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setVehicle(e.target.value as 'car' | 'pedestrian');
+  };
 
   return (
     <div className="w-full h-full flex flex-col">
@@ -48,6 +52,16 @@ export default function GeoMap() {
         </button>
       </div>
       <div className="flex-1">
+        <div className="relative w-full">
+          <select
+            className="p-3 bg-blue-300 absolute left-0 top-0 z-10"
+            onChange={onChangeVehicle}
+          >
+            <option value="pedestrian">보행자</option>
+            <option value="car">자동차</option>
+          </select>
+        </div>
+
         <Map
           id="map"
           center={{ lat: geoLocation.lat, lng: geoLocation.lng }}

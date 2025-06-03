@@ -1,7 +1,5 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Map, MapMarker, Polyline } from 'react-kakao-maps-sdk';
-import usePedestrianDestination from './service/getPedestrainData';
-import { transportation } from './lib';
 import getTransportationSelected from './service/getTransportationSelected';
 
 const destination = {

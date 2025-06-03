@@ -18,6 +18,11 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: path => path.replace(/^\/api/, ''),
       },
+      '/path/navigation': {
+        target: 'https://apis.openapi.sk.com/tmap/routes',
+        changeOrigin: true,
+        rewrite: path => path.replace(/^\/path\/navigation/, ''),
+      },
     },
   },
 });

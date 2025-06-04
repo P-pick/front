@@ -11,7 +11,7 @@ import type {
 //임시상수
 const NUM_OF_ROWS = 10;
 
-type GetLocationBasedDataParams = {
+type LocationBasedItemRequest = {
   location: Location | null;
   pageNo: number;
 };
@@ -26,7 +26,7 @@ type LocationBasedItemResponse = Promise<{
 const getLocationBasedData = async ({
   location,
   pageNo,
-}: GetLocationBasedDataParams): LocationBasedItemResponse => {
+}: LocationBasedItemRequest): LocationBasedItemResponse => {
   if (!location) return Promise.reject('위치 정보가 없습니다.');
 
   const response = await api.get<ApiResponse<TourItem[]>>(

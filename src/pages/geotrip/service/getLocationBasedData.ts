@@ -72,9 +72,7 @@ const getLocationBasedData = async ({
   };
 };
 
-const useSuspenseInfiniteLocationBasedTourQuery = (
-  location: GeoTripLocation | null
-) => {
+const useGeoLocationBasedTourQuery = (location: GeoTripLocation | null) => {
   const query = useSuspenseInfiniteQuery({
     queryKey: ['locationBasedData', location],
     initialPageParam: 1,
@@ -90,4 +88,4 @@ const useSuspenseInfiniteLocationBasedTourQuery = (
   return query;
 };
 
-export default useSuspenseInfiniteLocationBasedTourQuery;
+export default useGeoLocationBasedTourQuery;

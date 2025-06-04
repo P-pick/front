@@ -3,7 +3,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Navigation, Mousewheel } from 'swiper/modules';
 import TourSlide from './TourSlide';
 import type { GeoTripLocation } from '@/pages/geotrip/types';
-import { useSuspenseInfiniteLocationBasedTourQuery } from '../service';
+import { useGeoLocationBasedTourQuery } from '../service';
 
 export default function TourSwiperWithLocation({
   location,
@@ -11,7 +11,7 @@ export default function TourSwiperWithLocation({
   location: GeoTripLocation;
 }) {
   const { data, fetchNextPage, hasNextPage } =
-    useSuspenseInfiniteLocationBasedTourQuery(location);
+    useGeoLocationBasedTourQuery(location);
 
   const slides = useMemo(() => data.pages.flatMap(p => p.items), [data]);
 

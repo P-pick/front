@@ -1,17 +1,19 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
+import {
+  useInfiniteQuery,
+  useSuspenseInfiniteQuery,
+} from '@tanstack/react-query';
 import api from '@/config/instance';
-import { useGeolocation } from '../lib';
 import type {
   TourItem,
-  Location,
   TourDetailImage,
   TourItemWithDetail,
+  GeoTripLocation,
 } from '../types';
 import type { ApiResponse } from '@/pages/types';
 import { NUM_OF_ROWS } from '../const';
 
 type LocationBasedItemRequest = {
-  location: Location | null;
+  location: GeoTripLocation | null;
   pageNo: number;
 };
 
@@ -70,14 +72,11 @@ const getLocationBasedData = async ({
   };
 };
 
-const useInfiniteLocationBasedTourQuery = () => {
-  const { location } = useGeolocation({
-    enableHighAccuracy: true,
-  });
-
-  const query = useInfiniteQuery({
+const useSuspenseInfiniteLocationBasedTourQuery = (
+  location: GeoTripLocation | null
+) => {
+  const query = useSuspenseInfiniteQuery({
     queryKey: ['locationBasedData', location],
-    enabled: !!location,
     initialPageParam: 1,
     queryFn: ({ pageParam }) =>
       getLocationBasedData({ location, pageNo: pageParam }),
@@ -91,4 +90,4 @@ const useInfiniteLocationBasedTourQuery = () => {
   return query;
 };
 
-export default useInfiniteLocationBasedTourQuery;
+export default useSuspenseInfiniteLocationBasedTourQuery;

@@ -1,4 +1,4 @@
-export type Location = {
+export type GeoTripLocation = {
   latitude: number | null;
   longitude: number | null;
 };

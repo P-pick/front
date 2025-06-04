@@ -1,1 +1,1 @@
-export { default as useInfiniteLocationBasedTourQuery } from './getLocationBasedData';
+export { default as useSuspenseInfiniteLocationBasedTourQuery } from './getLocationBasedData';

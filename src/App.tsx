@@ -1,5 +1,5 @@
-import QueryProvider from '@/components/QueryProvider';
-import Router from '@/components/Router';
+import QueryProvider from '@/config/QueryProvider';
+import Router from '@/config/Router';
 
 export default function App() {
   return (

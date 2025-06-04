@@ -1,7 +1,9 @@
 @import 'tailwindcss/preflight';
 @import 'tailwindcss/utilities';
 @import 'tailwindcss';
-
+@import 'swiper/css';
+@import 'swiper/css/navigation';
+@import 'swiper/css/pagination';
 /* 선택적 사용자 정의 스타일 */
 html,
 body,
@@ -22,4 +24,19 @@ body,
 @theme {
   --color-primary: #fa812f;
   --color-secondary: #fa4032;
+}
+@layer base {
+  :root {
+    --z-layer1: 10;
+    --z-layer2: 20;
+    --z-layer3: 30;
+    --z-layer4: 40;
+    --z-layer5: 50;
+  }
+}
+
+@layer components {
+  .my-swiper .swiper-pagination {
+    @apply !top-5 h-0 w-0;
+  }
 }

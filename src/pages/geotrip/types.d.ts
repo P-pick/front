@@ -24,5 +24,3 @@ export type TourItemWithDetail = TourItem & {
   overview: string;
   images: TourDetailImage[];
 };
-
-export type TransportMode = 'transit' | 'car' | 'walk';

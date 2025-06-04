@@ -1,8 +1,9 @@
-import { BackButton, MenuIcon, TourSlide } from './ui';
+import { TourSlide } from './ui';
 import { useMemo } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Navigation, Mousewheel } from 'swiper/modules';
 import { useInfiniteLocationBasedTourQuery } from './service';
+import { BackButton, MenuIcon } from '@/components';
 
 export default function GeoTrip() {
   const { data, fetchNextPage, hasNextPage, isLoading } =

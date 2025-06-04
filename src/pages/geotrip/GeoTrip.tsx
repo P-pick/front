@@ -26,6 +26,12 @@ export default function GeoTrip() {
           direction="vertical"
           modules={[Navigation, Pagination, Mousewheel]}
           pagination={false}
+          mousewheel={{
+            enabled: true,
+            sensitivity: 1,
+            forceToAxis: true,
+            releaseOnEdges: true,
+          }}
           className="h-full"
           onReachEnd={() => hasNextPage && fetchNextPage()}
         >

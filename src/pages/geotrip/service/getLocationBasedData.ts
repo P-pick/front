@@ -1,7 +1,4 @@
-import {
-  useInfiniteQuery,
-  useSuspenseInfiniteQuery,
-} from '@tanstack/react-query';
+import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 import api from '@/config/instance';
 import type {
   TourItem,

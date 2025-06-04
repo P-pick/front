@@ -24,8 +24,8 @@ export default function TourSlide({ tourInfo }: TourSlideProps) {
             준비된 이미지가 없습니다.
           </span>
         ) : (
-          tourInfo.images.map((img, i) => (
-            <SwiperSlide key={i}>
+          tourInfo.images.map(img => (
+            <SwiperSlide key={img.serialnum}>
               <img
                 src={img.originimgurl}
                 alt={img.imgname}

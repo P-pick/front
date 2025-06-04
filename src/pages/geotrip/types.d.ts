@@ -13,7 +13,11 @@ export type TourItem = {
   dist: string;
 };
 
-export type TourDetailImage = { imgname: string; originimgurl: string };
+export type TourDetailImage = {
+  imgname: string;
+  originimgurl: string;
+  serialnum: string;
+};
 
 export type TourDetailResponse = {
   overview: string;

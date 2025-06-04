@@ -18,7 +18,7 @@ export default function DistanceTimeInfo({ dist }: DistanceTimeInfoProps) {
           />
         </g>
       </svg>
-      <p>&nbsp;{dist}</p>
+      <p>&nbsp;{Math.floor((Number(dist) / 1000) * 10) / 10} Km</p>
     </span>
   );
 }

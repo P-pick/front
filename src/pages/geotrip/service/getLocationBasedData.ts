@@ -8,8 +8,7 @@ import type {
   TourItemWithDetail,
 } from '../types';
 import type { ApiResponse } from '@/pages/types';
-//임시상수
-const NUM_OF_ROWS = 10;
+import { NUM_OF_ROWS } from '../const';
 
 type LocationBasedItemRequest = {
   location: Location | null;

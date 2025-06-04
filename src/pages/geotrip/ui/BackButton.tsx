@@ -1,6 +1,6 @@
 export default function BackButton() {
   return (
-    <button type="button" className="cursor-pointer ">
+    <button type="button" className="cursor-pointer">
       <svg
         width="35"
         height="35"

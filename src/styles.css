@@ -27,7 +27,11 @@ body,
 }
 @layer base {
   :root {
-    --z-button: 10;
+    --z-layer1: 10;
+    --z-layer2: 20;
+    --z-layer3: 30;
+    --z-layer4: 40;
+    --z-layer5: 50;
   }
 }
 

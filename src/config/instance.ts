@@ -4,7 +4,7 @@ const api = axios.create({
   baseURL: '/api',
   params: {
     MobileOS: 'WEB',
-    MobileApp: 'AppTest',
+    MobileApp: 'p_pick',
     serviceKey: import.meta.env.VITE_TOUR_SERVICE_KEY,
     _type: 'json',
   },

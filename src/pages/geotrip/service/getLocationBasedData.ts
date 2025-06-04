@@ -1,7 +1,7 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import api from '@/config/instance';
 import { useGeolocation } from '../lib';
-import type { ApiResponse, Item, Location } from '../types';
+import type { ApiResponse, TourItem, Location } from '../types';
 //임시상수
 const NUM_OF_ROWS = 30;
 
@@ -11,7 +11,7 @@ type GetLocationBasedDataParams = {
 };
 
 type LocationBasedItemResponse = Promise<{
-  items: Item[];
+  items: TourItem[];
   pageNo: number;
   numOfRows: number;
   totalCount: number;
@@ -22,16 +22,19 @@ const getLocationBasedData = async ({
   pageNo,
 }: GetLocationBasedDataParams): LocationBasedItemResponse => {
   if (!location) return Promise.reject('위치 정보가 없습니다.');
-  const response = await api.get<ApiResponse>(`/locationBasedList2`, {
-    params: {
-      mapX: location.longitude,
-      mapY: location.latitude,
-      radius: '5000',
-      contentTypeId: 12,
-      numOfRows: NUM_OF_ROWS,
-      pageNo,
-    },
-  });
+  const response = await api.get<ApiResponse<TourItem[]>>(
+    `/locationBasedList2`,
+    {
+      params: {
+        mapX: location.longitude,
+        mapY: location.latitude,
+        radius: '5000',
+        contentTypeId: 12,
+        numOfRows: NUM_OF_ROWS,
+        pageNo,
+      },
+    }
+  );
 
   return {
     items: response.data.response.body.items.item,
@@ -41,7 +44,7 @@ const getLocationBasedData = async ({
   };
 };
 
-const useGetLocationBasedData = () => {
+const useInfiniteLocationBasedTourQuery = () => {
   const { location } = useGeolocation({
     enableHighAccuracy: true,
   });
@@ -62,4 +65,4 @@ const useGetLocationBasedData = () => {
   return query;
 };
 
-export default useGetLocationBasedData;
+export default useInfiniteLocationBasedTourQuery;

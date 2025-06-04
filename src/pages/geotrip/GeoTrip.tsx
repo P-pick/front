@@ -3,25 +3,35 @@ import { useMemo, useState } from 'react';
 import type { TransportMode } from './types';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Navigation, Mousewheel } from 'swiper/modules';
-import { useGetLocationBasedData } from './service';
+import {
+  useInfiniteLocationBasedTourQuery,
+  useTourDetailQuery,
+} from './service';
+import { truncate } from './lib';
 
 export default function GeoTrip() {
   const [transportMode, setTransportMode] = useState<TransportMode>('walk');
-  const { data, fetchNextPage, hasNextPage } = useGetLocationBasedData();
+  const { data, fetchNextPage, hasNextPage } =
+    useInfiniteLocationBasedTourQuery();
+  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+
   const slides = useMemo(() => {
     if (!data) return [];
     return data.pages.flatMap(page => page.items);
   }, [data]);
-  if (!data) return <div>Loading</div>;
+
+  const currentSlide = slides ? slides[currentSlideIndex] : null;
+  const { data: detailData } = useTourDetailQuery(currentSlide?.contentid);
+
+  if (!data || !detailData) return <div>Loading</div>;
 
   return (
     <section className="flex flex-col h-full w-full">
       <div className="h-full w-full relative">
-        <div className="w-full absolute flex items-center justify-between top-4 px-5 z-(--z-button)">
+        <div className="w-full absolute flex items-center justify-between top-4 px-5 z-(--z-layer5)">
           <BackButton />
           <MenuIcon />
         </div>
-        <div className="absolute left-0 bottom-0 w-full h-1/2 bg-gradient-to-t from-black/50 to-transparent pointer-events-none z-0" />
         <Swiper
           direction="vertical"
           modules={[Navigation, Pagination, Mousewheel]}
@@ -32,12 +42,15 @@ export default function GeoTrip() {
             forceToAxis: true,
             releaseOnEdges: true,
           }}
+          onSlideChange={swiper => {
+            setCurrentSlideIndex(swiper.activeIndex);
+          }}
           className="h-full"
           onReachEnd={() => hasNextPage && fetchNextPage()}
         >
-          {slides.map((slide, index) => (
+          {slides.map(slide => (
             <SwiperSlide key={slide.contentid}>
-              <div className="relative text-white w-full h-full  flex flex-col items-center">
+              <div className="relative text-white w-full h-full flex flex-col items-center">
                 <Swiper
                   direction="horizontal"
                   modules={[Pagination]}
@@ -46,19 +59,21 @@ export default function GeoTrip() {
                     clickable: true,
                   }}
                 >
-                  {[slide.firstimage, slide.firstimage2]
-                    .filter(Boolean)
-                    .map((img, i) => (
+                  {!detailData.images ? (
+                    <span>준비된 이미지가 업습미다</span>
+                  ) : (
+                    detailData.images.map((img, i) => (
                       <SwiperSlide key={i}>
                         <img
-                          src={img}
-                          alt={`Slide ${index}-${i}`}
+                          src={img.originimgurl}
+                          alt={img.imgname}
                           className="w-full h-full object-cover"
                         />
                       </SwiperSlide>
-                    ))}
+                    ))
+                  )}
                 </Swiper>
-                <div className="w-full absolute z-10 bottom-0 left-0 px-4">
+                <div className="w-full absolute z-(--z-layer2) bottom-0 left-0 px-4">
                   <h1 className="text-2xl font-bold">{slide.title}</h1>
                   <div className="flex justify-between">
                     <DistanceTimeInfo />
@@ -68,7 +83,7 @@ export default function GeoTrip() {
                     />
                   </div>
                   <div className="mt-7" />
-                  <p>설명 어쩌구저쩌구임시설명 나중에추가하기</p>
+                  <p>{truncate(detailData.overview, { length: 60 })}</p>
                   <div className="mt-16" />
                   <div className="w-full flex justify-center">
                     <button
@@ -79,6 +94,7 @@ export default function GeoTrip() {
                     </button>
                   </div>
                 </div>
+                <div className="absolute left-0 bottom-0 w-full h-1/2 bg-gradient-to-t from-black/50 to-transparent pointer-events-none z-(--z-layer1)" />
               </div>
             </SwiperSlide>
           ))}

@@ -3,8 +3,8 @@ export type Location = {
   longitude: number | null;
 };
 
-export type ApiResponse = {
-  response: { header: ResponseHeader; body: ResponseBody };
+export type ApiResponse<T> = {
+  response: { header: ResponseHeader; body: ResponseBody<T> };
 };
 
 export type ResponseHeader = {
@@ -12,42 +12,30 @@ export type ResponseHeader = {
   resultMsg: string;
 };
 
-export type ResponseBody = {
+export type ResponseBody<T> = {
   resultCode: string;
   resultMsg: string;
   numOfRows: number;
   pageNo: number;
   totalCount: number;
-  items: { item: Item[] };
+  items: { item: T };
 };
 
-export type Item = {
-  addr1?: string;
-  addr2?: string;
-  areacode?: number;
-  cat1?: string;
-  cat2?: string;
-  cat3?: string;
+export type TourItem = {
   contentid: number;
-  contenttypeid: number;
-  createdtime: string;
-  dist: number;
   firstimage?: string;
   firstimage2?: string;
-  cpyrhtDivCd?: string;
   mapx?: number;
   mapy?: number;
-  mlevel?: number;
-  modifiedtime: string;
-  sigungucode?: number;
-  tel?: string;
   title: string;
-  lDongRegnCd?: string;
-  lDongSignguCd?: string;
-  lclsSystm1?: string;
-  lclsSystm2?: string;
-  lclsSystm3?: string;
-  zipcode?: string;
+};
+
+export type TourDetail = { overview: string };
+export type TourDetailImage = { imgname: string; originimgurl: string };
+
+export type TourDetailResponse = {
+  overview: string;
+  images?: TourDetailImage[];
 };
 
 export type TransportMode = 'transit' | 'car' | 'walk';

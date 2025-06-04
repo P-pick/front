@@ -1,4 +1,8 @@
-export default function DistanceTimeInfo() {
+interface DistanceTimeInfoProps {
+  dist: string;
+}
+
+export default function DistanceTimeInfo({ dist }: DistanceTimeInfoProps) {
   return (
     <span className="flex items-center ">
       <svg
@@ -14,8 +18,7 @@ export default function DistanceTimeInfo() {
           />
         </g>
       </svg>
-      <p>&nbsp;5.2km</p>
-      <p>&nbsp;(30분)</p>
+      <p>&nbsp;{dist}</p>
     </span>
   );
 }

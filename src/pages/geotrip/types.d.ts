@@ -28,14 +28,19 @@ export type TourItem = {
   mapx?: number;
   mapy?: number;
   title: string;
+  dist: string;
 };
 
-export type TourDetail = { overview: string };
 export type TourDetailImage = { imgname: string; originimgurl: string };
 
 export type TourDetailResponse = {
   overview: string;
   images?: TourDetailImage[];
+};
+
+export type TourItemWithDetail = TourItem & {
+  overview: string;
+  images: TourDetailImage[];
 };
 
 export type TransportMode = 'transit' | 'car' | 'walk';

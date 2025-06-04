@@ -1,9 +1,15 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import api from '@/config/instance';
 import { useGeolocation } from '../lib';
-import type { ApiResponse, TourItem, Location } from '../types';
+import type {
+  ApiResponse,
+  TourItem,
+  Location,
+  TourDetailImage,
+  TourItemWithDetail,
+} from '../types';
 //임시상수
-const NUM_OF_ROWS = 30;
+const NUM_OF_ROWS = 10;
 
 type GetLocationBasedDataParams = {
   location: Location | null;
@@ -11,7 +17,7 @@ type GetLocationBasedDataParams = {
 };
 
 type LocationBasedItemResponse = Promise<{
-  items: TourItem[];
+  items: TourItemWithDetail[];
   pageNo: number;
   numOfRows: number;
   totalCount: number;
@@ -22,6 +28,7 @@ const getLocationBasedData = async ({
   pageNo,
 }: GetLocationBasedDataParams): LocationBasedItemResponse => {
   if (!location) return Promise.reject('위치 정보가 없습니다.');
+
   const response = await api.get<ApiResponse<TourItem[]>>(
     `/locationBasedList2`,
     {
@@ -32,12 +39,32 @@ const getLocationBasedData = async ({
         contentTypeId: 12,
         numOfRows: NUM_OF_ROWS,
         pageNo,
+        _type: 'json',
       },
     }
   );
 
+  const baseItems = response.data.response.body.items.item;
+  const itemsWithDetail = await Promise.all(
+    baseItems.map(async item => {
+      const params = { contentId: item.contentid, _type: 'json' };
+      const [commonRes, imageRes] = await Promise.all([
+        api.get<ApiResponse<{ overview: string }[]>>(`/detailCommon2`, {
+          params,
+        }),
+        api.get<ApiResponse<TourDetailImage[]>>(`/detailImage2`, { params }),
+      ]);
+
+      return {
+        ...item,
+        overview: commonRes.data.response.body.items.item[0]?.overview ?? '',
+        images: imageRes.data.response.body.items.item ?? [],
+      };
+    })
+  );
+
   return {
-    items: response.data.response.body.items.item,
+    items: itemsWithDetail,
     pageNo: response.data.response.body.pageNo,
     numOfRows: response.data.response.body.numOfRows,
     totalCount: response.data.response.body.totalCount,

@@ -24,7 +24,15 @@ const getCarDestinationPathInfo = async (
 
 const useCarDestination = (destination: CarRequestBody) => {
   const { data } = useQuery({
-    queryKey: ['carDestination'],
+    queryKey: [
+      'carDestination',
+      destination.startX,
+      destination.startY,
+      destination.endX,
+      destination.endY,
+      destination.startName,
+      destination.endName,
+    ],
     queryFn: () => getCarDestinationPathInfo(destination),
     enabled:
       !!destination.startX &&

@@ -26,7 +26,15 @@ const usePedestrianDestination = (destination: PedestrianRequestBody) => {
   //GuDoYoon 내 위치 정보 가져오기 hook으로 교체 예정
 
   const { data } = useQuery({
-    queryKey: ['pedestrianDestination'],
+    queryKey: [
+      'pedestrianDestination',
+      destination.startX,
+      destination.startY,
+      destination.endX,
+      destination.endY,
+      destination.startName,
+      destination.endName,
+    ],
     queryFn: () => getPedestrianDestinationPathInfo(destination),
     enabled:
       !!destination.startX &&

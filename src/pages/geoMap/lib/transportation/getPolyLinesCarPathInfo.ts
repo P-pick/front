@@ -1,3 +1,4 @@
+import { TRAFFIC } from '../../const/TMAP';
 import type { CarResponse } from '../../types';
 
 const getCoordinatesPointLines = (coords: number[][]) => {
@@ -10,17 +11,17 @@ const getCoordinatesPointLines = (coords: number[][]) => {
 const getCheckedTrafficLevel = (level: number) => {
   switch (level) {
     case 0:
-      return '#888888'; // 정보없음
+      return TRAFFIC.none; // 정보없음
     case 1:
-      return '#24aa24'; // 원활
+      return TRAFFIC.normal; // 원활
     case 2:
-      return '#ffc107'; // 서행
+      return TRAFFIC.slowly; // 서행
     case 3:
-      return '#dc3545'; // 지체
+      return TRAFFIC.delay; // 지체
     case 4:
-      return '#dc3545'; // 정체
+      return TRAFFIC.delay; // 정체
     default:
-      return '#24aa24';
+      return TRAFFIC.normal;
   }
 };
 
@@ -38,7 +39,7 @@ const getCarDestinationPath = (destination: CarResponse['features'] = []) => {
               lng: geometry.coordinates[0],
             },
           ],
-          color: '#888888',
+          color: '#888888 ',
         },
       ];
     }

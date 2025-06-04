@@ -66,7 +66,7 @@ export default function GeoMap() {
           className="w-full h-full"
           level={6}
         >
-          {polylines.map(line => (
+          {polylines?.map(line => (
             <Polyline
               key={line.id}
               path={line.path}

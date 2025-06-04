@@ -2,12 +2,12 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import api from '@/config/instance';
 import { useGeolocation } from '../lib';
 import type {
-  ApiResponse,
   TourItem,
   Location,
   TourDetailImage,
   TourItemWithDetail,
 } from '../types';
+import type { ApiResponse } from '@/pages/types';
 //임시상수
 const NUM_OF_ROWS = 10;
 

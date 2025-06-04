@@ -49,20 +49,21 @@ type CarRequestBody = {
   resCoordType?: string;
   sort?: SortType;
   totalValue?: number;
-  trafficInfo?: string;
+  trafficInfo?: 'Y' | 'N';
   mainRoadInfo?: string;
 };
 
+type Traffic = number[]; // [시작 index, 마지막 index, 혼잡도, 속도]
 type Geometry =
   | {
       type: 'Point';
       coordinates: [number, number];
-      traffic?: string;
+      traffic?: Traffic[];
     }
   | {
       type: 'LineString';
       coordinates: [number, number][];
-      traffic?: string;
+      traffic?: Traffic[];
     };
 
 interface PedestrianNavigationProperties {

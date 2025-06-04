@@ -6,15 +6,19 @@ import { useQuery } from '@tanstack/react-query';
 const getCarDestinationPathInfo = async (
   carRequest: CarRequestBody
 ): Promise<CarResponse> => {
-  const response = await axios.post('/path/navigation', carRequest, {
-    params: {
-      version: '1',
-      callback: 'function',
-    },
-    headers: {
-      appKey: TMAP_APP_KEY,
-    },
-  });
+  const response = await axios.post(
+    '/path/navigation',
+    { trafficInfo: 'Y', ...carRequest },
+    {
+      params: {
+        version: '1',
+        callback: 'function',
+      },
+      headers: {
+        appKey: TMAP_APP_KEY,
+      },
+    }
+  );
   return response.data;
 };
 

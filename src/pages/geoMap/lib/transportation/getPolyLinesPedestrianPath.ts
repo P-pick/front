@@ -18,6 +18,7 @@ const getPedestrianDestinationPath = (
     return {
       id: properties.index,
       path,
+      color: '#007bff',
     };
   });
 };

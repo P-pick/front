@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Map, MapMarker, Polyline } from 'react-kakao-maps-sdk';
-import getTransportationSelected from './service/getTransportationSelected';
+import { selectedTransportation } from './service';
 
 const destination = {
   lat: 37.629362,
@@ -21,7 +21,7 @@ export default function GeoMap() {
       });
     });
   }, []);
-  const polylines = getTransportationSelected(vehicle, {
+  const polylines = selectedTransportation(vehicle, {
     startX: geoLocation.lng,
     startY: geoLocation.lat,
     startName: '출발지',
@@ -71,7 +71,7 @@ export default function GeoMap() {
               key={line.id}
               path={line.path}
               strokeWeight={5}
-              strokeColor={'#007bff'}
+              strokeColor={line.color}
               strokeOpacity={0.8}
               strokeStyle={'solid'}
             />

@@ -24,7 +24,7 @@ export default function SetupContainer() {
 
   useEffect(() => {
     searchParams.set(currentStep.name, currentValue);
-    setSearchParams(searchParams);
+    setSearchParams(searchParams, { replace: true });
   }, [currentValue]);
 
   const handleButtonClick = useCallback(

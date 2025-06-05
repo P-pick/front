@@ -3,7 +3,10 @@ import { Link } from 'react-router-dom';
 export default function Home() {
   return (
     <div className="bg-gradient-to-t from-secondary to-primary flex flex-col items-center justify-center h-screen">
-      <Link to="/geotrip" className="flex flex-col items-center">
+      <Link
+        to="/geo-setup"
+        className="w-full h-full flex flex-col items-center justify-center"
+      >
         <>
           <svg
             xmlns="http://www.w3.org/2000/svg"

@@ -1,7 +1,7 @@
 import type { CarRequestBody, CarResponse } from '../types';
-import { TMAP_APP_KEY } from '../const/TMAP';
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
+import { TMAP_APP_KEY } from '@/pages/const/TMAP';
 
 const getCarDestinationPathInfo = async (
   carRequest: CarRequestBody

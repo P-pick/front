@@ -1,16 +1,13 @@
-import {
-  useInfiniteQuery,
-  useSuspenseInfiniteQuery,
-} from '@tanstack/react-query';
+import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 import api from '@/config/instance';
 import type {
+  ApiResponse,
   TourItem,
   TourDetailImage,
   TourItemWithDetail,
   GeoTripLocation,
-} from '../types';
-import type { ApiResponse } from '@/pages/types';
-import { NUM_OF_ROWS } from '../const';
+} from '@/pages/types';
+import { NUM_OF_ROWS } from '@/pages/const/TOUR';
 
 type LocationBasedItemRequest = {
   location: GeoTripLocation | null;
@@ -88,4 +85,4 @@ const useGeoLocationBasedTourQuery = (location: GeoTripLocation | null) => {
   return query;
 };
 
-export default useGeoLocationBasedTourQuery;
+export default { useGeoLocationBasedTourQuery };

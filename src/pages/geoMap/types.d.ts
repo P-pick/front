@@ -1,3 +1,12 @@
+export type AroundContentTypeId =
+  | '12' // 관광지
+  | '14' // 문화시설
+  | '15' // 축제공연행사
+  | '25' // 여행코스
+  | '28' // 레포츠
+  | '32' // 숙박
+  | '38' // 쇼핑
+  | '39'; // 음식점
 type CoordType = 'EPSG3857' | 'WGS84GEO' | 'KATECH';
 type SearchOption = 0 | 4 | 10 | 30;
 type SortType = 'index' | 'custom';
@@ -7,6 +16,12 @@ type dataDirectionOption = 0 | 1;
 type CarType = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
 type CarSearchOption = 0 | 1 | 2 | 3 | 4 | 10 | 12 | 19;
 type DetailPosFlag = 0 | 1 | 2;
+
+export type MarkerType = {
+  contentTypeId: AroundContentTypeId;
+  imageSrc: string;
+  altText: string;
+};
 
 type PedestrianRequestBody = {
   startX: number; // 출발지 경도

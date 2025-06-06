@@ -28,7 +28,7 @@ const getAroundTouristMapData = async ({
       mapX: location.longitude,
       mapY: location.latitude,
       arrange: 'E',
-      radius: '5000',
+      radius: '3000',
       numOfRows: 30,
       contentTypeId,
       pageNo: 1,
@@ -38,22 +38,12 @@ const getAroundTouristMapData = async ({
   return response.data.response.body;
 };
 
-const useAroundTouristMapMutation = ({
-  location,
-  contentTypeId,
-}: LocationBasedItemRequest) => {
+const useAroundTouristMapMutation = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: getAroundTouristMapData,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: [
-          'aroundTouristMapData',
-          location?.latitude,
-          location?.longitude,
-          contentTypeId,
-        ],
-      });
+    onSuccess: data => {
+      queryClient.setQueryData(['aroundTouristMapData'], data.items.item);
     },
     onError: error => {
       console.error('맵 데이터 가져오기 실패', error);

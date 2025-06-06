@@ -1,6 +1,5 @@
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
 import { useState } from 'react';
-import type { MarkerType } from '../types';
 import AroundTouristNavigate from './AroundTouristNavigate';
 import CurrentDeviceLocation from './CurrentDeviceLocation';
 import { markerImageMap } from '@/pages/const/MARKER';
@@ -15,10 +14,6 @@ export default function GeoAroundTouristMap() {
   const [aroundTouristObjects, setAroundTouristObjects] =
     useState<TourItem[]>();
 
-  const [contentTypeIdGroup, setContentTypeIdGroup] = useState<MarkerType[]>([
-    { contentTypeId: '12', imageSrc: markerImageMap['12'], altText: '관광지' },
-  ]);
-
   return (
     <Map
       center={{
@@ -28,7 +23,9 @@ export default function GeoAroundTouristMap() {
       className="w-full h-full"
       level={7}
     >
-      <AroundTouristNavigate contentTypeIdGroup={contentTypeIdGroup} />
+      <AroundTouristNavigate
+        setAroundTouristObjects={setAroundTouristObjects}
+      />
 
       <CurrentDeviceLocation />
       {aroundTouristObjects?.map(tourist => {

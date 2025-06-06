@@ -1,3 +1,5 @@
+import type { AroundContentTypeId } from './geoMap/types';
+
 export type ApiResponse<T> = {
   response: { header: ResponseHeader; body: ResponseBody<T> };
 };
@@ -29,9 +31,9 @@ export type TourItem = {
   cat2?: string;
   cat3?: string;
   contentid: number;
-  contenttypeid: number;
+  contenttypeid: AroundContentTypeId;
   createdtime: string;
-  dist: number;
+  dist: string;
   firstimage?: string;
   firstimage2?: string;
   cpyrhtDivCd?: string;

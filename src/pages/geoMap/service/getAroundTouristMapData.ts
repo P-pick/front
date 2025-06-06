@@ -1,6 +1,6 @@
 import api from '@/config/instance';
-import { type GeoTripLocation, type TourItemWithDetail } from '@/pages/types';
-import { useQuery } from '@tanstack/react-query';
+import { type GeoTripLocation, type TourItem } from '@/pages/types';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import type { AroundContentTypeId } from '../types';
 
 export type LocationBasedItemRequest = {
@@ -10,7 +10,7 @@ export type LocationBasedItemRequest = {
 
 type LocationBasedItemResponse = Promise<{
   items: {
-    item: TourItemWithDetail[];
+    item: TourItem[];
   };
   pageNo: number;
   numOfRows: number;
@@ -38,23 +38,27 @@ const getAroundTouristMapData = async ({
   return response.data.response.body;
 };
 
-const useAroundTouristMapQuery = ({
+const useAroundTouristMapMutation = ({
   location,
   contentTypeId,
 }: LocationBasedItemRequest) => {
-  const { data } = useQuery({
-    queryKey: [
-      'aroundTouristMapData',
-      location?.latitude,
-      location?.longitude,
-      contentTypeId,
-    ],
-    queryFn: () => getAroundTouristMapData({ location, contentTypeId }),
-    enabled: !!location?.latitude && !!location?.longitude,
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: getAroundTouristMapData,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [
+          'aroundTouristMapData',
+          location?.latitude,
+          location?.longitude,
+          contentTypeId,
+        ],
+      });
+    },
+    onError: error => {
+      console.error('맵 데이터 가져오기 실패', error);
+    },
   });
-
-  const aroundObjects = data?.items.item;
-  return aroundObjects;
 };
 
-export default useAroundTouristMapQuery;
+export default useAroundTouristMapMutation;

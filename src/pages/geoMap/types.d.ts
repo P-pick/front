@@ -17,6 +17,12 @@ type CarType = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
 type CarSearchOption = 0 | 1 | 2 | 3 | 4 | 10 | 12 | 19;
 type DetailPosFlag = 0 | 1 | 2;
 
+export type MarkerType = {
+  contentTypeId: AroundContentTypeId;
+  imageSrc: string;
+  altText: string;
+};
+
 type PedestrianRequestBody = {
   startX: number; // 출발지 경도
   startY: number; // 출발지 위도

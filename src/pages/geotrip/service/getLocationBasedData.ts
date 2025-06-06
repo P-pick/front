@@ -85,4 +85,4 @@ const useGeoLocationBasedTourQuery = (location: GeoTripLocation | null) => {
   return query;
 };
 
-export default { useGeoLocationBasedTourQuery };
+export default useGeoLocationBasedTourQuery;

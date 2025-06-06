@@ -1,21 +1,13 @@
-import type { AroundContentTypeId } from '../geoMap/types';
-
 const tourist = '/travel.png'; // 12
 const culturalFacilities = '/culture.png'; //14
 const festival = '/festival2.png'; // 15
 const travelCourse = '/course.png'; // 25
 const leisureSports = '/sports2.png'; //28
-const Accommodation = '/hotel.png'; //32
+const accommodation = '/hotel.png'; //32
 const shopping = '/shopping.png'; //38
 const restaurant = '/restaurant2.png'; // 39
 
-type MarkerType = {
-  contentTypeId: AroundContentTypeId;
-  imageSrc: string;
-  altText: string;
-};
-
-export const markerList: MarkerType[] = [
+export const markerList = [
   {
     contentTypeId: '12',
     imageSrc: tourist,
@@ -43,7 +35,7 @@ export const markerList: MarkerType[] = [
   },
   {
     contentTypeId: '32',
-    imageSrc: Accommodation,
+    imageSrc: accommodation,
     altText: '숙박',
   },
   {
@@ -56,15 +48,15 @@ export const markerList: MarkerType[] = [
     imageSrc: restaurant,
     altText: '음식점',
   },
-];
+] as const;
 
-export const markerImageMap: Record<string, string> = {
+export const markerImageMap = {
   '12': tourist,
   '14': culturalFacilities,
   '15': festival,
   '25': travelCourse,
   '28': leisureSports,
-  '32': Accommodation,
+  '32': accommodation,
   '38': shopping,
   '39': restaurant,
 } as const;

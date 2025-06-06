@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getCurrentLocation } from '@/pages/geotrip/lib';
-import type { GeoTripLocation } from '@/pages/geotrip/types';
 import { TourSwiperWithLocation } from './';
+import type { GeoTripLocation } from '@/pages/types';
 
 export default function GetCurrentGeoLocation() {
   const [location, setLocation] = useState<GeoTripLocation | null>(null);

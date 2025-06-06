@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Navigation, Mousewheel } from 'swiper/modules';
 import TourSlide from './TourSlide';
-import type { GeoTripLocation } from '@/pages/geotrip/types';
+import type { GeoTripLocation } from '@/pages/types';
 import { useGeoLocationBasedTourQuery } from '../service';
 
 export default function TourSwiperWithLocation({

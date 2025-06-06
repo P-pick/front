@@ -1,10 +1,10 @@
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
-import useAroundTouristMapQuery from '../service/getAroundTouristMapData';
 import { useState } from 'react';
-import type { AroundContentTypeId } from '../types';
+import type { MarkerType } from '../types';
 import AroundTouristNavigate from './AroundTouristNavigate';
 import CurrentDeviceLocation from './CurrentDeviceLocation';
 import { markerImageMap } from '@/pages/const/MARKER';
+import type { TourItem } from '@/pages/types';
 
 const destination = {
   lat: 37.629362,
@@ -12,15 +12,12 @@ const destination = {
 };
 
 export default function GeoAroundTouristMap() {
-  const [selectedContentTypeId, setSelectedContentTypeId] =
-    useState<AroundContentTypeId>('12');
-  const aroundTouristObjects = useAroundTouristMapQuery({
-    location: {
-      latitude: destination.lat,
-      longitude: destination.lng,
-    },
-    contentTypeId: selectedContentTypeId,
-  });
+  const [aroundTouristObjects, setAroundTouristObjects] =
+    useState<TourItem[]>();
+
+  const [contentTypeIdGroup, setContentTypeIdGroup] = useState<MarkerType[]>([
+    { contentTypeId: '12', imageSrc: markerImageMap['12'], altText: '관광지' },
+  ]);
 
   return (
     <Map
@@ -31,13 +28,8 @@ export default function GeoAroundTouristMap() {
       className="w-full h-full"
       level={7}
     >
-      <AroundTouristNavigate
-        selectedContentTypeId={selectedContentTypeId}
-        setSelectedContentTypeId={setSelectedContentTypeId}
-      />
-      <MapMarker position={{ lat: destination.lat, lng: destination.lng }}>
-        관광지
-      </MapMarker>
+      <AroundTouristNavigate contentTypeIdGroup={contentTypeIdGroup} />
+
       <CurrentDeviceLocation />
       {aroundTouristObjects?.map(tourist => {
         return (
@@ -57,6 +49,12 @@ export default function GeoAroundTouristMap() {
           ></MapMarker>
         );
       })}
+      <MapMarker
+        zIndex={999}
+        position={{ lat: destination.lat, lng: destination.lng }}
+      >
+        관광지
+      </MapMarker>
     </Map>
   );
 }

@@ -5,10 +5,9 @@ export type GeoTripLocation = {
 
 export type TourItem = {
   contentid: number;
-  firstimage?: string;
-  firstimage2?: string;
-  mapx?: number;
-  mapy?: number;
+  firstimage: string;
+  mapx: number;
+  mapy: number;
   title: string;
   dist: string;
 };

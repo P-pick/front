@@ -2,6 +2,7 @@ import api from '@/config/instance';
 import { type GeoTripLocation, type TourItem } from '@/pages/types';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import type { AroundContentTypeId } from '../types';
+import { useEffect, useState } from 'react';
 
 export type LocationBasedItemRequest = {
   location: GeoTripLocation | null;
@@ -38,17 +39,40 @@ const getAroundTouristMapData = async ({
   return response.data.response.body;
 };
 
-const useAroundTouristMapMutation = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: getAroundTouristMapData,
-    onSuccess: data => {
-      queryClient.setQueryData(['aroundTouristMapData'], data.items.item);
-    },
-    onError: error => {
-      console.error('맵 데이터 가져오기 실패', error);
-    },
+const useAroundTouristQuery = (
+  destination: GeoTripLocation,
+  contentTypeId: AroundContentTypeId = '12'
+) => {
+  const [aroundTouristObjects, setAroundTouristObjects] =
+    useState<TourItem[]>();
+
+  const { data } = useQuery({
+    queryKey: ['aroundTouristMapData', destination, contentTypeId],
+    queryFn: () =>
+      getAroundTouristMapData({
+        location: destination,
+        contentTypeId: contentTypeId, // 기본 관광지 타입
+      }),
+    enabled: !!destination,
+    refetchOnWindowFocus: false,
+    refetchOnMount: true,
   });
+
+  useEffect(() => {
+    setAroundTouristObjects(prev => {
+      const newItems = data?.items.item || [];
+      const updatedItems = [...(prev ?? []), ...newItems];
+      const uniqueContentId = Array.from(
+        new Map(updatedItems.map(item => [item.contentid, item])).values()
+      );
+      return uniqueContentId;
+    });
+  }, [data]);
+
+  return {
+    aroundTouristObjects,
+    setAroundTouristObjects,
+  };
 };
 
-export default useAroundTouristMapMutation;
+export default useAroundTouristQuery;

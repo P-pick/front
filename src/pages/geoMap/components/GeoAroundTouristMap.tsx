@@ -1,29 +1,33 @@
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
-import { useState } from 'react';
 import AroundTouristNavigate from './AroundTouristNavigate';
 import CurrentDeviceLocation from './CurrentDeviceLocation';
 import { markerImageMap } from '@/pages/const/MARKER';
-import type { TourItem } from '@/pages/types';
+import useAroundTouristQuery from '../service/getAroundTouristMapData';
+import type { AroundContentTypeId } from '../types';
+import { useState } from 'react';
 
 const destination = {
-  lat: 37.629362,
-  lng: 127.095991,
+  latitude: 37.629362,
+  longitude: 127.095991,
 };
 
 export default function GeoAroundTouristMap() {
-  const [aroundTouristObjects, setAroundTouristObjects] =
-    useState<TourItem[]>();
+  const [selectedContentTypeId, setSelectedContentTypeId] =
+    useState<AroundContentTypeId>('12');
+  const { aroundTouristObjects, setAroundTouristObjects } =
+    useAroundTouristQuery(destination, selectedContentTypeId);
 
   return (
     <Map
       center={{
-        lat: destination.lat,
-        lng: destination.lng,
+        lat: destination.latitude,
+        lng: destination.longitude,
       }}
       className="w-full h-full"
       level={7}
     >
       <AroundTouristNavigate
+        setSelectedContentTypeId={setSelectedContentTypeId}
         setAroundTouristObjects={setAroundTouristObjects}
       />
 
@@ -48,7 +52,7 @@ export default function GeoAroundTouristMap() {
       })}
       <MapMarker
         zIndex={999}
-        position={{ lat: destination.lat, lng: destination.lng }}
+        position={{ lat: destination.latitude, lng: destination.longitude }}
       >
         관광지
       </MapMarker>

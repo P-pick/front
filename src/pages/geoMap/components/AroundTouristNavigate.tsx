@@ -1,24 +1,27 @@
 import { markerImageMap, markerList } from '@/pages/const/MARKER';
 import type { AroundContentTypeId, MarkerType } from '../types';
 import clsx from 'clsx';
-import { use, useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { FreeMode } from 'swiper/modules';
-import useAroundTouristMapMutation from '../service/getAroundTouristMapData';
 import type { TourItem } from '@/pages/types';
+import { useQueryClient } from '@tanstack/react-query';
 
+const destination = {
+  latitude: 37.629362,
+  longitude: 127.095991,
+};
 interface AroundTouristNavigateProps {
+  setSelectedContentTypeId: React.Dispatch<
+    React.SetStateAction<AroundContentTypeId>
+  >;
   setAroundTouristObjects: React.Dispatch<
     React.SetStateAction<TourItem[] | undefined>
   >;
 }
 
-const destination = {
-  lat: 37.629362,
-  lng: 127.095991,
-};
-
 export default function AroundTouristNavigate({
+  setSelectedContentTypeId,
   setAroundTouristObjects,
 }: AroundTouristNavigateProps) {
   const [contentTypeIdGroup, setContentTypeIdGroup] = useState<MarkerType[]>([
@@ -39,59 +42,19 @@ export default function AroundTouristNavigate({
     setMarkerSelectedMenuOpen(prev => !prev);
   };
 
-  const additionalMakerFilter = useAroundTouristMapMutation();
-
-  useEffect(() => {
-    // 초기 관광지 데이터 로드
-    additionalMakerFilter.mutate(
-      {
-        location: {
-          latitude: destination.lat,
-          longitude: destination.lng,
-        },
-        contentTypeId: '12', // 기본 관광지 타입
-      },
-      {
-        onSuccess: data => {
-          setAroundTouristObjects(data.items.item);
-        },
-      }
-    );
-  }, []);
-
   const handleAdditionalMarkerClick = (contentTypeId: AroundContentTypeId) => {
-    additionalMakerFilter.mutate(
-      {
-        location: {
-          latitude: destination.lat,
-          longitude: destination.lng,
-        },
-        contentTypeId: contentTypeId,
-      },
-      {
-        onSuccess: data => {
-          setAroundTouristObjects(prev => {
-            if (!prev) return data.items.item;
-            const newItems = data.items.item.filter(
-              item =>
-                !prev.some(existing => existing.contentid === item.contentid)
-            );
-            return [...prev, ...newItems];
-          });
-          setContentTypeIdGroup(prev => {
-            const existingType = prev.find(
-              item => item.contentTypeId === contentTypeId
-            );
-            if (existingType) return prev; // 이미 존재하는 타입은 추가하지 않음
-            const newMarker = markerList.find(
-              marker => marker.contentTypeId === contentTypeId
-            );
-            if (!newMarker) return prev; // 해당 타입이 없으면 기존 상태 유지
-            return [...prev, newMarker];
-          });
-        },
-      }
-    );
+    setContentTypeIdGroup(prev => {
+      const existingType = prev.find(
+        item => item.contentTypeId === contentTypeId
+      );
+      if (existingType) return prev;
+      const newMarker = markerList.find(
+        marker => marker.contentTypeId === contentTypeId
+      );
+      if (!newMarker) return prev;
+      return [...prev, newMarker];
+    });
+    setSelectedContentTypeId(contentTypeId);
   };
 
   const removeMakerFilter = (contentTypeId: AroundContentTypeId) => {
@@ -140,11 +103,10 @@ export default function AroundTouristNavigate({
           </div>
         )}
         <Swiper
-          direction="horizontal" // ← 세로 말고 가로
+          direction="horizontal"
           modules={[FreeMode]}
           freeMode={true}
           slidesPerView="auto"
-          spaceBetween={8} // 요소 간 여백
           className="flex-1 px-2 cursor-grab"
         >
           {contentTypeIdGroup.map(marker => (

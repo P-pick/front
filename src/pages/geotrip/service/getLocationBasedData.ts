@@ -12,6 +12,8 @@ import { NUM_OF_ROWS } from '../const';
 type LocationBasedItemRequest = {
   location: GeoTripLocation | null;
   pageNo: number;
+  contentTypeId?: number;
+  radius?: string;
 };
 
 type LocationBasedItemResponse = Promise<{
@@ -24,6 +26,8 @@ type LocationBasedItemResponse = Promise<{
 const getLocationBasedData = async ({
   location,
   pageNo,
+  contentTypeId = 12,
+  radius = '5000',
 }: LocationBasedItemRequest): LocationBasedItemResponse => {
   if (!location) return Promise.reject('위치 정보가 없습니다.');
 
@@ -33,12 +37,11 @@ const getLocationBasedData = async ({
       params: {
         mapX: location.longitude,
         mapY: location.latitude,
-        radius: '5000',
-        contentTypeId: 12,
+        radius,
+        contentTypeId,
         numOfRows: NUM_OF_ROWS,
         arrange: 'S',
         pageNo,
-        _type: 'json',
       },
     }
   );
@@ -79,12 +82,19 @@ const getLocationBasedData = async ({
   };
 };
 
-const useGeoLocationBasedTourQuery = (location: GeoTripLocation | null) => {
+const useGeoLocationBasedTourQuery = (
+  request: Omit<LocationBasedItemRequest, 'pageNo'>
+) => {
   const query = useSuspenseInfiniteQuery({
-    queryKey: ['locationBasedData', location],
+    queryKey: ['locationBasedData', request],
     initialPageParam: 1,
     queryFn: ({ pageParam }) =>
-      getLocationBasedData({ location, pageNo: pageParam }),
+      getLocationBasedData({
+        location: request.location,
+        pageNo: pageParam,
+        contentTypeId: request.contentTypeId,
+        radius: request.radius,
+      }),
     getNextPageParam: lastPage => {
       const currentPage = lastPage.pageNo;
       const totalPage = Math.ceil(lastPage.totalCount / lastPage.numOfRows);

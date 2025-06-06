@@ -5,13 +5,21 @@ import TourSlide from './TourSlide';
 import type { GeoTripLocation } from '@/pages/geotrip/types';
 import { useGeoLocationBasedTourQuery } from '../service';
 
-export default function TourSwiperWithLocation({
-  location,
-}: {
+interface TourResultSwiperProps {
   location: GeoTripLocation;
-}) {
-  const { data, fetchNextPage, hasNextPage } =
-    useGeoLocationBasedTourQuery(location);
+  distance: string;
+  tourType: number;
+}
+export default function TourResultSwiper({
+  location,
+  distance,
+  tourType,
+}: TourResultSwiperProps) {
+  const { data, fetchNextPage, hasNextPage } = useGeoLocationBasedTourQuery({
+    location,
+    radius: distance,
+    contentTypeId: tourType,
+  });
 
   const slides = useMemo(() => data.pages.flatMap(p => p.items), [data]);
 

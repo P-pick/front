@@ -27,7 +27,7 @@ export default function TourSlide({ tourInfo }: TourSlideProps) {
           tourInfo.images.map(img => (
             <SwiperSlide key={img.serialnum}>
               <img
-                src={img.originimgurl}
+                src={img.originimgurl || undefined}
                 alt={img.imgname}
                 className="w-full h-full object-cover"
               />

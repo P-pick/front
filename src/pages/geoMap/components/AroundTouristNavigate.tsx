@@ -1,33 +1,21 @@
-import { markerImageMap, markerList } from '@/pages/const/MARKER';
+import { markerList } from '@/pages/const/MARKER';
 import type { AroundContentTypeId, MarkerType } from '../types';
 import clsx from 'clsx';
 import { useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { FreeMode } from 'swiper/modules';
-import type { TourItem } from '@/pages/types';
-import { useQueryClient } from '@tanstack/react-query';
 
-const destination = {
-  latitude: 37.629362,
-  longitude: 127.095991,
-};
 interface AroundTouristNavigateProps {
-  setSelectedContentTypeId: React.Dispatch<
-    React.SetStateAction<AroundContentTypeId>
-  >;
-  setAroundTouristObjects: React.Dispatch<
-    React.SetStateAction<TourItem[] | undefined>
-  >;
+  contentTypeIdGroup: MarkerType[];
+  handleAdditionalMarkerClick: (contentTypeId: AroundContentTypeId) => void;
+  removeMakerFilter: (contentTypeId: AroundContentTypeId) => void;
 }
 
 export default function AroundTouristNavigate({
-  setSelectedContentTypeId,
-  setAroundTouristObjects,
+  contentTypeIdGroup,
+  handleAdditionalMarkerClick,
+  removeMakerFilter,
 }: AroundTouristNavigateProps) {
-  const [contentTypeIdGroup, setContentTypeIdGroup] = useState<MarkerType[]>([
-    { contentTypeId: '12', imageSrc: markerImageMap['12'], altText: '관광지' },
-  ]);
-
   const [isMarkerSelectedMenuOpen, setMarkerSelectedMenuOpen] = useState(false);
 
   const markerClass = (contentTypeId: AroundContentTypeId) =>
@@ -40,30 +28,6 @@ export default function AroundTouristNavigate({
 
   const handleOpenSelectedMarkerMenu = () => {
     setMarkerSelectedMenuOpen(prev => !prev);
-  };
-
-  const handleAdditionalMarkerClick = (contentTypeId: AroundContentTypeId) => {
-    setContentTypeIdGroup(prev => {
-      const existingType = prev.find(
-        item => item.contentTypeId === contentTypeId
-      );
-      if (existingType) return prev;
-      const newMarker = markerList.find(
-        marker => marker.contentTypeId === contentTypeId
-      );
-      if (!newMarker) return prev;
-      return [...prev, newMarker];
-    });
-    setSelectedContentTypeId(contentTypeId);
-  };
-
-  const removeMakerFilter = (contentTypeId: AroundContentTypeId) => {
-    setContentTypeIdGroup(prev =>
-      prev.filter(marker => marker.contentTypeId !== contentTypeId)
-    );
-    setAroundTouristObjects(prev =>
-      prev?.filter(item => item.contenttypeid !== contentTypeId)
-    );
   };
 
   return (

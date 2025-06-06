@@ -1,6 +1,6 @@
 import api from '@/config/instance';
 import { type GeoTripLocation, type TourItem } from '@/pages/types';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import type { AroundContentTypeId } from '../types';
 import { useEffect, useState } from 'react';
 
@@ -20,7 +20,7 @@ type LocationBasedItemResponse = Promise<{
 
 const getAroundTouristMapData = async ({
   location,
-  contentTypeId = '12',
+  contentTypeId,
 }: LocationBasedItemRequest): LocationBasedItemResponse => {
   if (!location) return Promise.reject('위치 정보가 없습니다.');
 
@@ -41,7 +41,7 @@ const getAroundTouristMapData = async ({
 
 const useAroundTouristQuery = (
   destination: GeoTripLocation,
-  contentTypeId: AroundContentTypeId = '12'
+  contentTypeId: AroundContentTypeId
 ) => {
   const [aroundTouristObjects, setAroundTouristObjects] =
     useState<TourItem[]>();
@@ -54,8 +54,6 @@ const useAroundTouristQuery = (
         contentTypeId: contentTypeId, // 기본 관광지 타입
       }),
     enabled: !!destination,
-    refetchOnWindowFocus: false,
-    refetchOnMount: true,
   });
 
   useEffect(() => {

@@ -2,9 +2,7 @@ import { Map, MapMarker } from 'react-kakao-maps-sdk';
 import AroundTouristNavigate from './AroundTouristNavigate';
 import CurrentDeviceLocation from './CurrentDeviceLocation';
 import { markerImageMap } from '@/pages/const/MARKER';
-import useAroundTouristQuery from '../service/getAroundTouristMapData';
-import type { AroundContentTypeId } from '../types';
-import { useState } from 'react';
+import { useGetAroundNavigate } from '../lib/aroundNavigate';
 
 const destination = {
   latitude: 37.629362,
@@ -12,10 +10,12 @@ const destination = {
 };
 
 export default function GeoAroundTouristMap() {
-  const [selectedContentTypeId, setSelectedContentTypeId] =
-    useState<AroundContentTypeId>('12');
-  const { aroundTouristObjects, setAroundTouristObjects } =
-    useAroundTouristQuery(destination, selectedContentTypeId);
+  const {
+    aroundTouristObjects,
+    contentTypeIdGroup,
+    handleAdditionalMarkerClick,
+    removeMakerFilter,
+  } = useGetAroundNavigate(destination);
 
   return (
     <Map
@@ -27,8 +27,9 @@ export default function GeoAroundTouristMap() {
       level={7}
     >
       <AroundTouristNavigate
-        setSelectedContentTypeId={setSelectedContentTypeId}
-        setAroundTouristObjects={setAroundTouristObjects}
+        contentTypeIdGroup={contentTypeIdGroup}
+        handleAdditionalMarkerClick={handleAdditionalMarkerClick}
+        removeMakerFilter={removeMakerFilter}
       />
 
       <CurrentDeviceLocation />

@@ -33,7 +33,7 @@ export default function GeoAroundTouristMap() {
       />
 
       <CurrentDeviceLocation />
-      {aroundTouristObjects?.map(tourist => {
+      {aroundTouristObjects.map(tourist => {
         return (
           <MapMarker
             key={tourist.contentid}

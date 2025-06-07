@@ -11,8 +11,10 @@ const useGetAroundNavigate = (destination: GeoTripLocation) => {
   const [selectedContentTypeId, setSelectedContentTypeId] =
     useState<AroundContentTypeId>('12');
 
-  const { aroundTouristObjects, setAroundTouristObjects } =
-    useAroundTouristQuery(destination, selectedContentTypeId);
+  const { aroundTouristObjects, setActiveTypes } = useAroundTouristQuery(
+    destination,
+    selectedContentTypeId
+  );
 
   const handleAdditionalMarkerClick = (contentTypeId: AroundContentTypeId) => {
     setContentTypeIdGroup(prev => {
@@ -33,9 +35,8 @@ const useGetAroundNavigate = (destination: GeoTripLocation) => {
     setContentTypeIdGroup(prev =>
       prev.filter(marker => marker.contentTypeId !== contentTypeId)
     );
-    setAroundTouristObjects(prev =>
-      prev?.filter(item => item.contenttypeid !== contentTypeId)
-    );
+    setActiveTypes(prev => prev?.filter(item => item !== contentTypeId));
+    setSelectedContentTypeId('');
   };
 
   return {

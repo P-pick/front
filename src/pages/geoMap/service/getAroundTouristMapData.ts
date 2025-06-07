@@ -1,6 +1,6 @@
 import api from '@/config/instance';
 import { type GeoTripLocation, type TourItem } from '@/pages/types';
-import { useQuery } from '@tanstack/react-query';
+import { useQueries, useQuery } from '@tanstack/react-query';
 import type { AroundContentTypeId } from '../types';
 import { useEffect, useState } from 'react';
 
@@ -22,6 +22,9 @@ const getAroundTouristMapData = async ({
   location,
   contentTypeId,
 }: LocationBasedItemRequest): LocationBasedItemResponse => {
+  if (contentTypeId?.length === 0) {
+    return Promise.reject('콘텐츠 타입이 없습니다.');
+  }
   if (!location) return Promise.reject('위치 정보가 없습니다.');
 
   const response = await api.get(`/locationBasedList2`, {
@@ -43,33 +46,37 @@ const useAroundTouristQuery = (
   destination: GeoTripLocation,
   contentTypeId: AroundContentTypeId
 ) => {
-  const [aroundTouristObjects, setAroundTouristObjects] =
-    useState<TourItem[]>();
+  const [activeTypes, setActiveTypes] = useState<AroundContentTypeId[]>([]);
 
-  const { data } = useQuery({
-    queryKey: ['aroundTouristMapData', destination, contentTypeId],
-    queryFn: () =>
-      getAroundTouristMapData({
-        location: destination,
-        contentTypeId: contentTypeId, // 기본 관광지 타입
-      }),
-    enabled: !!destination,
+  const combinedQueries = useQueries({
+    queries: activeTypes.map(type => ({
+      queryKey: ['aroundTouristMapData', destination, type],
+      queryFn: () =>
+        getAroundTouristMapData({ location: destination, contentTypeId: type }),
+    })),
+    combine: results => {
+      return {
+        data: results.map(result => result.data?.items.item || []),
+        pending: results.some(result => result.isPending),
+      };
+    },
   });
 
   useEffect(() => {
-    setAroundTouristObjects(prev => {
-      const newItems = data?.items.item || [];
-      const updatedItems = [...(prev ?? []), ...newItems];
-      const uniqueContentId = Array.from(
-        new Map(updatedItems.map(item => [item.contentid, item])).values()
-      );
-      return uniqueContentId;
+    setActiveTypes(prev => {
+      if (prev.includes(contentTypeId)) {
+        return prev;
+      }
+      return [...prev, contentTypeId];
     });
-  }, [data]);
+  }, [contentTypeId]);
+
+  const combinedDataFlat = combinedQueries.data.flatMap(data => data || []);
 
   return {
-    aroundTouristObjects,
-    setAroundTouristObjects,
+    aroundTouristObjects: combinedDataFlat,
+    setActiveTypes,
+    pending: combinedQueries.pending,
   };
 };
 

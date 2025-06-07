@@ -51,6 +51,7 @@ export const markerList = [
 ] as const;
 
 export const markerImageMap = {
+  '': '/none.png', // 없음
   '12': tourist,
   '14': culturalFacilities,
   '15': festival,

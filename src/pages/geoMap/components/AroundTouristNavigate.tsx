@@ -1,30 +1,38 @@
 import { markerList } from '@/pages/const/MARKER';
-import type { MarkerType } from '../types';
+import type { AroundContentTypeId, MarkerType } from '../types';
 import clsx from 'clsx';
 import { useState } from 'react';
-import { Swiper } from 'swiper/react';
+import { Swiper, SwiperSlide } from 'swiper/react';
 import { FreeMode } from 'swiper/modules';
 
 interface AroundTouristNavigateProps {
   contentTypeIdGroup: MarkerType[];
+  handleAdditionalMarkerClick: (contentTypeId: AroundContentTypeId) => void;
+  removeMakerFilter: (contentTypeId: AroundContentTypeId) => void;
 }
 
 export default function AroundTouristNavigate({
   contentTypeIdGroup,
+  handleAdditionalMarkerClick,
+  removeMakerFilter,
 }: AroundTouristNavigateProps) {
   const [isMarkerSelectedMenuOpen, setMarkerSelectedMenuOpen] = useState(false);
 
-  const markerClass = clsx(
-    'flex items-center justify-center cursor-pointer whitespace-nowrap rounded-full px-4 py-2 text-xs font-bold bg-gray-100 my-1'
-  );
+  const markerClass = (contentTypeId: AroundContentTypeId) =>
+    clsx(
+      'flex items-center justify-center cursor-pointer whitespace-nowrap rounded-full px-4 py-2 text-xs font-bold bg-gray-100 my-1',
+      contentTypeIdGroup.find(maker => maker.contentTypeId === contentTypeId)
+        ? 'bg-gray-300'
+        : 'bg-gray-100'
+    );
 
   const handleOpenSelectedMarkerMenu = () => {
     setMarkerSelectedMenuOpen(prev => !prev);
   };
 
   return (
-    <div className="absolute top-0 left-0 w-full  h-14 bg-white z-[var(--z-layer2)]">
-      <div className="flex items-center justify-between h-full px-4 gap-3">
+    <div className="absolute top-0 left-0 w-full h-14 bg-white z-[var(--z-layer2)]">
+      <div className="flex items-center justify-between h-full gap-3">
         <div
           className="bg-gray-100 p-2 rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-200"
           onClick={handleOpenSelectedMarkerMenu}
@@ -46,24 +54,35 @@ export default function AroundTouristNavigate({
           <div className="absolute top-12 left-3 bg-white p-2 rounded-xl shadow-2xl">
             <div className="flex-col">
               {markerList.map(marker => (
-                <button className={markerClass}>{marker.altText}</button>
+                <button
+                  className={markerClass(marker.contentTypeId)}
+                  onClick={() =>
+                    handleAdditionalMarkerClick(marker.contentTypeId)
+                  }
+                >
+                  {marker.altText}
+                </button>
               ))}
             </div>
           </div>
         )}
         <Swiper
-          direction={'horizontal'}
+          direction="horizontal"
           modules={[FreeMode]}
           freeMode={true}
-          scrollbar={{ draggable: true }}
           slidesPerView="auto"
-          className="!flex-row justify-start items-center w-full overflow-hidden"
+          className="flex-1 px-2 cursor-grab"
         >
           {contentTypeIdGroup.map(marker => (
-            <button key={marker.contentTypeId} className={markerClass}>
-              {marker.altText}
-              <button className="ml-2 font-medium">X</button>
-            </button>
+            <SwiperSlide key={marker.contentTypeId} className="!w-auto">
+              <button
+                className="bg-gray-100 px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap mr-2 cursor-pointer"
+                onClick={() => removeMakerFilter(marker.contentTypeId)}
+              >
+                {marker.altText}
+                <span className="ml-2 font-medium">X</span>
+              </button>
+            </SwiperSlide>
           ))}
         </Swiper>
       </div>

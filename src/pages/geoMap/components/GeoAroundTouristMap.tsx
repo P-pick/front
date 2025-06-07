@@ -1,37 +1,39 @@
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
-import { useState } from 'react';
-import type { MarkerType } from '../types';
 import AroundTouristNavigate from './AroundTouristNavigate';
 import CurrentDeviceLocation from './CurrentDeviceLocation';
 import { markerImageMap } from '@/pages/const/MARKER';
-import type { TourItem } from '@/pages/types';
+import { useGetAroundNavigate } from '../lib/aroundNavigate';
 
 const destination = {
-  lat: 37.629362,
-  lng: 127.095991,
+  latitude: 37.629362,
+  longitude: 127.095991,
 };
 
 export default function GeoAroundTouristMap() {
-  const [aroundTouristObjects, setAroundTouristObjects] =
-    useState<TourItem[]>();
-
-  const [contentTypeIdGroup, setContentTypeIdGroup] = useState<MarkerType[]>([
-    { contentTypeId: '12', imageSrc: markerImageMap['12'], altText: '관광지' },
-  ]);
+  const {
+    aroundTouristObjects,
+    contentTypeIdGroup,
+    handleAdditionalMarkerClick,
+    removeMakerFilter,
+  } = useGetAroundNavigate(destination);
 
   return (
     <Map
       center={{
-        lat: destination.lat,
-        lng: destination.lng,
+        lat: destination.latitude,
+        lng: destination.longitude,
       }}
       className="w-full h-full"
       level={7}
     >
-      <AroundTouristNavigate contentTypeIdGroup={contentTypeIdGroup} />
+      <AroundTouristNavigate
+        contentTypeIdGroup={contentTypeIdGroup}
+        handleAdditionalMarkerClick={handleAdditionalMarkerClick}
+        removeMakerFilter={removeMakerFilter}
+      />
 
       <CurrentDeviceLocation />
-      {aroundTouristObjects?.map(tourist => {
+      {aroundTouristObjects.map(tourist => {
         return (
           <MapMarker
             key={tourist.contentid}
@@ -51,7 +53,7 @@ export default function GeoAroundTouristMap() {
       })}
       <MapMarker
         zIndex={999}
-        position={{ lat: destination.lat, lng: destination.lng }}
+        position={{ lat: destination.latitude, lng: destination.longitude }}
       >
         관광지
       </MapMarker>

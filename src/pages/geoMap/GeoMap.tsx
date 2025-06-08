@@ -11,8 +11,8 @@ export default function GeoMap() {
       </div>
       <div className="flex-1">
         <div className="w-full h-full relative">
-          <GeoAroundTouristMap />
-          {/* <GeoDestinationNavigateMap /> */}
+          {/* <GeoAroundTouristMap /> */}
+          <GeoDestinationNavigateMap />
         </div>
       </div>
     </div>

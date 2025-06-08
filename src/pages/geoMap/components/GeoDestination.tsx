@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { selectedTransportation } from '../service';
 import { Map, MapMarker, Polyline } from 'react-kakao-maps-sdk';
 import useCurrentLocation from '@/lib/useCurrentLocation';
+import { useResizingMapLevel } from '../lib/transportation/useResizingMapLevel';
+import DrawingLineToDestination from './geoDestination/DrawingLineToDestination';
 
 const destination = {
   lat: 37.629362,
@@ -15,7 +17,7 @@ export default function GeoDestination() {
   const polylines = selectedTransportation(vehicle, {
     startX: geoLocation.lng,
     startY: geoLocation.lat,
-    startName: '출발지',
+    startName: '현재위치',
     endX: destination.lng,
     endY: destination.lat,
     endName: '목적지',
@@ -40,13 +42,10 @@ export default function GeoDestination() {
         <option value="car">자동차</option>
       </select>
       {polylines?.map(line => (
-        <Polyline
-          key={line.id}
-          path={line.path}
-          strokeWeight={5}
-          strokeColor={line.color}
-          strokeOpacity={0.8}
-          strokeStyle={'solid'}
+        <DrawingLineToDestination
+          line={line}
+          start={geoLocation}
+          end={destination}
         />
       ))}
       <MapMarker

@@ -1,8 +1,8 @@
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
-import AroundTouristNavigate from './AroundTouristNavigate';
 import CurrentDeviceLocation from './CurrentDeviceLocation';
-import { markerImageMap } from '@/pages/const/MARKER';
 import { useGetAroundNavigate } from '../lib/aroundNavigate';
+import AroundTouristNavigate from './geoAroundTourist/AroundTouristNavigate';
+import NearbyTouristAttractionPinPoint from './geoAroundTourist/NearbyTouristAttractionPinpoint';
 
 const destination = {
   latitude: 37.629362,
@@ -34,22 +34,7 @@ export default function GeoAroundTouristMap() {
 
       <CurrentDeviceLocation />
       {aroundTouristObjects.map(tourist => {
-        return (
-          <MapMarker
-            key={tourist.contentid}
-            position={{
-              lat: tourist.mapy!,
-              lng: tourist.mapx!,
-            }}
-            image={{
-              src: markerImageMap[tourist.contenttypeid],
-              size: {
-                width: 38,
-                height: 50,
-              },
-            }}
-          ></MapMarker>
-        );
+        return <NearbyTouristAttractionPinPoint {...tourist} />;
       })}
       <MapMarker
         zIndex={999}

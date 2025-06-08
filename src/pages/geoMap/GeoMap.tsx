@@ -1,6 +1,5 @@
 import { BackButton, MenuIcon } from '@/components';
-import GeoDestination from './components/GeoDestination';
-import GeoAroundTouristMap from './components/GeoAroundTouristMap';
+import { GeoAroundTouristMap, GeoDestinationNavigateMap } from './components';
 
 export default function GeoMap() {
   return (
@@ -13,7 +12,7 @@ export default function GeoMap() {
       <div className="flex-1">
         <div className="w-full h-full relative">
           <GeoAroundTouristMap />
-          {/* <GeoDestination /> */}
+          {/* <GeoDestinationNavigateMap /> */}
         </div>
       </div>
     </div>

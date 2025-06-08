@@ -1,9 +1,9 @@
 import { markerList } from '@/pages/const/MARKER';
-import type { AroundContentTypeId, MarkerType } from '../types';
 import clsx from 'clsx';
 import { useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { FreeMode } from 'swiper/modules';
+import type { AroundContentTypeId, MarkerType } from '../../types';
 
 interface AroundTouristNavigateProps {
   contentTypeIdGroup: MarkerType[];

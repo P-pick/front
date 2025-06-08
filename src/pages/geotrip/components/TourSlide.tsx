@@ -1,14 +1,17 @@
 import { truncate } from '@/pages/geotrip/lib';
-import { DistanceTimeInfo } from './';
+import { DistanceTimeInfo, TourDetail } from './';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
 import type { TourItemWithDetail } from '../types';
+import { useState } from 'react';
 
 interface TourSlideProps {
   tourInfo: TourItemWithDetail;
 }
 
 export default function TourSlide({ tourInfo }: TourSlideProps) {
+  const [showDetail, setShowDetail] = useState(false);
+
   return (
     <div className="relative text-white w-full h-full flex flex-col items-center">
       <Swiper
@@ -38,10 +41,21 @@ export default function TourSlide({ tourInfo }: TourSlideProps) {
       <div className="w-full absolute z-(--z-layer2) bottom-0 left-0 px-4">
         <h1 className="text-2xl font-bold">{tourInfo.title}</h1>
         <div className="flex justify-between">
-          <DistanceTimeInfo dist={tourInfo.dist} />
+          <DistanceTimeInfo dist={tourInfo.dist} iconFill="none" />
         </div>
         <div className="mt-7" />
-        <p>{truncate(tourInfo.overview, { length: 60 })}</p>
+        <p>
+          {truncate(tourInfo.overview, {
+            length: 60,
+            omission: '',
+          })}
+          <span
+            className="text-[12px] text-gray-200 cursor-pointer"
+            onClick={() => setShowDetail(prev => !prev)}
+          >
+            ... 더 보기
+          </span>
+        </p>
         <div className="mt-16" />
         <div className="w-full flex justify-center">
           <button
@@ -53,6 +67,13 @@ export default function TourSlide({ tourInfo }: TourSlideProps) {
         </div>
       </div>
       <div className="absolute left-0 bottom-0 w-full h-1/2 bg-gradient-to-t from-black/50 to-transparent pointer-events-none z-(--z-layer1)" />
+      {showDetail && (
+        <TourDetail
+          dist={tourInfo.dist}
+          overview={tourInfo.overview}
+          title={tourInfo.title}
+        />
+      )}
     </div>
   );
 }

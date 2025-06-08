@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Navigation, Mousewheel } from 'swiper/modules';
 import TourSlide from './TourSlide';
@@ -20,23 +20,24 @@ export default function TourResultSwiper({
     radius: distance,
     contentTypeId: tourType,
   });
-
   const slides = useMemo(() => data.pages.flatMap(p => p.items), [data]);
 
   return (
-    <Swiper
-      direction="vertical"
-      modules={[Navigation, Pagination, Mousewheel]}
-      pagination={false}
-      mousewheel={{ enabled: true, sensitivity: 1 }}
-      onReachEnd={() => hasNextPage && fetchNextPage()}
-      className="h-full"
-    >
-      {slides.map(slide => (
-        <SwiperSlide key={slide.contentid}>
-          <TourSlide tourInfo={slide} />
-        </SwiperSlide>
-      ))}
-    </Swiper>
+    <>
+      <Swiper
+        direction="vertical"
+        modules={[Navigation, Pagination, Mousewheel]}
+        pagination={false}
+        mousewheel={{ enabled: true, sensitivity: 1 }}
+        onReachEnd={() => hasNextPage && fetchNextPage()}
+        className="h-full"
+      >
+        {slides.map(slide => (
+          <SwiperSlide key={slide.contentid}>
+            <TourSlide tourInfo={slide} />
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </>
   );
 }

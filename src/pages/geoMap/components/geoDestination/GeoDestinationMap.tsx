@@ -3,15 +3,41 @@ import { Map, MapMarker, Polyline } from 'react-kakao-maps-sdk';
 import { selectedTransportation } from '../../service';
 import ResizingMap from './ResizingMap';
 
+type Position = {
+  lat: number;
+  lng: number;
+};
+
+const CustomMarker = ({
+  position,
+  image,
+}: {
+  position: Position;
+  image: string;
+}) => {
+  return (
+    <MapMarker
+      position={position}
+      image={{
+        src: image,
+        size: {
+          width: 45,
+          height: 59,
+        },
+        options: {
+          offset: {
+            x: 23,
+            y: 46,
+          },
+        },
+      }}
+    />
+  );
+};
+
 interface GeoDestinationMapProps {
-  start: {
-    lat: number;
-    lng: number;
-  };
-  end: {
-    lat: number;
-    lng: number;
-  };
+  start: Position;
+  end: Position;
 }
 
 export default function GeoDestinationMap({
@@ -58,17 +84,8 @@ export default function GeoDestinationMap({
           strokeStyle={'solid'}
         />
       ))}
-      <MapMarker
-        position={{ lat: start.lat, lng: start.lng }}
-        image={{
-          src: '/myGeo.png',
-          size: {
-            width: 38,
-            height: 38,
-          },
-        }}
-      ></MapMarker>
-      <MapMarker position={end}>목적지</MapMarker>
+      <CustomMarker image="/startpin2.png" position={start} />
+      <CustomMarker image="/endpin.png" position={end} />
     </Map>
   );
 }

@@ -2,10 +2,7 @@ import { useMemo, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Navigation, Mousewheel } from 'swiper/modules';
 import TourSlide from './TourSlide';
-import type {
-  GeoTripLocation,
-  TourItemWithDetail,
-} from '@/pages/geotrip/types';
+import type { GeoTripLocation, TourItemWithDetail } from '@/pages/types';
 import { useGeoLocationBasedTourQuery } from '../service';
 import { BottomSheet } from '@/components';
 import { TourDetail } from './';
@@ -59,12 +56,26 @@ export default function TourResultSwiper({
           </SwiperSlide>
         ))}
       </Swiper>
-      <BottomSheet isOpen={showDetail} onClose={() => setShowDetail(false)}>
-        <TourDetail
-          dist={tourInfo.dist}
-          overview={tourInfo.overview}
-          title={tourInfo.title}
-        />
+      <BottomSheet
+        isOpen={showDetail}
+        onClose={() => setShowDetail(false)}
+        initialY="0%"
+      >
+        <BottomSheet.Content>
+          <TourDetail
+            dist={tourInfo.dist}
+            overview={tourInfo.overview}
+            title={tourInfo.title}
+          />
+        </BottomSheet.Content>
+        <BottomSheet.Footer>
+          <button
+            type="button"
+            className="absolute left-1/2 bottom-6 -translate-x-1/2 bg-gradient-to-r z-500 from-[#FA812F] to-[#FA4032] rounded-[15px] w-[320px] h-[50px] text-black font-bold text-[16px] shadow-[0_4px_16px_0_rgba(250,129,47,0.3)]"
+          >
+            여행 시작하기
+          </button>
+        </BottomSheet.Footer>
       </BottomSheet>
     </>
   );

@@ -15,6 +15,7 @@ export default function GeoTripInitializer() {
       <div>필요한 정보가 부족합니다. 거리와 투어 타입을 확인해주세요.</div>
     );
   }
+
   return (
     <TourResultSwiper
       location={geoLocation}

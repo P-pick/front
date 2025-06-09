@@ -1,35 +1,56 @@
-import { AnimatePresence, motion, useDragControls } from 'framer-motion';
-import { useEffect } from 'react';
+import {
+  AnimatePresence,
+  LayoutGroup,
+  motion,
+  useDragControls,
+} from 'framer-motion';
+import {
+  useEffect,
+  type PropsWithChildren,
+  Children,
+  isValidElement,
+} from 'react';
 
 interface BottomSheetProps {
   isOpen: boolean;
   onClose: () => void;
-  children: React.ReactNode;
   showOverlay?: boolean;
+  initialY?: string;
 }
 
-export default function BottomSheet({
+function BottomSheet({
   isOpen,
   onClose,
   children,
   showOverlay = true,
-}: BottomSheetProps) {
+  initialY = '0%',
+}: PropsWithChildren<BottomSheetProps>) {
   const dragControls = useDragControls();
 
   const startDrag = (event: React.PointerEvent<HTMLDivElement>) => {
     event.preventDefault();
     dragControls.start(event, { snapToCursor: false });
   };
+
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
+    document.body.style.overflow = isOpen ? 'hidden' : '';
     return () => {
       document.body.style.overflow = '';
     };
   }, [isOpen]);
+
+  let content: React.ReactNode = null;
+  let footer: React.ReactNode = null;
+
+  Children.forEach(children, child => {
+    if (!isValidElement(child)) return;
+    if (child.type === BottomSheet.Content) {
+      content = child;
+    } else if (child.type === BottomSheet.Footer) {
+      footer = child;
+    }
+  });
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -43,33 +64,53 @@ export default function BottomSheet({
               exit={{ opacity: 0 }}
             />
           )}
-
           <motion.div
             drag="y"
+            initial={{ y: '100%' }}
+            animate={{ y: initialY }}
+            exit={{ y: '100%' }}
+            dragElastic={0.2}
             dragControls={dragControls}
             dragListener={false}
-            initial={{ y: '100%' }}
-            animate={{ y: '50%' }}
-            exit={{ y: '100%' }}
+            onDragEnd={(_, info) => {
+              if (info.point.y > window.innerHeight * 0.8) {
+                onClose();
+              }
+            }}
             dragConstraints={{ top: 0, bottom: 400 }}
-            transition={{ type: 'tween', duration: 0.3, ease: 'easeInOut' }}
-            className="fixed bottom-0 left-0 w-full z-[110] rounded-t-2xl overflow-hidden flex flex-col items-center"
+            transition={{
+              type: 'tween',
+              duration: 0.3,
+              ease: 'easeInOut',
+              delay: 0.1,
+            }}
+            className="fixed bottom-0 left-0 w-full z-[110]"
           >
-            <div
-              onPointerDown={e => startDrag(e)}
-              className="absolute top-0 z-500 left-0 w-full h-10 flex justify-center items-start cursor-grab active:cursor-grabbing"
-              style={{ touchAction: 'none' }}
-            >
-              <div className="mt-1 w-[88px] h-[3px] bg-black rounded-full pointer-events-none" />
+            <div className="relative flex flex-col items-center w-full">
+              <div
+                onPointerDown={startDrag}
+                className="absolute top-0 left-0 w-full h-10 flex justify-center items-start cursor-grab active:cursor-grabbing"
+                style={{ touchAction: 'none' }}
+              >
+                <div className="mt-1 w-[88px] h-[3px] bg-black rounded-full pointer-events-none" />
+              </div>
+
+              {content}
             </div>
-            <div className="select-none pointer-events-none">{children}</div>
+            <motion.div style={{ y: 0 }}>{footer}</motion.div>
           </motion.div>
-          <div
-            className="absolute bottom-0 w-full h-[300px] bg-white z-[101] pointer-events-none"
-            aria-hidden
-          />
         </>
       )}
     </AnimatePresence>
   );
 }
+
+BottomSheet.Content = ({ children }: PropsWithChildren) => {
+  return <>{children}</>;
+};
+
+BottomSheet.Footer = ({ children }: PropsWithChildren) => {
+  return <div>{children}</div>;
+};
+
+export default BottomSheet;

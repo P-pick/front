@@ -4,4 +4,4 @@ export const TRAFFIC = {
   normal: '#24aa24',
   slowly: '#ffc107',
   delay: '#dc3545',
-};
+} as const;

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import type { PedestrianRequestBody, PedestrianResponse } from '../types';
 import { useQuery } from '@tanstack/react-query';
-import { TMAP_APP_KEY } from '../const/TMAP';
+import { TMAP_APP_KEY } from '@/pages/const/TMAP';
 
 const getPedestrianDestinationPathInfo = async (
   pedestrianRequest: PedestrianRequestBody

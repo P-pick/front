@@ -2,7 +2,7 @@ import { truncate } from '@/pages/geotrip/lib';
 import { DistanceTimeInfo } from './';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
-import type { TourItemWithDetail } from '../types';
+import type { TourItemWithDetail } from '@/pages/types';
 
 interface TourSlideProps {
   tourInfo: TourItemWithDetail;

@@ -1,4 +1,4 @@
-import type { GeoTripLocation } from '../types';
+import type { GeoTripLocation } from '../../types';
 
 function getCurrentLocation(
   options?: PositionOptions

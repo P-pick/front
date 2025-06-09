@@ -1,4 +1,4 @@
-import { TRAFFIC } from '../../const/TMAP';
+import { TRAFFIC } from '@/pages/const/TMAP';
 import type { CarResponse } from '../../types';
 
 const getCoordinatesPointLines = (coords: number[][]) => {

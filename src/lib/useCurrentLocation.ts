@@ -1,11 +1,12 @@
 import { getCurrentLocation } from '@/pages/geotrip/lib';
+import type { GeoTripLocation } from '@/pages/geotrip/types';
 import { useEffect, useState } from 'react';
 
 const useCurrentLocation = () => {
-  const [geoLocation, setGeoLocation] = useState<{
-    lat: number;
-    lng: number;
-  }>({ lat: 0, lng: 0 });
+  const [geoLocation, setGeoLocation] = useState<GeoTripLocation>({
+    lat: 0,
+    lng: 0,
+  });
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
@@ -18,8 +19,8 @@ const useCurrentLocation = () => {
       try {
         const location = await getCurrentLocation();
         setGeoLocation({
-          lat: location.latitude!,
-          lng: location.longitude!,
+          lat: location.lat!,
+          lng: location.lng!,
         });
       } catch (err) {
         setError(

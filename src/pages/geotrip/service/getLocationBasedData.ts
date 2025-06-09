@@ -35,8 +35,8 @@ const getLocationBasedData = async ({
     `/locationBasedList2`,
     {
       params: {
-        mapX: location.longitude,
-        mapY: location.latitude,
+        mapX: location.lng,
+        mapY: location.lat,
         radius,
         contentTypeId,
         numOfRows: NUM_OF_ROWS,
@@ -45,6 +45,9 @@ const getLocationBasedData = async ({
       },
     }
   );
+  if (!response.data.response.body.items) {
+    return Promise.reject('위치 기반 데이터가 없습니다.');
+  }
 
   const baseItems = response.data.response.body.items.item;
   const itemsWithDetail = await Promise.all(
@@ -62,6 +65,7 @@ const getLocationBasedData = async ({
         originimgurl: baseItems[index].firstimage,
         serialnum: String(index),
       };
+
       const images = imageRes.data.response.body.items.item
         ? [...imageRes.data.response.body.items.item]
         : [firstImage];

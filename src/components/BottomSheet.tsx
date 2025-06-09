@@ -1,74 +1,75 @@
-import { useRef, useState } from 'react';
+import { AnimatePresence, motion, useDragControls } from 'framer-motion';
+import { useEffect } from 'react';
 
 interface BottomSheetProps {
   isOpen: boolean;
   onClose: () => void;
   children: React.ReactNode;
-  onHeightChange?: (height: number) => void;
+  showOverlay?: boolean;
 }
 
 export default function BottomSheet({
   isOpen,
   onClose,
   children,
-  onHeightChange,
+  showOverlay = true,
 }: BottomSheetProps) {
-  const sheetRef = useRef<HTMLDivElement>(null);
-  const [height, setHeight] = useState(300); // 초기 높이
+  const dragControls = useDragControls();
 
-  const startY = useRef<number>(0);
-  const startHeight = useRef<number>(300);
-
-  // 드래그 시작
-  const handleDragStart = (e: React.MouseEvent | React.TouchEvent) => {
-    startY.current = 'touches' in e ? e.touches[0].clientY : e.clientY;
-    startHeight.current = height;
-
-    window.addEventListener('mousemove', handleDragMove as any);
-    window.addEventListener('touchmove', handleDragMove as any);
-    window.addEventListener('mouseup', handleDragEnd);
-    window.addEventListener('touchend', handleDragEnd);
+  const startDrag = (event: React.PointerEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    dragControls.start(event, { snapToCursor: false });
   };
-
-  // 드래그 중
-  const handleDragMove = (e: MouseEvent | TouchEvent) => {
-    const clientY =
-      'touches' in e ? e.touches[0].clientY : (e as MouseEvent).clientY;
-    const delta = clientY - startY.current;
-    const newHeight = Math.max(100, startHeight.current - delta); // 최소 100px 보장
-
-    setHeight(newHeight);
-    onHeightChange?.(newHeight);
-  };
-
-  // 드래그 종료
-  const handleDragEnd = () => {
-    window.removeEventListener('mousemove', handleDragMove as any);
-    window.removeEventListener('touchmove', handleDragMove as any);
-    window.removeEventListener('mouseup', handleDragEnd);
-    window.removeEventListener('touchend', handleDragEnd);
-  };
-
-  if (!isOpen) return null;
-
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
   return (
-    <>
-      <div className="fixed inset-0 bg-black/30 z-[100]" onClick={onClose} />
-      <div
-        ref={sheetRef}
-        style={{ height }}
-        className="fixed bottom-0 left-0 w-full z-[110] bg-white rounded-t-2xl overflow-hidden transition-all duration-200"
-      >
-        <div
-          className="w-full flex justify-center pt-3 cursor-row-resize active:cursor-grabbing touch-none"
-          onMouseDown={handleDragStart}
-          onTouchStart={handleDragStart}
-        >
-          <div className="bg-black w-[88px] h-[3px] rounded-full" />
-        </div>
+    <AnimatePresence>
+      {isOpen && (
+        <>
+          {showOverlay && (
+            <motion.div
+              className="fixed inset-0 bg-black/30 z-[100]"
+              onClick={onClose}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            />
+          )}
 
-        <div>{children}</div>
-      </div>
-    </>
+          <motion.div
+            drag="y"
+            dragControls={dragControls}
+            dragListener={false}
+            initial={{ y: '100%' }}
+            animate={{ y: '50%' }}
+            exit={{ y: '100%' }}
+            dragConstraints={{ top: 0, bottom: 400 }}
+            transition={{ type: 'tween', duration: 0.3, ease: 'easeInOut' }}
+            className="fixed bottom-0 left-0 w-full z-[110] rounded-t-2xl overflow-hidden flex flex-col items-center"
+          >
+            <div
+              onPointerDown={e => startDrag(e)}
+              className="absolute top-0 z-500 left-0 w-full h-10 flex justify-center items-start cursor-grab active:cursor-grabbing"
+              style={{ touchAction: 'none' }}
+            >
+              <div className="mt-1 w-[88px] h-[3px] bg-black rounded-full pointer-events-none" />
+            </div>
+            <div className="select-none pointer-events-none">{children}</div>
+          </motion.div>
+          <div
+            className="absolute bottom-0 w-full h-[300px] bg-white z-[101] pointer-events-none"
+            aria-hidden
+          />
+        </>
+      )}
+    </AnimatePresence>
   );
 }

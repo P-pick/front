@@ -1,17 +1,20 @@
 import { truncate } from '@/pages/geotrip/lib';
-import { DistanceTimeInfo, TourDetail } from './';
+import { DistanceTimeInfo } from './';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
 import type { TourItemWithDetail } from '../types';
-import { useState } from 'react';
 
 interface TourSlideProps {
   tourInfo: TourItemWithDetail;
+  handleSlideClick: (
+    slide: Pick<TourItemWithDetail, 'title' | 'dist' | 'overview'>
+  ) => void;
 }
 
-export default function TourSlide({ tourInfo }: TourSlideProps) {
-  const [showDetail, setShowDetail] = useState(false);
-
+export default function TourSlide({
+  tourInfo,
+  handleSlideClick,
+}: TourSlideProps) {
   return (
     <div className="relative text-white w-full h-full flex flex-col items-center">
       <Swiper
@@ -41,7 +44,7 @@ export default function TourSlide({ tourInfo }: TourSlideProps) {
       <div className="w-full absolute z-(--z-layer2) bottom-0 left-0 px-4">
         <h1 className="text-2xl font-bold">{tourInfo.title}</h1>
         <div className="flex justify-between">
-          <DistanceTimeInfo dist={tourInfo.dist} iconFill="none" />
+          <DistanceTimeInfo dist={tourInfo.dist} iconFill="#ffffff" />
         </div>
         <div className="mt-7" />
         <p>
@@ -51,7 +54,7 @@ export default function TourSlide({ tourInfo }: TourSlideProps) {
           })}
           <span
             className="text-[12px] text-gray-200 cursor-pointer"
-            onClick={() => setShowDetail(prev => !prev)}
+            onClick={() => handleSlideClick(tourInfo)}
           >
             ... 더 보기
           </span>
@@ -67,13 +70,6 @@ export default function TourSlide({ tourInfo }: TourSlideProps) {
         </div>
       </div>
       <div className="absolute left-0 bottom-0 w-full h-1/2 bg-gradient-to-t from-black/50 to-transparent pointer-events-none z-(--z-layer1)" />
-      {showDetail && (
-        <TourDetail
-          dist={tourInfo.dist}
-          overview={tourInfo.overview}
-          title={tourInfo.title}
-        />
-      )}
     </div>
   );
 }

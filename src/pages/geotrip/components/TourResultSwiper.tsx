@@ -60,7 +60,8 @@ export default function TourResultSwiper({
         <BottomSheet
           isOpen={showDetail}
           onClose={() => setShowDetail(false)}
-          initialY="0%"
+          initialY="55%"
+          minHeight={650}
         >
           <BottomSheet.Content>
             <TourDetail

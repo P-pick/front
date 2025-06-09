@@ -8,7 +8,7 @@ export default function DistanceTimeInfo({
   iconFill,
 }: DistanceTimeInfoProps) {
   return (
-    <span className="flex items-center ">
+    <span className="flex items-center">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill={iconFill}

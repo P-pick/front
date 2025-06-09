@@ -62,19 +62,19 @@ function BottomSheet({
           )}
           <motion.div
             initial={{ y: '100%' }}
-            animate={{ y: initialY }}
+            animate={{ y: '0%' }}
             exit={{ y: '100%' }}
             dragElastic={0.1}
             transition={{
               type: 'tween',
               duration: 0.3,
               ease: 'easeInOut',
-              delay: 0.1,
             }}
             className="absolute bottom-0 left-0 w-full z-1200"
           >
             <motion.div
               drag="y"
+              animate={{ y: initialY }}
               dragControls={dragControls}
               dragListener={false}
               dragElastic={0.2}

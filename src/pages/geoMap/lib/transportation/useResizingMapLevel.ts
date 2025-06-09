@@ -20,7 +20,7 @@ export const useResizingMapLevel = ({ points }: UseResizingMapLevel) => {
     if (map && points.length > 0) {
       map.setBounds(bounds);
     }
-  }, [points]);
+  }, [map]);
 
   const handleResizeMapLevel = () => {
     if (map) {

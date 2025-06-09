@@ -1,8 +1,8 @@
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
-import CurrentDeviceLocation from './CurrentDeviceLocation';
-import { useGetAroundNavigate } from '../lib/aroundNavigate';
-import AroundTouristNavigate from './geoAroundTourist/AroundTouristNavigate';
-import NearbyTouristAttractionPinPoint from './geoAroundTourist/NearbyTouristAttractionPinpoint';
+import { useGetAroundNavigate } from '../../lib/aroundNavigate';
+import AroundTouristNavigate from './AroundTouristNavigate';
+import CurrentDeviceLocation from '../CurrentDeviceLocation';
+import NearbyTouristAttractionPinPoint from './NearbyTouristAttractionPinpoint';
 
 const destination = {
   latitude: 37.629362,

@@ -7,7 +7,7 @@ export default function TourDetail({
   title,
 }: Pick<TourItemWithDetail, 'title' | 'dist' | 'overview'>) {
   return (
-    <div className="max-w-[375px] h-110 bg-white px-5 pt-[15px] text-black">
+    <div className="max-w-[375px] h-110 bg-white px-5 pt-[15px] text-black  mb-33">
       <h2 className="font-semibold text-2xl mb-3.5">{title}</h2>
       <DistanceTimeInfo dist={dist} iconFill="#00000" />
       <p className="mt-[13px]">{overview}</p>

@@ -1,14 +1,10 @@
+import { AnimatePresence, motion, useDragControls } from 'framer-motion';
 import {
-  AnimatePresence,
-  LayoutGroup,
-  motion,
-  useDragControls,
-} from 'framer-motion';
-import {
-  useEffect,
-  type PropsWithChildren,
   Children,
   isValidElement,
+  useEffect,
+  type PropsWithChildren,
+  type ReactNode,
 } from 'react';
 
 interface BottomSheetProps {
@@ -16,6 +12,7 @@ interface BottomSheetProps {
   onClose: () => void;
   showOverlay?: boolean;
   initialY?: string;
+  minHeight?: number;
 }
 
 function BottomSheet({
@@ -24,6 +21,7 @@ function BottomSheet({
   children,
   showOverlay = true,
   initialY = '0%',
+  minHeight = 400,
 }: PropsWithChildren<BottomSheetProps>) {
   const dragControls = useDragControls();
 
@@ -31,6 +29,16 @@ function BottomSheet({
     event.preventDefault();
     dragControls.start(event, { snapToCursor: false });
   };
+  let contentChildren: ReactNode[] = [];
+  let footerChildren: ReactNode[] = [];
+
+  Children.forEach(children, child => {
+    if (isValidElement(child) && child.type === BottomSheet.Footer) {
+      footerChildren.push(child);
+    } else {
+      contentChildren.push(child);
+    }
+  });
 
   useEffect(() => {
     document.body.style.overflow = isOpen ? 'hidden' : '';
@@ -39,25 +47,13 @@ function BottomSheet({
     };
   }, [isOpen]);
 
-  let content: React.ReactNode = null;
-  let footer: React.ReactNode = null;
-
-  Children.forEach(children, child => {
-    if (!isValidElement(child)) return;
-    if (child.type === BottomSheet.Content) {
-      content = child;
-    } else if (child.type === BottomSheet.Footer) {
-      footer = child;
-    }
-  });
-
   return (
     <AnimatePresence>
       {isOpen && (
         <>
           {showOverlay && (
             <motion.div
-              className="fixed inset-0 bg-black/30 z-[100]"
+              className="absolute inset-0 bg-black/30 z-1000"
               onClick={onClose}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -65,28 +61,34 @@ function BottomSheet({
             />
           )}
           <motion.div
-            drag="y"
             initial={{ y: '100%' }}
             animate={{ y: initialY }}
             exit={{ y: '100%' }}
-            dragElastic={0.2}
-            dragControls={dragControls}
-            dragListener={false}
-            onDragEnd={(_, info) => {
-              if (info.point.y > window.innerHeight * 0.8) {
-                onClose();
-              }
-            }}
-            dragConstraints={{ top: 0, bottom: 400 }}
+            dragElastic={0.1}
             transition={{
               type: 'tween',
               duration: 0.3,
               ease: 'easeInOut',
               delay: 0.1,
             }}
-            className="fixed bottom-0 left-0 w-full z-[110]"
+            className="absolute bottom-0 left-0 w-full z-1200"
           >
-            <div className="relative flex flex-col items-center w-full">
+            <motion.div
+              drag="y"
+              dragControls={dragControls}
+              dragListener={false}
+              dragElastic={0.2}
+              onDragEnd={(_, info) => {
+                if (info.point.y > minHeight) {
+                  onClose();
+                }
+              }}
+              dragConstraints={{
+                top: 0,
+                bottom: minHeight,
+              }}
+              className="relative flex flex-col items-center w-full z-1100"
+            >
               <div
                 onPointerDown={startDrag}
                 className="absolute top-0 left-0 w-full h-10 flex justify-center items-start cursor-grab active:cursor-grabbing"
@@ -94,10 +96,11 @@ function BottomSheet({
               >
                 <div className="mt-1 w-[88px] h-[3px] bg-black rounded-full pointer-events-none" />
               </div>
+              {contentChildren}
+            </motion.div>
 
-              {content}
-            </div>
-            <motion.div style={{ y: 0 }}>{footer}</motion.div>
+            {footerChildren}
+            <div className="absolute left-0 bottom-0 inset-x-0 bg-white z-1000 h-50" />
           </motion.div>
         </>
       )}
@@ -105,12 +108,18 @@ function BottomSheet({
   );
 }
 
-BottomSheet.Content = ({ children }: PropsWithChildren) => {
+BottomSheet.Content = function BottomSheetContent({
+  children,
+}: PropsWithChildren) {
   return <>{children}</>;
 };
-
-BottomSheet.Footer = ({ children }: PropsWithChildren) => {
-  return <div>{children}</div>;
+BottomSheet.Footer = function BottomSheetFooter({
+  children,
+}: PropsWithChildren) {
+  return (
+    <div className="absolute left-1/2 z-1500 bg-gradient-to-t from-white to-white/90 -translate-x-1/2 bottom-0 w-[375px] h-[100px]  flex flex-col items-center justify-center gap-4">
+      {children}
+    </div>
+  );
 };
-
 export default BottomSheet;

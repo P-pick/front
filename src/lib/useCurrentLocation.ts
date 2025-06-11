@@ -1,5 +1,5 @@
 import { getCurrentLocation } from '@/pages/geotrip/lib';
-import type { GeoTripLocation } from '@/pages/geotrip/types';
+import type { GeoTripLocation } from '@/pages/types';
 import { useEffect, useState } from 'react';
 
 const useCurrentLocation = () => {
@@ -18,10 +18,7 @@ const useCurrentLocation = () => {
 
       try {
         const location = await getCurrentLocation();
-        setGeoLocation({
-          lat: location.lat!,
-          lng: location.lng!,
-        });
+        setGeoLocation(location);
       } catch (err) {
         setError(
           err instanceof Error

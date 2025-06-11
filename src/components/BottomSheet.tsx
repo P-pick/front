@@ -7,6 +7,18 @@ import {
   type ReactNode,
 } from 'react';
 
+function BottomSheetContent({ children }: PropsWithChildren) {
+  return <>{children}</>;
+}
+
+function BottomSheetFooter({ children }: PropsWithChildren) {
+  return (
+    <div className="absolute left-1/2 z-1500 bg-gradient-to-t from-white to-white/90 -translate-x-1/2 bottom-0 w-[375px] h-[100px]  flex flex-col items-center justify-center gap-4">
+      {children}
+    </div>
+  );
+}
+
 interface BottomSheetProps {
   isOpen: boolean;
   onClose: () => void;
@@ -29,8 +41,8 @@ function BottomSheet({
     event.preventDefault();
     dragControls.start(event, { snapToCursor: false });
   };
-  let contentChildren: ReactNode[] = [];
-  let footerChildren: ReactNode[] = [];
+  const contentChildren: ReactNode[] = [];
+  const footerChildren: ReactNode[] = [];
 
   Children.forEach(children, child => {
     if (isValidElement(child) && child.type === BottomSheet.Footer) {
@@ -108,18 +120,7 @@ function BottomSheet({
   );
 }
 
-BottomSheet.Content = function BottomSheetContent({
-  children,
-}: PropsWithChildren) {
-  return <>{children}</>;
-};
-BottomSheet.Footer = function BottomSheetFooter({
-  children,
-}: PropsWithChildren) {
-  return (
-    <div className="absolute left-1/2 z-1500 bg-gradient-to-t from-white to-white/90 -translate-x-1/2 bottom-0 w-[375px] h-[100px]  flex flex-col items-center justify-center gap-4">
-      {children}
-    </div>
-  );
-};
+BottomSheet.Content = BottomSheetContent;
+BottomSheet.Footer = BottomSheetFooter;
+
 export default BottomSheet;

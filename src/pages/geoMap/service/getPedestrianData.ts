@@ -1,6 +1,6 @@
 import axios from 'axios';
 import type { PedestrianRequestBody, PedestrianResponse } from '../types';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
 import { TMAP_APP_KEY } from '@/pages/const/TMAP';
 
 const getPedestrianDestinationPathInfo = async (
@@ -25,7 +25,7 @@ const getPedestrianDestinationPathInfo = async (
 const usePedestrianDestination = (destination: PedestrianRequestBody) => {
   //GuDoYoon 내 위치 정보 가져오기 hook으로 교체 예정
 
-  const { data } = useQuery({
+  const { data } = useSuspenseQuery({
     queryKey: [
       'pedestrianDestination',
       destination.startX,
@@ -36,14 +36,6 @@ const usePedestrianDestination = (destination: PedestrianRequestBody) => {
       destination.endName,
     ],
     queryFn: () => getPedestrianDestinationPathInfo(destination),
-    enabled:
-      !!destination.startX &&
-      !!destination.startY &&
-      !!destination.endX &&
-      !!destination.endY &&
-      !!destination.startName &&
-      !!destination.endName,
-    refetchOnWindowFocus: false,
   });
 
   return data;

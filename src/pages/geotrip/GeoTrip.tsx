@@ -1,5 +1,5 @@
 import { BackButton, MenuIcon } from '@/components';
-import { TourSwiper } from './components';
+import { GeoTripInitializer } from './components';
 import { Suspense } from 'react';
 
 export default function GeoTrip() {
@@ -11,7 +11,7 @@ export default function GeoTrip() {
           <MenuIcon />
         </div>
         <Suspense fallback={<div>임시로딩</div>}>
-          <TourSwiper />
+          <GeoTripInitializer />
         </Suspense>
       </div>
     </section>

@@ -32,11 +32,31 @@ body,
     --z-layer3: 30;
     --z-layer4: 40;
     --z-layer5: 50;
+    --z-layer6: 60;
+    --z-layer7: 70;
+    --z-layer8: 80;
+    --z-layer9: 90;
   }
 }
 
 @layer components {
   .my-swiper .swiper-pagination {
     @apply !top-5 h-0 w-0;
+  }
+}
+
+@theme {
+  --animate-slide-up: slide-up 1s ease-in-out;
+  @keyframes slide-up {
+    0% {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    50% {
+    }
   }
 }

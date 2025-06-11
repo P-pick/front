@@ -19,8 +19,8 @@ export type ResponseBody<T> = {
 };
 
 export type GeoTripLocation = {
-  latitude: number | null;
-  longitude: number | null;
+  lat: number | null;
+  lng: number | null;
 };
 
 export type TourItem = {
@@ -53,8 +53,8 @@ export type TourItem = {
 };
 
 export type TourDetailImage = {
-  imgname: string;
-  originimgurl: string;
+  imgname?: string;
+  originimgurl?: string;
   serialnum: string;
 };
 

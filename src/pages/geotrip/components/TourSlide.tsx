@@ -6,9 +6,15 @@ import type { TourItemWithDetail } from '@/pages/types';
 
 interface TourSlideProps {
   tourInfo: TourItemWithDetail;
+  handleSlideClick: (
+    slide: Pick<TourItemWithDetail, 'title' | 'dist' | 'overview'>
+  ) => void;
 }
 
-export default function TourSlide({ tourInfo }: TourSlideProps) {
+export default function TourSlide({
+  tourInfo,
+  handleSlideClick,
+}: TourSlideProps) {
   return (
     <div className="relative text-white w-full h-full flex flex-col items-center">
       <Swiper
@@ -27,7 +33,7 @@ export default function TourSlide({ tourInfo }: TourSlideProps) {
           tourInfo.images.map(img => (
             <SwiperSlide key={img.serialnum}>
               <img
-                src={img.originimgurl}
+                src={img.originimgurl || undefined}
                 alt={img.imgname}
                 className="w-full h-full object-cover"
               />
@@ -38,10 +44,21 @@ export default function TourSlide({ tourInfo }: TourSlideProps) {
       <div className="w-full absolute z-(--z-layer2) bottom-0 left-0 px-4">
         <h1 className="text-2xl font-bold">{tourInfo.title}</h1>
         <div className="flex justify-between">
-          <DistanceTimeInfo dist={tourInfo.dist} />
+          <DistanceTimeInfo dist={tourInfo.dist} iconFill="#ffffff" />
         </div>
         <div className="mt-7" />
-        <p>{truncate(tourInfo.overview, { length: 60 })}</p>
+        <p>
+          {truncate(tourInfo.overview, {
+            length: 60,
+            omission: '',
+          })}
+          <span
+            className="text-[12px] text-gray-200 cursor-pointer"
+            onClick={() => handleSlideClick(tourInfo)}
+          >
+            ... 더 보기
+          </span>
+        </p>
         <div className="mt-16" />
         <div className="w-full flex justify-center">
           <button

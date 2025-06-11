@@ -2,6 +2,7 @@ import useCurrentLocation from '@/lib/useCurrentLocation';
 import { Suspense } from 'react';
 import { LoadingSpinner } from '@/components';
 import GeoDestinationMap from './GeoDestinationMap';
+import type { GeoTripLocation } from '@/pages/types';
 
 const destination = {
   lat: 37.629362,
@@ -10,6 +11,12 @@ const destination = {
 
 export default function CurrentLocationToDestination() {
   const { geoLocation } = useCurrentLocation();
+
+  const inValidationLocation = (
+    location: GeoTripLocation
+  ): Required<GeoTripLocation> => {
+    return typeof location.lat === 'number' && typeof location.lng === 'number';
+  };
 
   return (
     <>
@@ -20,9 +27,10 @@ export default function CurrentLocationToDestination() {
           </div>
         }
       >
-        {geoLocation.lat && destination.lat && (
-          <GeoDestinationMap start={geoLocation} end={destination} />
-        )}
+        {inValidationLocation(geoLocation) &&
+          inValidationLocation(destination) && (
+            <GeoDestinationMap start={geoLocation} end={destination} />
+          )}
       </Suspense>
     </>
   );

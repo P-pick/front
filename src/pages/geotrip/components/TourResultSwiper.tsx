@@ -2,11 +2,11 @@ import { useMemo, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Navigation, Mousewheel } from 'swiper/modules';
 import TourSlide from './TourSlide';
-import type { GeoTripLocation, TourItemWithDetail } from '@/pages/types';
+import type { GeoTripLocation } from '@/pages/types';
 import { useGeoLocationBasedTourQuery } from '../service';
 import { BottomSheet } from '@/components';
-import { TourDetail } from './';
-import usePollySpeechMutation from '@/pages/geotrip/service/pollyTTS';
+import { TourDetail, OverlayButtonGroup } from './';
+import type { TourSummary } from '@/pages/geotrip/types';
 
 interface TourResultSwiperProps {
   location: GeoTripLocation;
@@ -24,35 +24,17 @@ export default function TourResultSwiper({
     radius: distance,
     contentTypeId: tourType,
   });
-  const { mutate } = usePollySpeechMutation();
-  const handleMutate = (text: string) => {
-    mutate(text, {
-      onSuccess: blob => {
-        const audioUrl = URL.createObjectURL(blob);
-        const audio = new Audio(audioUrl);
-        audio.play();
-      },
-      onError: error => {
-        console.error('TTS 실패:', error);
-      },
-    });
-  };
 
   const [showDetail, setShowDetail] = useState(false);
-  const [tourInfo, setTourInfo] = useState<
-    Pick<TourItemWithDetail, 'title' | 'dist' | 'overview'>
-  >({
+  const [currentTourInfo, setCurrentTourInfo] = useState<TourSummary>({
     dist: '',
     overview: '',
     title: '',
   });
-  const [activeIndex, setActiveIndex] = useState(0);
 
   const slides = useMemo(() => data.pages.flatMap(p => p.items), [data]);
-  const handleSlideClick = (
-    slide: Pick<TourItemWithDetail, 'title' | 'dist' | 'overview'>
-  ) => {
-    setTourInfo(slide);
+  const handleSlideClick = (slide: TourSummary) => {
+    setCurrentTourInfo(slide);
     setShowDetail(true);
   };
 
@@ -64,22 +46,17 @@ export default function TourResultSwiper({
         pagination={false}
         mousewheel={{ enabled: true, sensitivity: 1 }}
         onReachEnd={() => hasNextPage && fetchNextPage()}
-        onSlideChange={swiper => setActiveIndex(swiper.activeIndex)}
         className="h-full"
         touchMoveStopPropagation={false}
       >
-        {slides.map((slide, index) => (
+        {slides.map(slide => (
           <SwiperSlide key={slide.contentid}>
-            <TourSlide
-              handleMutate={handleMutate}
-              tourInfo={slide}
-              handleSlideClick={handleSlideClick}
-              isActive={activeIndex === index}
-            />
+            <TourSlide tourInfo={slide} handleSlideClick={handleSlideClick} />
           </SwiperSlide>
         ))}
       </Swiper>
-      <div className="w-full h-full">
+      <OverlayButtonGroup />
+      <div className="absolute w-full h-full bottom-0 left-0">
         <BottomSheet
           isOpen={showDetail}
           onClose={() => setShowDetail(false)}
@@ -88,9 +65,9 @@ export default function TourResultSwiper({
         >
           <BottomSheet.Content>
             <TourDetail
-              dist={tourInfo.dist}
-              overview={tourInfo.overview}
-              title={tourInfo.title}
+              dist={currentTourInfo.dist}
+              overview={currentTourInfo.overview}
+              title={currentTourInfo.title}
             />
           </BottomSheet.Content>
           <BottomSheet.Footer>

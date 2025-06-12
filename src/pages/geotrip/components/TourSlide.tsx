@@ -3,26 +3,20 @@ import { DistanceTimeInfo } from './';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
 import type { TourItemWithDetail } from '@/pages/types';
-import type { UseMutateFunction } from '@tanstack/react-query';
 
 interface TourSlideProps {
   tourInfo: TourItemWithDetail;
   handleSlideClick: (
     slide: Pick<TourItemWithDetail, 'title' | 'dist' | 'overview'>
   ) => void;
-  isActive: boolean;
-  handleMutate: (text: string) => void;
 }
 
 export default function TourSlide({
   tourInfo,
   handleSlideClick,
-  handleMutate,
 }: TourSlideProps) {
   return (
     <div className="relative text-white w-full h-full flex flex-col items-center">
-      <audio />
-
       <Swiper
         direction="horizontal"
         modules={[Pagination]}
@@ -53,9 +47,6 @@ export default function TourSlide({
           <DistanceTimeInfo dist={tourInfo.dist} iconFill="#ffffff" />
         </div>
         <div className="mt-7" />
-        <button onClick={() => handleMutate(tourInfo.overview)}>
-          tts 진행시켜
-        </button>
         <p>
           {truncate(tourInfo.overview, {
             length: 60,

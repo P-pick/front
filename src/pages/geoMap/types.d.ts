@@ -17,6 +17,11 @@ type dataDirectionOption = 0 | 1;
 type CarType = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
 type CarSearchOption = 0 | 1 | 2 | 3 | 4 | 10 | 12 | 19;
 type DetailPosFlag = 0 | 1 | 2;
+type TransportationType =
+  | 'pedestrian'
+  | 'car'
+  | 'bicycle'
+  | 'public-transportation';
 
 export type MarkerType = {
   contentTypeId: AroundContentTypeId;

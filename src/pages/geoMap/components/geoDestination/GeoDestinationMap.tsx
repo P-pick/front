@@ -3,6 +3,8 @@ import { Map, MapMarker, Polyline } from 'react-kakao-maps-sdk';
 import { selectedTransportation } from '../../service';
 import ResizingMap from './ResizingMap';
 import type { GeoTripLocation } from '@/pages/types';
+import SelectTransportationFromGeoMap from './SelectTransportationFromGeoMap';
+import type { TransportationType } from '../../types';
 
 const CustomMarker = ({
   position,
@@ -43,14 +45,7 @@ export default function GeoDestinationMap({
   start,
   end,
 }: GeoDestinationMapProps) {
-  const [vehicle, setVehicle] = useState<'car' | 'pedestrian'>('pedestrian');
-
-  const onChangeVehicle = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setVehicle(e.target.value as 'car' | 'pedestrian');
-  };
-
-  console.log(start, end);
-
+  const [vehicle, setVehicle] = useState<TransportationType>('pedestrian');
   const polylines = selectedTransportation(vehicle, {
     startX: start.lng,
     startY: start.lat,
@@ -67,13 +62,10 @@ export default function GeoDestinationMap({
       className="w-full h-full relative"
       level={6}
     >
-      <select
-        className="p-3 bg-blue-300 absolute left-0 top-0 z-10"
-        onChange={onChangeVehicle}
-      >
-        <option value="pedestrian">보행자</option>
-        <option value="car">자동차</option>
-      </select>
+      <SelectTransportationFromGeoMap
+        vehicle={vehicle}
+        setVehicle={setVehicle}
+      />
       <ResizingMap start={start} end={end} />
       {polylines?.map(line => (
         <Polyline

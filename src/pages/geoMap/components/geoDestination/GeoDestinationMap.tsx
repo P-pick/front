@@ -2,22 +2,21 @@ import { useState } from 'react';
 import { Map, MapMarker, Polyline } from 'react-kakao-maps-sdk';
 import { selectedTransportation } from '../../service';
 import ResizingMap from './ResizingMap';
-
-type Position = {
-  lat: number;
-  lng: number;
-};
+import type { GeoTripLocation } from '@/pages/types';
 
 const CustomMarker = ({
   position,
   image,
 }: {
-  position: Position;
+  position: Required<GeoTripLocation>;
   image: string;
 }) => {
   return (
     <MapMarker
-      position={position}
+      position={{
+        lat: position.lat!,
+        lng: position.lng!,
+      }}
       image={{
         src: image,
         size: {
@@ -36,8 +35,8 @@ const CustomMarker = ({
 };
 
 interface GeoDestinationMapProps {
-  start: Position;
-  end: Position;
+  start: GeoTripLocation;
+  end: GeoTripLocation;
 }
 
 export default function GeoDestinationMap({
@@ -49,6 +48,8 @@ export default function GeoDestinationMap({
   const onChangeVehicle = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setVehicle(e.target.value as 'car' | 'pedestrian');
   };
+
+  console.log(start, end);
 
   const polylines = selectedTransportation(vehicle, {
     startX: start.lng,
@@ -62,7 +63,7 @@ export default function GeoDestinationMap({
   return (
     <Map
       id="map"
-      center={{ lat: start.lat, lng: start.lng }}
+      center={{ lat: start.lat!, lng: start.lng! }}
       className="w-full h-full relative"
       level={6}
     >

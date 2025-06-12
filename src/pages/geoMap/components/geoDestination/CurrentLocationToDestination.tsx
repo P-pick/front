@@ -1,5 +1,5 @@
 import useCurrentLocation from '@/lib/useCurrentLocation';
-import { Suspense } from 'react';
+import { Suspense, useCallback } from 'react';
 import { LoadingSpinner } from '@/components';
 import GeoDestinationMap from './GeoDestinationMap';
 import type { GeoTripLocation } from '@/pages/types';
@@ -12,11 +12,12 @@ const destination = {
 export default function CurrentLocationToDestination() {
   const { geoLocation } = useCurrentLocation();
 
-  const inValidationLocation = (
-    location: GeoTripLocation
-  ): Required<GeoTripLocation> => {
-    return typeof location.lat === 'number' && typeof location.lng === 'number';
-  };
+  const isValidLocation = useCallback(
+    (location: GeoTripLocation): location is Required<GeoTripLocation> => {
+      return location.lat !== null && location.lng !== null;
+    },
+    [geoLocation, destination]
+  );
 
   return (
     <>
@@ -27,10 +28,9 @@ export default function CurrentLocationToDestination() {
           </div>
         }
       >
-        {inValidationLocation(geoLocation) &&
-          inValidationLocation(destination) && (
-            <GeoDestinationMap start={geoLocation} end={destination} />
-          )}
+        {isValidLocation(geoLocation) && isValidLocation(destination) && (
+          <GeoDestinationMap start={geoLocation} end={destination} />
+        )}
       </Suspense>
     </>
   );

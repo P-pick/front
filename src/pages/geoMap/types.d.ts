@@ -25,13 +25,13 @@ export type MarkerType = {
 };
 
 type PedestrianRequestBody = {
-  startX: number; // 출발지 경도
-  startY: number; // 출발지 위도
+  startX: number | null; // 출발지 경도
+  startY: number | null; // 출발지 위도
   angle?: number; // 각도 (0~359), 기본값: 20
   speed?: number; // 진행속도 Km/h, 기본값: 30
   endPoiId?: string; // 목적지 POI ID, 기본값: '10001'
-  endX: number; // 목적지 경도
-  endY: number; // 목적지 위도
+  endX: number | null; // 목적지 경도
+  endY: number | null; // 목적지 위도
   passList?: string; // 경유지 목록, 예: "126.92774822,37.55395475_126.92577620,37.55337145"
   reqCoordType?: CoordType; // 요청 좌표계, 기본값: "WGS84GEO"
   startName: string; // 출발지 명칭 (URL 인코딩된 UTF-8 문자열)

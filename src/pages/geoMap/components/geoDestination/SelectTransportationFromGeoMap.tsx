@@ -80,9 +80,6 @@ export default function SelectTransportationFromGeoMap({
                 <span className="flex items-center justify-center gap-2 p-2 w-8 h-8">
                   {transport.icon}
                 </span>
-                <span className="pr-2 break-words flex flex-nowrap text-xs">
-                  30분
-                </span>
               </li>
             );
           })}

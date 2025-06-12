@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Map, MapMarker, Polyline } from 'react-kakao-maps-sdk';
 import { selectedTransportation } from '../../service';
 import ResizingMap from './ResizingMap';
 import type { GeoTripLocation } from '@/pages/types';
 import SelectTransportationFromGeoMap from './SelectTransportationFromGeoMap';
 import type { TransportationType } from '../../types';
+import { timeConversion } from '../../lib/transportation';
 
 const CustomMarker = ({
   position,
@@ -54,6 +55,10 @@ export default function GeoDestinationMap({
     endY: end.lat,
     endName: '목적지',
   });
+
+  const time = useMemo(() => {
+    return timeConversion.conversionSecToHour(polylines[0].totalTime);
+  }, [polylines]);
 
   return (
     <Map

@@ -37,7 +37,6 @@ const usePedestrianDestination = (destination: PedestrianRequestBody) => {
     ],
     queryFn: () => getPedestrianDestinationPathInfo(destination),
   });
-
   return data;
 };
 

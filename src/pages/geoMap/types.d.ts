@@ -22,6 +22,17 @@ type TransportationType =
   | 'car'
   | 'bicycle'
   | 'public-transportation';
+type PedestrianPointType =
+  | 'SP' //출발지
+  | 'EP' //도착지
+  | 'PP' //경유지
+  | 'PP1' //경유지1
+  | 'PP2' //경유지2
+  | 'PP3' //경유지3
+  | 'PP4' //경유지4
+  | 'PP5' //경유지5
+  | 'GP'; // 일반안내점
+type CarPointType = 'S' | 'E' | 'B1' | 'B2' | 'B3' | 'N';
 
 export type MarkerType = {
   contentTypeId: AroundContentTypeId;
@@ -94,7 +105,7 @@ interface PedestrianNavigationProperties {
   description?: string;
 
   // 출발/도착/경유지 안내
-  pointType?: 'SP' | 'EP' | 'PP' | 'PP1' | 'PP2' | 'PP3' | 'PP4' | 'PP5' | 'GP';
+  pointType?: PedestrianPointType;
   direction?: string;
   nearPoiName?: string;
   nearPoiX?: string;
@@ -117,6 +128,25 @@ interface PedestrianNavigationProperties {
   facilityName?: string;
 }
 
+export type CarPropertiesSPType = {
+  totalDistance: number;
+  totalTime: number;
+  taxiFare: number;
+  index: number;
+  pointIndex: number;
+  name: string;
+  description: string;
+  direction: string;
+  nearPoiName: string;
+  nearPoiX: string;
+  nearPoiY: string;
+  intersectionName: string;
+  facilityType: string;
+  facilityName: string;
+  turnType: number;
+  pointType: CarPointType;
+};
+
 // 길 안내 사용자 정의 프로퍼티
 type GuideProperties = {
   totalDistance?: string; // 예: "3000"
@@ -129,7 +159,7 @@ type GuideProperties = {
   description?: string;
   nextRoadName?: string;
   turnType?: number;
-  pointType?: 'S' | 'E' | 'B1' | 'B2' | 'B3' | 'N';
+  pointType?: CarPointType;
 };
 
 // 도로 및 시설물 정보 사용자 정의 프로퍼티
@@ -153,7 +183,7 @@ export interface PedestrianFeature {
 export interface CarPathFeature {
   type: 'Feature';
   geometry: Geometry;
-  properties: GuideProperties | RoadProperties;
+  properties: GuideProperties | RoadProperties | CarPropertiesSPType;
 }
 
 interface TMapBaseResponse {

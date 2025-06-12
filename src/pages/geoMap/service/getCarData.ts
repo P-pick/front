@@ -43,6 +43,7 @@ const useCarDestination = (destination: CarRequestBody) => {
       !!destination.endName,
     refetchOnWindowFocus: false,
   });
+  console.log(data);
   return data;
 };
 

@@ -6,6 +6,7 @@ import type { GeoTripLocation, TourItemWithDetail } from '@/pages/types';
 import { useGeoLocationBasedTourQuery } from '../service';
 import { BottomSheet } from '@/components';
 import { TourDetail } from './';
+import usePollySpeechMutation from '@/pages/geotrip/service/pollyTTS';
 
 interface TourResultSwiperProps {
   location: GeoTripLocation;
@@ -23,6 +24,20 @@ export default function TourResultSwiper({
     radius: distance,
     contentTypeId: tourType,
   });
+  const { mutate } = usePollySpeechMutation();
+  const handleMutate = (text: string) => {
+    mutate(text, {
+      onSuccess: blob => {
+        const audioUrl = URL.createObjectURL(blob);
+        const audio = new Audio(audioUrl);
+        audio.play();
+      },
+      onError: error => {
+        console.error('TTS 실패:', error);
+      },
+    });
+  };
+
   const [showDetail, setShowDetail] = useState(false);
   const [tourInfo, setTourInfo] = useState<
     Pick<TourItemWithDetail, 'title' | 'dist' | 'overview'>
@@ -31,6 +46,8 @@ export default function TourResultSwiper({
     overview: '',
     title: '',
   });
+  const [activeIndex, setActiveIndex] = useState(0);
+
   const slides = useMemo(() => data.pages.flatMap(p => p.items), [data]);
   const handleSlideClick = (
     slide: Pick<TourItemWithDetail, 'title' | 'dist' | 'overview'>
@@ -47,12 +64,18 @@ export default function TourResultSwiper({
         pagination={false}
         mousewheel={{ enabled: true, sensitivity: 1 }}
         onReachEnd={() => hasNextPage && fetchNextPage()}
+        onSlideChange={swiper => setActiveIndex(swiper.activeIndex)}
         className="h-full"
         touchMoveStopPropagation={false}
       >
-        {slides.map(slide => (
+        {slides.map((slide, index) => (
           <SwiperSlide key={slide.contentid}>
-            <TourSlide tourInfo={slide} handleSlideClick={handleSlideClick} />
+            <TourSlide
+              handleMutate={handleMutate}
+              tourInfo={slide}
+              handleSlideClick={handleSlideClick}
+              isActive={activeIndex === index}
+            />
           </SwiperSlide>
         ))}
       </Swiper>

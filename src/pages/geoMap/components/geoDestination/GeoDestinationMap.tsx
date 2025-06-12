@@ -3,9 +3,10 @@ import { Map, MapMarker, Polyline } from 'react-kakao-maps-sdk';
 import { selectedTransportation } from '../../service';
 import ResizingMap from './ResizingMap';
 import type { GeoTripLocation } from '@/pages/types';
-import SelectTransportationFromGeoMap from './SelectTransportationFromGeoMap';
 import type { TransportationType } from '../../types';
 import { timeConversion } from '../../lib/transportation';
+import SelectTransportationFromGeoMap from './SelectTransportationFromGeoMap';
+import DestinationDetail from './DestinationDetail';
 
 const CustomMarker = ({
   position,
@@ -56,7 +57,10 @@ export default function GeoDestinationMap({
     endName: '목적지',
   });
 
-  const time = useMemo(() => {
+  const takeTimeToGo = useMemo(() => {
+    if (polylines.length === 0 || !polylines[0].totalTime) {
+      return null;
+    }
     return timeConversion.conversionSecToHour(polylines[0].totalTime);
   }, [polylines]);
 
@@ -84,6 +88,7 @@ export default function GeoDestinationMap({
       ))}
       <CustomMarker image="/startpin2.png" position={start} />
       <CustomMarker image="/endpin.png" position={end} />
+      {takeTimeToGo && <DestinationDetail time={takeTimeToGo} />}
     </Map>
   );
 }

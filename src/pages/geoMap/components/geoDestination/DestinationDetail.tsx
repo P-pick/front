@@ -11,7 +11,7 @@ export default function DestinationDetail({ time }: DestinationDetailProps) {
       <div className="w-full h-full bg-white flex-col p-3">
         <h2 className="text-xs text-blue-400 font-semibold">예상 시간</h2>
         <p className="text-xs">
-          {time.hours ? (
+          {time.hours > 0 ? (
             <>
               <span className="text-xl font-bold">{time.hours}</span>시간&nbsp;
             </>

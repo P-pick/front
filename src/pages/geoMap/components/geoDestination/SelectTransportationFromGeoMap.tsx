@@ -1,40 +1,6 @@
-import {
-  BicycleIcon,
-  CarIcon,
-  PedestrianIcon,
-  TransportationIcon,
-} from '@/assets';
+import { selectedTransportationList } from '@/pages/const/TRANSPORT';
 import type { TransportationType } from '../../types';
 import clsx from 'clsx';
-
-type TransportationOption = {
-  id: TransportationType;
-  icon: React.ReactNode;
-  label: string;
-};
-
-const selectedTransportationList: TransportationOption[] = [
-  {
-    id: 'pedestrian',
-    icon: <PedestrianIcon />,
-    label: '보행자',
-  },
-  {
-    id: 'car',
-    icon: <CarIcon />,
-    label: '자동차',
-  },
-  {
-    id: 'bicycle',
-    icon: <BicycleIcon />,
-    label: '자전거',
-  },
-  {
-    id: 'public-transportation',
-    icon: <TransportationIcon />,
-    label: '대중교통',
-  },
-];
 
 interface SelectTransportationFromGeoMapProps {
   vehicle: TransportationType;
@@ -45,11 +11,11 @@ export default function SelectTransportationFromGeoMap({
   vehicle,
   setVehicle,
 }: SelectTransportationFromGeoMapProps) {
-  const onChangeVehicle = (transportation: TransportationOption['id']) => {
+  const onChangeVehicle = (transportation: TransportationType) => {
     setVehicle(transportation);
   };
 
-  const selectedTransportation = (transportation: TransportationOption['id']) =>
+  const selectedTransportation = (transportation: TransportationType) =>
     clsx(
       'flex items-center my-2 cursor-pointer rounded-2xl hover:bg-orange-700 transition-colors duration-300',
       {

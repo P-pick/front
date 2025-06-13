@@ -9,6 +9,14 @@ const destination = {
   lng: 127.095991,
 };
 
+function ChangeLoadingStatusOnMap() {
+  return (
+    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-24 h-24 z-(--z-layer3) flex items-center justify-center">
+      <LoadingSpinner />
+    </div>
+  );
+}
+
 export default function CurrentLocationToDestination() {
   const { geoLocation } = useCurrentLocation();
 
@@ -19,18 +27,14 @@ export default function CurrentLocationToDestination() {
     [geoLocation, destination]
   );
 
+  if (!isValidLocation(geoLocation) || !isValidLocation(destination)) {
+    return <ChangeLoadingStatusOnMap />;
+  }
+
   return (
     <>
-      <Suspense
-        fallback={
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-24 h-24 z-(--z-layer3) flex items-center justify-center">
-            <LoadingSpinner />
-          </div>
-        }
-      >
-        {isValidLocation(geoLocation) && isValidLocation(destination) && (
-          <GeoDestinationMap start={geoLocation} end={destination} />
-        )}
+      <Suspense fallback={<ChangeLoadingStatusOnMap />}>
+        <GeoDestinationMap start={geoLocation} end={destination} />
       </Suspense>
     </>
   );

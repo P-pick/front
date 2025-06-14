@@ -20,9 +20,10 @@ function ChangeLoadingStatusOnMap() {
 export default function CurrentLocationToDestination() {
   const { geoLocation } = useCurrentLocation();
 
-  const { isValidLocation } = isValidationLocation();
-
-  if (!isValidLocation(geoLocation) || !isValidLocation(destination)) {
+  if (
+    !isValidationLocation(geoLocation) ||
+    !isValidationLocation(destination)
+  ) {
     return <ChangeLoadingStatusOnMap />;
   }
 

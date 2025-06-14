@@ -6,7 +6,10 @@ export default function CurrentDeviceLocation() {
 
   return (
     <MapMarker
-      position={geoLocation}
+      position={{
+        lat: geoLocation.lat!,
+        lng: geoLocation.lng!,
+      }}
       image={{
         src: '/myGeo.png',
         size: {

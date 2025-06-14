@@ -1,13 +1,9 @@
+import type { GeoTripLocation } from '@/pages/types';
 import { useResizingMapLevel } from '../../lib/transportation/useResizingMapLevel';
 
-type positionType = {
-  lat: number;
-  lng: number;
-};
-
 interface ResizingMapProps {
-  start: positionType;
-  end: positionType;
+  start: GeoTripLocation;
+  end: GeoTripLocation;
 }
 
 export default function ResizingMap({ start, end }: ResizingMapProps) {

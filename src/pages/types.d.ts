@@ -19,8 +19,8 @@ export type ResponseBody<T> = {
 };
 
 export type GeoTripLocation = {
-  lat: number | null;
-  lng: number | null;
+  lat: number;
+  lng: number;
 };
 
 export type TourItem = {

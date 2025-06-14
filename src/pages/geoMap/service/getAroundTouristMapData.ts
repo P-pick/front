@@ -1,11 +1,11 @@
 import api from '@/config/instance';
 import { type GeoTripLocation, type TourItem } from '@/pages/types';
-import { useQueries, useQuery } from '@tanstack/react-query';
+import { useQueries } from '@tanstack/react-query';
 import type { AroundContentTypeId } from '../types';
 import { useEffect, useState } from 'react';
 
 export type LocationBasedItemRequest = {
-  location: GeoTripLocation | null;
+  location: GeoTripLocation;
   contentTypeId?: AroundContentTypeId;
 };
 
@@ -29,8 +29,8 @@ const getAroundTouristMapData = async ({
 
   const response = await api.get(`/locationBasedList2`, {
     params: {
-      mapX: location.longitude,
-      mapY: location.latitude,
+      mapX: location.lng,
+      mapY: location.lat,
       arrange: 'E',
       radius: '3000',
       numOfRows: 30,

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import type { PedestrianRequestBody, PedestrianResponse } from '../types';
-import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import { TMAP_APP_KEY } from '@/pages/const/TMAP';
 
 const getPedestrianDestinationPathInfo = async (
@@ -37,7 +37,6 @@ const usePedestrianDestination = (destination: PedestrianRequestBody) => {
     ],
     queryFn: () => getPedestrianDestinationPathInfo(destination),
   });
-
   return data;
 };
 

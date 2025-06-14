@@ -1,5 +1,5 @@
 import { TRAFFIC } from '@/pages/const/TMAP';
-import type { CarResponse } from '../../types';
+import type { CarPropertiesSPType, CarResponse } from '../../types';
 
 const getCoordinatesPointLines = (coords: number[][]) => {
   return coords.map(coord => ({
@@ -25,11 +25,38 @@ const getCheckedTrafficLevel = (level: number) => {
   }
 };
 
-const getCarDestinationPath = (destination: CarResponse['features'] = []) => {
+const getCarDestinationPath = (
+  destination: CarResponse['features'] = []
+): {
+  id: string;
+  path: { lat: number; lng: number }[];
+  color: string;
+  totalTime?: number;
+  totalDistance?: number;
+  taxiFare?: number;
+}[] => {
   return destination.flatMap(feature => {
     const { geometry, properties } = feature;
 
     if (geometry.type === 'Point') {
+      const spProperties = properties as CarPropertiesSPType;
+      if (spProperties.pointType === 'S') {
+        return [
+          {
+            id: `${properties.index}`,
+            path: [
+              {
+                lat: geometry.coordinates[1],
+                lng: geometry.coordinates[0],
+              },
+            ],
+            color: '#888888 ',
+            totalTime: spProperties.totalTime,
+            totalDistance: spProperties.totalDistance,
+            taxiFare: spProperties.taxiFare,
+          },
+        ];
+      }
       return [
         {
           id: `${properties.index}`,
@@ -40,6 +67,9 @@ const getCarDestinationPath = (destination: CarResponse['features'] = []) => {
             },
           ],
           color: '#888888 ',
+          totalTime: 0,
+          totalDistance: 0,
+          taxiFare: 0,
         },
       ];
     }
@@ -55,6 +85,9 @@ const getCarDestinationPath = (destination: CarResponse['features'] = []) => {
             id: `${properties.index}-full`,
             path,
             color: '#24aa24',
+            totalTime: 0,
+            totalDistance: 0,
+            taxiFare: 0,
           },
         ];
       }
@@ -68,6 +101,9 @@ const getCarDestinationPath = (destination: CarResponse['features'] = []) => {
           id: `${properties.index}-${start}-${end}`,
           path,
           color,
+          totalTime: 0,
+          totalDistance: 0,
+          taxiFare: 0,
         };
       });
     }

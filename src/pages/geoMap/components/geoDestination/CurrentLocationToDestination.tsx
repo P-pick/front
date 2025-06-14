@@ -1,8 +1,8 @@
 import useCurrentLocation from '@/lib/useCurrentLocation';
-import { Suspense, useCallback } from 'react';
+import { Suspense } from 'react';
 import { LoadingSpinner } from '@/components';
 import GeoDestinationMap from './GeoDestinationMap';
-import type { GeoTripLocation } from '@/pages/types';
+import { isValidationLocation } from '../../lib/utils';
 
 const destination = {
   lat: 37.629362,
@@ -20,12 +20,7 @@ function ChangeLoadingStatusOnMap() {
 export default function CurrentLocationToDestination() {
   const { geoLocation } = useCurrentLocation();
 
-  const isValidLocation = useCallback(
-    (location: GeoTripLocation): location is Required<GeoTripLocation> => {
-      return location.lat !== null && location.lng !== null;
-    },
-    [geoLocation, destination]
-  );
+  const { isValidLocation } = isValidationLocation();
 
   if (!isValidLocation(geoLocation) || !isValidLocation(destination)) {
     return <ChangeLoadingStatusOnMap />;

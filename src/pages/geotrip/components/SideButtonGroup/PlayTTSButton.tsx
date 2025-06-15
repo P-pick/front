@@ -1,34 +1,15 @@
-import { useRef } from 'react';
-import { usePollySpeechMutation } from '../../service';
+import { useTTS } from '@/pages/geotrip/lib/useTTS';
 
 interface PlayTTSButtonProps {
   text: string;
 }
-export default function PlayTTSButton({ text }: PlayTTSButtonProps) {
-  const { mutate } = usePollySpeechMutation();
-  const audioRef = useRef<HTMLAudioElement>(new Audio());
-  const handleMutate = (text: string) => {
-    const audio = audioRef.current;
-    if (!audio.paused) {
-      audio.pause();
-      return;
-    }
 
-    mutate(text, {
-      onSuccess: blob => {
-        const audioUrl = URL.createObjectURL(blob);
-        audio.src = audioUrl;
-        audio.currentTime = 0;
-        audio.play().catch(console.error);
-      },
-      onError: error => {
-        console.error('TTS 실패:', error);
-      },
-    });
-  };
+export default function PlayTTSButton({ text }: PlayTTSButtonProps) {
+  const { toggleAudio } = useTTS(text);
+
   return (
     <>
-      <button type="button" onClick={() => handleMutate(text)}>
+      <button type="button" onClick={toggleAudio}>
         <svg
           className="cursor-pointer"
           width="40"

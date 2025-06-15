@@ -1,5 +1,9 @@
 // src/lib/pollyClient.ts
-import { PollyClient, SynthesizeSpeechCommand } from '@aws-sdk/client-polly';
+import {
+  PollyClient,
+  SynthesizeSpeechCommand,
+  VoiceId,
+} from '@aws-sdk/client-polly';
 import { useMutation } from '@tanstack/react-query';
 
 const polly = new PollyClient({
@@ -10,11 +14,17 @@ const polly = new PollyClient({
   },
 });
 
-const getSpeechBlob = async (text: string): Promise<Blob> => {
+const getSpeechBlob = async ({
+  text,
+  voiceId,
+}: {
+  text: string;
+  voiceId: VoiceId;
+}): Promise<Blob> => {
   const cmd = new SynthesizeSpeechCommand({
     OutputFormat: 'mp3',
     Text: text,
-    VoiceId: 'Seoyeon',
+    VoiceId: voiceId,
     LanguageCode: 'ko-KR',
     Engine: 'neural',
   });
@@ -29,9 +39,9 @@ const getSpeechBlob = async (text: string): Promise<Blob> => {
   return new Blob(chunks, { type: 'audio/mpeg' });
 };
 
-const usePollySpeechMutation = () => {
+const usePollySpeechMutation = ({ voiceId }: { voiceId: VoiceId }) => {
   return useMutation({
-    mutationFn: (text: string) => getSpeechBlob(text),
+    mutationFn: (text: string) => getSpeechBlob({ text, voiceId }),
   });
 };
 

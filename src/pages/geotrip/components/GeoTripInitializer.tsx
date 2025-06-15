@@ -12,7 +12,7 @@ export default function GeoTripInitializer() {
 
   if (!distance || !tourType) {
     return (
-      <div>필요한 정보가 부족합니다. 거리와 투어 타입을 확인해주세요.</div>
+      <div>필요한 정보가 부족합니다. 거리와 관광지 타입을 확인해주세요.</div>
     );
   }
 

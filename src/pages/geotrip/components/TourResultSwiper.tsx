@@ -2,11 +2,13 @@ import { useMemo, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Navigation, Mousewheel } from 'swiper/modules';
 import TourSlide from './TourSlide';
-import type { GeoTripLocation, TourItemWithDetail } from '@/pages/types';
+import type { GeoTripLocation } from '@/pages/types';
 import { useGeoLocationBasedTourQuery } from '../service';
 import { BottomSheet } from '@/components';
 import { TourDetail } from './';
-
+import type { TourSummary } from '@/pages/geotrip/types';
+import { SideButtonGroup } from './SideButtonGroup';
+import type { Swiper as SwiperType } from 'swiper/types';
 interface TourResultSwiperProps {
   location: GeoTripLocation;
   distance: string;
@@ -24,19 +26,22 @@ export default function TourResultSwiper({
     contentTypeId: tourType,
   });
   const [showDetail, setShowDetail] = useState(false);
-  const [tourInfo, setTourInfo] = useState<
-    Pick<TourItemWithDetail, 'title' | 'dist' | 'overview'>
-  >({
-    dist: '',
-    overview: '',
-    title: '',
+  const slides = useMemo(() => data.pages.flatMap(page => page.items), [data]);
+  const [currentTourInfo, setCurrentTourInfo] = useState<TourSummary>({
+    dist: slides[0].dist,
+    overview: slides[0].overview,
+    title: slides[0].title,
   });
-  const slides = useMemo(() => data.pages.flatMap(p => p.items), [data]);
-  const handleSlideClick = (
-    slide: Pick<TourItemWithDetail, 'title' | 'dist' | 'overview'>
-  ) => {
-    setTourInfo(slide);
-    setShowDetail(true);
+
+  const handleSlideChange = (swiper: SwiperType) => {
+    const current = slides[swiper.realIndex];
+    if (current) {
+      setCurrentTourInfo({
+        dist: current.dist,
+        overview: current.overview,
+        title: current.title,
+      });
+    }
   };
 
   return (
@@ -49,14 +54,19 @@ export default function TourResultSwiper({
         onReachEnd={() => hasNextPage && fetchNextPage()}
         className="h-full"
         touchMoveStopPropagation={false}
+        onSlideChange={handleSlideChange}
       >
         {slides.map(slide => (
           <SwiperSlide key={slide.contentid}>
-            <TourSlide tourInfo={slide} handleSlideClick={handleSlideClick} />
+            <TourSlide
+              tourInfo={slide}
+              handleDetailOpen={() => setShowDetail(true)}
+            />
           </SwiperSlide>
         ))}
       </Swiper>
-      <div className="w-full h-full">
+      <SideButtonGroup {...currentTourInfo} />
+      <div className="absolute w-full h-full bottom-0 left-0">
         <BottomSheet
           isOpen={showDetail}
           onClose={() => setShowDetail(false)}
@@ -64,11 +74,7 @@ export default function TourResultSwiper({
           minHeight={650}
         >
           <BottomSheet.Content>
-            <TourDetail
-              dist={tourInfo.dist}
-              overview={tourInfo.overview}
-              title={tourInfo.title}
-            />
+            <TourDetail {...currentTourInfo} />
           </BottomSheet.Content>
           <BottomSheet.Footer>
             <button

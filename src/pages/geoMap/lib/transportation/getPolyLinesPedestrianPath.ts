@@ -1,7 +1,10 @@
-import type { PedestrianResponse } from '../../types';
+import type {
+  PedestrianFeatures,
+  PedestrianPointProperties,
+} from '../../types';
 
 const getPedestrianDestinationPath = (
-  destination: PedestrianResponse['features'] = []
+  destination: PedestrianFeatures[] = []
 ) => {
   return destination.map(feature => {
     const { geometry, properties } = feature;
@@ -17,8 +20,6 @@ const getPedestrianDestinationPath = (
         path,
         color: '#007bff',
         stock: 5,
-        totalTime: properties.totalTime,
-        totalDistance: properties.totalDistance,
       };
     }
 
@@ -26,14 +27,23 @@ const getPedestrianDestinationPath = (
       const path = [
         { lat: geometry.coordinates[1], lng: geometry.coordinates[0] },
       ];
+      const spProperties = properties as PedestrianPointProperties;
+      if (spProperties.pointType === 'SP') {
+        return {
+          id: properties.index,
+          path,
+          color: '#888888',
+          stock: 1,
+          totalTime: spProperties.totalTime,
+          totalDistance: spProperties.totalDistance,
+        };
+      }
 
       return {
         id: properties.index,
         path,
         color: '#000000',
         stock: 7,
-        totalTime: properties.totalTime,
-        totalDistance: properties.totalDistance,
       };
     }
   });

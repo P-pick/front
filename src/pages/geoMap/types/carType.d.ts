@@ -47,12 +47,14 @@ export type DetailPosFlag =
 export type TotalValue =
   | 1 // 자동차 경로 안내 API의 전체 응답 데이터를 받을 경우
   | 2; // totalDistance, totalTime, totalFare, taxiFare
-export type Traffic =
+type TrafficType =
   | 0 // 정보없음
   | 1 //원활
   | 2 // 서행
   | 3 // 지체
   | 4; //정체
+
+export type Traffic = [TrafficType, TrafficType, TrafficType, TrafficType];
 
 export type TurnType =
   | 11 //직진
@@ -91,7 +93,7 @@ export type PointType =
   | 'B2' //경유지2
   | 'B3' //경유지3
   | 'N'; //일반 안내점
-type CarRequestBody = {
+export type CarRequestBody = {
   tollgateFareOption?: TollgateFareOption;
   roadType?: RoadType;
   directionOption?: DataDirectionOption;
@@ -108,6 +110,7 @@ type CarRequestBody = {
   uncetaintyA?: UncetaintyA;
   carType?: CarType;
   startName: string;
+  endName: string;
   searchOption: SearchOption;
   passList?: string; //경유지들의 X, Y좌표를 콤마와, _ 로 구분하여 순서대로 나열
   gpsInfoList?: string; // GPS 궤적 정보 목록
@@ -119,48 +122,50 @@ type CarRequestBody = {
   mainRoadInfo?: 'Y' | 'N'; // 주요 도로 정보
 };
 
-type PointGeometry = {
+export type PointProperties = {
+  totalDistance?: number;
+  totalTime?: number;
+  totalFare?: number;
+  taxiFare?: number;
+  index: number;
+  pointIndex: number;
+  name: string;
+  description: string;
+  nextRoadName: string;
+  turnType: TurnType;
+  pointType: PointType;
+};
+
+export type LineStringProperties = {
+  index: number;
+  lineIndex: number;
+  name: string;
+  description: string;
+  distance: number;
+  time: number;
+  roadType: RoadType;
+  facilityType: string; // 시설물 종류 예: "교량"
+};
+
+export type PointGeometry = {
   type: 'Point';
   coordinates: [number, number];
-  properties: {
-    totalDistance?: number;
-    totalTime?: number;
-    totalFare?: number;
-    taxiFare?: number;
-    index: number;
-    pointIndex: number;
-    name: string;
-    description: string;
-    nextRoadName: string;
-    turnType: TurnType;
-    pointType: PointType;
-  };
   traffic: Traffic;
 };
 
-type LineStringGeometry = {
+export type LineStringGeometry = {
   type: 'LineString';
   coordinates: [number, number][];
-  properties: {
-    index: number;
-    lineIndex: number;
-    name: string;
-    description: string;
-    distance: number;
-    time: number;
-    roadType: RoadType;
-    facilityType: string; // 시설물 종류 예: "교량"
-  };
   traffic: Traffic[];
 };
 
-type Features = {
+export type CarFeatures = {
   type: 'Feature';
-  geometry: PointGeometry;
+  geometry: PointGeometry | LineStringGeometry;
+  properties: PointProperties | LineStringProperties;
 };
 
-type CarResponse = {
-  usedFavoriteRouteVertices: string;
+export type CarResponse = {
   type: 'FeatureCollection';
-  features: Features[];
+  features: CarFeatures[];
 };

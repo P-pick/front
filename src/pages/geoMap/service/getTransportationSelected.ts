@@ -1,4 +1,3 @@
-import { transportation } from '../lib';
 import type {
   CarRequestBody,
   PedestrianRequestBody,
@@ -13,14 +12,14 @@ const getTransportationSelected = (
   destination: PedestrianRequestBody | CarRequestBody
 ): PolyFeatures => {
   const selectedTransportation = {
-    pedestrian: usePedestrianDestination(destination as PedestrianRequestBody)
-      ?.features,
-    car: useCarDestination(destination as CarRequestBody)?.features,
-    bicycle: useCarDestination(destination as CarRequestBody)?.features,
-    'public-transportation': useCarDestination(destination as CarRequestBody)
-      ?.features,
+    pedestrian: () =>
+      usePedestrianDestination(destination as PedestrianRequestBody)?.features,
+    car: () => useCarDestination(destination as CarRequestBody)?.features,
+    bicycle: () => useCarDestination(destination as CarRequestBody)?.features,
+    'public-transportation': () =>
+      useCarDestination(destination as CarRequestBody)?.features,
   };
-  return selectedTransportation[vehicle];
+  return selectedTransportation[vehicle]();
 };
 
 export default getTransportationSelected;

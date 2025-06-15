@@ -1,7 +1,7 @@
 import { transportation } from '..';
 import type {
-  CarPathFeature,
-  PedestrianFeature,
+  CarFeatures,
+  PedestrianFeatures,
   PolyFeatures,
   TransportationType,
 } from '../../types';
@@ -11,12 +11,14 @@ const getSelectedTransportationPolylines = (
   features: PolyFeatures
 ) => {
   const selectedTransportation = {
-    pedestrian: transportation.Pedestrian(features as PedestrianFeature[]),
-    car: transportation.Car(features as CarPathFeature[]),
-    bicycle: transportation.Car(features as CarPathFeature[]),
-    'public-transportation': transportation.Car(features as CarPathFeature[]),
+    pedestrian: () =>
+      transportation.Pedestrian(features as PedestrianFeatures[]),
+    car: () => transportation.Car(features as CarFeatures[]),
+    bicycle: () => transportation.Car(features as CarFeatures[]),
+    'public-transportation': () =>
+      transportation.Car(features as CarFeatures[]),
   };
-  return selectedTransportation[vehicle];
+  return selectedTransportation[vehicle]();
 };
 
 export default getSelectedTransportationPolylines;

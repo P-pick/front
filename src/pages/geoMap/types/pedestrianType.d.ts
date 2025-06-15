@@ -91,48 +91,51 @@ export type PedestrianRequestBody = {
   sort?: SortType; // 정렬 옵션, 기본값: "index"
 };
 
+export type PointProperties = {
+  totalDistance: number; // 총 거리
+  totalTime: number; // 총 시간
+  index: number; // 경로 순번
+  pointIndex: number; // 아이콘 노드
+  name: string; //안내 지점 명칭
+  description: string; //길 안내 정보 예: "소공로 을 따라 소공로 방면으로 310m 이동"
+  direction: string; // 방향 명 예: "온평포구"
+  nearPoiName: string; // 안내 지점 주변 관심장소(POI) 명칭 예: "표선해수욕장"
+  nearPoiX: number; // 안내 지점 주변 관심장소(POI) 경도
+  nearPoiY: number; // 안내 지점 주변 관심장소(POI) 위도
+  intersectionName: string; //교차로 명칭
+  facilityType: facilityType; //시설물 종류 예: "횡단보도"
+  facilityName: string; //시설물 명칭 예: "교량"
+  turnType: TurnType; //회전 정보
+  pointType: PointType;
+};
+
+export type LineStringProperties = {
+  index: number;
+  lineIndex: number; // 경로 순번
+  name: string;
+  description: string;
+  distance: number;
+  time: number;
+  roadType: RoadType;
+  categoryRoadType: CategoryRoadType;
+  facilityType: facilityType; // 시설물 종류 예: "교량"
+  facilityName: string; // 시설물 명칭 예: "교량"
+};
+
 export type PointGeometry = {
   type: 'Point';
   coordinates: [number, number]; // [경도, 위도]
-  properties: {
-    totalDistance: number; // 총 거리
-    totalTime: number; // 총 시간
-    indx: number; // 경로 순번
-    pointIndex: number; // 아이콘 노드
-    name: string; //안내 지점 명칭
-    description: string; //길 안내 정보 예: "소공로 을 따라 소공로 방면으로 310m 이동"
-    direction: string; // 방향 명 예: "온평포구"
-    nearPoiName: string; // 안내 지점 주변 관심장소(POI) 명칭 예: "표선해수욕장"
-    nearPoiX: number; // 안내 지점 주변 관심장소(POI) 경도
-    nearPoiY: number; // 안내 지점 주변 관심장소(POI) 위도
-    intersectionName: string; //교차로 명칭
-    facilityType: facilityType; //시설물 종류 예: "횡단보도"
-    facilityName: string; //시설물 명칭 예: "교량"
-    turnType: TurnType; //회전 정보
-    pointType: PointType;
-  };
 };
 
 export type LineStringGeometry = {
   type: 'LineString';
   coordinates: [number, number][]; // [[경도, 위도], ...]
-  properties: {
-    index: number;
-    lineIndex: number; // 경로 순번
-    name: string;
-    description: string;
-    distance: number;
-    time: number;
-    roadType: RoadType;
-    categoryRoadType: CategoryRoadType;
-    facilityType: facilityType; // 시설물 종류 예: "교량"
-    facilityName: string; // 시설물 명칭 예: "교량"
-  };
 };
 
 export type PedestrianFeatures = {
   type: 'Feature';
   geometry: PointGeometry | LineStringGeometry;
+  properties: PointProperties | LineStringProperties;
 };
 
 export type PedestrianResponse = {

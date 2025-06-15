@@ -59,10 +59,12 @@ export default function GeoDestinationMap({
     endY: end.lat,
     endName: '목적지',
   });
-  const polylines = useMemo(
-    () => getSelectedTransportationPolylines(vehicle, features),
-    [vehicle, features]
-  );
+  const polylines = useMemo(() => {
+    if (features) {
+      return getSelectedTransportationPolylines(vehicle, features);
+    }
+    return [];
+  }, [vehicle, features]);
 
   const takeTimeToGo = useMemo(() => {
     if (polylines.length === 0 || !polylines[0]?.totalTime) {

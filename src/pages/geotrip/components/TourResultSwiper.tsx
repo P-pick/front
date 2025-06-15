@@ -65,11 +65,7 @@ export default function TourResultSwiper({
           </SwiperSlide>
         ))}
       </Swiper>
-      <SideButtonGroup
-        dist={currentTourInfo.dist}
-        overview={currentTourInfo.overview}
-        title={currentTourInfo.title}
-      />
+      <SideButtonGroup {...currentTourInfo} />
       <div className="absolute w-full h-full bottom-0 left-0">
         <BottomSheet
           isOpen={showDetail}
@@ -78,11 +74,7 @@ export default function TourResultSwiper({
           minHeight={650}
         >
           <BottomSheet.Content>
-            <TourDetail
-              dist={currentTourInfo.dist}
-              overview={currentTourInfo.overview}
-              title={currentTourInfo.title}
-            />
+            <TourDetail {...currentTourInfo} />
           </BottomSheet.Content>
           <BottomSheet.Footer>
             <button

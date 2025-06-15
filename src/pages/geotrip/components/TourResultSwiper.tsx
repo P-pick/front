@@ -26,12 +26,13 @@ export default function TourResultSwiper({
     contentTypeId: tourType,
   });
   const [showDetail, setShowDetail] = useState(false);
-  const slides = useMemo(() => data.pages.flatMap(p => p.items), [data]);
+  const slides = useMemo(() => data.pages.flatMap(page => page.items), [data]);
   const [currentTourInfo, setCurrentTourInfo] = useState<TourSummary>({
     dist: slides[0].dist,
     overview: slides[0].overview,
     title: slides[0].title,
   });
+
   const handleSlideChange = (swiper: SwiperType) => {
     const current = slides[swiper.realIndex];
     if (current) {
@@ -41,9 +42,6 @@ export default function TourResultSwiper({
         title: current.title,
       });
     }
-  };
-  const handleDetailOpen = () => {
-    setShowDetail(true);
   };
 
   return (
@@ -60,7 +58,10 @@ export default function TourResultSwiper({
       >
         {slides.map(slide => (
           <SwiperSlide key={slide.contentid}>
-            <TourSlide tourInfo={slide} handleDetailOpen={handleDetailOpen} />
+            <TourSlide
+              tourInfo={slide}
+              handleDetailOpen={() => setShowDetail(true)}
+            />
           </SwiperSlide>
         ))}
       </Swiper>

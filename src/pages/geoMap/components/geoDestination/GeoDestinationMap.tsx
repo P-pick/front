@@ -4,7 +4,10 @@ import { selectedTransportation } from '../../service';
 import ResizingMap from './ResizingMap';
 import type { GeoTripLocation } from '@/pages/types';
 import type { TransportationType } from '../../types';
-import { timeConversion } from '../../lib/transportation';
+import {
+  getSelectedTransportationPolylines,
+  timeConversion,
+} from '../../lib/transportation';
 import SelectTransportationFromGeoMap from './SelectTransportationFromGeoMap';
 import DestinationDetail from './DestinationDetail';
 
@@ -48,7 +51,7 @@ export default function GeoDestinationMap({
   end,
 }: GeoDestinationMapProps) {
   const [vehicle, setVehicle] = useState<TransportationType>('pedestrian');
-  const polylines = selectedTransportation(vehicle, {
+  const features = selectedTransportation(vehicle, {
     startX: start.lng,
     startY: start.lat,
     startName: '현재위치',
@@ -56,9 +59,13 @@ export default function GeoDestinationMap({
     endY: end.lat,
     endName: '목적지',
   });
+  const polylines = useMemo(
+    () => getSelectedTransportationPolylines(vehicle, features),
+    [vehicle, features]
+  );
 
   const takeTimeToGo = useMemo(() => {
-    if (polylines.length === 0 || !polylines[0].totalTime) {
+    if (polylines.length === 0 || !polylines[0]?.totalTime) {
       return null;
     }
     return timeConversion.conversionSecToHour(polylines[0].totalTime);
@@ -76,16 +83,19 @@ export default function GeoDestinationMap({
         setVehicle={setVehicle}
       />
       <ResizingMap start={start} end={end} />
-      {polylines?.map(line => (
-        <Polyline
-          key={line.id}
-          path={line.path}
-          strokeWeight={5}
-          strokeColor={line.color}
-          strokeOpacity={0.8}
-          strokeStyle={'solid'}
-        />
-      ))}
+      {polylines?.map(
+        line =>
+          line && (
+            <Polyline
+              key={line.id}
+              path={line.path}
+              strokeWeight={5}
+              strokeColor={line.color}
+              strokeOpacity={0.8}
+              strokeStyle={'solid'}
+            />
+          )
+      )}
       <CustomMarker image="/startpin2.png" position={start} />
       <CustomMarker image="/endpin.png" position={end} />
       {takeTimeToGo && <DestinationDetail time={takeTimeToGo} />}

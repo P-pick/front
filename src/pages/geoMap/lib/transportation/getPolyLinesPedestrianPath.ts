@@ -5,23 +5,37 @@ const getPedestrianDestinationPath = (
 ) => {
   return destination.map(feature => {
     const { geometry, properties } = feature;
-    const path =
-      geometry.type === 'LineString'
-        ? geometry.coordinates.map(coord => ({
-            lat: coord[1],
-            lng: coord[0],
-          }))
-        : geometry.type === 'Point'
-        ? [{ lat: geometry.coordinates[1], lng: geometry.coordinates[0] }]
-        : [];
 
-    return {
-      id: properties.index,
-      path,
-      color: '#007bff',
-      totalTime: properties.totalTime,
-      totalDistance: properties.totalDistance,
-    };
+    if (geometry.type === 'LineString') {
+      const path = geometry.coordinates.map(coord => ({
+        lat: coord[1],
+        lng: coord[0],
+      }));
+
+      return {
+        id: properties.index,
+        path,
+        color: '#007bff',
+        stock: 5,
+        totalTime: properties.totalTime,
+        totalDistance: properties.totalDistance,
+      };
+    }
+
+    if (geometry.type === 'Point') {
+      const path = [
+        { lat: geometry.coordinates[1], lng: geometry.coordinates[0] },
+      ];
+
+      return {
+        id: properties.index,
+        path,
+        color: '#000000',
+        stock: 7,
+        totalTime: properties.totalTime,
+        totalDistance: properties.totalDistance,
+      };
+    }
   });
 };
 

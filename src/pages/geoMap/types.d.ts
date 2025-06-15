@@ -197,3 +197,5 @@ export interface PedestrianResponse extends TMapBaseResponse {
 export interface CarResponse extends TMapBaseResponse {
   features: CarPathFeature[];
 }
+
+export type PolyFeatures = PedestrianFeature[] | CarPathFeature[] | undefined;

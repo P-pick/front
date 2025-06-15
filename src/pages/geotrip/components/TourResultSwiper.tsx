@@ -5,8 +5,9 @@ import TourSlide from './TourSlide';
 import type { GeoTripLocation } from '@/pages/types';
 import { useGeoLocationBasedTourQuery } from '../service';
 import { BottomSheet } from '@/components';
-import { TourDetail, OverlayButtonGroup } from './';
+import { TourDetail } from './';
 import type { TourSummary } from '@/pages/geotrip/types';
+import { SideButtonGroup } from './SideButtonGroup';
 
 interface TourResultSwiperProps {
   location: GeoTripLocation;
@@ -55,7 +56,7 @@ export default function TourResultSwiper({
           </SwiperSlide>
         ))}
       </Swiper>
-      <OverlayButtonGroup />
+      <SideButtonGroup />
       <div className="absolute w-full h-full bottom-0 left-0">
         <BottomSheet
           isOpen={showDetail}

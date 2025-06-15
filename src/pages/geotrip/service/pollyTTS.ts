@@ -10,7 +10,7 @@ const polly = new PollyClient({
   },
 });
 
-async function getSpeechBlob(text: string): Promise<Blob> {
+const getSpeechBlob = async (text: string): Promise<Blob> => {
   const cmd = new SynthesizeSpeechCommand({
     OutputFormat: 'mp3',
     Text: text,
@@ -27,10 +27,12 @@ async function getSpeechBlob(text: string): Promise<Blob> {
     chunks.push(chunk);
   }
   return new Blob(chunks, { type: 'audio/mpeg' });
-}
+};
 
-export default function usePollySpeechMutation() {
+const usePollySpeechMutation = () => {
   return useMutation({
     mutationFn: (text: string) => getSpeechBlob(text),
   });
-}
+};
+
+export default usePollySpeechMutation;

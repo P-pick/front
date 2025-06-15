@@ -4,8 +4,8 @@ import { useEffect, useState } from 'react';
 
 const useCurrentLocation = () => {
   const [geoLocation, setGeoLocation] = useState<GeoTripLocation>({
-    lat: null,
-    lng: null,
+    lat: 0,
+    lng: 0,
   });
 
   const [isLoading, setIsLoading] = useState<boolean>(true);

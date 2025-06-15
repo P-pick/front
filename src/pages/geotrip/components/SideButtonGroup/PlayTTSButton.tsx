@@ -1,4 +1,4 @@
-import { useTTS } from '@/pages/geotrip/lib/useTTS';
+import useTTS from '../../lib/useTTS';
 
 interface PlayTTSButtonProps {
   text: string;

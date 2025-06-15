@@ -8,7 +8,7 @@ interface UseTTSOptions {
   autoPlay?: boolean;
 }
 
-export function useTTS(text: string, options?: UseTTSOptions) {
+const useTTS = (text: string, options?: UseTTSOptions) => {
   const { autoPlay = true, voiceId = 'Seoyeon' } = options || {};
   const { mutate, ...dist } = usePollySpeechMutation({ voiceId });
   const audioRef = useRef(new Audio());
@@ -70,4 +70,6 @@ export function useTTS(text: string, options?: UseTTSOptions) {
   }, [text]);
 
   return { toggleAudio, ...dist };
-}
+};
+
+export default useTTS;

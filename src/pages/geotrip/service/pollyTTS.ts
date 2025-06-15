@@ -28,14 +28,19 @@ const getSpeechBlob = async ({
     LanguageCode: 'ko-KR',
     Engine: 'neural',
   });
+
   const { AudioStream } = await polly.send(cmd);
 
   if (!AudioStream) throw new Error('TTS 실패');
 
   const chunks: Uint8Array[] = [];
-  for await (const chunk of AudioStream as any) {
-    chunks.push(chunk);
+  const reader = (AudioStream as ReadableStream).getReader();
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    chunks.push(value);
   }
+
   return new Blob(chunks, { type: 'audio/mpeg' });
 };
 

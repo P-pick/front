@@ -25,15 +25,13 @@ export default function TourResultSwiper({
     radius: distance,
     contentTypeId: tourType,
   });
-
   const [showDetail, setShowDetail] = useState(false);
-  const [currentTourInfo, setCurrentTourInfo] = useState<TourSummary>({
-    dist: '',
-    overview: '',
-    title: '',
-  });
-
   const slides = useMemo(() => data.pages.flatMap(p => p.items), [data]);
+  const [currentTourInfo, setCurrentTourInfo] = useState<TourSummary>({
+    dist: slides[0].dist,
+    overview: slides[0].overview,
+    title: slides[0].title,
+  });
   const handleSlideClick = (slide: TourSummary) => {
     setCurrentTourInfo(slide);
     setShowDetail(true);
@@ -56,7 +54,11 @@ export default function TourResultSwiper({
           </SwiperSlide>
         ))}
       </Swiper>
-      <SideButtonGroup />
+      <SideButtonGroup
+        dist={currentTourInfo.dist}
+        overview={currentTourInfo.overview}
+        title={currentTourInfo.title}
+      />
       <div className="absolute w-full h-full bottom-0 left-0">
         <BottomSheet
           isOpen={showDetail}

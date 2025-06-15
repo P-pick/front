@@ -17,6 +17,22 @@ type dataDirectionOption = 0 | 1;
 type CarType = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
 type CarSearchOption = 0 | 1 | 2 | 3 | 4 | 10 | 12 | 19;
 type DetailPosFlag = 0 | 1 | 2;
+export type TransportationType =
+  | 'pedestrian'
+  | 'car'
+  | 'bicycle'
+  | 'public-transportation';
+export type PedestrianPointType =
+  | 'SP' //출발지
+  | 'EP' //도착지
+  | 'PP' //경유지
+  | 'PP1' //경유지1
+  | 'PP2' //경유지2
+  | 'PP3' //경유지3
+  | 'PP4' //경유지4
+  | 'PP5' //경유지5
+  | 'GP'; // 일반안내점
+type CarPointType = 'S' | 'E' | 'B1' | 'B2' | 'B3' | 'N';
 
 export type MarkerType = {
   contentTypeId: AroundContentTypeId;
@@ -25,13 +41,13 @@ export type MarkerType = {
 };
 
 type PedestrianRequestBody = {
-  startX: number; // 출발지 경도
-  startY: number; // 출발지 위도
+  startX: number | null; // 출발지 경도
+  startY: number | null; // 출발지 위도
   angle?: number; // 각도 (0~359), 기본값: 20
   speed?: number; // 진행속도 Km/h, 기본값: 30
   endPoiId?: string; // 목적지 POI ID, 기본값: '10001'
-  endX: number; // 목적지 경도
-  endY: number; // 목적지 위도
+  endX: number | null; // 목적지 경도
+  endY: number | null; // 목적지 위도
   passList?: string; // 경유지 목록, 예: "126.92774822,37.55395475_126.92577620,37.55337145"
   reqCoordType?: CoordType; // 요청 좌표계, 기본값: "WGS84GEO"
   startName: string; // 출발지 명칭 (URL 인코딩된 UTF-8 문자열)
@@ -89,7 +105,7 @@ interface PedestrianNavigationProperties {
   description?: string;
 
   // 출발/도착/경유지 안내
-  pointType?: 'SP' | 'EP' | 'PP' | 'PP1' | 'PP2' | 'PP3' | 'PP4' | 'PP5' | 'GP';
+  pointType?: PedestrianPointType;
   direction?: string;
   nearPoiName?: string;
   nearPoiX?: string;
@@ -112,6 +128,25 @@ interface PedestrianNavigationProperties {
   facilityName?: string;
 }
 
+export type CarPropertiesSPType = {
+  totalDistance: number;
+  totalTime: number;
+  taxiFare: number;
+  index: number;
+  pointIndex: number;
+  name: string;
+  description: string;
+  direction: string;
+  nearPoiName: string;
+  nearPoiX: string;
+  nearPoiY: string;
+  intersectionName: string;
+  facilityType: string;
+  facilityName: string;
+  turnType: number;
+  pointType: CarPointType;
+};
+
 // 길 안내 사용자 정의 프로퍼티
 type GuideProperties = {
   totalDistance?: string; // 예: "3000"
@@ -124,7 +159,7 @@ type GuideProperties = {
   description?: string;
   nextRoadName?: string;
   turnType?: number;
-  pointType?: 'S' | 'E' | 'B1' | 'B2' | 'B3' | 'N';
+  pointType?: CarPointType;
 };
 
 // 도로 및 시설물 정보 사용자 정의 프로퍼티
@@ -148,7 +183,7 @@ export interface PedestrianFeature {
 export interface CarPathFeature {
   type: 'Feature';
   geometry: Geometry;
-  properties: GuideProperties | RoadProperties;
+  properties: GuideProperties | RoadProperties | CarPropertiesSPType;
 }
 
 interface TMapBaseResponse {

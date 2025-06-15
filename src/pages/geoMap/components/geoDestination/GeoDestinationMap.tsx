@@ -1,23 +1,26 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Map, MapMarker, Polyline } from 'react-kakao-maps-sdk';
 import { selectedTransportation } from '../../service';
 import ResizingMap from './ResizingMap';
-
-type Position = {
-  lat: number;
-  lng: number;
-};
+import type { GeoTripLocation } from '@/pages/types';
+import type { TransportationType } from '../../types';
+import { timeConversion } from '../../lib/transportation';
+import SelectTransportationFromGeoMap from './SelectTransportationFromGeoMap';
+import DestinationDetail from './DestinationDetail';
 
 const CustomMarker = ({
   position,
   image,
 }: {
-  position: Position;
+  position: Required<GeoTripLocation>;
   image: string;
 }) => {
   return (
     <MapMarker
-      position={position}
+      position={{
+        lat: position.lat!,
+        lng: position.lng!,
+      }}
       image={{
         src: image,
         size: {
@@ -36,20 +39,15 @@ const CustomMarker = ({
 };
 
 interface GeoDestinationMapProps {
-  start: Position;
-  end: Position;
+  start: GeoTripLocation;
+  end: GeoTripLocation;
 }
 
 export default function GeoDestinationMap({
   start,
   end,
 }: GeoDestinationMapProps) {
-  const [vehicle, setVehicle] = useState<'car' | 'pedestrian'>('pedestrian');
-
-  const onChangeVehicle = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setVehicle(e.target.value as 'car' | 'pedestrian');
-  };
-
+  const [vehicle, setVehicle] = useState<TransportationType>('pedestrian');
   const polylines = selectedTransportation(vehicle, {
     startX: start.lng,
     startY: start.lat,
@@ -59,20 +57,24 @@ export default function GeoDestinationMap({
     endName: '목적지',
   });
 
+  const takeTimeToGo = useMemo(() => {
+    if (polylines.length === 0 || !polylines[0].totalTime) {
+      return null;
+    }
+    return timeConversion.conversionSecToHour(polylines[0].totalTime);
+  }, [polylines]);
+
   return (
     <Map
       id="map"
-      center={{ lat: start.lat, lng: start.lng }}
+      center={{ lat: start.lat!, lng: start.lng! }}
       className="w-full h-full relative"
       level={6}
     >
-      <select
-        className="p-3 bg-blue-300 absolute left-0 top-0 z-10"
-        onChange={onChangeVehicle}
-      >
-        <option value="pedestrian">보행자</option>
-        <option value="car">자동차</option>
-      </select>
+      <SelectTransportationFromGeoMap
+        vehicle={vehicle}
+        setVehicle={setVehicle}
+      />
       <ResizingMap start={start} end={end} />
       {polylines?.map(line => (
         <Polyline
@@ -86,6 +88,7 @@ export default function GeoDestinationMap({
       ))}
       <CustomMarker image="/startpin2.png" position={start} />
       <CustomMarker image="/endpin.png" position={end} />
+      {takeTimeToGo && <DestinationDetail time={takeTimeToGo} />}
     </Map>
   );
 }

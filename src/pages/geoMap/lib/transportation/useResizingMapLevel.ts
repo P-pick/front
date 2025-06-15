@@ -1,8 +1,9 @@
+import type { GeoTripLocation } from '@/pages/types';
 import { useEffect, useMemo } from 'react';
 import { useMap } from 'react-kakao-maps-sdk';
 
 interface UseResizingMapLevel {
-  points: { lat: number; lng: number }[];
+  points: GeoTripLocation[];
 }
 
 export const useResizingMapLevel = ({ points }: UseResizingMapLevel) => {
@@ -11,7 +12,7 @@ export const useResizingMapLevel = ({ points }: UseResizingMapLevel) => {
     const bounds = new kakao.maps.LatLngBounds();
 
     points.forEach(point => {
-      bounds.extend(new kakao.maps.LatLng(point.lat, point.lng));
+      bounds.extend(new kakao.maps.LatLng(point.lat!, point.lng!));
     });
     return bounds;
   }, [points]);

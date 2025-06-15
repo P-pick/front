@@ -19,6 +19,8 @@ const getPedestrianDestinationPath = (
       id: properties.index,
       path,
       color: '#007bff',
+      totalTime: properties.totalTime,
+      totalDistance: properties.totalDistance,
     };
   });
 };

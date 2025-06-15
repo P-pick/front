@@ -8,7 +8,7 @@ import { BottomSheet } from '@/components';
 import { TourDetail } from './';
 import type { TourSummary } from '@/pages/geotrip/types';
 import { SideButtonGroup } from './SideButtonGroup';
-
+import type { Swiper as SwiperType } from 'swiper/types';
 interface TourResultSwiperProps {
   location: GeoTripLocation;
   distance: string;
@@ -32,8 +32,17 @@ export default function TourResultSwiper({
     overview: slides[0].overview,
     title: slides[0].title,
   });
-  const handleSlideClick = (slide: TourSummary) => {
-    setCurrentTourInfo(slide);
+  const handleSlideChange = (swiper: SwiperType) => {
+    const current = slides[swiper.realIndex];
+    if (current) {
+      setCurrentTourInfo({
+        dist: current.dist,
+        overview: current.overview,
+        title: current.title,
+      });
+    }
+  };
+  const handleDetailOpen = () => {
     setShowDetail(true);
   };
 
@@ -47,10 +56,11 @@ export default function TourResultSwiper({
         onReachEnd={() => hasNextPage && fetchNextPage()}
         className="h-full"
         touchMoveStopPropagation={false}
+        onSlideChange={handleSlideChange}
       >
         {slides.map(slide => (
           <SwiperSlide key={slide.contentid}>
-            <TourSlide tourInfo={slide} handleSlideClick={handleSlideClick} />
+            <TourSlide tourInfo={slide} handleDetailOpen={handleDetailOpen} />
           </SwiperSlide>
         ))}
       </Swiper>

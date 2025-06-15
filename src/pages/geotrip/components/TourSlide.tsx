@@ -6,14 +6,12 @@ import type { TourItemWithDetail } from '@/pages/types';
 
 interface TourSlideProps {
   tourInfo: TourItemWithDetail;
-  handleSlideClick: (
-    slide: Pick<TourItemWithDetail, 'title' | 'dist' | 'overview'>
-  ) => void;
+  handleDetailOpen: () => void;
 }
 
 export default function TourSlide({
   tourInfo,
-  handleSlideClick,
+  handleDetailOpen,
 }: TourSlideProps) {
   return (
     <div className="relative text-white w-full h-full flex flex-col items-center">
@@ -54,7 +52,7 @@ export default function TourSlide({
           })}
           <span
             className="text-[12px] text-gray-200 cursor-pointer"
-            onClick={() => handleSlideClick(tourInfo)}
+            onClick={handleDetailOpen}
           >
             ... 더 보기
           </span>

@@ -1,5 +1,5 @@
 import { TRAFFIC } from '@/pages/const/TMAP';
-import type { CarPropertiesSPType, CarResponse } from '../../types';
+import type { CarFeatures, CarPointProperties } from '../../types';
 
 const getCoordinatesPointLines = (coords: number[][]) => {
   return coords.map(coord => ({
@@ -26,7 +26,7 @@ const getCheckedTrafficLevel = (level: number) => {
 };
 
 const getCarDestinationPath = (
-  destination: CarResponse['features'] = []
+  destination: CarFeatures[] = []
 ): {
   id: string;
   path: { lat: number; lng: number }[];
@@ -39,7 +39,7 @@ const getCarDestinationPath = (
     const { geometry, properties } = feature;
 
     if (geometry.type === 'Point') {
-      const spProperties = properties as CarPropertiesSPType;
+      const spProperties = properties as CarPointProperties;
       if (spProperties.pointType === 'S') {
         return [
           {

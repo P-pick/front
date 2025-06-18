@@ -1,5 +1,9 @@
 import { TRAFFIC } from '@/pages/const/TMAP';
-import type { CarFeatures, CarPointProperties } from '../../types';
+import type {
+  CarFeatures,
+  CarPointProperties,
+  PedestrianPolyFeature,
+} from '../../types';
 
 const getCoordinatesPointLines = (coords: number[][]) => {
   return coords.map(coord => ({
@@ -27,14 +31,7 @@ const getCheckedTrafficLevel = (level: number) => {
 
 const getCarDestinationPath = (
   destination: CarFeatures[] = []
-): {
-  id: string;
-  path: { lat: number; lng: number }[];
-  color: string;
-  totalTime?: number;
-  totalDistance?: number;
-  taxiFare?: number;
-}[] => {
+): PedestrianPolyFeature[] => {
   return destination.flatMap(feature => {
     const { geometry, properties } = feature;
 
@@ -50,7 +47,9 @@ const getCarDestinationPath = (
                 lng: geometry.coordinates[0],
               },
             ],
-            color: '#888888 ',
+            color: '#ffffff',
+            stock: 10,
+            zIndex: 2,
             totalTime: spProperties.totalTime,
             totalDistance: spProperties.totalDistance,
             taxiFare: spProperties.taxiFare,
@@ -66,7 +65,9 @@ const getCarDestinationPath = (
               lng: geometry.coordinates[0],
             },
           ],
-          color: '#888888 ',
+          color: '#ffffff',
+          stock: 10,
+          zIndex: 2,
           totalTime: 0,
           totalDistance: 0,
           taxiFare: 0,
@@ -85,6 +86,8 @@ const getCarDestinationPath = (
             id: `${properties.index}-full`,
             path,
             color: '#24aa24',
+            stock: 5,
+            zIndex: 1,
             totalTime: 0,
             totalDistance: 0,
             taxiFare: 0,
@@ -101,6 +104,8 @@ const getCarDestinationPath = (
           id: `${properties.index}-${start}-${end}`,
           path,
           color,
+          stock: 5,
+          zIndex: 1,
           totalTime: 0,
           totalDistance: 0,
           taxiFare: 0,

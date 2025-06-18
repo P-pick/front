@@ -96,9 +96,10 @@ export default function GeoDestinationMap({
             <Polyline
               key={line.id}
               path={line.path}
-              strokeWeight={5}
+              strokeWeight={line.stock}
+              zIndex={line.zIndex || 1}
               strokeColor={line.color}
-              strokeOpacity={0.8}
+              strokeOpacity={1}
               strokeStyle={'solid'}
             />
           )

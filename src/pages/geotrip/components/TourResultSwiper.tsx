@@ -66,12 +66,12 @@ export default function TourResultSwiper({
         ))}
       </Swiper>
       <SideButtonGroup {...currentTourInfo} />
-      <div className="absolute w-full h-full bottom-0 left-0">
+      <div className="absolute w-full h-11/12 bottom-0 left-0">
         <BottomSheet
           isOpen={showDetail}
           onClose={() => setShowDetail(false)}
-          initialY="55%"
-          minHeight={650}
+          initialY="25%"
+          minHeight={400}
         >
           <BottomSheet.Content>
             <TourDetail {...currentTourInfo} />

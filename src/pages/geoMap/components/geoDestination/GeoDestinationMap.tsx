@@ -8,6 +8,7 @@ import { getSelectedTransportationPolylines } from '../../lib/transportation';
 import SelectTransportationFromGeoMap from './SelectTransportationFromGeoMap';
 import DestinationDetail from './DestinationDetail';
 import { gettingConversion } from '../../lib/utils';
+import GetPolylines from './polylines/getPolylines';
 
 const CustomMarker = ({
   position,
@@ -57,6 +58,7 @@ export default function GeoDestinationMap({
     endY: end.lat,
     endName: '목적지',
   });
+
   const polylines = useMemo(() => {
     if (features) {
       return getSelectedTransportationPolylines(vehicle, features);
@@ -90,22 +92,7 @@ export default function GeoDestinationMap({
         setVehicle={setVehicle}
       />
       <ResizingMap start={start} end={end} />
-      {polylines?.map(
-        line =>
-          line && (
-            <Polyline
-              key={line.id}
-              path={line.path}
-              strokeWeight={line.stock}
-              zIndex={line.zIndex || 1}
-              strokeColor={line.color}
-              strokeOpacity={1}
-              strokeStyle={'solid'}
-            />
-          )
-      )}
-      <CustomMarker image="/startpin2.png" position={start} />
-      <CustomMarker image="/endpin.png" position={end} />
+      <GetPolylines key={vehicle} vehicle={vehicle} destination={features} />
       {takeTimeToGo && takeDistanceToGo && (
         <DestinationDetail time={takeTimeToGo} distance={takeDistanceToGo} />
       )}

@@ -2,7 +2,7 @@ import { TRAFFIC } from '@/pages/const/TMAP';
 import type {
   CarFeatures,
   CarPointProperties,
-  PedestrianPolyFeature,
+  CarPolyFeature,
 } from '../../types';
 
 const getCoordinatesPointLines = (coords: number[][]) => {
@@ -31,7 +31,7 @@ const getCheckedTrafficLevel = (level: number) => {
 
 const getCarDestinationPath = (
   destination: CarFeatures[] = []
-): PedestrianPolyFeature[] => {
+): CarPolyFeature[] => {
   return destination.flatMap(feature => {
     const { geometry, properties } = feature;
 

@@ -1,7 +1,7 @@
 import { selectedTransportationList } from '@/pages/const/TRANSPORT';
 import type { TransportationType } from '../../types';
 import clsx from 'clsx';
-import { DeleteIcon, RightArrowIcon } from '@/assets';
+import { DeleteIcon, EndPoint, RightArrowIcon, StartPoint } from '@/assets';
 import { truncate } from '@/pages/geotrip/lib';
 
 interface SelectTransportationFromGeoMapProps {
@@ -29,22 +29,12 @@ export default function SelectTransportationFromGeoMap({
     <div className="absolute top-0 left-0 px-5 w-full h-auto bg-white z-(--z-layer2)">
       <div className="border-1 rounded-2xl w-full border-gray-300 flex justify-between items-center py-3 px-6">
         <div className="flex justify-center items-center gap-2 text-xs font-bold">
-          <img
-            src="/startPoint.png"
-            alt="출발정보아이콘"
-            width={10}
-            height={10}
-          />
+          <StartPoint width={10} height={10} />
           <span>{truncate('출발지', { length: 10 })}</span>
         </div>
         <RightArrowIcon />
         <div className="flex justify-center items-center gap-2 text-xs font-bold">
-          <img
-            src="/endPoint.png"
-            alt="도착정보아이콘"
-            width={10}
-            height={10}
-          />
+          <EndPoint width={10} height={10} />
           <span>{truncate('목적지', { length: 10 })}</span>
         </div>
         <DeleteIcon className="cursor-pointer" />

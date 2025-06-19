@@ -4,12 +4,11 @@ import { selectedTransportation } from '../../service';
 import ResizingMap from './ResizingMap';
 import type { GeoTripLocation } from '@/pages/types';
 import type { TransportationType } from '../../types';
-import {
-  getSelectedTransportationPolylines,
-  timeConversion,
-} from '../../lib/transportation';
+import { getSelectedTransportationPolylines } from '../../lib/transportation';
 import SelectTransportationFromGeoMap from './SelectTransportationFromGeoMap';
 import DestinationDetail from './DestinationDetail';
+import { gettingConversion } from '../../lib/utils';
+import GetPolylines from './polylines/getPolylines';
 
 const CustomMarker = ({
   position,
@@ -59,6 +58,7 @@ export default function GeoDestinationMap({
     endY: end.lat,
     endName: '목적지',
   });
+
   const polylines = useMemo(() => {
     if (features) {
       return getSelectedTransportationPolylines(vehicle, features);
@@ -70,7 +70,14 @@ export default function GeoDestinationMap({
     if (polylines.length === 0 || !polylines[0]?.totalTime) {
       return null;
     }
-    return timeConversion.conversionSecToHour(polylines[0].totalTime);
+    return gettingConversion.conversionSecToHour(polylines[0].totalTime);
+  }, [polylines]);
+
+  const takeDistanceToGo = useMemo(() => {
+    if (polylines.length === 0 || !polylines[0]?.totalDistance) {
+      return null;
+    }
+    return gettingConversion.conversionPathDistance(polylines[0].totalDistance);
   }, [polylines]);
 
   return (
@@ -85,22 +92,10 @@ export default function GeoDestinationMap({
         setVehicle={setVehicle}
       />
       <ResizingMap start={start} end={end} />
-      {polylines?.map(
-        line =>
-          line && (
-            <Polyline
-              key={line.id}
-              path={line.path}
-              strokeWeight={5}
-              strokeColor={line.color}
-              strokeOpacity={0.8}
-              strokeStyle={'solid'}
-            />
-          )
+      <GetPolylines key={vehicle} vehicle={vehicle} destination={features} />
+      {takeTimeToGo && takeDistanceToGo && (
+        <DestinationDetail time={takeTimeToGo} distance={takeDistanceToGo} />
       )}
-      <CustomMarker image="/startpin2.png" position={start} />
-      <CustomMarker image="/endpin.png" position={end} />
-      {takeTimeToGo && <DestinationDetail time={takeTimeToGo} />}
     </Map>
   );
 }

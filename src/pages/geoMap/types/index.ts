@@ -64,4 +64,26 @@ export type MarkerType = {
   altText: string;
 };
 
+export interface PolyBase {
+  id: string;
+  path: {
+    lat: number;
+    lng: number;
+  }[];
+  color: string;
+  stock: number;
+  zIndex: number;
+}
+
+export interface PedestrianPolyFeature extends PolyBase {
+  totalTime?: number;
+  totalDistance?: number;
+}
+
+export interface CarPolyFeature extends PolyBase {
+  totalTime?: number;
+  totalDistance?: number;
+  taxiFare?: number;
+}
+
 export type PolyFeatures = PedestrianFeatures[] | CarFeatures[] | undefined;

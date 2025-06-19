@@ -13,7 +13,7 @@ const getTransportationSelected = (
 ): PolyFeatures => {
   const selectedTransportation = {
     pedestrian: () =>
-      usePedestrianDestination(destination as PedestrianRequestBody)?.features,
+      usePedestrianDestination(destination as PedestrianRequestBody).features,
     car: () => useCarDestination(destination as CarRequestBody)?.features,
     bicycle: () => useCarDestination(destination as CarRequestBody)?.features,
     'public-transportation': () =>

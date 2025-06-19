@@ -3,6 +3,7 @@ import { Home } from '@/pages/home';
 import { GeoTrip } from '@/pages/geotrip';
 import { GeoMap } from '@/pages/geoMap';
 import { GeoSetup } from '@/pages/geoSetup';
+import { TourList } from '@/pages/tourList';
 
 export default function Router() {
   return (
@@ -12,6 +13,7 @@ export default function Router() {
         <Route path="/geo-setup" element={<GeoSetup />} />
         <Route path="/geo-trip" element={<GeoTrip />} />
         <Route path="/geo-map" element={<GeoMap />} />
+        <Route path="/tour-list" element={<TourList />} />
       </Routes>
     </BrowserRouter>
   );

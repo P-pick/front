@@ -9,7 +9,7 @@ export default function PlayTTSButton({ text }: PlayTTSButtonProps) {
 
   return (
     <>
-      <button type="button" onClick={toggleAudio}>
+      <button type="button" onClick={toggleAudio} className="w-10 h-10">
         <svg
           className="cursor-pointer"
           width="40"

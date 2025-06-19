@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { Map, MapMarker, Polyline } from 'react-kakao-maps-sdk';
+import { Map } from 'react-kakao-maps-sdk';
 import { selectedTransportation } from '../../service';
 import ResizingMap from './ResizingMap';
 import type { GeoTripLocation } from '@/pages/types';
@@ -8,37 +8,7 @@ import { getSelectedTransportationPolylines } from '../../lib/transportation';
 import SelectTransportationFromGeoMap from './SelectTransportationFromGeoMap';
 import DestinationDetail from './DestinationDetail';
 import { gettingConversion } from '../../lib/utils';
-import GetPolylines from './polylines/getPolylines';
-
-const CustomMarker = ({
-  position,
-  image,
-}: {
-  position: Required<GeoTripLocation>;
-  image: string;
-}) => {
-  return (
-    <MapMarker
-      position={{
-        lat: position.lat!,
-        lng: position.lng!,
-      }}
-      image={{
-        src: image,
-        size: {
-          width: 45,
-          height: 59,
-        },
-        options: {
-          offset: {
-            x: 23,
-            y: 46,
-          },
-        },
-      }}
-    />
-  );
-};
+import { GetPolylines } from './polylines';
 
 interface GeoDestinationMapProps {
   start: GeoTripLocation;
@@ -59,27 +29,6 @@ export default function GeoDestinationMap({
     endName: '목적지',
   });
 
-  const polylines = useMemo(() => {
-    if (features) {
-      return getSelectedTransportationPolylines(vehicle, features);
-    }
-    return [];
-  }, [vehicle, features]);
-
-  const takeTimeToGo = useMemo(() => {
-    if (polylines.length === 0 || !polylines[0]?.totalTime) {
-      return null;
-    }
-    return gettingConversion.conversionSecToHour(polylines[0].totalTime);
-  }, [polylines]);
-
-  const takeDistanceToGo = useMemo(() => {
-    if (polylines.length === 0 || !polylines[0]?.totalDistance) {
-      return null;
-    }
-    return gettingConversion.conversionPathDistance(polylines[0].totalDistance);
-  }, [polylines]);
-
   return (
     <Map
       id="map"
@@ -93,9 +42,7 @@ export default function GeoDestinationMap({
       />
       <ResizingMap start={start} end={end} />
       <GetPolylines key={vehicle} vehicle={vehicle} destination={features} />
-      {takeTimeToGo && takeDistanceToGo && (
-        <DestinationDetail time={takeTimeToGo} distance={takeDistanceToGo} />
-      )}
+      <DestinationDetail vehicle={vehicle} features={features} />
     </Map>
   );
 }

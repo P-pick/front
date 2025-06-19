@@ -1,6 +1,8 @@
 import { selectedTransportationList } from '@/pages/const/TRANSPORT';
 import type { TransportationType } from '../../types';
 import clsx from 'clsx';
+import { DeleteIcon, RightArrowIcon } from '@/assets';
+import { truncate } from '@/pages/geotrip/lib';
 
 interface SelectTransportationFromGeoMapProps {
   vehicle: TransportationType;
@@ -17,25 +19,38 @@ export default function SelectTransportationFromGeoMap({
 
   const selectedTransportation = (transportation: TransportationType) =>
     clsx(
-      'flex items-center my-2 cursor-pointer rounded-2xl hover:bg-orange-700 transition-colors duration-300',
+      'flex items-center justify-center px-3 py-2 my-3 cursor-pointer rounded-2xl hover:bg-[#FA4032] hover:text-white transition-colors duration-300 gap-1',
       {
-        'bg-orange-500 text-white': transportation === vehicle,
+        'bg-[#FA4032] text-white': transportation === vehicle,
       }
     );
 
   return (
-    <div className="absolute top-0 left-0 px-3 w-full h-auto bg-white z-(--z-layer2)">
-      <div className="border-1 rounded-lg w-full h-8 border-gray-300 flex justify-center items-center p-3">
-        <div className="flex-1">
-          <span>출발지</span>
+    <div className="absolute top-0 left-0 px-5 w-full h-auto bg-white z-(--z-layer2)">
+      <div className="border-1 rounded-2xl w-full border-gray-300 flex justify-between items-center py-3 px-6">
+        <div className="flex justify-center items-center gap-2 text-xs font-bold">
+          <img
+            src="/startPoint.png"
+            alt="출발정보아이콘"
+            width={10}
+            height={10}
+          />
+          <span>{truncate('출발지', { length: 10 })}</span>
         </div>
-        <div>&gt;</div>
-        <div className="flex-1">
-          <span>목적지</span>
+        <RightArrowIcon />
+        <div className="flex justify-center items-center gap-2 text-xs font-bold">
+          <img
+            src="/endPoint.png"
+            alt="도착정보아이콘"
+            width={10}
+            height={10}
+          />
+          <span>{truncate('목적지', { length: 10 })}</span>
         </div>
+        <DeleteIcon className="cursor-pointer" />
       </div>
       <div>
-        <ul className="w-full flex justify-between items-center overflow-x-auto">
+        <ul className="w-full flex justify-between items-center overflow-x-auto gap-2">
           {selectedTransportationList.map(transport => {
             return (
               <li
@@ -43,9 +58,8 @@ export default function SelectTransportationFromGeoMap({
                 className={selectedTransportation(transport.id)}
                 onClick={() => onChangeVehicle(transport.id)}
               >
-                <span className="flex items-center justify-center gap-2 p-2 w-8 h-8">
-                  {transport.icon}
-                </span>
+                {transport.icon}
+                <span className="text-[10px]">{transport.label}</span>
               </li>
             );
           })}

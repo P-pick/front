@@ -8,22 +8,22 @@ import {
 export const selectedTransportationList = [
   {
     id: 'pedestrian',
-    icon: <PedestrianIcon />,
-    label: '보행자',
+    icon: <PedestrianIcon width={16} height={16} />,
+    label: '도보',
   },
   {
     id: 'car',
-    icon: <CarIcon />,
-    label: '자동차',
-  },
-  {
-    id: 'bicycle',
-    icon: <BicycleIcon />,
-    label: '자전거',
+    icon: <CarIcon width={16} height={16} />,
+    label: '차량',
   },
   {
     id: 'public-transportation',
-    icon: <TransportationIcon />,
+    icon: <TransportationIcon width={16} height={16} />,
     label: '대중교통',
+  },
+  {
+    id: 'bicycle',
+    icon: <BicycleIcon width={16} height={16} />,
+    label: '자전거',
   },
 ] as const;

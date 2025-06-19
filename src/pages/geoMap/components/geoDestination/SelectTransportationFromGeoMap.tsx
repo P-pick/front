@@ -19,9 +19,9 @@ export default function SelectTransportationFromGeoMap({
 
   const selectedTransportation = (transportation: TransportationType) =>
     clsx(
-      'flex items-center justify-center px-3 py-2 my-3 cursor-pointer rounded-2xl hover:bg-[#FA4032] hover:text-white transition-colors duration-300 gap-1',
+      'flex items-center justify-center px-3 py-2 my-3 cursor-pointer fill-black rounded-2xl hover:bg-[#FA4032] hover:text-white hover:fill-white transition-colors duration-300 gap-1',
       {
-        'bg-[#FA4032] text-white': transportation === vehicle,
+        'bg-[#FA4032] text-white fill-white': transportation === vehicle,
       }
     );
 
@@ -48,7 +48,7 @@ export default function SelectTransportationFromGeoMap({
                 className={selectedTransportation(transport.id)}
                 onClick={() => onChangeVehicle(transport.id)}
               >
-                {transport.icon}
+                <span>{transport.icon}</span>
                 <span className="text-[10px]">{transport.label}</span>
               </li>
             );

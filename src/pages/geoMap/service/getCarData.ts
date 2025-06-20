@@ -1,6 +1,12 @@
-import type { CarRequestBody, CarResponse } from '../types';
+import type {
+  CarOptionNames,
+  CarRequestBody,
+  CarResponse,
+  CarSearchOption,
+  MultiplePathResponse,
+} from '../types';
 import axios from 'axios';
-import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { TMAP_APP_KEY } from '@/pages/const/TMAP';
 
 const SEARCH_OPTIONS = [
@@ -57,7 +63,9 @@ const getCarDestinationPathInfo = async (
   return response.data;
 };
 
-const useCarDestination = (baseRequest: CarRequestBody) => {
+const useCarDestination = (
+  baseRequest: CarRequestBody
+): MultiplePathResponse[] => {
   const { data } = useQuery({
     queryKey: [
       'carDestination',
@@ -73,16 +81,19 @@ const useCarDestination = (baseRequest: CarRequestBody) => {
         SEARCH_OPTIONS.map(async searchOption => {
           const res = await getCarDestinationPathInfo({
             ...baseRequest,
-            searchOption: searchOption.id,
+            searchOption: searchOption.id as CarSearchOption,
           });
           return {
-            optionId: searchOption.id,
-            name: searchOption.name,
+            optionId: searchOption.id as CarSearchOption,
+            name: searchOption.name as CarOptionNames,
             features: res.features,
           };
         })
       ),
   });
+  if (!data) {
+    return [];
+  }
   return data;
 };
 

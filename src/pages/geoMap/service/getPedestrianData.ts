@@ -1,8 +1,10 @@
 import axios from 'axios';
 import type {
+  MultiplePathResponse,
+  PedestrianOptionNames,
   PedestrianRequestBody,
   PedestrianResponse,
-  PolyFeatures,
+  PedestrianSearchOption,
 } from '../types';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { TMAP_APP_KEY } from '@/pages/const/TMAP';
@@ -46,9 +48,9 @@ const getPedestrianDestinationPathInfo = async (
   return response.data;
 };
 
-const usePedestrianDestination = (baseRequest: PedestrianRequestBody) => {
-  //GuDoYoon 내 위치 정보 가져오기 hook으로 교체 예정
-
+const usePedestrianDestination = (
+  baseRequest: PedestrianRequestBody
+): MultiplePathResponse[] => {
   const { data } = useSuspenseQuery({
     queryKey: [
       'pedestrianDestination',

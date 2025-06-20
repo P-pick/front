@@ -6,7 +6,7 @@ import type { GeoTripLocation } from '@/pages/types';
 import { useGeoLocationBasedTourQuery } from '../service';
 import { BottomSheet } from '@/components';
 import { TourDetail } from './';
-import type { TourSummary } from '@/pages/geotrip/types';
+import type { TourSummary } from '../types';
 import { SideButtonGroup } from './SideButtonGroup';
 import type { Swiper as SwiperType } from 'swiper/types';
 interface TourResultSwiperProps {

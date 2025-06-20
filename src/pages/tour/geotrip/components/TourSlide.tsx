@@ -1,4 +1,4 @@
-import { truncate } from '@/pages/geotrip/lib';
+import { truncate } from '../lib';
 import { DistanceTimeInfo } from './';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';

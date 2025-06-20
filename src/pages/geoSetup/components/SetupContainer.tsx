@@ -39,7 +39,7 @@ export default function SetupContainer() {
       nextStep();
     } else {
       navigate({
-        pathname: '/geo-trip',
+        pathname: '/tour/geo-trip',
         search: searchParams.toString(),
       });
     }

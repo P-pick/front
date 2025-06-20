@@ -1,14 +1,13 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { Map } from 'react-kakao-maps-sdk';
 import { selectedTransportation } from '../../service';
 import ResizingMap from './ResizingMap';
 import type { GeoTripLocation } from '@/pages/types';
 import type { TransportationType } from '../../types';
-import { getSelectedTransportationPolylines } from '../../lib/transportation';
 import SelectTransportationFromGeoMap from './SelectTransportationFromGeoMap';
 import DestinationDetail from './DestinationDetail';
-import { gettingConversion } from '../../lib/utils';
 import { GetPolylines } from './polylines';
+import GeoSearchOptions from './GeoSearchOptions';
 
 interface GeoDestinationMapProps {
   start: GeoTripLocation;
@@ -42,7 +41,7 @@ export default function GeoDestinationMap({
       />
       <ResizingMap start={start} end={end} />
       <GetPolylines key={vehicle} vehicle={vehicle} destination={features} />
-      <DestinationDetail vehicle={vehicle} features={features} />
+      <GeoSearchOptions vehicle={vehicle} features={features} />
     </Map>
   );
 }

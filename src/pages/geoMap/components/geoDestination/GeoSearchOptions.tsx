@@ -1,26 +1,16 @@
 import { FreeMode } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import type { PolyFeatures } from '../../types';
 import DestinationDetail from './DestinationDetail';
 import { useStore } from 'zustand';
 import { useTransportation } from '../../store';
+import type { MultiplePathResponse } from '../../types';
 
 interface DestinationDetailProps {
-  features: PolyFeatures;
+  features: MultiplePathResponse[];
 }
 
 export default function GeoSearchOptions({ features }: DestinationDetailProps) {
   const { setSearchOptions } = useStore(useTransportation);
-
-  const contentOptions = [
-    {
-      searchId: 0,
-      name: '추천',
-    },
-    { searchId: 4, name: '추천 + 대로우선' },
-    { searchId: 10, name: '최단거리' },
-    { searchId: 30, name: '최단거리 + 계산제외' },
-  ];
 
   return (
     <div className="absolute bottom-0 left-0 z-(--z-layer2) w-full h-1/5 py-3">
@@ -31,16 +21,16 @@ export default function GeoSearchOptions({ features }: DestinationDetailProps) {
         slidesPerView="auto"
         className="px-2 cursor-grab"
       >
-        {contentOptions.map(option => (
+        {features.map(option => (
           <SwiperSlide
-            key={option.searchId}
+            key={option.optionId}
             className="!w-auto mx-2 min-w-35"
-            onClick={() => setSearchOptions(option.searchId)}
+            onClick={() => setSearchOptions(option.optionId)}
           >
             <DestinationDetail
-              searchId={option.searchId}
+              searchId={option.optionId}
               searchName={option.name}
-              features={features}
+              features={option.features}
             />
           </SwiperSlide>
         ))}

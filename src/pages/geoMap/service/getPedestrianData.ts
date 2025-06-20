@@ -1,7 +1,30 @@
 import axios from 'axios';
-import type { PedestrianRequestBody, PedestrianResponse } from '../types';
+import type {
+  PedestrianRequestBody,
+  PedestrianResponse,
+  PolyFeatures,
+} from '../types';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { TMAP_APP_KEY } from '@/pages/const/TMAP';
+
+const SEARCH_OPTIONS = [
+  {
+    id: 0,
+    name: '추천',
+  },
+  {
+    id: 4,
+    name: '추천 + 대로우선',
+  },
+  {
+    id: 10,
+    name: '최단거리',
+  },
+  {
+    id: 30,
+    name: '최단거리 + 계단제외',
+  },
+] as const;
 
 const getPedestrianDestinationPathInfo = async (
   pedestrianRequest: PedestrianRequestBody
@@ -19,23 +42,37 @@ const getPedestrianDestinationPathInfo = async (
       },
     }
   );
+
   return response.data;
 };
 
-const usePedestrianDestination = (destination: PedestrianRequestBody) => {
+const usePedestrianDestination = (baseRequest: PedestrianRequestBody) => {
   //GuDoYoon 내 위치 정보 가져오기 hook으로 교체 예정
 
   const { data } = useSuspenseQuery({
     queryKey: [
       'pedestrianDestination',
-      destination.startX,
-      destination.startY,
-      destination.endX,
-      destination.endY,
-      destination.startName,
-      destination.endName,
+      baseRequest.startX,
+      baseRequest.startY,
+      baseRequest.endX,
+      baseRequest.endY,
+      baseRequest.startName,
+      baseRequest.endName,
     ],
-    queryFn: () => getPedestrianDestinationPathInfo(destination),
+    queryFn: () =>
+      Promise.all(
+        SEARCH_OPTIONS.map(async searchOption => {
+          const res = await getPedestrianDestinationPathInfo({
+            ...baseRequest,
+            searchOption: searchOption.id,
+          });
+          return {
+            optionId: searchOption.id,
+            name: searchOption.name,
+            features: res.features,
+          };
+        })
+      ),
   });
   return data;
 };

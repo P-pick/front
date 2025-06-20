@@ -89,5 +89,25 @@ export interface CarPolyFeature extends PolyBase {
   taxiFare?: number;
 }
 
+export type PedestrianOptionNames =
+  | '추천'
+  | '추천 + 대로우선'
+  | '최단거리'
+  | '최단거리 + 계단제외';
+export type CarOptionNames =
+  | '추천도로'
+  | '무료우선'
+  | '최소시간'
+  | '초보운전'
+  | '고속도로우선'
+  | '최단거리 + 유/무료'
+  | '이륜차도로우선'
+  | '어린이보호구역 회피';
+
 export type PolyFeatures = PedestrianFeatures[] | CarFeatures[] | undefined;
 export type SearchOptions = CarSearchOptions | PedestrianSearchOptions;
+export type MultiplePathResponse = {
+  optionId: SearchOptions;
+  name: PedestrianOptionNames | CarOptionNames;
+  features: PolyFeatures;
+};

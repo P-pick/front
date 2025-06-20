@@ -36,7 +36,10 @@ export default function GeoDestinationMap({
     >
       <SelectTransportationFromGeoMap />
       <ResizingMap start={start} end={end} />
-      <GetPolylines key={vehicle} destination={features} />
+      {features &&
+        features.map(data => (
+          <GetPolylines key={vehicle} destination={data.features} />
+        ))}
       <GeoSearchOptions features={features} />
     </Map>
   );

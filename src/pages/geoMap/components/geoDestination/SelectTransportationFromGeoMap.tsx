@@ -7,10 +7,11 @@ import { useStore } from 'zustand';
 import { useTransportation } from '../../store';
 
 export default function SelectTransportationFromGeoMap() {
-  const { vehicle, setVehicle } = useStore(useTransportation);
+  const { vehicle, setVehicle, setSearchOptions } = useStore(useTransportation);
 
   const onChangeVehicle = (transportation: TransportationType) => {
     setVehicle(transportation);
+    setSearchOptions(0);
   };
 
   const selectedTransportation = (transportation: TransportationType) =>

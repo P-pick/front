@@ -1,10 +1,8 @@
 import axios from 'axios';
 import type {
   MultiplePathResponse,
-  PedestrianOptionNames,
   PedestrianRequestBody,
   PedestrianResponse,
-  PedestrianSearchOption,
 } from '../types';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { TMAP_APP_KEY } from '@/pages/const/TMAP';

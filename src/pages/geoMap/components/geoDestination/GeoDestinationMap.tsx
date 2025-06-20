@@ -38,7 +38,11 @@ export default function GeoDestinationMap({
       <ResizingMap start={start} end={end} />
       {features &&
         features.map(data => (
-          <GetPolylines key={vehicle} destination={data.features} />
+          <GetPolylines
+            key={`${vehicle}-${data.optionId}`}
+            destination={data.features}
+            searchOption={data.optionId}
+          />
         ))}
       <GeoSearchOptions features={features} />
     </Map>

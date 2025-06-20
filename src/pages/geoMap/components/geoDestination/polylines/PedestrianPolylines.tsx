@@ -1,13 +1,22 @@
-import type { PedestrianFeatures } from '@/pages/geoMap/types';
+import type {
+  PedestrianFeatures,
+  PedestrianSearchOption,
+} from '@/pages/geoMap/types';
 import type { PointProperties } from '@/pages/geoMap/types/pedestrianType';
 import { Polyline } from 'react-kakao-maps-sdk';
 import Point from './Point';
+import { useStore } from 'zustand';
+import { useTransportation } from '@/pages/geoMap/store';
 
 export default function PedestrianPolylines({
   destination,
+  searchOption,
 }: {
   destination: PedestrianFeatures[];
+  searchOption: PedestrianSearchOption;
 }) {
+  const { searchOptions: selectedSearchOption } = useStore(useTransportation);
+
   return destination.map(feature => {
     const { geometry, properties } = feature;
 
@@ -18,12 +27,16 @@ export default function PedestrianPolylines({
       const spProperties = properties as PointProperties;
 
       return (
-        <Point
-          key={`pedestrian-${spProperties.index}`}
-          position={path[0]}
-          pointType={spProperties.pointType}
-          zIndex={2}
-        />
+        <>
+          {selectedSearchOption === searchOption && (
+            <Point
+              key={`pedestrian-point-${searchOption}-${spProperties.index}`}
+              position={path[0]}
+              pointType={spProperties.pointType}
+              zIndex={2}
+            />
+          )}
+        </>
       );
     }
 
@@ -35,12 +48,14 @@ export default function PedestrianPolylines({
 
       return (
         <Polyline
-          key={`pedestrian-${properties.index}`}
+          key={`pedestrian-lineString-${searchOption}-${properties.index}`}
           path={path}
-          strokeColor="#007bff"
+          strokeColor={
+            selectedSearchOption === searchOption ? '#007bff' : '#999999'
+          }
           strokeOpacity={0.8}
           strokeWeight={5}
-          zIndex={1}
+          zIndex={selectedSearchOption === searchOption ? 2 : 1}
         />
       );
     }

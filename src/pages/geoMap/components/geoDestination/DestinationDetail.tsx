@@ -1,24 +1,24 @@
 import { useMemo } from 'react';
 import { getSelectedTransportationPolylines } from '../../lib/transportation';
-import type { PolyFeatures, TransportationType } from '../../types';
+import type { PolyFeatures } from '../../types';
 import { gettingConversion } from '../../lib/utils';
 import clsx from 'clsx';
+import { useStore } from 'zustand';
+import { useTransportation } from '../../store';
 
 interface DestinationDetailProps {
   searchId: number;
   searchName: string;
-  vehicle: TransportationType;
   features: PolyFeatures;
-  getSearchId: number;
 }
 
 export default function DestinationDetail({
   searchId,
   searchName,
-  vehicle,
   features,
-  getSearchId,
 }: DestinationDetailProps) {
+  const { vehicle, searchOptions } = useStore(useTransportation);
+
   const polylines = useMemo(() => {
     if (features) {
       return getSelectedTransportationPolylines(vehicle, features);
@@ -40,11 +40,11 @@ export default function DestinationDetail({
   }, [polylines]);
 
   const isSelectedBorder = clsx('border-[#4D5A6A] border-1', {
-    'border-[#FA4032]': getSearchId === searchId,
+    'border-[#FA4032]': searchOptions === searchId,
   });
 
   const isSelectedH2 = clsx('text-[#4D5A6A]', {
-    'text-[#FA4032]': getSearchId === searchId,
+    'text-[#FA4032]': searchOptions === searchId,
   });
 
   return (

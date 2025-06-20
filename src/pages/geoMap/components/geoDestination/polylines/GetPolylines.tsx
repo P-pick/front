@@ -2,20 +2,18 @@ import type {
   CarFeatures,
   PedestrianFeatures,
   PolyFeatures,
-  TransportationType,
 } from '@/pages/geoMap/types';
 import PedestrianPolylines from './PedestrianPolylines';
 import CarPolylines from './CarPolylines';
+import { useStore } from 'zustand';
+import { useTransportation } from '@/pages/geoMap/store';
 
 interface GetPolylinesProps {
-  vehicle: TransportationType;
   destination: PolyFeatures;
 }
 
-export default function GetPolylines({
-  vehicle,
-  destination,
-}: GetPolylinesProps) {
+export default function GetPolylines({ destination }: GetPolylinesProps) {
+  const { vehicle } = useStore(useTransportation);
   const transportation = {
     pedestrian: (
       <PedestrianPolylines destination={destination as PedestrianFeatures[]} />

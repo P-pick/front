@@ -1,19 +1,16 @@
 import { FreeMode } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import type { PolyFeatures, TransportationType } from '../../types';
+import type { PolyFeatures } from '../../types';
 import DestinationDetail from './DestinationDetail';
-import { useState } from 'react';
+import { useStore } from 'zustand';
+import { useTransportation } from '../../store';
 
 interface DestinationDetailProps {
-  vehicle: TransportationType;
   features: PolyFeatures;
 }
 
-export default function GeoSearchOptions({
-  vehicle,
-  features,
-}: DestinationDetailProps) {
-  const [getSearchId, setSearchId] = useState(0);
+export default function GeoSearchOptions({ features }: DestinationDetailProps) {
+  const { setSearchOptions } = useStore(useTransportation);
 
   const contentOptions = [
     {
@@ -38,14 +35,12 @@ export default function GeoSearchOptions({
           <SwiperSlide
             key={option.searchId}
             className="!w-auto mx-2 min-w-35"
-            onClick={() => setSearchId(option.searchId)}
+            onClick={() => setSearchOptions(option.searchId)}
           >
             <DestinationDetail
               searchId={option.searchId}
               searchName={option.name}
-              vehicle={vehicle}
               features={features}
-              getSearchId={getSearchId}
             />
           </SwiperSlide>
         ))}

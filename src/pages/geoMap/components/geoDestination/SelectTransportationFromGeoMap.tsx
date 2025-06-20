@@ -3,16 +3,12 @@ import type { TransportationType } from '../../types';
 import clsx from 'clsx';
 import { DeleteIcon, EndPoint, RightArrowIcon, StartPoint } from '@/assets';
 import { truncate } from '@/pages/geotrip/lib';
+import { useStore } from 'zustand';
+import { useTransportation } from '../../store';
 
-interface SelectTransportationFromGeoMapProps {
-  vehicle: TransportationType;
-  setVehicle: React.Dispatch<React.SetStateAction<TransportationType>>;
-}
+export default function SelectTransportationFromGeoMap() {
+  const { vehicle, setVehicle } = useStore(useTransportation);
 
-export default function SelectTransportationFromGeoMap({
-  vehicle,
-  setVehicle,
-}: SelectTransportationFromGeoMapProps) {
   const onChangeVehicle = (transportation: TransportationType) => {
     setVehicle(transportation);
   };

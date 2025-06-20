@@ -1,5 +1,8 @@
-import type { CarFeatures } from './carType';
-import type { PedestrianFeatures } from './pedestrianType';
+import type { CarFeatures, SearchOption as CarSearchOptions } from './carType';
+import type {
+  PedestrianFeatures,
+  SearchOption as PedestrianSearchOptions,
+} from './pedestrianType';
 
 export type {
   TollgateFareOption as CarTollgateFareOption,
@@ -87,3 +90,4 @@ export interface CarPolyFeature extends PolyBase {
 }
 
 export type PolyFeatures = PedestrianFeatures[] | CarFeatures[] | undefined;
+export type SearchOptions = CarSearchOptions | PedestrianSearchOptions;

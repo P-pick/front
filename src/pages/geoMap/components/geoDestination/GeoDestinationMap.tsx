@@ -1,13 +1,12 @@
-import { useState } from 'react';
 import { Map } from 'react-kakao-maps-sdk';
 import { selectedTransportation } from '../../service';
 import ResizingMap from './ResizingMap';
 import type { GeoTripLocation } from '@/pages/types';
-import type { TransportationType } from '../../types';
 import SelectTransportationFromGeoMap from './SelectTransportationFromGeoMap';
-import DestinationDetail from './DestinationDetail';
 import { GetPolylines } from './polylines';
 import GeoSearchOptions from './GeoSearchOptions';
+import { useTransportation } from '../../store';
+import { useStore } from 'zustand';
 
 interface GeoDestinationMapProps {
   start: GeoTripLocation;
@@ -18,7 +17,7 @@ export default function GeoDestinationMap({
   start,
   end,
 }: GeoDestinationMapProps) {
-  const [vehicle, setVehicle] = useState<TransportationType>('pedestrian');
+  const { vehicle } = useStore(useTransportation);
   const features = selectedTransportation(vehicle, {
     startX: start.lng,
     startY: start.lat,
@@ -35,13 +34,10 @@ export default function GeoDestinationMap({
       className="w-full h-full relative"
       level={6}
     >
-      <SelectTransportationFromGeoMap
-        vehicle={vehicle}
-        setVehicle={setVehicle}
-      />
+      <SelectTransportationFromGeoMap />
       <ResizingMap start={start} end={end} />
-      <GetPolylines key={vehicle} vehicle={vehicle} destination={features} />
-      <GeoSearchOptions vehicle={vehicle} features={features} />
+      <GetPolylines key={vehicle} destination={features} />
+      <GeoSearchOptions features={features} />
     </Map>
   );
 }

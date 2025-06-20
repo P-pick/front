@@ -1,8 +1,8 @@
-import { truncate } from '../lib';
-import { DistanceTimeInfo } from './';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
 import type { TourItemWithDetail } from '@/pages/types';
+import { DistanceTimeInfo } from '@/pages/tour/components';
+import { truncate } from '@/lib';
 
 interface TourSlideProps {
   tourInfo: TourItemWithDetail;

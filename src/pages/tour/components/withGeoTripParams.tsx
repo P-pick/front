@@ -8,7 +8,7 @@ interface InjectedProps {
   tourType: number;
 }
 
-export function withGeoTripParams<P extends InjectedProps>(
+export default function withGeoTripParams<P extends InjectedProps>(
   WrappedComponent: React.ComponentType<P>
 ) {
   return function GeoTripWrapper(props: Omit<P, keyof InjectedProps>) {

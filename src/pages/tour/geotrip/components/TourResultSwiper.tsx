@@ -3,13 +3,13 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Navigation, Mousewheel } from 'swiper/modules';
 import TourSlide from './TourSlide';
 import type { GeoTripLocation } from '@/pages/types';
-import { useGeoLocationBasedTourQuery } from '../service';
+import { useGeoLocationBasedTourQuery } from '../../service';
 import { BottomSheet } from '@/components';
 import { TourDetail } from './';
 import type { TourSummary } from '../types';
 import { SideButtonGroup } from './SideButtonGroup';
 import type { Swiper as SwiperType } from 'swiper/types';
-import { withGeoTripParams } from '@/pages/tour/components/withGeoTripParams';
+import { withGeoTripParams } from '@/pages/tour/components';
 interface TourResultSwiperProps {
   location: GeoTripLocation;
   distance: string;

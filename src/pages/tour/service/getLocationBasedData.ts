@@ -83,7 +83,6 @@ const getLocationBasedData = async ({
     })
   );
 
-  // null 제거
   const itemsWithDetail = settledResults
     .filter(r => r.status === 'fulfilled' && r.value !== null)
     .map(r => (r as PromiseFulfilledResult<TourItemWithDetail>).value);

@@ -1,9 +1,16 @@
 import { TourList } from '@/assets';
-import { Link } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 export default function TourListButton() {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const currentParams = new URLSearchParams(location.search);
+  const handleClick = () => {
+    navigate(`/tour/list?${currentParams.toString()}`);
+  };
   return (
-    <Link to="/tour/list">
+    <button onClick={handleClick}>
       <TourList />
-    </Link>
+    </button>
   );
 }

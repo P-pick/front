@@ -9,13 +9,13 @@ import { TourDetail } from './';
 import type { TourSummary } from '../types';
 import { SideButtonGroup } from './SideButtonGroup';
 import type { Swiper as SwiperType } from 'swiper/types';
+import { withGeoTripParams } from '@/pages/tour/components/withGeoTripParams';
 interface TourResultSwiperProps {
   location: GeoTripLocation;
   distance: string;
   tourType: number;
 }
-
-export default function TourResultSwiper({
+function TourResultSwiper({
   location,
   distance,
   tourType,
@@ -89,3 +89,5 @@ export default function TourResultSwiper({
     </>
   );
 }
+
+export default withGeoTripParams(TourResultSwiper);

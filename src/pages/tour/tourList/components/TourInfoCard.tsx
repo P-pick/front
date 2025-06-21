@@ -1,6 +1,6 @@
 import { Heart, Option } from '@/assets';
 import { truncate } from '@/lib';
-import { TOUR_TYPE } from '@/pages/const';
+import { TOUR_TYPE } from '@/pages/const/MARKER';
 import { DistanceTimeInfo } from '@/pages/tour/components';
 import type { TourItemWithDetail } from '@/pages/types';
 

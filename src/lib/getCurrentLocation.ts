@@ -1,8 +1,8 @@
-import type { GeoTripLocation } from '../../types';
+import type { GeoTripLocation } from '@/pages/types';
 
-function getCurrentLocation(
+const getCurrentLocation = (
   options?: PositionOptions
-): Promise<GeoTripLocation> {
+): Promise<GeoTripLocation> => {
   return new Promise((resolve, reject) => {
     if (!navigator.geolocation) {
       reject(new Error('Geolocation is not supported by this browser.'));
@@ -20,6 +20,6 @@ function getCurrentLocation(
       options
     );
   });
-}
+};
 
 export default getCurrentLocation;

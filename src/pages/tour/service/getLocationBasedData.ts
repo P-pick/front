@@ -50,33 +50,42 @@ const getLocationBasedData = async ({
   }
 
   const baseItems = response.data.response.body.items.item;
-  const itemsWithDetail = await Promise.all(
+  const settledResults = await Promise.allSettled(
     baseItems.map(async (item, index) => {
-      const params = { contentId: item.contentid, _type: 'json' };
-      const [commonRes, imageRes] = await Promise.all([
-        api.get<ApiResponse<{ overview: string }[]>>(`/detailCommon2`, {
-          params,
-        }),
-        api.get<ApiResponse<TourDetailImage[]>>(`/detailImage2`, { params }),
-      ]);
+      try {
+        const params = { contentId: item.contentid, _type: 'json' };
+        const [commonRes, imageRes] = await Promise.all([
+          api.get<ApiResponse<{ overview: string }[]>>(`/detailCommon2`, {
+            params,
+          }),
+          api.get<ApiResponse<TourDetailImage[]>>(`/detailImage2`, { params }),
+        ]);
 
-      const firstImage: TourDetailImage = {
-        imgname: baseItems[index].firstimage,
-        originimgurl: baseItems[index].firstimage,
-        serialnum: String(index),
-      };
+        const firstImage: TourDetailImage = {
+          imgname: baseItems[index].firstimage,
+          originimgurl: baseItems[index].firstimage,
+          serialnum: String(index),
+        };
 
-      const images = imageRes.data.response.body.items.item
-        ? [...imageRes.data.response.body.items.item]
-        : [firstImage];
+        const images = imageRes.data.response.body.items.item
+          ? [...imageRes.data.response.body.items.item]
+          : [firstImage];
 
-      return {
-        ...item,
-        overview: commonRes.data.response.body.items.item[0]?.overview ?? '',
-        images,
-      };
+        return {
+          ...item,
+          overview: commonRes.data.response.body.items.item[0]?.overview ?? '',
+          images,
+        };
+      } catch (e) {
+        console.warn('상세정보 불러오기 실패:', item.contentid, e);
+        return null;
+      }
     })
   );
+
+  const itemsWithDetail = settledResults
+    .filter(r => r.status === 'fulfilled' && r.value !== null)
+    .map(r => (r as PromiseFulfilledResult<TourItemWithDetail>).value);
 
   return {
     items: itemsWithDetail,

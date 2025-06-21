@@ -1,8 +1,7 @@
 import { BackButton, MenuIcon } from '@/components';
-import { GeoTripInitializer } from './components';
-import { Suspense } from 'react';
+import { Outlet } from 'react-router-dom';
 
-export default function GeoTrip() {
+export default function Tour() {
   return (
     <section className="flex flex-col h-full w-full">
       <div className="h-full w-full relative">
@@ -10,9 +9,7 @@ export default function GeoTrip() {
           <BackButton />
           <MenuIcon />
         </div>
-        <Suspense fallback={<div>임시로딩</div>}>
-          <GeoTripInitializer />
-        </Suspense>
+        <Outlet />
       </div>
     </section>
   );

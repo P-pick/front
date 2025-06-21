@@ -1,8 +1,8 @@
-import { truncate } from '@/pages/geotrip/lib';
-import { DistanceTimeInfo } from './';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
 import type { TourItemWithDetail } from '@/pages/types';
+import { DistanceTimeInfo } from '@/pages/tour/components';
+import { truncate } from '@/lib';
 
 interface TourSlideProps {
   tourInfo: TourItemWithDetail;
@@ -42,7 +42,7 @@ export default function TourSlide({
       <div className="w-full absolute z-(--z-layer2) bottom-0 left-0 px-4">
         <h1 className="text-2xl font-bold">{tourInfo.title}</h1>
         <div className="flex justify-between">
-          <DistanceTimeInfo dist={tourInfo.dist} iconFill="#ffffff" />
+          <DistanceTimeInfo dist={tourInfo.dist} iconFill="white" />
         </div>
         <div className="mt-7" />
         <p>

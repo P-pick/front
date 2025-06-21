@@ -2,7 +2,6 @@ import { AnimatePresence, motion, useDragControls } from 'framer-motion';
 import {
   Children,
   isValidElement,
-  useEffect,
   type PropsWithChildren,
   type ReactNode,
 } from 'react';
@@ -31,7 +30,6 @@ function BottomSheet({
   isOpen,
   onClose,
   children,
-  showOverlay = true,
   initialY = '0%',
   minHeight = 400,
 }: PropsWithChildren<BottomSheetProps>) {
@@ -52,26 +50,10 @@ function BottomSheet({
     }
   });
 
-  useEffect(() => {
-    document.body.style.overflow = isOpen ? 'hidden' : '';
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [isOpen]);
-
   return (
     <AnimatePresence>
       {isOpen && (
         <>
-          {showOverlay && (
-            <motion.div
-              className="absolute inset-0 bg-black/30 z-1000"
-              onClick={onClose}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            />
-          )}
           <motion.div
             initial={{ y: '100%' }}
             animate={{ y: '0%' }}
@@ -82,7 +64,7 @@ function BottomSheet({
               duration: 0.3,
               ease: 'easeInOut',
             }}
-            className="absolute bottom-0 left-0 w-full z-1200"
+            className="absolute bottom-0 left-0 w-full z-1200 h-full"
           >
             <motion.div
               drag="y"
@@ -112,7 +94,10 @@ function BottomSheet({
             </motion.div>
 
             {footerChildren}
-            <div className="absolute left-0 bottom-0 inset-x-0 bg-white z-1000 h-50" />
+            <div
+              className="absolute left-0 bottom-0 inset-x-0 bg-white z-1000"
+              style={{ height: `${minHeight - 50}px` }}
+            />
           </motion.div>
         </>
       )}

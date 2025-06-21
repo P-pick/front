@@ -1,4 +1,4 @@
-import { Heart, Option } from '@/assets';
+import { HeartIcon, OptionIcon } from '@/assets';
 import { truncate } from '@/lib';
 import { TOUR_TYPE } from '@/pages/const/MARKER';
 import { DistanceTimeInfo } from '@/pages/tour/components';
@@ -52,10 +52,10 @@ export default function TourInfoCard({ tourInfo }: TourInfoCardProps) {
         </div>
         <nav className="flex gap-2.5" aria-label="카드 옵션">
           <button aria-label="옵션 보기">
-            <Option />
+            <OptionIcon />
           </button>
           <button aria-label="찜하기">
-            <Heart />
+            <HeartIcon />
           </button>
         </nav>
       </header>

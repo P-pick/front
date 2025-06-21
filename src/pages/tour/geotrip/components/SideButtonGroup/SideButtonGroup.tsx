@@ -1,11 +1,11 @@
 import type { TourSummary } from '../../types';
-import { PlayTTSButton, TourListIcon } from './';
+import { PlayTTSButton, TourListButton } from './';
 
 export default function OverlayButtonGroup({ overview }: TourSummary) {
   return (
     <div className="absolute bottom-1/2 right-0 z-100 flex flex-col gap-5 pr-[19px]">
       <PlayTTSButton text={overview} />
-      <TourListIcon />
+      <TourListButton />
     </div>
   );
 }

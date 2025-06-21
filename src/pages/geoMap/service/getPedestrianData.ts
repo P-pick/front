@@ -42,7 +42,6 @@ const getPedestrianDestinationPathInfo = async (
       },
     }
   );
-
   return response.data;
 };
 
@@ -59,21 +58,29 @@ const usePedestrianDestination = (
       baseRequest.startName,
       baseRequest.endName,
     ],
-    queryFn: () =>
-      Promise.all(
-        SEARCH_OPTIONS.map(async searchOption => {
-          const res = await getPedestrianDestinationPathInfo({
+    queryFn: async () => {
+      const results = await Promise.allSettled(
+        SEARCH_OPTIONS.map(searchOption =>
+          getPedestrianDestinationPathInfo({
             ...baseRequest,
             searchOption: searchOption.id,
-          });
-          return {
+          }).then(res => ({
             optionId: searchOption.id,
             name: searchOption.name,
             features: res.features,
-          };
-        })
-      ),
+          }))
+        )
+      );
+
+      return results
+        .filter(result => result.status === 'fulfilled')
+        .map(
+          result =>
+            (result as PromiseFulfilledResult<MultiplePathResponse>).value
+        );
+    },
   });
+
   return data;
 };
 

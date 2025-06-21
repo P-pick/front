@@ -7,6 +7,7 @@ import { GetPolylines } from './polylines';
 import GeoSearchOptions from './GeoSearchOptions';
 import { useTransportation } from '../../store';
 import { useStore } from 'zustand';
+import CurrentDeviceLocation from '../CurrentDeviceLocation';
 
 interface GeoDestinationMapProps {
   start: GeoTripLocation;
@@ -28,12 +29,7 @@ export default function GeoDestinationMap({
   });
 
   return (
-    <Map
-      id="map"
-      center={{ lat: start.lat!, lng: start.lng! }}
-      className="w-full h-full relative"
-      level={6}
-    >
+    <Map id="map" center={start} className="w-full h-full relative" level={6}>
       <SelectTransportationFromGeoMap />
       <ResizingMap start={start} end={end} />
       {features &&
@@ -45,6 +41,7 @@ export default function GeoDestinationMap({
           />
         ))}
       <GeoSearchOptions features={features} />
+      <CurrentDeviceLocation />
     </Map>
   );
 }

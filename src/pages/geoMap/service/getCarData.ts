@@ -76,25 +76,30 @@ const useCarDestination = (
       baseRequest.startName,
       baseRequest.endName,
     ],
-    queryFn: () =>
-      Promise.all(
-        SEARCH_OPTIONS.map(async searchOption => {
-          const res = await getCarDestinationPathInfo({
+    queryFn: async () => {
+      const results = await Promise.allSettled(
+        SEARCH_OPTIONS.map(searchOption =>
+          getCarDestinationPathInfo({
             ...baseRequest,
             searchOption: searchOption.id as CarSearchOption,
-          });
-          return {
+          }).then(res => ({
             optionId: searchOption.id as CarSearchOption,
             name: searchOption.name as CarOptionNames,
             features: res.features,
-          };
-        })
-      ),
+          }))
+        )
+      );
+
+      return results
+        .filter(result => result.status === 'fulfilled')
+        .map(
+          result =>
+            (result as PromiseFulfilledResult<MultiplePathResponse>).value
+        );
+    },
   });
-  if (!data) {
-    return [];
-  }
-  return data;
+
+  return data ?? [];
 };
 
 export default useCarDestination;

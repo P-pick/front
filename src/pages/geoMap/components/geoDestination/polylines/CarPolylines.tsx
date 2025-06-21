@@ -5,6 +5,7 @@ import type { PointProperties } from '@/pages/geoMap/types/carType';
 import { TRAFFIC } from '@/pages/const/TMAP';
 import { useTransportation } from '@/pages/geoMap/store';
 import { useStore } from 'zustand';
+import { useMemo } from 'react';
 
 const getCoordinatesPointLines = (coords: number[][]) => {
   return coords.map(coord => ({
@@ -39,6 +40,10 @@ export default function CarPolylines({
 }) {
   const { searchOptions: selectedSearchOption } = useStore(useTransportation);
 
+  const isSelectedOption = useMemo(() => {
+    return searchOption === selectedSearchOption;
+  }, [searchOption]);
+
   return destination.flatMap(feature => {
     const { geometry, properties } = feature;
 
@@ -50,7 +55,7 @@ export default function CarPolylines({
 
       return (
         <>
-          {searchOption === selectedSearchOption && (
+          {isSelectedOption && (
             <Point
               key={`car-point-${searchOption}-${spProperties.index}`}
               position={path[0]}
@@ -72,12 +77,10 @@ export default function CarPolylines({
           <Polyline
             key={`car-lineString-${searchOption}-${properties.index}`}
             path={path}
-            strokeColor={
-              searchOption === selectedSearchOption ? '#24aa24' : '#999999'
-            }
+            strokeColor={isSelectedOption ? '#24aa24' : '#999999'}
             strokeOpacity={0.8}
             strokeWeight={5}
-            zIndex={searchOption === selectedSearchOption ? 2 : 1}
+            zIndex={isSelectedOption ? 2 : 1}
           />
         );
       }
@@ -91,12 +94,10 @@ export default function CarPolylines({
           <Polyline
             key={`car-traffic-${searchOption}-${properties.index}-${start}-${end}`}
             path={path}
-            strokeColor={
-              searchOption === selectedSearchOption ? color : '#999999'
-            }
+            strokeColor={isSelectedOption ? color : '#999999'}
             strokeOpacity={0.8}
             strokeWeight={5}
-            zIndex={searchOption === selectedSearchOption ? 2 : 1}
+            zIndex={isSelectedOption ? 2 : 1}
           />
         );
       });

@@ -1,8 +1,9 @@
-import type { CarFeatures } from '@/pages/geoMap/types';
+import type { CarFeatures, CarSearchOption } from '@/pages/geoMap/types';
 import Point from './Point';
 import { Polyline } from 'react-kakao-maps-sdk';
 import type { PointProperties } from '@/pages/geoMap/types/carType';
 import { TRAFFIC } from '@/pages/const/TMAP';
+import isSelectedOptions from '@/pages/geoMap/lib/transportation/isSelectedOptions';
 
 const getCoordinatesPointLines = (coords: number[][]) => {
   return coords.map(coord => ({
@@ -30,8 +31,10 @@ const getCheckedTrafficLevel = (level: number) => {
 
 export default function CarPolylines({
   destination = [],
+  searchOption,
 }: {
   destination: CarFeatures[];
+  searchOption: CarSearchOption;
 }) {
   return destination.flatMap(feature => {
     const { geometry, properties } = feature;
@@ -43,12 +46,16 @@ export default function CarPolylines({
       const spProperties = properties as PointProperties;
 
       return (
-        <Point
-          key={`${spProperties.index}`}
-          position={path[0]}
-          pointType={spProperties.pointType}
-          zIndex={2}
-        />
+        <>
+          {isSelectedOptions(searchOption) && (
+            <Point
+              key={`car-point-${searchOption}-${spProperties.index}`}
+              position={path[0]}
+              pointType={spProperties.pointType}
+              zIndex={2}
+            />
+          )}
+        </>
       );
     }
 
@@ -60,12 +67,14 @@ export default function CarPolylines({
 
         return (
           <Polyline
-            key={`car-${properties.index}`}
+            key={`car-lineString-${searchOption}-${properties.index}`}
             path={path}
-            strokeColor="#24aa24"
+            strokeColor={
+              isSelectedOptions(searchOption) ? '#24aa24' : '#999999'
+            }
             strokeOpacity={0.8}
             strokeWeight={5}
-            zIndex={1}
+            zIndex={isSelectedOptions(searchOption) ? 2 : 1}
           />
         );
       }
@@ -77,12 +86,12 @@ export default function CarPolylines({
 
         return (
           <Polyline
-            key={`car-${properties.index}-${start}-${end}`}
+            key={`car-traffic-${searchOption}-${properties.index}-${start}-${end}`}
             path={path}
-            strokeColor={color}
+            strokeColor={isSelectedOptions(searchOption) ? color : '#999999'}
             strokeOpacity={0.8}
             strokeWeight={5}
-            zIndex={1}
+            zIndex={isSelectedOptions(searchOption) ? 2 : 1}
           />
         );
       });

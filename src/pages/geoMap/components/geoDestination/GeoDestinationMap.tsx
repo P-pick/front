@@ -1,14 +1,13 @@
-import { useMemo, useState } from 'react';
 import { Map } from 'react-kakao-maps-sdk';
 import { selectedTransportation } from '../../service';
 import ResizingMap from './ResizingMap';
 import type { GeoTripLocation } from '@/pages/types';
-import type { TransportationType } from '../../types';
-import { getSelectedTransportationPolylines } from '../../lib/transportation';
 import SelectTransportationFromGeoMap from './SelectTransportationFromGeoMap';
-import DestinationDetail from './DestinationDetail';
-import { gettingConversion } from '../../lib/utils';
 import { GetPolylines } from './polylines';
+import GeoSearchOptions from './GeoSearchOptions';
+import { useTransportation } from '../../store';
+import { useStore } from 'zustand';
+import CurrentDeviceLocation from '../CurrentDeviceLocation';
 
 interface GeoDestinationMapProps {
   start: GeoTripLocation;
@@ -19,7 +18,7 @@ export default function GeoDestinationMap({
   start,
   end,
 }: GeoDestinationMapProps) {
-  const [vehicle, setVehicle] = useState<TransportationType>('pedestrian');
+  const { vehicle } = useStore(useTransportation);
   const features = selectedTransportation(vehicle, {
     startX: start.lng,
     startY: start.lat,
@@ -30,19 +29,19 @@ export default function GeoDestinationMap({
   });
 
   return (
-    <Map
-      id="map"
-      center={{ lat: start.lat!, lng: start.lng! }}
-      className="w-full h-full relative"
-      level={6}
-    >
-      <SelectTransportationFromGeoMap
-        vehicle={vehicle}
-        setVehicle={setVehicle}
-      />
+    <Map id="map" center={start} className="w-full h-full relative" level={6}>
+      <SelectTransportationFromGeoMap />
       <ResizingMap start={start} end={end} />
-      <GetPolylines key={vehicle} vehicle={vehicle} destination={features} />
-      <DestinationDetail vehicle={vehicle} features={features} />
+      {features &&
+        features.map(data => (
+          <GetPolylines
+            key={`${vehicle}-${data.optionId}`}
+            destination={data.features}
+            searchOption={data.optionId}
+          />
+        ))}
+      <GeoSearchOptions features={features} />
+      <CurrentDeviceLocation />
     </Map>
   );
 }

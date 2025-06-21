@@ -2,19 +2,17 @@ import { selectedTransportationList } from '@/pages/const/TRANSPORT';
 import type { TransportationType } from '../../types';
 import clsx from 'clsx';
 import { DeleteIcon, EndPoint, RightArrowIcon, StartPoint } from '@/assets';
+import { useStore } from 'zustand';
+import { useTransportation } from '../../store';
 import { truncate } from '@/lib';
 
-interface SelectTransportationFromGeoMapProps {
-  vehicle: TransportationType;
-  setVehicle: React.Dispatch<React.SetStateAction<TransportationType>>;
-}
 
-export default function SelectTransportationFromGeoMap({
-  vehicle,
-  setVehicle,
-}: SelectTransportationFromGeoMapProps) {
+export default function SelectTransportationFromGeoMap() {
+  const { vehicle, setVehicle, setSearchOptions } = useStore(useTransportation);
+
   const onChangeVehicle = (transportation: TransportationType) => {
     setVehicle(transportation);
+    setSearchOptions(0);
   };
 
   const selectedTransportation = (transportation: TransportationType) =>

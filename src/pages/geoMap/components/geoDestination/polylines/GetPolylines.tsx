@@ -1,29 +1,49 @@
 import type {
   CarFeatures,
+  CarSearchOption,
   PedestrianFeatures,
+  PedestrianSearchOption,
   PolyFeatures,
-  TransportationType,
 } from '@/pages/geoMap/types';
 import PedestrianPolylines from './PedestrianPolylines';
 import CarPolylines from './CarPolylines';
+import { useStore } from 'zustand';
+import { useTransportation } from '@/pages/geoMap/store';
 
 interface GetPolylinesProps {
-  vehicle: TransportationType;
   destination: PolyFeatures;
+  searchOption: PedestrianSearchOption | CarSearchOption;
 }
 
 export default function GetPolylines({
-  vehicle,
   destination,
+  searchOption,
 }: GetPolylinesProps) {
+  const { vehicle } = useStore(useTransportation);
   const transportation = {
     pedestrian: (
-      <PedestrianPolylines destination={destination as PedestrianFeatures[]} />
+      <PedestrianPolylines
+        destination={destination as PedestrianFeatures[]}
+        searchOption={searchOption as PedestrianSearchOption}
+      />
     ),
-    car: <CarPolylines destination={destination as CarFeatures[]} />,
-    bicycle: <CarPolylines destination={destination as CarFeatures[]} />,
+    car: (
+      <CarPolylines
+        destination={destination as CarFeatures[]}
+        searchOption={searchOption as CarSearchOption}
+      />
+    ),
+    bicycle: (
+      <CarPolylines
+        destination={destination as CarFeatures[]}
+        searchOption={searchOption as CarSearchOption}
+      />
+    ),
     'public-transportation': (
-      <CarPolylines destination={destination as CarFeatures[]} />
+      <CarPolylines
+        destination={destination as CarFeatures[]}
+        searchOption={searchOption as CarSearchOption}
+      />
     ),
   } as const;
   return transportation[vehicle];

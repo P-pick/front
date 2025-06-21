@@ -1,7 +1,48 @@
-import type { CarRequestBody, CarResponse } from '../types';
+import type {
+  CarOptionNames,
+  CarRequestBody,
+  CarResponse,
+  CarSearchOption,
+  MultiplePathResponse,
+} from '../types';
 import axios from 'axios';
-import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { TMAP_APP_KEY } from '@/pages/const/TMAP';
+
+const SEARCH_OPTIONS = [
+  {
+    id: 0,
+    name: '추천도로',
+  },
+  {
+    id: 1,
+    name: '무료우선',
+  },
+  {
+    id: 2,
+    name: '최소시간',
+  },
+  {
+    id: 3,
+    name: '초보운전',
+  },
+  {
+    id: 4,
+    name: '고속도로우선',
+  },
+  {
+    id: 10,
+    name: '최단거리 + 유/무료',
+  },
+  {
+    id: 12,
+    name: '이륜차도로우선',
+  },
+  {
+    id: 19,
+    name: '어린이보호구역 회피',
+  },
+] as const;
 
 const getCarDestinationPathInfo = async (
   carRequest: CarRequestBody
@@ -22,20 +63,43 @@ const getCarDestinationPathInfo = async (
   return response.data;
 };
 
-const useCarDestination = (destination: CarRequestBody) => {
+const useCarDestination = (
+  baseRequest: CarRequestBody
+): MultiplePathResponse[] => {
   const { data } = useQuery({
     queryKey: [
       'carDestination',
-      destination.startX,
-      destination.startY,
-      destination.endX,
-      destination.endY,
-      destination.startName,
-      destination.endName,
+      baseRequest.startX,
+      baseRequest.startY,
+      baseRequest.endX,
+      baseRequest.endY,
+      baseRequest.startName,
+      baseRequest.endName,
     ],
-    queryFn: () => getCarDestinationPathInfo(destination),
+    queryFn: async () => {
+      const results = await Promise.allSettled(
+        SEARCH_OPTIONS.map(searchOption =>
+          getCarDestinationPathInfo({
+            ...baseRequest,
+            searchOption: searchOption.id as CarSearchOption,
+          }).then(res => ({
+            optionId: searchOption.id as CarSearchOption,
+            name: searchOption.name as CarOptionNames,
+            features: res.features,
+          }))
+        )
+      );
+
+      return results
+        .filter(result => result.status === 'fulfilled')
+        .map(
+          result =>
+            (result as PromiseFulfilledResult<MultiplePathResponse>).value
+        );
+    },
   });
-  return data;
+
+  return data ?? [];
 };
 
 export default useCarDestination;

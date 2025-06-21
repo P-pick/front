@@ -1,7 +1,7 @@
 import type {
   CarRequestBody,
+  MultiplePathResponse,
   PedestrianRequestBody,
-  PolyFeatures,
   TransportationType,
 } from '../types';
 import useCarDestination from './getCarData';
@@ -10,14 +10,14 @@ import usePedestrianDestination from './getPedestrianData';
 const getTransportationSelected = (
   vehicle: TransportationType,
   destination: PedestrianRequestBody | CarRequestBody
-): PolyFeatures => {
+): MultiplePathResponse[] => {
   const selectedTransportation = {
     pedestrian: () =>
-      usePedestrianDestination(destination as PedestrianRequestBody).features,
-    car: () => useCarDestination(destination as CarRequestBody)?.features,
-    bicycle: () => useCarDestination(destination as CarRequestBody)?.features,
+      usePedestrianDestination(destination as PedestrianRequestBody),
+    car: () => useCarDestination(destination as CarRequestBody),
+    bicycle: () => useCarDestination(destination as CarRequestBody),
     'public-transportation': () =>
-      useCarDestination(destination as CarRequestBody)?.features,
+      useCarDestination(destination as CarRequestBody),
   };
   return selectedTransportation[vehicle]();
 };

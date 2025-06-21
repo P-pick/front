@@ -78,7 +78,7 @@ const getLocationBasedData = async ({
         };
       } catch (e) {
         console.warn('상세정보 불러오기 실패:', item.contentid, e);
-        return null; // 실패한 항목은 null
+        return null;
       }
     })
   );

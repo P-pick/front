@@ -1,6 +1,6 @@
-import { TourList } from '@/assets';
+import { List } from '@/assets';
 import { useLocation, useNavigate } from 'react-router-dom';
-export default function TourListButton() {
+export default function TourListIcon() {
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -8,9 +8,13 @@ export default function TourListButton() {
   const handleClick = () => {
     navigate(`/tour/list?${currentParams.toString()}`);
   };
+
   return (
-    <button onClick={handleClick}>
-      <TourList />
+    <button
+      onClick={handleClick}
+      className="w-10 h-10 flex items-center justify-center rounded-full bg-white"
+    >
+      <List />
     </button>
   );
 }

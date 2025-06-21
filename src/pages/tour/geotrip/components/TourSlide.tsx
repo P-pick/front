@@ -42,7 +42,7 @@ export default function TourSlide({
       <div className="w-full absolute z-(--z-layer2) bottom-0 left-0 px-4">
         <h1 className="text-2xl font-bold">{tourInfo.title}</h1>
         <div className="flex justify-between">
-          <DistanceTimeInfo dist={tourInfo.dist} iconFill="#ffffff" />
+          <DistanceTimeInfo dist={tourInfo.dist} iconFill="white" />
         </div>
         <div className="mt-7" />
         <p>

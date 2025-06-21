@@ -6,7 +6,7 @@ export default function GeoTrip() {
   return (
     <Suspense
       fallback={
-        <div className="fixed h-full w-full flex items-center justify-center">
+        <div className="absolute h-full w-full flex items-center justify-center">
           <LoadingSpinner />
         </div>
       }

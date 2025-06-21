@@ -1,6 +1,6 @@
 import type { CarRequestBody, CarResponse } from '../types';
 import axios from 'axios';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
 import { TMAP_APP_KEY } from '@/pages/const/TMAP';
 
 const getCarDestinationPathInfo = async (
@@ -34,14 +34,6 @@ const useCarDestination = (destination: CarRequestBody) => {
       destination.endName,
     ],
     queryFn: () => getCarDestinationPathInfo(destination),
-    enabled:
-      !!destination.startX &&
-      !!destination.startY &&
-      !!destination.endX &&
-      !!destination.endY &&
-      !!destination.startName &&
-      !!destination.endName,
-    refetchOnWindowFocus: false,
   });
   return data;
 };

@@ -1,4 +1,4 @@
-import { getCurrentLocation } from '@/pages/geotrip/lib';
+import getCurrentLocation from '@/lib/getCurrentLocation';
 import type { GeoTripLocation } from '@/pages/types';
 import { useEffect, useState } from 'react';
 

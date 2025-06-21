@@ -3,19 +3,19 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Navigation, Mousewheel } from 'swiper/modules';
 import TourSlide from './TourSlide';
 import type { GeoTripLocation } from '@/pages/types';
-import { useGeoLocationBasedTourQuery } from '../service';
+import { useGeoLocationBasedTourQuery } from '../../service';
 import { BottomSheet } from '@/components';
 import { TourDetail } from './';
-import type { TourSummary } from '@/pages/geotrip/types';
+import type { TourSummary } from '../types';
 import { SideButtonGroup } from './SideButtonGroup';
 import type { Swiper as SwiperType } from 'swiper/types';
+import { withGeoTripParams } from '@/pages/tour/components';
 interface TourResultSwiperProps {
   location: GeoTripLocation;
   distance: string;
   tourType: number;
 }
-
-export default function TourResultSwiper({
+function TourResultSwiper({
   location,
   distance,
   tourType,
@@ -66,12 +66,12 @@ export default function TourResultSwiper({
         ))}
       </Swiper>
       <SideButtonGroup {...currentTourInfo} />
-      <div className="absolute w-full h-full bottom-0 left-0">
+      <div className="absolute w-full h-11/12 bottom-0 left-0">
         <BottomSheet
           isOpen={showDetail}
           onClose={() => setShowDetail(false)}
-          initialY="55%"
-          minHeight={650}
+          initialY="25%"
+          minHeight={400}
         >
           <BottomSheet.Content>
             <TourDetail {...currentTourInfo} />
@@ -89,3 +89,5 @@ export default function TourResultSwiper({
     </>
   );
 }
+
+export default withGeoTripParams(TourResultSwiper);

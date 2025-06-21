@@ -2,9 +2,10 @@ import { selectedTransportationList } from '@/pages/const/TRANSPORT';
 import type { TransportationType } from '../../types';
 import clsx from 'clsx';
 import { DeleteIcon, EndPoint, RightArrowIcon, StartPoint } from '@/assets';
-import { truncate } from '@/pages/geotrip/lib';
 import { useStore } from 'zustand';
 import { useTransportation } from '../../store';
+import { truncate } from '@/lib';
+
 
 export default function SelectTransportationFromGeoMap() {
   const { vehicle, setVehicle, setSearchOptions } = useStore(useTransportation);

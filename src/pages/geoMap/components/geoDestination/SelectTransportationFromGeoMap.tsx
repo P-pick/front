@@ -2,7 +2,7 @@ import { selectedTransportationList } from '@/pages/const/TRANSPORT';
 import type { TransportationType } from '../../types';
 import clsx from 'clsx';
 import { DeleteIcon, EndPoint, RightArrowIcon, StartPoint } from '@/assets';
-import { truncate } from '@/pages/geotrip/lib';
+import { truncate } from '@/lib';
 
 interface SelectTransportationFromGeoMapProps {
   vehicle: TransportationType;

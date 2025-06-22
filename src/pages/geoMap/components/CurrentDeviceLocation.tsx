@@ -17,6 +17,7 @@ export default function CurrentDeviceLocation() {
           height: 38,
         },
       }}
+      zIndex={999}
     ></MapMarker>
   );
 }

@@ -19,13 +19,13 @@ export const useResizingMapLevel = ({ points }: UseResizingMapLevel) => {
 
   useEffect(() => {
     if (map && points.length > 0) {
-      map.setBounds(bounds);
+      map.setBounds(bounds, 150, 0, 100, 0);
     }
   }, [map]);
 
   const handleResizeMapLevel = () => {
     if (map) {
-      map.setBounds(bounds);
+      map.setBounds(bounds, 150, 0, 100, 0);
     }
   };
 

@@ -4,14 +4,10 @@ import { Suspense } from 'react';
 
 export default function GeoTrip() {
   return (
-    <Suspense
-      fallback={
-        <div className="absolute h-full w-full flex items-center justify-center">
-          <LoadingSpinner />
-        </div>
-      }
-    >
-      <TourResultSwiper />
-    </Suspense>
+    <div className="absolute h-full w-full flex items-center justify-center">
+      <Suspense fallback={<LoadingSpinner />}>
+        <TourResultSwiper />
+      </Suspense>
+    </div>
   );
 }

@@ -11,9 +11,11 @@ import RightArrowIcon from './RightIcon.svg?react';
 import DeleteIcon from './DeleteIcon.svg?react';
 import StartPoint from './startPoint.svg?react';
 import EndPoint from './endPoint.svg?react';
+import CheckIcon from './checkIcon.svg?react';
 
 export {
   PedestrianIcon,
+  CheckIcon,
   BicycleIcon,
   CarIcon,
   TransportationIcon,

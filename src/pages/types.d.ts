@@ -1,4 +1,4 @@
-import type { AroundContentTypeId } from './geoMap/types';
+import type { AroundContentTypeId } from './map/aroundSearch/types';
 
 export type ApiResponse<T> = {
   response: { header: ResponseHeader; body: ResponseBody<T> };

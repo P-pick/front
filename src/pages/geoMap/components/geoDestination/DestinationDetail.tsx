@@ -40,11 +40,11 @@ export default function DestinationDetail({
   }, [polylines]);
 
   const isSelectedBorder = clsx('border-[#4D5A6A] border-1', {
-    'border-[#FA4032]': searchOptions === searchId,
+    'border-primary-red': searchOptions === searchId,
   });
 
   const isSelectedH2 = clsx('text-[#4D5A6A]', {
-    'text-[#FA4032]': searchOptions === searchId,
+    'text-primary-red': searchOptions === searchId,
   });
 
   return (

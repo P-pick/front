@@ -68,3 +68,12 @@ body,
     }
   }
 }
+
+@theme {
+  --color-primary-red: #fa4032;
+  --color-secondary-red: #a51a0f;
+  --color-primary-orange: #fa812f;
+  --color-primary-dark: #3d444c;
+  --color-primary-gray: #d9d9d9;
+  --color-secondary-gray: #e5eaf0;
+}

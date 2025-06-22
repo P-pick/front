@@ -6,7 +6,6 @@ import { useStore } from 'zustand';
 import { useTransportation } from '../../store';
 import { truncate } from '@/lib';
 
-
 export default function SelectTransportationFromGeoMap() {
   const { vehicle, setVehicle, setSearchOptions } = useStore(useTransportation);
 
@@ -17,9 +16,9 @@ export default function SelectTransportationFromGeoMap() {
 
   const selectedTransportation = (transportation: TransportationType) =>
     clsx(
-      'flex items-center justify-center px-3 py-2 my-3 cursor-pointer fill-black rounded-2xl hover:bg-[#FA4032] hover:text-white hover:fill-white transition-colors duration-300 gap-1',
+      'flex items-center justify-center px-3 py-2 my-3 cursor-pointer fill-black rounded-2xl hover:bg-primary-red hover:text-white hover:fill-white transition-colors duration-300 gap-1',
       {
-        'bg-[#FA4032] text-white fill-white': transportation === vehicle,
+        'bg-primary-red text-white fill-white': transportation === vehicle,
       }
     );
 

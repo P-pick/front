@@ -12,7 +12,7 @@ function BottomSheetContent({ children }: PropsWithChildren) {
 
 function BottomSheetFooter({ children }: PropsWithChildren) {
   return (
-    <div className="absolute left-1/2 z-1500 bg-gradient-to-t from-white to-white/90 -translate-x-1/2 bottom-0 w-[375px] h-[100px]  flex flex-col items-center justify-center gap-4">
+    <div className="absolute z-1500 bottom-0 left-0 w-full h-30">
       {children}
     </div>
   );
@@ -55,6 +55,13 @@ function BottomSheet({
       {isOpen && (
         <>
           <motion.div
+            className="fixed left-0 top-0 w-full h-full bg-black/40 z-[999]"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+          />
+          <motion.div
             initial={{ y: '100%' }}
             animate={{ y: '0%' }}
             exit={{ y: '100%' }}
@@ -94,10 +101,6 @@ function BottomSheet({
             </motion.div>
 
             {footerChildren}
-            <div
-              className="absolute left-0 bottom-0 inset-x-0 bg-white z-1000"
-              style={{ height: `${minHeight - 50}px` }}
-            />
           </motion.div>
         </>
       )}

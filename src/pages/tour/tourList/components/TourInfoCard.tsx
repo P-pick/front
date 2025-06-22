@@ -66,7 +66,7 @@ export default function TourInfoCard({ tourInfo }: TourInfoCardProps) {
           <DistanceTimeInfo
             dist={tourInfo.dist}
             iconFill="#FA4032"
-            className="text-[#FA4032] font-bold"
+            className="text-primary-red font-bold"
           />
           <address className="not-italic">
             {truncate(tourInfo.addr1 ?? '', { omission: '', length: 10 })}

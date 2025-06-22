@@ -52,7 +52,7 @@ function TourResultSwiper({
         pagination={false}
         mousewheel={{ enabled: true, sensitivity: 1 }}
         onReachEnd={() => hasNextPage && fetchNextPage()}
-        className="h-full w-full"
+        className="h-full"
         touchMoveStopPropagation={false}
         onSlideChange={handleSlideChange}
       >
@@ -79,7 +79,7 @@ function TourResultSwiper({
           <BottomSheet.Footer>
             <button
               type="button"
-              className="absolute left-1/2 bottom-6 -translate-x-1/2 bg-gradient-to-r from-[#FA812F] to-[#FA4032] rounded-[15px] w-[320px] h-[50px] text-black font-bold text-[16px] shadow-[0_4px_16px_0_rgba(250,129,47,0.3)]"
+              className="absolute left-1/2 bottom-6 -translate-x-1/2 bg-gradient-to-r from-primary-orange to-primary-red rounded-[15px] w-[320px] h-[50px] text-black font-bold text-[16px] shadow-[0_4px_16px_0_rgba(250,129,47,0.3)]"
             >
               여행 시작하기
             </button>

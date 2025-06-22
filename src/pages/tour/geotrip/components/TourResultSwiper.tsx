@@ -52,7 +52,7 @@ function TourResultSwiper({
         pagination={false}
         mousewheel={{ enabled: true, sensitivity: 1 }}
         onReachEnd={() => hasNextPage && fetchNextPage()}
-        className="h-full"
+        className="h-full w-full"
         touchMoveStopPropagation={false}
         onSlideChange={handleSlideChange}
       >

@@ -1,4 +1,4 @@
-export default function LoadingSpinner() {
+function LoadingSpinnerComponent() {
   return (
     <div role="status">
       <svg
@@ -20,4 +20,20 @@ export default function LoadingSpinner() {
       <span className="sr-only">Loading...</span>
     </div>
   );
+}
+
+export default function LoadingSpinner({
+  centered = false,
+}: {
+  centered?: boolean;
+}) {
+  if (centered) {
+    return (
+      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-24 h-24 z-(--z-layer3) flex items-center justify-center">
+        <LoadingSpinnerComponent />
+      </div>
+    );
+  }
+
+  return <LoadingSpinnerComponent />;
 }

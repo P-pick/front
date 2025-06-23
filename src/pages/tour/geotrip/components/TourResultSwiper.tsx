@@ -31,6 +31,9 @@ function TourResultSwiper({
     dist: slides[0].dist,
     overview: slides[0].overview,
     title: slides[0].title,
+    mapx: slides[0].mapx,
+    mapy: slides[0].mapy,
+    contentid: slides[0].contentid,
   });
 
   const handleSlideChange = (swiper: SwiperType) => {
@@ -40,6 +43,9 @@ function TourResultSwiper({
         dist: current.dist,
         overview: current.overview,
         title: current.title,
+        mapx: current.mapx,
+        mapy: current.mapy,
+        contentid: current.contentid,
       });
     }
   };

@@ -1,23 +1,22 @@
 import { GeoMapIcon } from '@/assets';
 import { useNavigate } from 'react-router-dom';
+import type { TourSummary } from '../../types';
 
-interface GoToAroundTouristMapProps {
-  mapx?: number;
-  mapy?: number;
-  contentid: number;
-}
-
-export default function GoToAroundTouristButton({
-  mapx,
-  mapy,
-  contentid,
-}: GoToAroundTouristMapProps) {
+export default function GoToAroundTouristButton(tourInfo: TourSummary) {
   const navigate = useNavigate();
 
+  const tourInfoStringRecord = Object.entries(tourInfo).reduce(
+    (acc, [key, value]) => {
+      acc[key] = String(value);
+      return acc;
+    },
+    {} as Record<string, string>
+  );
+
+  const encodingTour = new URLSearchParams(tourInfoStringRecord);
+
   const handleClick = () => {
-    navigate(
-      `/map/around-search?lat=${mapy}&lng=${mapx}&contentid=${contentid}`
-    );
+    navigate(`/map/around-search?tourInfo=${encodingTour}`);
   };
 
   return (

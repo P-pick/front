@@ -32,7 +32,7 @@ export default function AroundTouristNavigate({
 
   return (
     <div className="absolute top-0 left-0 w-full h-14 bg-white z-[var(--z-layer2)]">
-      <div className="flex items-center justify-between h-full gap-3">
+      <div className="flex items-center justify-between h-full gap-3 px-2">
         <div
           className="bg-gray-100 p-2 rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-200"
           onClick={handleOpenSelectedMarkerMenu}

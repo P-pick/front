@@ -66,23 +66,25 @@ function TourResultSwiper({
         ))}
       </Swiper>
       <SideButtonGroup {...currentTourInfo} />
-      <div className="absolute w-full h-11/12 bottom-0 left-0">
+      <div className="absolute w-full h-8/10 bottom-0 left-0">
         <BottomSheet
           isOpen={showDetail}
           onClose={() => setShowDetail(false)}
-          initialY="25%"
-          minHeight={400}
+          initialY="20%"
+          minHeight={800}
         >
           <BottomSheet.Content>
             <TourDetail {...currentTourInfo} />
           </BottomSheet.Content>
           <BottomSheet.Footer>
-            <button
-              type="button"
-              className="absolute left-1/2 bottom-6 -translate-x-1/2 bg-gradient-to-r from-primary-orange to-primary-red rounded-[15px] w-[320px] h-[50px] text-black font-bold text-[16px] shadow-[0_4px_16px_0_rgba(250,129,47,0.3)]"
-            >
-              여행 시작하기
-            </button>
+            <div className="absolute left-0 bottom-0 bg-gradient-to-t from-white to-white/90 w-full h-full flex justify-center items-center">
+              <button
+                type="button"
+                className="bg-gradient-to-r from-primary-orange to-primary-red rounded-[15px] w-[320px] h-[50px] text-black font-bold text-[16px] shadow-[0_4px_16px_0_rgba(250,129,47,0.3)]"
+              >
+                여행 시작하기
+              </button>
+            </div>
           </BottomSheet.Footer>
         </BottomSheet>
       </div>

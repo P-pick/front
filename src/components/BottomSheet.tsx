@@ -30,6 +30,7 @@ function BottomSheet({
   isOpen,
   onClose,
   children,
+  showOverlay = true,
   initialY = '0%',
   minHeight = 400,
 }: PropsWithChildren<BottomSheetProps>) {
@@ -60,13 +61,15 @@ function BottomSheet({
     <AnimatePresence>
       {isOpen && (
         <>
-          <motion.div
-            className="fixed left-0 top-0 w-full h-full bg-black/40 z-[999]"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={handleOnClick}
-          />
+          {showOverlay && (
+            <motion.div
+              className="fixed left-0 top-0 w-full h-full bg-black/40 z-[999]"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={handleOnClick}
+            />
+          )}
           <motion.div
             initial={{ y: '100%' }}
             animate={{ y: '0%' }}
@@ -77,8 +80,7 @@ function BottomSheet({
               duration: 0.3,
               ease: 'easeInOut',
             }}
-            onClick={handleOnClick}
-            className="absolute bottom-0 left-0 w-full z-1200 h-full"
+            className="absolute bottom-0 left-0 w-full z-1200 h-full pointer-events-none"
           >
             <motion.div
               drag="y"
@@ -95,7 +97,7 @@ function BottomSheet({
                 top: 0,
                 bottom: minHeight,
               }}
-              className="relative flex flex-col items-center w-full z-1100"
+              className="relative flex flex-col items-center w-full z-1100 pointer-events-auto"
             >
               <div
                 onPointerDown={startDrag}

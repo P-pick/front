@@ -50,6 +50,12 @@ function BottomSheet({
     }
   });
 
+  const handleOnClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -59,7 +65,7 @@ function BottomSheet({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={onClose}
+            onClick={handleOnClick}
           />
           <motion.div
             initial={{ y: '100%' }}
@@ -71,6 +77,7 @@ function BottomSheet({
               duration: 0.3,
               ease: 'easeInOut',
             }}
+            onClick={handleOnClick}
             className="absolute bottom-0 left-0 w-full z-1200 h-full"
           >
             <motion.div

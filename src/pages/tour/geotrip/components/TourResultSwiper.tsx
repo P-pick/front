@@ -71,7 +71,7 @@ function TourResultSwiper({
           isOpen={showDetail}
           onClose={() => setShowDetail(false)}
           initialY="20%"
-          minHeight={400}
+          minHeight={800}
         >
           <BottomSheet.Content>
             <TourDetail {...currentTourInfo} />

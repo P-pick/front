@@ -15,11 +15,11 @@ const getTourDetail = async ({
 }: getTourDetailRequest): Promise<TourDetail> => {
   if (!contentId) return Promise.reject('콘텐츠 ID가 없습니다.');
 
-  const response = await api.get<ApiResponse<TourDetail>>('detailCommon2', {
+  const response = await api.get<ApiResponse<TourDetail[]>>('detailCommon2', {
     params: { contentId },
   });
 
-  return response.data.response.body.items.item;
+  return response.data.response.body.items.item[0];
 };
 
 const useGetTourDetailSuspenseQuery = ({ contentId }: getTourDetailRequest) => {
@@ -28,3 +28,5 @@ const useGetTourDetailSuspenseQuery = ({ contentId }: getTourDetailRequest) => {
     queryFn: () => getTourDetail({ contentId }),
   });
 };
+
+export default useGetTourDetailSuspenseQuery;

@@ -12,11 +12,8 @@ export default function TourCard({ title, distance, imgUrl }: TourCardProps) {
       <div className="py-6 px-5 flex">
         <div className="mr-5">
           <div className="flex  gap-1.5 mb-2 items-center">
-            <h1 className="font-bold text-[24px] ">{title}</h1>
-            <TourTypeBadge
-              contenttypeid="12"
-              className="w-15 h-5 text-center"
-            />
+            <h1 className="font-bold text-[24px] w-38">{title}</h1>
+            <TourTypeBadge contenttypeid="12" className="text-center" />
           </div>
           <div className="flex items-center gap-1.5 mb-2">
             <DistanceTimeInfo

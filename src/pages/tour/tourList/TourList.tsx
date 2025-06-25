@@ -5,7 +5,7 @@ const fallbackList = [1, 2, 3, 4, 5];
 
 export default function TourList() {
   return (
-    <div className="absolute h-full w-full">
+    <div className="absolute h-full w-full overflow-auto ">
       <h1 className="absolute right-1/2 translate-x-1/2 top-5">리스트</h1>
       <div className="mt-15">선택리스트</div>
       <Suspense

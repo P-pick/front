@@ -1,3 +1,6 @@
 import type { TourItemWithDetail } from '@/pages/types';
 
-export type TourSummary = Pick<TourItemWithDetail, 'title' | 'dist' | 'images'>;
+export type TourSummary = Pick<
+  TourItemWithDetail,
+  'title' | 'dist' | 'images' | 'contentid'
+>;

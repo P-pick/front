@@ -1,11 +1,11 @@
-import { useMemo, useState } from 'react';
+import { Suspense, useMemo, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Navigation, Mousewheel } from 'swiper/modules';
 import TourSlide from './TourSlide';
 import type { GeoTripLocation } from '@/pages/types';
 import { useGeoLocationBasedTourQuery } from '../../service';
-import { BottomSheet, TourCard } from '@/components';
-import { TourDetail } from './';
+import { BottomSheet, LoadingSpinner, TourCard } from '@/components';
+import { TourOverView } from './';
 import type { TourSummary } from '../types';
 import { SideButtonGroup } from './SideButtonGroup';
 import type { Swiper as SwiperType } from 'swiper/types';
@@ -31,6 +31,7 @@ function TourResultSwiper({
     dist: slides[0].dist,
     title: slides[0].title,
     images: slides[0].images,
+    contentid: slides[0].contentid,
   });
 
   const handleSlideChange = (swiper: SwiperType) => {
@@ -40,6 +41,7 @@ function TourResultSwiper({
         dist: current.dist,
         title: current.title,
         images: current.images,
+        contentid: current.contentid,
       });
     }
   };
@@ -80,7 +82,9 @@ function TourResultSwiper({
                 distance={currentTourInfo.dist}
                 imgUrl={currentTourInfo.images[0].originimgurl || ''}
               />
-              {/* <TourDetail {...currentTourInfo} /> */}
+              <Suspense fallback={<LoadingSpinner />}>
+                <TourOverView contentId={currentTourInfo.contentid} />
+              </Suspense>
             </div>
           </BottomSheet.Content>
           <BottomSheet.Footer>

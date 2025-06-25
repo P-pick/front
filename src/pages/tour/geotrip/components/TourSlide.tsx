@@ -41,7 +41,7 @@ export default function TourSlide({
       <footer className="w-full absolute z-(--z-layer2) bottom-0 left-0 px-4">
         <header>
           <div className="flex gap-1 items-center">
-            <h1 className="text-2xl font-bold">{tourInfo.title}</h1>
+            <h1 className="text-2xl font-bold max-w-60">{tourInfo.title}</h1>
             <InfoIcon
               className="text-white cursor-pointer"
               onClick={handleDetailOpen}

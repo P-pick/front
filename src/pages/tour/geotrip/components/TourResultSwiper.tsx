@@ -31,6 +31,9 @@ function TourResultSwiper({
     dist: slides[0].dist,
     overview: slides[0].overview,
     title: slides[0].title,
+    mapx: slides[0].mapx,
+    mapy: slides[0].mapy,
+    contenttypeid: slides[0].contenttypeid,
   });
 
   const handleSlideChange = (swiper: SwiperType) => {
@@ -40,6 +43,9 @@ function TourResultSwiper({
         dist: current.dist,
         overview: current.overview,
         title: current.title,
+        mapx: current.mapx,
+        mapy: current.mapy,
+        contenttypeid: current.contenttypeid,
       });
     }
   };
@@ -65,8 +71,11 @@ function TourResultSwiper({
           </SwiperSlide>
         ))}
       </Swiper>
-      <SideButtonGroup {...currentTourInfo} />
-      <div className="absolute w-full h-8/10 bottom-0 left-0">
+      <SideButtonGroup
+        playTTSButtonProps={currentTourInfo.overview}
+        goToAroundTouristButtonProps={currentTourInfo}
+      />
+      <div className="absolute w-full h-11/12 bottom-0 left-0">
         <BottomSheet
           isOpen={showDetail}
           onClose={() => setShowDetail(false)}

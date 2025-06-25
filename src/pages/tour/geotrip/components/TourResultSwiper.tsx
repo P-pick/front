@@ -75,7 +75,7 @@ function TourResultSwiper({
       </Swiper>
       <div className="absolute w-full h-full bottom-0 left-0">
         <SideButtonGroup goToAroundTouristButtonProps={currentTourInfo} />
-        <div className="absolute w-full h-11/12 bottom-0 left-0">
+        <div className="absolute w-full h-full bottom-0 left-0">
           <BottomSheet
             isOpen={showDetail}
             onClose={() => setShowDetail(false)}

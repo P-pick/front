@@ -68,7 +68,7 @@ function TourResultSwiper({
         ))}
       </Swiper>
       <SideButtonGroup {...currentTourInfo} />
-      <div className="absolute w-full h-8/10 bottom-0 left-0">
+      <div className="absolute w-full h-full bottom-0 left-0">
         <BottomSheet
           isOpen={showDetail}
           onClose={() => setShowDetail(false)}
@@ -76,7 +76,7 @@ function TourResultSwiper({
           minHeight={600}
         >
           <BottomSheet.Content>
-            <div className="bg-white w-full h-200">
+            <div className="bg-white w-full h-300">
               <TourCard
                 title={currentTourInfo.title}
                 distance={currentTourInfo.dist}

@@ -4,7 +4,7 @@ import { Pagination, Navigation, Mousewheel } from 'swiper/modules';
 import TourSlide from './TourSlide';
 import type { GeoTripLocation } from '@/pages/types';
 import { useGeoLocationBasedTourQuery } from '../../service';
-import { BottomSheet } from '@/components';
+import { BottomSheet, TourCard } from '@/components';
 import { TourDetail } from './';
 import type { TourSummary } from '../types';
 import { SideButtonGroup } from './SideButtonGroup';
@@ -29,7 +29,6 @@ function TourResultSwiper({
   const slides = useMemo(() => data.pages.flatMap(page => page.items), [data]);
   const [currentTourInfo, setCurrentTourInfo] = useState<TourSummary>({
     dist: slides[0].dist,
-    overview: slides[0].overview,
     title: slides[0].title,
   });
 
@@ -38,7 +37,6 @@ function TourResultSwiper({
     if (current) {
       setCurrentTourInfo({
         dist: current.dist,
-        overview: current.overview,
         title: current.title,
       });
     }
@@ -74,6 +72,7 @@ function TourResultSwiper({
           minHeight={800}
         >
           <BottomSheet.Content>
+            <TourCard />
             <TourDetail {...currentTourInfo} />
           </BottomSheet.Content>
           <BottomSheet.Footer>

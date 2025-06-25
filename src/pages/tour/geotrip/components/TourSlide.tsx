@@ -46,10 +46,6 @@ export default function TourSlide({
         </div>
         <div className="mt-7" />
         <p>
-          {truncate(tourInfo.overview, {
-            length: 60,
-            omission: '',
-          })}
           <span
             className="text-[12px] text-gray-200 cursor-pointer"
             onClick={handleDetailOpen}

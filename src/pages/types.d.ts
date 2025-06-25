@@ -64,6 +64,5 @@ export type TourDetailResponse = {
 };
 
 export type TourItemWithDetail = TourItem & {
-  overview: string;
   images: TourDetailImage[];
 };

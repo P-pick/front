@@ -1,4 +1,5 @@
 import { BackButton, MenuIcon } from '@/components';
+import Header from '@/components/Header';
 import { Outlet } from 'react-router-dom';
 
 export default function Map() {
@@ -9,6 +10,7 @@ export default function Map() {
         <span>지도</span>
         <MenuIcon />
       </div>
+      <Header></Header>
       <div className="flex-1">
         <div className="w-full h-full relative">
           <Outlet />

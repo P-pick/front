@@ -12,7 +12,7 @@ function BottomSheetContent({ children }: PropsWithChildren) {
 
 function BottomSheetFooter({ children }: PropsWithChildren) {
   return (
-    <div className="absolute left-1/2 z-1500 bg-gradient-to-t from-white to-white/90 -translate-x-1/2 bottom-0 w-[375px] h-[100px]  flex flex-col items-center justify-center gap-4">
+    <div className="absolute z-1500 bottom-0 left-0 w-full h-30">
       {children}
     </div>
   );
@@ -30,6 +30,7 @@ function BottomSheet({
   isOpen,
   onClose,
   children,
+  showOverlay = true,
   initialY = '0%',
   minHeight = 400,
 }: PropsWithChildren<BottomSheetProps>) {
@@ -50,10 +51,25 @@ function BottomSheet({
     }
   });
 
+  const handleOnClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
   return (
     <AnimatePresence>
       {isOpen && (
         <>
+          {showOverlay && (
+            <motion.div
+              className="fixed left-0 top-0 w-full h-full bg-black/40 z-[999]"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={handleOnClick}
+            />
+          )}
           <motion.div
             initial={{ y: '100%' }}
             animate={{ y: '0%' }}
@@ -64,7 +80,7 @@ function BottomSheet({
               duration: 0.3,
               ease: 'easeInOut',
             }}
-            className="absolute bottom-0 left-0 w-full z-1200 h-full"
+            className="absolute bottom-0 left-0 w-full z-1200 h-full pointer-events-none"
           >
             <motion.div
               drag="y"
@@ -81,7 +97,7 @@ function BottomSheet({
                 top: 0,
                 bottom: minHeight,
               }}
-              className="relative flex flex-col items-center w-full z-1100"
+              className="relative flex flex-col items-center w-full z-1100 pointer-events-auto"
             >
               <div
                 onPointerDown={startDrag}
@@ -94,10 +110,6 @@ function BottomSheet({
             </motion.div>
 
             {footerChildren}
-            <div
-              className="absolute left-0 bottom-0 inset-x-0 bg-white z-1000"
-              style={{ height: `${minHeight - 50}px` }}
-            />
           </motion.div>
         </>
       )}

@@ -19,7 +19,7 @@ export default function TourCard({ title, distance, imgUrl }: TourCardProps) {
             <DistanceTimeInfo
               dist={distance}
               className="text-primary-red font-bold"
-              iconFill="#FA4032"
+              iconFill="text-primary-red "
             />
             <span>서울 용산구</span>
           </div>

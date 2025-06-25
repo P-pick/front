@@ -13,7 +13,7 @@ export default function DistanceTimeInfo({
 }: DistanceTimeInfoProps) {
   return (
     <span className="flex items-center">
-      <MapIcon style={{ color: iconFill }} width={15} height={15} />
+      <MapIcon className={iconFill} width={15} height={15} />
       <p className={className}>
         &nbsp;{Math.floor((Number(dist) / 1000) * 10) / 10} Km
       </p>

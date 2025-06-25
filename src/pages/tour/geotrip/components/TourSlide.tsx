@@ -1,8 +1,8 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
 import type { TourItemWithDetail } from '@/pages/types';
-import { DistanceTimeInfo } from '@/pages/tour/components';
-import { truncate } from '@/lib';
+import { InfoIcon } from '@/assets';
+import { DistanceTimeInfo } from '@/components';
 
 interface TourSlideProps {
   tourInfo: TourItemWithDetail;
@@ -14,19 +14,17 @@ export default function TourSlide({
   handleDetailOpen,
 }: TourSlideProps) {
   return (
-    <div className="relative text-white w-full h-full flex flex-col items-center">
+    <article className="relative text-white w-full h-full flex flex-col items-center">
       <Swiper
         direction="horizontal"
         modules={[Pagination]}
         className="w-full h-full relative my-swiper"
-        pagination={{
-          clickable: true,
-        }}
+        pagination={{ clickable: true }}
       >
         {tourInfo.images.length === 0 ? (
-          <span className="absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] z-(--z-layer5) text-black ">
+          <p className="absolute left-1/2 top-1/2 translate-x-[-50%] translate-y-[-50%] z-(--z-layer5) text-black">
             준비된 이미지가 없습니다.
-          </span>
+          </p>
         ) : (
           tourInfo.images.map(img => (
             <SwiperSlide key={img.serialnum}>
@@ -39,35 +37,32 @@ export default function TourSlide({
           ))
         )}
       </Swiper>
-      <div className="w-full absolute z-(--z-layer2) bottom-0 left-0 px-4">
-        <h1 className="text-2xl font-bold">{tourInfo.title}</h1>
-        <div className="flex justify-between">
-          <DistanceTimeInfo dist={tourInfo.dist} iconFill="white" />
-        </div>
-        <div className="mt-7" />
-        <p>
-          {truncate(tourInfo.overview, {
-            length: 60,
-            omission: '',
-          })}
-          <span
-            className="text-[12px] text-gray-200 cursor-pointer"
-            onClick={handleDetailOpen}
-          >
-            ... 더 보기
-          </span>
-        </p>
-        <div className="mt-16" />
-        <div className="w-full flex justify-center">
+
+      <footer className="w-full absolute z-(--z-layer2) bottom-0 left-0 px-4">
+        <header>
+          <div className="flex gap-1 items-center">
+            <h1 className="text-2xl font-bold max-w-60">{tourInfo.title}</h1>
+            <InfoIcon
+              className="text-white cursor-pointer"
+              onClick={handleDetailOpen}
+            />
+          </div>
+          <div className="flex justify-between">
+            <DistanceTimeInfo dist={tourInfo.dist} iconFill="white" />
+          </div>
+        </header>
+        <div className="mt-14" />
+        <nav className="w-full flex justify-center">
           <button
             type="button"
             className="mb-[24px] bg-white rounded-[15px] w-[320px] h-[50px] text-black font-bold text-[16px]"
           >
             여행 시작하기
           </button>
-        </div>
-      </div>
+        </nav>
+      </footer>
+
       <div className="absolute left-0 bottom-0 w-full h-1/2 bg-gradient-to-t from-black/50 to-transparent pointer-events-none z-(--z-layer1)" />
-    </div>
+    </article>
   );
 }

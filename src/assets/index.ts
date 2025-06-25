@@ -1,6 +1,7 @@
 import BicycleIcon from './rideIcon.svg?react';
 import CarIcon from './carIcon.svg?react';
 import CheckIcon from './checkIcon.svg?react';
+import InfoIcon from './infoIcon.svg?react';
 import DeleteIcon from './DeleteIcon.svg?react';
 import EndPoint from './endPoint.svg?react';
 import GeoMapIcon from './geoMapIcon.svg?react';
@@ -17,6 +18,7 @@ import TransportationIcon from './transportationIcon.svg?react';
 export {
   BicycleIcon,
   CarIcon,
+  InfoIcon,
   CheckIcon,
   DeleteIcon,
   EndPoint,

@@ -54,12 +54,10 @@ const getLocationBasedData = async ({
     baseItems.map(async (item, index) => {
       try {
         const params = { contentId: item.contentid, _type: 'json' };
-        const [commonRes, imageRes] = await Promise.all([
-          api.get<ApiResponse<{ overview: string }[]>>(`/detailCommon2`, {
-            params,
-          }),
-          api.get<ApiResponse<TourDetailImage[]>>(`/detailImage2`, { params }),
-        ]);
+        const imageRes = await api.get<ApiResponse<TourDetailImage[]>>(
+          `/detailImage2`,
+          { params }
+        );
 
         const firstImage: TourDetailImage = {
           imgname: baseItems[index].firstimage,
@@ -73,7 +71,6 @@ const getLocationBasedData = async ({
 
         return {
           ...item,
-          overview: commonRes.data.response.body.items.item[0]?.overview ?? '',
           images,
         };
       } catch (e) {

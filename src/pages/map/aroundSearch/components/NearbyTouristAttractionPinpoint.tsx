@@ -2,8 +2,7 @@ import { useState } from 'react';
 import { MapMarker } from 'react-kakao-maps-sdk';
 import type { TourItem } from '@/pages/types';
 import { markerImageMap } from '@/pages/const/MARKER';
-import { BottomSheet } from '@/components';
-import { TourDetail } from '@/pages/tour/geotrip/components';
+import { BottomSheet, TourCard } from '@/components';
 
 type NearbyTouristAttractionPinPointProps = TourItem;
 
@@ -29,15 +28,21 @@ export default function NearbyTouristAttractionPinPoint(
         }}
         onClick={() => setOpenAttractionDetail(prev => !prev)}
       ></MapMarker>
-      <div className="w-full h-11/12 bottom-0 left-0">
+      <div className="absolute w-full h-full bottom-0 left-0">
         <BottomSheet
           isOpen={openAttractionDetail}
           onClose={() => setOpenAttractionDetail(false)}
-          initialY="65%"
-          minHeight={200}
+          initialY="60%"
+          minHeight={400}
         >
           <BottomSheet.Content>
-            <TourDetail {...{ overview: '1', ...tourist }} />
+            <div className="bg-red-100 w-full h-300">
+              <TourCard
+                title={tourist.title}
+                distance={tourist.title}
+                imgUrl={tourist.firstimage || ''}
+              />
+            </div>
           </BottomSheet.Content>
         </BottomSheet>
       </div>

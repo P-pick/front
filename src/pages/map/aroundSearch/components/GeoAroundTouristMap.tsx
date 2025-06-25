@@ -3,8 +3,7 @@ import AroundTouristNavigate from './AroundTouristNavigate';
 import NearbyTouristAttractionPinPoint from './NearbyTouristAttractionPinpoint';
 import { useGetAroundNavigate, useGetDestinationInfo } from '../lib';
 import CurrentDeviceLocation from '../../components/CurrentDeviceLocation';
-import { BottomSheet } from '@/components';
-import { TourDetail } from '@/pages/tour/geotrip/components';
+import { BottomSheet, TourCard } from '@/components';
 import { useState } from 'react';
 
 export default function GeoAroundTouristMap() {
@@ -34,15 +33,19 @@ export default function GeoAroundTouristMap() {
         position={destination}
         onClick={() => setIsOpenBottomSheet(true)}
       ></MapMarker>
-      <div className="absolute w-full h-11/12 bottom-0 left-0">
+      <div className="absolute w-full h-full bottom-0 left-0">
         <BottomSheet
           isOpen={isOpenBottomSheet}
           onClose={() => setIsOpenBottomSheet(false)}
-          initialY="65%"
+          initialY="55%"
           minHeight={200}
         >
           <BottomSheet.Content>
-            <TourDetail {...currentTourInfo} />
+            <TourCard
+              title={currentTourInfo.title}
+              distance={currentTourInfo.title}
+              imgUrl={''}
+            />
           </BottomSheet.Content>
         </BottomSheet>
       </div>

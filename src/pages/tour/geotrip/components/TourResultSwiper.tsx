@@ -71,7 +71,10 @@ function TourResultSwiper({
           </SwiperSlide>
         ))}
       </Swiper>
-      <SideButtonGroup {...currentTourInfo} />
+      <SideButtonGroup
+        playTTSButtonProps={currentTourInfo.overview}
+        goToAroundTouristButtonProps={currentTourInfo}
+      />
       <div className="absolute w-full h-11/12 bottom-0 left-0">
         <BottomSheet
           isOpen={showDetail}

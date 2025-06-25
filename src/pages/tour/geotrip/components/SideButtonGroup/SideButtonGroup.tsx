@@ -1,11 +1,19 @@
 import type { TourSummary } from '../../types';
 import { GoToAroundTouristButton, PlayTTSButton, TourListButton } from './';
 
-export default function OverlayButtonGroup(tourInfo: TourSummary) {
+interface OverlayButtonGroupProps {
+  playTTSButtonProps: string;
+  goToAroundTouristButtonProps: TourSummary;
+}
+
+export default function OverlayButtonGroup({
+  playTTSButtonProps,
+  goToAroundTouristButtonProps,
+}: OverlayButtonGroupProps) {
   return (
     <div className="absolute bottom-1/2 right-0 z-100 flex flex-col gap-5 pr-[19px]">
-      <PlayTTSButton text={tourInfo.overview} />
-      <GoToAroundTouristButton {...tourInfo} />
+      <PlayTTSButton text={playTTSButtonProps} />
+      <GoToAroundTouristButton {...goToAroundTouristButtonProps} />
       <TourListButton />
     </div>
   );

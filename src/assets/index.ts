@@ -12,12 +12,14 @@ import DeleteIcon from './DeleteIcon.svg?react';
 import StartPoint from './startPoint.svg?react';
 import EndPoint from './endPoint.svg?react';
 import CheckIcon from './checkIcon.svg?react';
+import InfoIcon from './infoIcon.svg?react';
 
 export {
   PedestrianIcon,
   CheckIcon,
   BicycleIcon,
   CarIcon,
+  InfoIcon,
   TransportationIcon,
   ListIcon,
   HeartIcon,

@@ -1,3 +1,6 @@
-export default function TourCard() {
+interface TourCardProps {
+  title: string;
+}
+export default function TourCard({}: TourCardProps) {
   return <></>;
 }

@@ -1,4 +1,4 @@
-import { DistanceTimeInfo } from '@/pages/tour/components';
+import { DistanceTimeInfo } from '@/components';
 import type { TourSummary } from '../types';
 
 export default function TourDetail({ dist, title }: TourSummary) {

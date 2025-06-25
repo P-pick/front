@@ -1,5 +1,5 @@
 import type { PedestrianFeatures, PedestrianSearchOption } from '../../types';
-import { Polyline } from 'react-kakao-maps-sdk';
+import { Polyline, useMap } from 'react-kakao-maps-sdk';
 import Point from './Point';
 import isSelectedOptions from '../../lib/isSelectedOptions';
 import type { PointProperties } from '../../types/pedestrianType';

@@ -29,7 +29,7 @@ export default function GeoDestinationMap({
   });
 
   return (
-    <Map id="map" center={start} className="w-full h-full relative" level={6}>
+    <Map id="map" center={start} className="w-full h-full relative " level={6}>
       <SelectTransportationFromGeoMap />
       <ResizingMap start={start} end={end} />
       {features &&

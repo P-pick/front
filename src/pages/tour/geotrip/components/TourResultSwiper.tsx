@@ -30,6 +30,7 @@ function TourResultSwiper({
   const [currentTourInfo, setCurrentTourInfo] = useState<TourSummary>({
     dist: slides[0].dist,
     title: slides[0].title,
+    images: slides[0].images,
   });
 
   const handleSlideChange = (swiper: SwiperType) => {
@@ -38,6 +39,7 @@ function TourResultSwiper({
       setCurrentTourInfo({
         dist: current.dist,
         title: current.title,
+        images: current.images,
       });
     }
   };
@@ -72,8 +74,14 @@ function TourResultSwiper({
           minHeight={600}
         >
           <BottomSheet.Content>
-            <TourCard />
-            <TourDetail {...currentTourInfo} />
+            <div className="bg-white w-full h-200">
+              <TourCard
+                title={currentTourInfo.title}
+                distance={currentTourInfo.dist}
+                imgUrl={currentTourInfo.images[0].originimgurl || ''}
+              />
+              {/* <TourDetail {...currentTourInfo} /> */}
+            </div>
           </BottomSheet.Content>
           <BottomSheet.Footer>
             <div className="absolute left-0 bottom-0 bg-gradient-to-t from-white to-white/90 w-full h-full flex justify-center items-center">

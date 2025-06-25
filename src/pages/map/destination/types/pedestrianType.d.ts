@@ -11,7 +11,7 @@ export type SortType =
   | 'index' // 인덱스 순서 (기본값)
   | 'custom'; // 라인노드, 포인트노드 순서로 정렬
 
-export type facilityType =
+export type FacilityType =
   | 1 //교량
   | 2 //터널
   | 3 // 고가도로
@@ -103,7 +103,7 @@ export type PointProperties = {
   nearPoiX: number; // 안내 지점 주변 관심장소(POI) 경도
   nearPoiY: number; // 안내 지점 주변 관심장소(POI) 위도
   intersectionName: string; //교차로 명칭
-  facilityType: facilityType; //시설물 종류 예: "횡단보도"
+  facilityType: FacilityType; //시설물 종류 예: "횡단보도"
   facilityName: string; //시설물 명칭 예: "교량"
   turnType: TurnType; //회전 정보
   pointType: PointType;
@@ -118,7 +118,7 @@ export type LineStringProperties = {
   time: number;
   roadType: RoadType;
   categoryRoadType: CategoryRoadType;
-  facilityType: facilityType; // 시설물 종류 예: "교량"
+  facilityType: FacilityType; // 시설물 종류 예: "교량"
   facilityName: string; // 시설물 명칭 예: "교량"
 };
 

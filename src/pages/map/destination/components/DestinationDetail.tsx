@@ -51,7 +51,7 @@ export default function DestinationDetail({
     <div
       className={`w-full h-full bg-white flex-col p-3  rounded-2xl ${isSelectedBorder}`}
     >
-      <h2 className={`text-xs font-semibold ${isSelectedH2}`}>{searchName}</h2>
+      <h2 className={`text-xs font-bold ${isSelectedH2}`}>{searchName}</h2>
       <p className="text-xs">
         {takeTimeToGo && takeTimeToGo.hours > 0 ? (
           <>

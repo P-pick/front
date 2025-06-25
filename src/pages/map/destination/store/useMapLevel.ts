@@ -9,7 +9,7 @@ type Action = {
 };
 
 const useMapLevel = create<State & Action>(set => ({
-  mapLevel: 6, // Default map level
+  mapLevel: 6,
   setMapLevel: (level: number) => set({ mapLevel: level }),
 }));
 

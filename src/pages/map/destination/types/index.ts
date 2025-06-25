@@ -1,7 +1,15 @@
-import type { CarFeatures, SearchOption as CarSearchOptions } from './carType';
+import type {
+  CarFeatures,
+  SearchOption as CarSearchOptions,
+  TurnType as CarTurnType,
+  ResponseRoadType,
+  FacilityType as CarFacilityType,
+} from './carType';
 import type {
   PedestrianFeatures,
   SearchOption as PedestrianSearchOptions,
+  TurnType as PedestrianTurnType,
+  FacilityType as PedestrianFacilityType,
 } from './pedestrianType';
 
 export type {
@@ -36,7 +44,7 @@ export type {
   SortType as PedestrianSortType,
   RoadType as PedestrianRoadType,
   TurnType as PedestrianTurnType,
-  facilityType as PedestrianFacilityType,
+  FacilityType as PedestrianFacilityType,
   PointProperties as PedestrianPointProperties,
   LineStringProperties as PedestrianLineStringProperties,
   PedestrianFeatures,
@@ -50,26 +58,31 @@ export type TransportationType =
   | 'bicycle'
   | 'public-transportation';
 
-export interface PolyBase {
+export interface FollowBase {
   id: string;
   path: {
     lat: number;
     lng: number;
   }[];
-  color: string;
-  stock: number;
-  zIndex: number;
+  description: string;
+  distance?: number;
+  index: number;
 }
 
-export interface PedestrianPolyFeature extends PolyBase {
+export interface PedestrianFollowFeature extends FollowBase {
   totalTime?: number;
   totalDistance?: number;
+  turnType: PedestrianTurnType;
+  facilityType?: PedestrianFacilityType;
 }
 
-export interface CarPolyFeature extends PolyBase {
+export interface CarFollowFeature extends FollowBase {
   totalTime?: number;
   totalDistance?: number;
   taxiFare?: number;
+  turnType: CarTurnType;
+  roadType?: ResponseRoadType;
+  facilityType?: CarFacilityType;
 }
 
 export type PedestrianOptionNames =

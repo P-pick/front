@@ -12,7 +12,7 @@ export default function TourListButton() {
   return (
     <button
       onClick={handleClick}
-      className="w-10 h-10 flex items-center justify-center rounded-full bg-white"
+      className="w-10 h-10 flex items-center justify-center rounded-full bg-white cursor-pointer"
     >
       <ListIcon />
     </button>

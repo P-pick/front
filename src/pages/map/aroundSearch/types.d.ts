@@ -1,3 +1,5 @@
+import type { TourSummary } from '@/pages/tour/geotrip/types';
+
 export type AroundContentTypeId =
   | '' // 없음
   | '12' // 관광지
@@ -14,3 +16,5 @@ export type MarkerType = {
   imageSrc: string;
   altText: string;
 };
+
+export type AroundTourInfo = TourSummary;

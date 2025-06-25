@@ -4,20 +4,18 @@ import type {
   PolyFeatures,
   TransportationType,
 } from '../types';
-import getCarDestinationPath from './getPolyLinesCarPathInfo';
-import getPedestrianDestinationPath from './getPolyLinesPedestrianPath';
+import getCarFollowList from './getCarFollowList';
+import getPedestrianFollowList from './getPedestrianFollowList';
 
 const getSelectedTransportationPolylines = (
   vehicle: TransportationType,
   features: PolyFeatures
 ) => {
   const selectedTransportation = {
-    pedestrian: () =>
-      getPedestrianDestinationPath(features as PedestrianFeatures[]),
-    car: () => getCarDestinationPath(features as CarFeatures[]),
-    bicycle: () => getCarDestinationPath(features as CarFeatures[]),
-    'public-transportation': () =>
-      getCarDestinationPath(features as CarFeatures[]),
+    pedestrian: () => getPedestrianFollowList(features as PedestrianFeatures[]),
+    car: () => getCarFollowList(features as CarFeatures[]),
+    bicycle: () => getCarFollowList(features as CarFeatures[]),
+    'public-transportation': () => getCarFollowList(features as CarFeatures[]),
   };
   return selectedTransportation[vehicle]();
 };

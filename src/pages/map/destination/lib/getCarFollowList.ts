@@ -12,7 +12,7 @@ const getCoordinatesPointLines = (coords: number[][]) => {
   }));
 };
 
-const getCarDestinationPath = (
+const getCarFollowList = (
   destination: CarFeatures[] = []
 ): CarFollowFeature[] => {
   return destination
@@ -68,4 +68,4 @@ const getCarDestinationPath = (
     .filter((path): path is CarFollowFeature => path !== undefined);
 };
 
-export default getCarDestinationPath;
+export default getCarFollowList;

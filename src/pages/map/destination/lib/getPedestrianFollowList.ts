@@ -4,7 +4,7 @@ import type {
   PedestrianFollowFeature,
 } from '../types';
 
-const getPedestrianDestinationPath = (
+const getPedestrianFollowList = (
   destination: PedestrianFeatures[] = []
 ): PedestrianFollowFeature[] => {
   return destination
@@ -51,4 +51,4 @@ const getPedestrianDestinationPath = (
     .filter((path): path is PedestrianFollowFeature => path !== undefined);
 };
 
-export default getPedestrianDestinationPath;
+export default getPedestrianFollowList;

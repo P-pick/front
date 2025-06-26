@@ -8,7 +8,9 @@ export default function Tour() {
   return (
     <section className="flex flex-col h-full w-full">
       <div className="h-full w-full relative">
-        <Header>{!isGeoTrip && <h1>리스트</h1>}</Header>
+        <Header className="w-full absolute flex items-center justify-between top-4 px-5 z-(--z-layer5)">
+          {!isGeoTrip && <h1>리스트</h1>}
+        </Header>
         <Outlet />
       </div>
     </section>

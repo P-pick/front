@@ -1,9 +1,12 @@
 import { MenuIcon, BackButton } from '@/components/';
 import type { PropsWithChildren } from 'react';
 
-export default function Header({ children }: PropsWithChildren) {
+export default function Header({
+  children,
+  className,
+}: PropsWithChildren<{ className?: string }>) {
   return (
-    <header className="w-full absolute flex items-center justify-between top-4 px-5 z-(--z-layer5)">
+    <header className={className}>
       <BackButton />
       {children}
       <MenuIcon />

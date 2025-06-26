@@ -1,7 +1,8 @@
 import { HeartIcon, OptionIcon } from '@/assets';
+import { DistanceTimeInfo } from '@/components';
 import { truncate } from '@/lib';
 import { TOUR_TYPE } from '@/pages/const/MARKER';
-import { DistanceTimeInfo } from '@/pages/tour/components';
+
 import type { TourItemWithDetail } from '@/pages/types';
 
 interface TourInfoCardProps {
@@ -72,9 +73,7 @@ export default function TourInfoCard({ tourInfo }: TourInfoCardProps) {
             {truncate(tourInfo.addr1 ?? '', { omission: '', length: 10 })}
           </address>
         </div>
-        <p className="text-gray-700 mt-1">
-          {truncate(tourInfo.overview, { length: 80 })}
-        </p>
+        <p className="text-gray-700 mt-1"></p>
       </section>
     </article>
   );

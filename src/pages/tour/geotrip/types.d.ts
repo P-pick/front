@@ -2,5 +2,5 @@ import type { TourItemWithDetail } from '@/pages/types';
 
 export type TourSummary = Pick<
   TourItemWithDetail,
-  'title' | 'dist' | 'overview'
+  'title' | 'dist' | 'mapx' | 'mapy' | 'contenttypeid' | 'images' | 'contentid'
 >;

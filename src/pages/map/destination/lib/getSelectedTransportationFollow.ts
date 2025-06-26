@@ -7,7 +7,7 @@ import type {
 import getCarFollowList from './getCarFollowList';
 import getPedestrianFollowList from './getPedestrianFollowList';
 
-const getSelectedTransportationPolylines = (
+const getSelectedTransportationFollow = (
   vehicle: TransportationType,
   features: PolyFeatures
 ) => {
@@ -20,4 +20,4 @@ const getSelectedTransportationPolylines = (
   return selectedTransportation[vehicle]();
 };
 
-export default getSelectedTransportationPolylines;
+export default getSelectedTransportationFollow;

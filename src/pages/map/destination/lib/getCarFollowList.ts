@@ -5,13 +5,6 @@ import type {
   CarLineStringProperties,
 } from '../types';
 
-const getCoordinatesPointLines = (coords: number[][]) => {
-  return coords.map(coord => ({
-    lat: coord[1],
-    lng: coord[0],
-  }));
-};
-
 const getCarFollowList = (
   destination: CarFeatures[] = []
 ): CarFollowFeature[] => {
@@ -40,27 +33,6 @@ const getCarFollowList = (
         }
 
         return result;
-      }
-
-      if (geometry.type === 'LineString') {
-        const coords = geometry.coordinates;
-
-        const path = getCoordinatesPointLines(coords);
-        const lineProperties = properties as CarLineStringProperties;
-
-        return [
-          {
-            id: `${properties.index}-full`,
-            path,
-            description: lineProperties.description,
-            index: lineProperties.index,
-            roadType: lineProperties.roadType,
-            facilityType: lineProperties.facilityType,
-            totalTime: 0,
-            totalDistance: 0,
-            taxiFare: 0,
-          },
-        ];
       }
 
       return undefined;

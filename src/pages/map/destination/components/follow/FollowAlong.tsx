@@ -15,7 +15,7 @@ export default function FollowAlong({ firstIndex }: FollowAlongProps) {
     if (map) {
       map.setCenter(new kakao.maps.LatLng(firstIndex.lat!, firstIndex.lng!));
     }
-    map.setLevel(1, { animate: { duration: 500 } });
+    map.setLevel(3, { animate: { duration: 500 } });
     setIsFollowAlong(true);
   };
 

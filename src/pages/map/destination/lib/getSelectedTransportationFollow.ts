@@ -1,6 +1,8 @@
 import type {
   CarFeatures,
+  CarFollowFeature,
   PedestrianFeatures,
+  PedestrianFollowFeature,
   PolyFeatures,
   TransportationType,
 } from '../types';
@@ -10,7 +12,7 @@ import getPedestrianFollowList from './getPedestrianFollowList';
 const getSelectedTransportationFollow = (
   vehicle: TransportationType,
   features: PolyFeatures
-) => {
+): CarFollowFeature[] | PedestrianFollowFeature[] => {
   const selectedTransportation = {
     pedestrian: () => getPedestrianFollowList(features as PedestrianFeatures[]),
     car: () => getCarFollowList(features as CarFeatures[]),

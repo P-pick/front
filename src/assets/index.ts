@@ -15,6 +15,7 @@ import RightArrowIcon from './RightIcon.svg?react';
 import SoundIcon from './soundIcon.svg?react';
 import StartPoint from './startPoint.svg?react';
 import TransportationIcon from './transportationIcon.svg?react';
+import CarTunnelIcon from './follow/터널.svg?react';
 
 export {
   BicycleIcon,
@@ -34,4 +35,5 @@ export {
   SoundIcon,
   StartPoint,
   TransportationIcon,
+  CarTunnelIcon,
 };

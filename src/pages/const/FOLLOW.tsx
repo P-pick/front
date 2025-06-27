@@ -14,14 +14,16 @@ import TenStraightIcon from '@/assets/follow/10시방향.svg?react';
 import EightStraightIcon from '@/assets/follow/8시방향.svg?react';
 import StartPoint from '@/assets/출발핀2.svg?react';
 import EndPoint from '@/assets/도착핀3.svg?react';
-import type { TurnType } from '../map/destination/types/pedestrianType';
+import type { TurnType as PedestrianTurnType } from '../map/destination/types/pedestrianType';
+import type { TurnType as CarTurnType } from '../map/destination/types/carType';
+import { CarTunnelIcon } from '@/assets';
 
 interface FollowInfo {
   name: string;
   svg: React.ReactElement;
 }
 
-export const pedestrianFollowInfo: Record<TurnType, FollowInfo> = {
+const baseFollowInfo = {
   11: {
     name: '직진',
     svg: <StraightIcon />,
@@ -137,5 +139,17 @@ export const pedestrianFollowInfo: Record<TurnType, FollowInfo> = {
   218: {
     name: '엘리베이터',
     svg: <ElevatorIcon />,
+  },
+};
+
+export const pedestrianFollowInfo: Record<PedestrianTurnType, FollowInfo> = {
+  ...baseFollowInfo,
+};
+
+export const carFollowInfo: Record<CarTurnType, FollowInfo> = {
+  ...baseFollowInfo,
+  121: {
+    name: '터널 진입',
+    svg: <CarTunnelIcon />,
   },
 };

@@ -1,5 +1,6 @@
+import { useCurrentLocation } from '@/lib';
 import type { GeoTripLocation } from '@/pages/types';
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useMap } from 'react-kakao-maps-sdk';
 
 interface UseResizingMapLevel {
@@ -18,11 +19,11 @@ export const useResizingMapLevel = ({ points }: UseResizingMapLevel) => {
     return bounds;
   }, [points]);
 
-  useEffect(() => {
+  const handleMapResizing = () => {
     if (map && points.length > 0) {
       map.setBounds(bounds, 100, 0, 150, 0);
     }
-  }, [map]);
+  };
 
-  return null;
+  return { map, handleMapResizing };
 };

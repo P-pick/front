@@ -8,6 +8,7 @@ import GeoMapIcon from './geoMapIcon.svg?react';
 import HeartIcon from './heartIcon.svg?react';
 import ListIcon from './listIcon.svg?react';
 import MapIcon from './mapIcon.svg?react';
+import MyLocationIcon from './myLocationIcon.svg?react';
 import OptionIcon from './optionIcon.svg?react';
 import PedestrianIcon from './pedestrianIcon.svg?react';
 import RightArrowIcon from './RightIcon.svg?react';
@@ -26,6 +27,7 @@ export {
   HeartIcon,
   ListIcon,
   MapIcon,
+  MyLocationIcon,
   OptionIcon,
   PedestrianIcon,
   RightArrowIcon,

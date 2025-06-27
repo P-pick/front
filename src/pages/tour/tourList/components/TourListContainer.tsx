@@ -23,7 +23,7 @@ function TourListContainer({
   return (
     <>
       {tourItems.map(tourInfo => (
-        <TourInfoCard tourInfo={tourInfo} />
+        <TourInfoCard tourInfo={tourInfo} key={tourInfo.contentid} />
       ))}
       <InfiniteScroll
         hasNextPage={hasNextPage}

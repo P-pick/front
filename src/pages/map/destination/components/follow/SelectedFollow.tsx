@@ -1,14 +1,14 @@
-import { useMemo } from 'react';
+import { useMemo, useRef } from 'react';
 import { useTransportation } from '../../store';
 import type { PolyFeatures } from '../../types';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { FreeMode } from 'swiper/modules';
+import { Swiper, SwiperSlide, useSwiper } from 'swiper/react';
+import { Navigation, Pagination } from 'swiper/modules';
 import { DeleteIcon } from '@/assets';
 import { pedestrianFollowInfo } from '@/pages/const/FOLLOW';
-import { getSelectedTransportationFollow } from '../../lib';
+import { getSelectedTransportationFollow, useMapController } from '../../lib';
 import { useStore } from 'zustand';
 import useFollowAlong from '../../store/useFollowAlong';
-import { useMap } from 'react-kakao-maps-sdk';
+import type { Swiper as SwiperType } from 'swiper/types';
 
 interface SelectedFollowProps {
   followFeatures: PolyFeatures;
@@ -17,9 +17,11 @@ interface SelectedFollowProps {
 export default function SelectedFollow({
   followFeatures,
 }: SelectedFollowProps) {
-  const { vehicle, searchOptions } = useTransportation();
+  const { vehicle } = useTransportation();
   const { setIsFollowAlong } = useStore(useFollowAlong);
-  const map = useMap();
+  const { handleSwitchLocationToPosition } = useMapController();
+
+  const swiperRef = useRef<SwiperType | null>(null);
 
   const followList = useMemo(() => {
     return getSelectedTransportationFollow(vehicle, followFeatures);
@@ -35,28 +37,33 @@ export default function SelectedFollow({
     }
   };
 
-  const handleFollowEachIndex = (position: { lat: number; lng: number }) => {
-    if (map) {
-      map.setCenter(new kakao.maps.LatLng(position.lat, position.lng));
-    }
-    map.setLevel(3, { animate: { duration: 500 } });
-  };
-
   return (
     <div className="absolute bottom-0 left-0 w-full h-3/14 py-4 z-(--z-layer2)">
       <Swiper
         direction="horizontal"
-        modules={[FreeMode]}
+        modules={[Navigation, Pagination]}
         freeMode={true}
         slidesPerView="auto"
         className="px-2 cursor-grab h-full"
+        onSwiper={swiper => {
+          swiperRef.current = swiper;
+        }}
+        onRealIndexChange={swiper => {
+          handleSwitchLocationToPosition(
+            followList[swiper.realIndex].path[0],
+            true
+          );
+        }}
       >
         {followList.map((option, idx) => (
           <>
             <SwiperSlide
               key={option.id}
               className="mx-2 min-w-60 max-w-60"
-              onClick={() => handleFollowEachIndex(option.path[0])}
+              onClick={() => {
+                handleSwitchLocationToPosition(option.path[0], true);
+                swiperRef.current?.slideTo(idx, 500, false);
+              }}
             >
               <div className="w-full h-full border-2 border-(--color-primary-red) bg-(--color-primary-red) rounded-2xl p-2 flex flex-col items-start justify-center gap-2">
                 <div className="flex gap-2">

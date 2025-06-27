@@ -5,9 +5,11 @@ import SelectTransportationFromGeoMap from './SelectTransportationFromGeoMap';
 import { GetPolylines } from './polylines';
 import GeoSearchOptions from './GeoSearchOptions';
 import { useStore } from 'zustand';
-import { useTransportation } from '../store';
+import { useMapLevel, useTransportation } from '../store';
 import { selectedTransportation } from '../service';
 import CurrentDeviceLocation from '../../components/CurrentDeviceLocation';
+import useFollowAlong from '../store/useFollowAlong';
+import { FollowAlong, SelectedFollow } from './follow';
 
 interface GeoDestinationMapProps {
   start: GeoTripLocation;
@@ -18,7 +20,9 @@ export default function GeoDestinationMap({
   start,
   end,
 }: GeoDestinationMapProps) {
-  const { vehicle } = useStore(useTransportation);
+  const { vehicle, searchOptions } = useStore(useTransportation);
+  const { mapLevel, setMapLevel } = useStore(useMapLevel);
+  const { isFollowAlong } = useStore(useFollowAlong);
   const features = selectedTransportation(vehicle, {
     startX: start.lng,
     startY: start.lat,
@@ -29,19 +33,39 @@ export default function GeoDestinationMap({
   });
 
   return (
-    <Map id="map" center={start} className="w-full h-full relative" level={6}>
-      <SelectTransportationFromGeoMap />
-      <ResizingMap start={start} end={end} />
-      {features &&
-        features.map(data => (
-          <GetPolylines
-            key={`${vehicle}-${data.optionId}`}
-            destination={data.features}
-            searchOption={data.optionId}
-          />
-        ))}
-      <GeoSearchOptions features={features} />
-      <CurrentDeviceLocation />
-    </Map>
+    <>
+      <Map
+        id="map"
+        center={start}
+        className="flex-1 w-full h-full relative"
+        level={mapLevel}
+        onZoomChanged={map => {
+          setMapLevel(map.getLevel());
+        }}
+      >
+        {!isFollowAlong && <SelectTransportationFromGeoMap />}
+        <ResizingMap start={start} end={end} />
+        {features &&
+          features.map(data => (
+            <>
+              <GetPolylines
+                key={`${vehicle}-${data.optionId}`}
+                destination={data.features}
+                searchOption={data.optionId}
+              />
+              {isFollowAlong && data.optionId === searchOptions && (
+                <SelectedFollow followFeatures={data.features} />
+              )}
+            </>
+          ))}
+        <CurrentDeviceLocation />
+        {!isFollowAlong && (
+          <>
+            <GeoSearchOptions features={features} />
+            <FollowAlong firstIndex={start} />
+          </>
+        )}
+      </Map>
+    </>
   );
 }

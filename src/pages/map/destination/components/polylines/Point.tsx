@@ -1,6 +1,9 @@
 import type { PointType as PedestrianPointType } from '../../types/pedestrianType';
 import type { PointType as CarPointType } from '../../types/carType';
 import { MapMarker } from 'react-kakao-maps-sdk';
+import { useStore } from 'zustand';
+import { useMapLevel } from '../../store';
+import { useResizingMapLevel } from '../../lib/useResizingMapLevel';
 
 export interface PointProps {
   pointType: PedestrianPointType | CarPointType;
@@ -19,6 +22,8 @@ export default function Point({
   zIndex,
   onClick,
 }: PointProps) {
+  const { mapLevel } = useStore(useMapLevel);
+
   if (
     pointType === ('S' as CarPointType) ||
     pointType === ('SP' as PedestrianPointType)
@@ -72,23 +77,25 @@ export default function Point({
   }
 
   return (
-    <MapMarker
-      onClick={onClick}
-      position={position}
-      image={{
-        src: '/Point.png',
-        size: {
-          width: 12,
-          height: 12,
-        },
-        options: {
-          offset: {
-            x: 6,
-            y: 6,
+    mapLevel < 6 && (
+      <MapMarker
+        onClick={onClick}
+        position={position}
+        image={{
+          src: '/Point.png',
+          size: {
+            width: 12,
+            height: 12,
           },
-        },
-      }}
-      zIndex={zIndex}
-    />
+          options: {
+            offset: {
+              x: 6,
+              y: 6,
+            },
+          },
+        }}
+        zIndex={zIndex}
+      />
+    )
   );
 }

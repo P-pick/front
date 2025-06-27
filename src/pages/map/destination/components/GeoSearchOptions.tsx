@@ -13,7 +13,7 @@ export default function GeoSearchOptions({ features }: DestinationDetailProps) {
   const { setSearchOptions } = useStore(useTransportation);
 
   return (
-    <div className="absolute bottom-0 left-0 z-(--z-layer2) w-full h-1/5 py-3">
+    <div className="absolute bottom-13 left-0 z-(--z-layer2) w-full h-1/5 py-3">
       <Swiper
         direction="horizontal"
         modules={[FreeMode]}

@@ -8,6 +8,7 @@ interface UseResizingMapLevel {
 
 export const useResizingMapLevel = ({ points }: UseResizingMapLevel) => {
   const map = useMap();
+
   const bounds = useMemo(() => {
     const bounds = new kakao.maps.LatLngBounds();
 
@@ -19,15 +20,9 @@ export const useResizingMapLevel = ({ points }: UseResizingMapLevel) => {
 
   useEffect(() => {
     if (map && points.length > 0) {
-      map.setBounds(bounds, 150, 0, 100, 0);
+      map.setBounds(bounds, 100, 0, 150, 0);
     }
   }, [map]);
 
-  const handleResizeMapLevel = () => {
-    if (map) {
-      map.setBounds(bounds, 150, 0, 100, 0);
-    }
-  };
-
-  return { handleResizeMapLevel };
+  return null;
 };

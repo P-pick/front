@@ -1,3 +1,3 @@
-export { default as Pedestrian } from './getPolyLinesPedestrianPath';
-export { default as Car } from './getPolyLinesCarPathInfo';
-export { default as getSelectedTransportationPolylines } from './getSelectedTransportationPolylines';
+export { default as getPedestrianFollowList } from './getPedestrianFollowList';
+export { default as getCarFollowList } from './getCarFollowList';
+export { default as getSelectedTransportationFollow } from './getSelectedTransportationFollow';

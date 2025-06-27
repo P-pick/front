@@ -3,6 +3,7 @@ import { Polyline, useMap } from 'react-kakao-maps-sdk';
 import Point from './Point';
 import isSelectedOptions from '../../lib/isSelectedOptions';
 import type { PointProperties } from '../../types/pedestrianType';
+import useGoToFollowPin from '../../lib/useGoToFollowPin';
 
 export default function PedestrianPolylines({
   destination,
@@ -11,6 +12,8 @@ export default function PedestrianPolylines({
   destination: PedestrianFeatures[];
   searchOption: PedestrianSearchOption;
 }) {
+  const { handleGoToFollowPin } = useGoToFollowPin();
+
   return destination.map(feature => {
     const { geometry, properties } = feature;
 
@@ -28,6 +31,7 @@ export default function PedestrianPolylines({
               position={path[0]}
               pointType={spProperties.pointType}
               zIndex={2}
+              onClick={() => handleGoToFollowPin(path[0], spProperties.index)}
             />
           )}
         </>

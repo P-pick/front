@@ -11,13 +11,15 @@ export default function FollowAlong({ firstIndex }: FollowAlongProps) {
   const { setIsFollowAlong } = useStore(useFollowAlong);
   const { handleSwitchLocationToPosition } = useMapController();
 
+const handleFollowAlongButton = () => {
+    handleSwitchLocationToPosition(firstIndex, true, 3);
+    setIsFollowAlong(true);
+}
+
   return (
     <div className="absolute -bottom-3 left-0 z-(--z-layer2) w-full h-1/7 py-3">
       <button
-        onClick={() => {
-          handleSwitchLocationToPosition(firstIndex, true, 3);
-          setIsFollowAlong(true);
-        }}
+        onClick={handleFollowAlongButton}
         className="w-full h-full bg-(--color-primary-red) flex pt-4 justify-center text-xs text-white cursor-pointer"
       >
         따라가기

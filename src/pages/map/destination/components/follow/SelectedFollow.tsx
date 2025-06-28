@@ -9,6 +9,7 @@ import { getSelectedTransportationFollow, useMapController } from '../../lib';
 import { useStore } from 'zustand';
 import useFollowAlong from '../../store/useFollowAlong';
 import type { Swiper as SwiperType } from 'swiper/types';
+import type { GeoTripLocation } from '@/pages/types';
 
 interface SelectedFollowProps {
   followFeatures: PolyFeatures;
@@ -37,6 +38,14 @@ export default function SelectedFollow({
     }
   };
 
+  const handleSwitchPositionAndSwiperToCurrentIndex = (
+    position: GeoTripLocation,
+    index: number
+  ) => {
+    handleSwitchLocationToPosition(position, true);
+    swiperRef.current?.slideTo(index, 500, false);
+  };
+
   return (
     <div className="absolute bottom-0 left-0 w-full h-3/14 py-4 z-(--z-layer2)">
       <Swiper
@@ -60,10 +69,9 @@ export default function SelectedFollow({
             <SwiperSlide
               key={option.id}
               className="mx-2 min-w-60 max-w-60"
-              onClick={() => {
-                handleSwitchLocationToPosition(option.path[0], true);
-                swiperRef.current?.slideTo(idx, 500, false);
-              }}
+              onClick={() =>
+                handleSwitchPositionAndSwiperToCurrentIndex(option.path[0], idx)
+              }
             >
               <div className="w-full h-full border-2 border-(--color-primary-red) bg-(--color-primary-red) rounded-2xl p-2 flex flex-col items-start justify-center gap-2">
                 <div className="flex gap-2">

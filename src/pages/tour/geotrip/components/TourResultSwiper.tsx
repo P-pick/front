@@ -10,10 +10,11 @@ import type { TourSummary } from '../types';
 import { SideButtonGroup } from './SideButtonGroup';
 import type { Swiper as SwiperType } from 'swiper/types';
 import { withGeoTripParams } from '@/pages/tour/components';
+import type { AroundContentTypeId } from '@/pages/map/aroundSearch/types';
 interface TourResultSwiperProps {
   location: GeoTripLocation;
   distance: string;
-  tourType: number;
+  tourType: AroundContentTypeId;
 }
 function TourResultSwiper({
   location,

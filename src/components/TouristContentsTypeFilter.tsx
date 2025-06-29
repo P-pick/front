@@ -17,7 +17,7 @@ export default function TouristContentsTypeFilter({
     return clsx(
       'px-2.5 py-[6px] flex items-center justify-center rounded-2xl border-primary-dark border-2 cursor-pointer',
       {
-        'bg-primary-red text-primary-dark border-secondary-red': isActive,
+        'bg-primary-red text-white border-secondary-red': isActive,
       }
     );
   }, []);

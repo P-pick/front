@@ -39,7 +39,7 @@ const getLocationBasedData = async ({
         mapX: location.lng,
         mapY: location.lat,
         radius,
-        contentTypeId,
+        contentTypeId: Number(contentTypeId),
         numOfRows: NUM_OF_ROWS,
         arrange: 'S',
         pageNo,
@@ -54,11 +54,15 @@ const getLocationBasedData = async ({
   const settledResults = await Promise.allSettled(
     baseItems.map(async (item, index) => {
       try {
-        const params = { contentId: item.contentid, _type: 'json' };
-        const imageRes = await api.get<ApiResponse<TourDetailImage[]>>(
+        const params = { contentId: item.contentid };
+        const imageRes = await api.get<ApiResponse<TourDetailImage[] | ''>>(
           `/detailImage2`,
           { params }
         );
+        if (imageRes.data.response.body.items === '')
+          throw new Error(
+            `상세 이미지 데이터가 없습니다. contentid: ${item.contentid}`
+          );
 
         const firstImage: TourDetailImage = {
           imgname: baseItems[index].firstimage,
@@ -75,8 +79,7 @@ const getLocationBasedData = async ({
           images,
         };
       } catch (e) {
-        console.warn('상세정보 불러오기 실패:', item.contentid, e);
-        return null;
+        throw e;
       }
     })
   );

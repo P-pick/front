@@ -4,6 +4,7 @@ import { TRAFFIC } from '@/pages/const/TMAP';
 import type { CarFeatures, CarSearchOption } from '../../types';
 import type { PointProperties } from '../../types/carType';
 import isSelectedOptions from '../../lib/isSelectedOptions';
+import useGoToFollowPin from '../../lib/useGoToFollowPin';
 
 const getCoordinatesPointLines = (coords: number[][]) => {
   return coords.map(coord => ({
@@ -36,6 +37,8 @@ export default function CarPolylines({
   destination: CarFeatures[];
   searchOption: CarSearchOption;
 }) {
+  const { handleGoToFollowPin } = useGoToFollowPin();
+
   return destination.flatMap(feature => {
     const { geometry, properties } = feature;
 
@@ -53,6 +56,9 @@ export default function CarPolylines({
               position={path[0]}
               pointType={spProperties.pointType}
               zIndex={2}
+              onClick={() =>
+                handleGoToFollowPin(path[0], spProperties.pointIndex)
+              }
             />
           )}
         </>

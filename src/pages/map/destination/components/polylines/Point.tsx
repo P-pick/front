@@ -3,7 +3,6 @@ import type { PointType as CarPointType } from '../../types/carType';
 import { MapMarker } from 'react-kakao-maps-sdk';
 import { useStore } from 'zustand';
 import { useMapLevel } from '../../store';
-import { useResizingMapLevel } from '../../lib/useResizingMapLevel';
 
 export interface PointProps {
   pointType: PedestrianPointType | CarPointType;

@@ -1,5 +1,5 @@
 import type { PedestrianFeatures, PedestrianSearchOption } from '../../types';
-import { Polyline, useMap } from 'react-kakao-maps-sdk';
+import { Polyline } from 'react-kakao-maps-sdk';
 import Point from './Point';
 import isSelectedOptions from '../../lib/isSelectedOptions';
 import type { PointProperties } from '../../types/pedestrianType';
@@ -22,7 +22,6 @@ export default function PedestrianPolylines({
         { lat: geometry.coordinates[1], lng: geometry.coordinates[0] },
       ];
       const spProperties = properties as PointProperties;
-
       return (
         <>
           {isSelectedOptions(searchOption) && (
@@ -31,7 +30,9 @@ export default function PedestrianPolylines({
               position={path[0]}
               pointType={spProperties.pointType}
               zIndex={2}
-              onClick={() => handleGoToFollowPin(path[0], spProperties.index)}
+              onClick={() =>
+                handleGoToFollowPin(path[0], spProperties.pointIndex)
+              }
             />
           )}
         </>

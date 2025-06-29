@@ -6,6 +6,7 @@ import type {
   TourDetailImage,
   TourItemWithDetail,
   GeoTripLocation,
+  ResponseBody,
 } from '@/pages/types';
 import { NUM_OF_ROWS } from '@/pages/const/TOUR';
 import type { AroundContentTypeId } from '@/pages/map/aroundSearch/types';
@@ -24,14 +25,25 @@ type LocationBasedItemResponse = Promise<{
   totalCount: number;
 }>;
 
-const getLocationBasedData = async ({
-  location,
-  pageNo,
-  contentTypeId = '12',
-  radius = '5000',
-}: LocationBasedItemRequest): LocationBasedItemResponse => {
-  if (!location) return Promise.reject('위치 정보가 없습니다.');
+const fetchDetailImages = async (contentId: number) => {
+  const params = { contentId };
+  const imageRes = await api.get<ApiResponse<TourDetailImage[]>>(
+    `/detailImage2`,
+    { params }
+  );
+  if (imageRes.data.response.body.items === '') {
+    throw new Error(`no images`);
+  }
 
+  return imageRes.data.response.body.items.item;
+};
+
+const fetchLocationBasedItems = async (
+  location: GeoTripLocation,
+  pageNo: number,
+  contentTypeId: AroundContentTypeId,
+  radius: string
+) => {
   const response = await api.get<ApiResponse<TourItem[]>>(
     `/locationBasedList2`,
     {
@@ -46,53 +58,68 @@ const getLocationBasedData = async ({
       },
     }
   );
-  if (!response.data.response.body.items) {
-    return Promise.reject('위치 기반 데이터가 없습니다.');
+
+  if (response.data.response.body.items === '') {
+    throw new Error('아이템 데이터가 없습니다.');
   }
 
-  const baseItems = response.data.response.body.items.item;
+  return response.data.response.body as Omit<
+    ResponseBody<TourItem[]>,
+    'items'
+  > & { items: { item: TourItem[] } };
+};
+
+const attachDetailImages = async (
+  baseItems: TourItem[]
+): Promise<TourItemWithDetail[]> => {
   const settledResults = await Promise.allSettled(
     baseItems.map(async (item, index) => {
+      const firstImage: TourDetailImage = {
+        imgname: item.firstimage,
+        originimgurl: item.firstimage,
+        serialnum: item.firstimage + String(index),
+      };
       try {
-        const params = { contentId: item.contentid };
-        const imageRes = await api.get<ApiResponse<TourDetailImage[] | ''>>(
-          `/detailImage2`,
-          { params }
-        );
-        if (imageRes.data.response.body.items === '')
-          throw new Error(
-            `상세 이미지 데이터가 없습니다. contentid: ${item.contentid}`
-          );
+        const imageArray = await fetchDetailImages(item.contentid);
 
-        const firstImage: TourDetailImage = {
-          imgname: baseItems[index].firstimage,
-          originimgurl: baseItems[index].firstimage,
-          serialnum: String(index),
-        };
-
-        const images = imageRes.data.response.body.items.item
-          ? [...imageRes.data.response.body.items.item]
-          : [firstImage];
-
-        return {
-          ...item,
-          images,
-        };
-      } catch (e) {
-        throw e;
+        return { ...item, images: imageArray };
+      } catch (error) {
+        if (error instanceof Error && error.message === 'no images') {
+          return { ...item, images: [firstImage] };
+        }
       }
     })
   );
 
-  const itemsWithDetail = settledResults
+  return settledResults
     .filter(r => r.status === 'fulfilled' && r.value !== null)
     .map(r => (r as PromiseFulfilledResult<TourItemWithDetail>).value);
+};
+
+const getLocationBasedData = async ({
+  location,
+  pageNo,
+  contentTypeId = '12',
+  radius = '5000',
+}: LocationBasedItemRequest): LocationBasedItemResponse => {
+  if (!location) throw new Error('위치 정보가 없습니다.');
+
+  const body = await fetchLocationBasedItems(
+    location,
+    pageNo,
+    contentTypeId,
+    radius
+  );
+
+  const baseItems = body.items.item;
+
+  const itemsWithDetail = await attachDetailImages(baseItems);
 
   return {
     items: itemsWithDetail,
-    pageNo: response.data.response.body.pageNo,
-    numOfRows: response.data.response.body.numOfRows,
-    totalCount: response.data.response.body.totalCount,
+    pageNo: body.pageNo,
+    numOfRows: body.numOfRows,
+    totalCount: body.totalCount,
   };
 };
 

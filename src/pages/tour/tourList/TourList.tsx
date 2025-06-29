@@ -7,7 +7,7 @@ const fallbackList = [1, 2, 3, 4, 5];
 export default function TourList() {
   return (
     <div className="absolute h-full w-full overflow-auto ">
-      <Header className="w-full flex items-center justify-between px-5 mt-1.5">
+      <Header className="w-full flex items-center justify-between px-5 mt-1.5 mb-6">
         <h1>리스트</h1>
       </Header>
       <TouristFilterQueryUpdater />

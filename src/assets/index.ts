@@ -8,12 +8,14 @@ import GeoMapIcon from './geoMapIcon.svg?react';
 import HeartIcon from './heartIcon.svg?react';
 import ListIcon from './listIcon.svg?react';
 import MapIcon from './mapIcon.svg?react';
+import MyLocationIcon from './myLocationIcon.svg?react';
 import OptionIcon from './optionIcon.svg?react';
 import PedestrianIcon from './pedestrianIcon.svg?react';
 import RightArrowIcon from './RightIcon.svg?react';
 import SoundIcon from './soundIcon.svg?react';
 import StartPoint from './startPoint.svg?react';
 import TransportationIcon from './transportationIcon.svg?react';
+import CarTunnelIcon from './follow/터널.svg?react';
 
 export {
   BicycleIcon,
@@ -26,10 +28,12 @@ export {
   HeartIcon,
   ListIcon,
   MapIcon,
+  MyLocationIcon,
   OptionIcon,
   PedestrianIcon,
   RightArrowIcon,
   SoundIcon,
   StartPoint,
   TransportationIcon,
+  CarTunnelIcon,
 };

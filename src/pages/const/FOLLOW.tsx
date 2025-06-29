@@ -14,14 +14,15 @@ import TenStraightIcon from '@/assets/follow/10시방향.svg?react';
 import EightStraightIcon from '@/assets/follow/8시방향.svg?react';
 import StartPoint from '@/assets/출발핀2.svg?react';
 import EndPoint from '@/assets/도착핀3.svg?react';
-import type { TurnType } from '../map/destination/types/pedestrianType';
+import { CarTunnelIcon } from '@/assets';
+import type { TurnType } from '../map/destination/types';
 
 interface FollowInfo {
   name: string;
   svg: React.ReactElement;
 }
 
-export const pedestrianFollowInfo: Record<TurnType, FollowInfo> = {
+export const followInfo: Record<TurnType, FollowInfo> = {
   11: {
     name: '직진',
     svg: <StraightIcon />,
@@ -54,6 +55,30 @@ export const pedestrianFollowInfo: Record<TurnType, FollowInfo> = {
     name: '4시 방향 우회전',
     svg: <FourStraightIcon />,
   },
+  121: {
+    name: '터널 진입',
+    svg: <CarTunnelIcon />,
+  },
+  125: {
+    name: '육교',
+    svg: <OverPassIcon />,
+  },
+  126: {
+    name: '지하보도',
+    svg: <UnderGroundIcon />,
+  },
+  127: {
+    name: '계단 진입',
+    svg: <StairsIcon />,
+  },
+  128: {
+    name: '경사로 진입',
+    svg: <RampIcon />,
+  },
+  129: {
+    name: '계단 + 경사로 진입',
+    svg: <StairsIcon />,
+  },
   184: {
     name: '경유지',
     svg: <StraightIcon />,
@@ -78,26 +103,7 @@ export const pedestrianFollowInfo: Record<TurnType, FollowInfo> = {
     name: '다섯 번째 경유지',
     svg: <StraightIcon />,
   },
-  125: {
-    name: '육교',
-    svg: <OverPassIcon />,
-  },
-  126: {
-    name: '지하보도',
-    svg: <UnderGroundIcon />,
-  },
-  127: {
-    name: '계단 진입',
-    svg: <StairsIcon />,
-  },
-  128: {
-    name: '경사로 진입',
-    svg: <RampIcon />,
-  },
-  129: {
-    name: '계단 + 경사로 진입',
-    svg: <StairsIcon />,
-  },
+
   200: {
     name: '출발지',
     svg: <StartPoint />,

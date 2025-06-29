@@ -8,11 +8,12 @@ import type {
   GeoTripLocation,
 } from '@/pages/types';
 import { NUM_OF_ROWS } from '@/pages/const/TOUR';
+import type { AroundContentTypeId } from '@/pages/map/aroundSearch/types';
 
 type LocationBasedItemRequest = {
   location: GeoTripLocation | null;
   pageNo: number;
-  contentTypeId?: number;
+  contentTypeId: AroundContentTypeId;
   radius?: string;
 };
 
@@ -26,7 +27,7 @@ type LocationBasedItemResponse = Promise<{
 const getLocationBasedData = async ({
   location,
   pageNo,
-  contentTypeId = 12,
+  contentTypeId = '12',
   radius = '5000',
 }: LocationBasedItemRequest): LocationBasedItemResponse => {
   if (!location) return Promise.reject('위치 정보가 없습니다.');

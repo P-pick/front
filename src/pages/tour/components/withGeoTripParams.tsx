@@ -1,11 +1,12 @@
 import { useSearchParams } from 'react-router-dom';
 import type { GeoTripLocation } from '@/pages/types';
 import getSuspenseLocation from '@/lib/getSuspenseLocation';
+import type { AroundContentTypeId } from '@/pages/map/aroundSearch/types';
 
 interface InjectedProps {
   location: GeoTripLocation;
   distance: string;
-  tourType: number;
+  tourType: AroundContentTypeId;
 }
 
 export default function withGeoTripParams<P extends InjectedProps>(

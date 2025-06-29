@@ -8,13 +8,14 @@ interface FollowAlongProps {
 }
 
 export default function FollowAlong({ firstIndex }: FollowAlongProps) {
-  const { setIsFollowAlong } = useStore(useFollowAlong);
+  const { setIsFollowAlong, setCurrentFollowIndex } = useStore(useFollowAlong);
   const { handleSwitchLocationToPosition } = useMapController();
 
-const handleFollowAlongButton = () => {
+  const handleFollowAlongButton = () => {
     handleSwitchLocationToPosition(firstIndex, true, 3);
     setIsFollowAlong(true);
-}
+    setCurrentFollowIndex(0);
+  };
 
   return (
     <div className="absolute -bottom-3 left-0 z-(--z-layer2) w-full h-1/7 py-3">

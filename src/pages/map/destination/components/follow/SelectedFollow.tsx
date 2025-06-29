@@ -20,7 +20,7 @@ export default function SelectedFollow({
   followFeatures,
 }: SelectedFollowProps) {
   const { vehicle } = useTransportation();
-  const { currentFollowIndex } = useStore(useFollowAlong);
+  const { setIsFollowAlong, currentFollowIndex } = useStore(useFollowAlong);
   const { handleSwitchLocationToPosition } = useMapController();
 
   const swiperRef = useRef<SwiperType | null>(null);
@@ -28,6 +28,16 @@ export default function SelectedFollow({
   const followList = useMemo(() => {
     return getSelectedTransportationFollow(vehicle, followFeatures);
   }, [vehicle, followFeatures]);
+
+  const getStartAndEndIndex = (index: number) => {
+    if (index === 0) {
+      return 'S';
+    } else if (index === followList.length - 1) {
+      return 'E';
+    } else {
+      return index;
+    }
+  };
 
   const handleSwitchPositionAndSwiperToCurrentIndex = (
     position: GeoTripLocation,
@@ -61,13 +71,15 @@ export default function SelectedFollow({
       >
         {followList.map((option, idx) => (
           <>
-            <FollowElement
-              option={option}
-              idx={idx}
+            <SwiperSlide
+              key={option.id}
+              className="mx-2 min-w-60 max-w-60"
               onClick={() =>
                 handleSwitchPositionAndSwiperToCurrentIndex(option.path[0], idx)
               }
-            />
+            >
+              <FollowElement key={option.id} option={option} idx={idx} />
+            </SwiperSlide>
           </>
         ))}
       </Swiper>

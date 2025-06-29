@@ -1,6 +1,6 @@
 import { followInfo } from '@/pages/const/FOLLOW';
 import type { CarFollowFeature, PedestrianFollowFeature } from '../../types';
-import { DeleteIcon } from '@/assets';
+import { commonSVG } from '@/assets';
 import { useStore } from 'zustand';
 import useFollowAlong from '../../store/useFollowAlong';
 
@@ -30,7 +30,7 @@ export default function FollowElement({ option, idx }: FollowElementProps) {
         <p className="flex-1 text-xs text-white">{option.description}</p>
       </div>
       <div className="absolute right-5 top-3 cursor-pointer z-(--z-layer4) fill-white">
-        <DeleteIcon onClick={() => setIsFollowAlong(false)} />
+        <commonSVG.DeleteIcon onClick={() => setIsFollowAlong(false)} />
       </div>
     </>
   );

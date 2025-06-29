@@ -1,65 +1,58 @@
-const tourist = '/travel.png'; // 12
-const culturalFacilities = '/culture.png'; //14
-const festival = '/festival2.png'; // 15
-const travelCourse = '/course.png'; // 25
-const leisureSports = '/sports2.png'; //28
-const accommodation = '/hotel.png'; //32
-const shopping = '/shopping.png'; //38
-const restaurant = '/restaurant2.png'; // 39
+import { touristContentSVG } from '@/assets';
 
 export const markerList = [
   {
     contentTypeId: '12',
-    imageSrc: tourist,
+    imageSrc: touristContentSVG.TravelPin,
     altText: '관광지',
   },
   {
     contentTypeId: '14',
-    imageSrc: culturalFacilities,
+    imageSrc: touristContentSVG.CulturePin,
     altText: '문화시설',
   },
   {
     contentTypeId: '15',
-    imageSrc: festival,
+    imageSrc: touristContentSVG.FestivalPin,
     altText: '행사/공연/축제',
   },
   {
     contentTypeId: '25',
-    imageSrc: travelCourse,
+    imageSrc: touristContentSVG.CoursePin,
     altText: '여행 코스',
   },
   {
     contentTypeId: '28',
-    imageSrc: leisureSports,
+    imageSrc: touristContentSVG.SportPin,
     altText: '레포츠',
   },
   {
     contentTypeId: '32',
-    imageSrc: accommodation,
+    imageSrc: touristContentSVG.HotelPin,
     altText: '숙박',
   },
   {
     contentTypeId: '38',
-    imageSrc: shopping,
+    imageSrc: touristContentSVG.ShoppingPin,
     altText: '쇼핑',
   },
   {
     contentTypeId: '39',
-    imageSrc: restaurant,
+    imageSrc: touristContentSVG.RestaurantPin,
     altText: '음식점',
   },
 ] as const;
 
 export const markerImageMap = {
   '': '/none.png', // 없음
-  '12': tourist,
-  '14': culturalFacilities,
-  '15': festival,
-  '25': travelCourse,
-  '28': leisureSports,
-  '32': accommodation,
-  '38': shopping,
-  '39': restaurant,
+  '12': touristContentSVG.TravelPin,
+  '14': touristContentSVG.CulturePin,
+  '15': touristContentSVG.FestivalPin,
+  '25': touristContentSVG.CoursePin,
+  '28': touristContentSVG.SportPin,
+  '32': touristContentSVG.HotelPin,
+  '38': touristContentSVG.ShoppingPin,
+  '39': touristContentSVG.RestaurantPin,
 } as const;
 
 export const TOUR_TYPE = {

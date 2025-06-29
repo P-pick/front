@@ -1,7 +1,7 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
 import type { TourItemWithDetail } from '@/pages/types';
-import { InfoIcon } from '@/assets';
+import { commonSVG } from '@/assets';
 import { DistanceTimeInfo } from '@/components';
 
 interface TourSlideProps {
@@ -42,7 +42,7 @@ export default function TourSlide({
         <header>
           <div className="flex gap-1 items-center">
             <h1 className="text-2xl font-bold max-w-60">{tourInfo.title}</h1>
-            <InfoIcon
+            <commonSVG.InfoIcon
               className="text-white cursor-pointer"
               onClick={handleDetailOpen}
             />

@@ -3,8 +3,6 @@ import { useTransportation } from '../../store';
 import type { PolyFeatures } from '../../types';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
-import { DeleteIcon } from '@/assets';
-import { followInfo } from '@/pages/const/FOLLOW';
 import { getSelectedTransportationFollow, useMapController } from '../../lib';
 import { useStore } from 'zustand';
 import useFollowAlong from '../../store/useFollowAlong';
@@ -20,7 +18,7 @@ export default function SelectedFollow({
   followFeatures,
 }: SelectedFollowProps) {
   const { vehicle } = useTransportation();
-  const { setIsFollowAlong, currentFollowIndex } = useStore(useFollowAlong);
+  const { currentFollowIndex } = useStore(useFollowAlong);
   const { handleSwitchLocationToPosition } = useMapController();
 
   const swiperRef = useRef<SwiperType | null>(null);
@@ -28,16 +26,6 @@ export default function SelectedFollow({
   const followList = useMemo(() => {
     return getSelectedTransportationFollow(vehicle, followFeatures);
   }, [vehicle, followFeatures]);
-
-  const getStartAndEndIndex = (index: number) => {
-    if (index === 0) {
-      return 'S';
-    } else if (index === followList.length - 1) {
-      return 'E';
-    } else {
-      return index;
-    }
-  };
 
   const handleSwitchPositionAndSwiperToCurrentIndex = (
     position: GeoTripLocation,

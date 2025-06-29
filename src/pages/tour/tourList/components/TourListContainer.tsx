@@ -4,7 +4,8 @@ import type { GeoTripLocation } from '@/pages/types';
 import { InfiniteScroll, SkeletonCard, TourInfoCard } from '.';
 
 import type { AroundContentTypeId } from '@/pages/map/aroundSearch/types';
-import { useDeferredValue, useEffect, useState } from 'react';
+import { useDeferredValue, useEffect } from 'react';
+import { useSyncedState } from '../lib';
 interface TourListContainerProps {
   location: GeoTripLocation;
   distance: string;
@@ -15,7 +16,7 @@ function TourListContainer({
   distance,
   tourType,
 }: TourListContainerProps) {
-  const [localTourType, setLocalTourType] = useState(tourType);
+  const [localTourType] = useSyncedState(tourType);
   const deferredTourType = useDeferredValue(localTourType);
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useGeoLocationBasedTourQuery({
@@ -24,10 +25,7 @@ function TourListContainer({
       contentTypeId: deferredTourType,
     });
   const tourItems = data.pages.flatMap(page => page.items);
-
-  useEffect(() => {
-    setLocalTourType(tourType);
-  }, [tourType]);
+  const isPending = localTourType !== deferredTourType;
 
   return (
     <>
@@ -35,8 +33,8 @@ function TourListContainer({
         {tourItems.map(tourInfo => (
           <TourInfoCard tourInfo={tourInfo} key={tourInfo.contentid} />
         ))}
-        {localTourType !== deferredTourType && (
-          <div className="absolute inset-0 bg-gray-300/40 z-10" />
+        {isPending && (
+          <div className="absolute inset-0 bg-primary-gray/40 z-10" />
         )}
       </section>
       <InfiniteScroll

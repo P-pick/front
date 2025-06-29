@@ -2,6 +2,7 @@ import { useSearchParams } from 'react-router-dom';
 import type { GeoTripLocation } from '@/pages/types';
 import getSuspenseLocation from '@/lib/getSuspenseLocation';
 import type { AroundContentTypeId } from '@/pages/map/aroundSearch/types';
+import { isValidTourType } from '@/lib';
 
 interface InjectedProps {
   location: GeoTripLocation;
@@ -23,13 +24,16 @@ export default function withGeoTripParams<P extends InjectedProps>(
         <div>필요한 정보가 부족합니다. 거리와 관광지 타입을 확인해주세요.</div>
       );
     }
+    if (!isValidTourType(tourType)) {
+      return <div>잘못된 관광 타입입니다.</div>;
+    }
 
     return (
       <WrappedComponent
         {...(props as P)}
         location={geoLocation}
         distance={distance}
-        tourType={Number(tourType)}
+        tourType={tourType}
       />
     );
   };

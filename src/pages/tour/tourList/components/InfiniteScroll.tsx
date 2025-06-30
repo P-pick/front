@@ -24,7 +24,7 @@ export default function InfiniteScroll({
           onIntersect();
         }
       },
-      { threshold: 1 }
+      { threshold: 0.1 }
     );
 
     const el = observerRef.current;

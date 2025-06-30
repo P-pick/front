@@ -1,5 +1,6 @@
 import { TOUR_TYPE } from '@/pages/const/MARKER';
-import type { AroundContentTypeId } from '@/pages/map/aroundSearch/types';
+import type { AroundContentTypeId } from '@/pages/types';
+
 interface TourTypeBadgeProps {
   contenttypeid: AroundContentTypeId;
   className?: string;

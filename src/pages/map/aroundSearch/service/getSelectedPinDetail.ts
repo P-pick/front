@@ -1,5 +1,4 @@
-import type { TourItem } from '@/pages/types';
-import type { AroundContentTypeId } from '../types';
+import type { AroundContentTypeId, TourItem } from '@/pages/types';
 import api from '@/config/instance';
 import { useQuery } from '@tanstack/react-query';
 

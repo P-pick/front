@@ -5,3 +5,4 @@ export { default as LoadingSpinner } from './LoadingSpinner';
 export { default as TourCard } from './TourCard';
 export { default as DistanceTimeInfo } from './DistanceTimeInfo';
 export { default as TourTypeBadge } from './TourTypeBadge';
+export { default as TouristContentsTypeFilter } from './TouristContentsTypeFilter';

@@ -2,7 +2,7 @@ import { Suspense, useMemo, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Navigation, Mousewheel } from 'swiper/modules';
 import TourSlide from './TourSlide';
-import type { GeoTripLocation } from '@/pages/types';
+import type { AroundContentTypeId, GeoTripLocation } from '@/pages/types';
 import { useGeoLocationBasedTourQuery } from '../../service';
 import { BottomSheet, LoadingSpinner, TourCard } from '@/components';
 import { TourOverView } from './';
@@ -13,17 +13,17 @@ import { withGeoTripParams } from '@/pages/tour/components';
 interface TourResultSwiperProps {
   location: GeoTripLocation;
   distance: string;
-  tourType: number;
+  tourContentTypeId: AroundContentTypeId;
 }
 function TourResultSwiper({
   location,
   distance,
-  tourType,
+  tourContentTypeId,
 }: TourResultSwiperProps) {
   const { data, fetchNextPage, hasNextPage } = useGeoLocationBasedTourQuery({
     location,
     radius: distance,
-    contentTypeId: tourType,
+    contentTypeId: tourContentTypeId,
   });
   const [showDetail, setShowDetail] = useState(false);
   const slides = useMemo(() => data.pages.flatMap(page => page.items), [data]);

@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { markerImageMap, markerList } from '@/pages/const/MARKER';
-import type { GeoTripLocation } from '@/pages/types';
+import type { AroundContentTypeId, GeoTripLocation } from '@/pages/types';
 import useAroundTouristQuery from '../service/getAroundTouristMapData';
-import type { AroundContentTypeId, MarkerType } from '../types';
+import type { MarkerType } from '../types';
 
 const useGetAroundNavigate = (destination: GeoTripLocation) => {
   const [contentTypeIdGroup, setContentTypeIdGroup] = useState<MarkerType[]>([

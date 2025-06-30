@@ -3,7 +3,8 @@ import clsx from 'clsx';
 import { useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { FreeMode } from 'swiper/modules';
-import type { AroundContentTypeId, MarkerType } from '../types';
+import type { MarkerType } from '../types';
+import type { AroundContentTypeId } from '@/pages/types';
 
 interface AroundTouristNavigateProps {
   contentTypeIdGroup: MarkerType[];

@@ -1,5 +1,5 @@
 import { TouristContentsTypeFilter } from '@/components';
-import type { AroundContentTypeId } from '@/pages/map/aroundSearch/types';
+import type { AroundContentTypeId } from '@/pages/types';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 

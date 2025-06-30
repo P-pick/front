@@ -2,7 +2,7 @@ import { Suspense, useMemo, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Navigation, Mousewheel } from 'swiper/modules';
 import TourSlide from './TourSlide';
-import type { GeoTripLocation } from '@/pages/types';
+import type { AroundContentTypeId, GeoTripLocation } from '@/pages/types';
 import { useGeoLocationBasedTourQuery } from '../../service';
 import { BottomSheet, LoadingSpinner, TourCard } from '@/components';
 import { TourOverView } from './';
@@ -10,7 +10,6 @@ import type { TourSummary } from '../types';
 import { SideButtonGroup } from './SideButtonGroup';
 import type { Swiper as SwiperType } from 'swiper/types';
 import { withGeoTripParams } from '@/pages/tour/components';
-import type { AroundContentTypeId } from '@/pages/map/aroundSearch/types';
 interface TourResultSwiperProps {
   location: GeoTripLocation;
   distance: string;

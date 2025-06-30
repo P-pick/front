@@ -7,9 +7,9 @@ import type {
   TourItemWithDetail,
   GeoTripLocation,
   ResponseBody,
+  AroundContentTypeId,
 } from '@/pages/types';
 import { NUM_OF_ROWS } from '@/pages/const/TOUR';
-import type { AroundContentTypeId } from '@/pages/map/aroundSearch/types';
 
 type LocationBasedItemRequest = {
   location: GeoTripLocation | null;

@@ -1,8 +1,7 @@
 import { withGeoTripParams } from '@/pages/tour/components';
 import { useGeoLocationBasedTourQuery } from '../../service';
-import type { GeoTripLocation } from '@/pages/types';
+import type { AroundContentTypeId, GeoTripLocation } from '@/pages/types';
 import { InfiniteScroll, SkeletonCard, TourInfoCard } from '.';
-import type { AroundContentTypeId } from '@/pages/map/aroundSearch/types';
 import { useDeferredValue } from 'react';
 import { useSyncedState } from '../lib';
 import { queryClient } from '@/config/QueryProvider';

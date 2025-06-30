@@ -1,5 +1,5 @@
-import { useLocation, useSearchParams } from 'react-router-dom';
-import type { AroundContentTypeId } from '../types';
+import type { AroundContentTypeId } from '@/pages/types';
+import { useSearchParams } from 'react-router-dom';
 
 const useGetDestinationInfo = () => {
   const [searchParams] = useSearchParams();

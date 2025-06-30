@@ -1,5 +1,3 @@
-import type { AroundContentTypeId } from './map/aroundSearch/types';
-
 export type ApiResponse<T> = {
   response: { header: ResponseHeader; body: ResponseBody<T> };
 };
@@ -66,3 +64,14 @@ export type TourDetailResponse = {
 export type TourItemWithDetail = TourItem & {
   images: TourDetailImage[];
 };
+
+export type AroundContentTypeId =
+  | '' // 없음
+  | '12' // 관광지
+  | '14' // 문화시설
+  | '15' // 축제공연행사
+  | '25' // 여행코스
+  | '28' // 레포츠
+  | '32' // 숙박
+  | '38' // 쇼핑
+  | '39'; // 음식점

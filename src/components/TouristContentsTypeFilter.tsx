@@ -1,5 +1,5 @@
 import { markerList } from '@/pages/const/MARKER';
-import type { AroundContentTypeId } from '@/pages/map/aroundSearch/types';
+import type { AroundContentTypeId } from '@/pages/types';
 import clsx from 'clsx';
 import { useCallback } from 'react';
 import { FreeMode } from 'swiper/modules';

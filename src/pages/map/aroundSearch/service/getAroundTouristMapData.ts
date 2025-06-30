@@ -1,8 +1,11 @@
 import api from '@/config/instance';
-import { type GeoTripLocation, type TourItem } from '@/pages/types';
+import {
+  type AroundContentTypeId,
+  type GeoTripLocation,
+  type TourItem,
+} from '@/pages/types';
 import { useQueries } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
-import type { AroundContentTypeId } from '../types';
 
 export type LocationBasedItemRequest = {
   location: GeoTripLocation;

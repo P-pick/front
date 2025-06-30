@@ -1,11 +1,12 @@
 import { withGeoTripParams } from '@/pages/tour/components';
 import { useGeoLocationBasedTourQuery } from '../../service';
-import type { GeoTripLocation } from '@/pages/types';
+import type { GeoTripLocation, TourItemWithDetail } from '@/pages/types';
 import { InfiniteScroll, SkeletonCard, TourInfoCard } from '.';
 
 import type { AroundContentTypeId } from '@/pages/map/aroundSearch/types';
 import { useDeferredValue, useEffect } from 'react';
 import { useSyncedState } from '../lib';
+import { QueryClient } from '@tanstack/react-query';
 interface TourListContainerProps {
   location: GeoTripLocation;
   distance: string;
@@ -16,6 +17,8 @@ function TourListContainer({
   distance,
   tourType,
 }: TourListContainerProps) {
+  const queryClient = new QueryClient();
+
   const [localTourType] = useSyncedState(tourType);
   const deferredTourType = useDeferredValue(localTourType);
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
@@ -24,8 +27,17 @@ function TourListContainer({
       radius: distance,
       contentTypeId: deferredTourType,
     });
+  const cacheData = queryClient.getQueryState<TourItemWithDetail[]>([
+    'locationBasedData',
+    {
+      location,
+      radius: distance,
+      contentTypeId: deferredTourType,
+    },
+  ]);
+
   const tourItems = data.pages.flatMap(page => page.items);
-  const isPending = localTourType !== deferredTourType;
+  const isPending = localTourType !== deferredTourType || cacheData?.data;
 
   return (
     <>

@@ -9,35 +9,35 @@ import { queryClient } from '@/config/QueryProvider';
 interface TourListContainerProps {
   location: GeoTripLocation;
   distance: string;
-  tourType: AroundContentTypeId;
+  tourContentTypeId: AroundContentTypeId;
 }
 
 function TourListContainer({
   location,
   distance,
-  tourType,
+  tourContentTypeId,
 }: TourListContainerProps) {
-  const [localTourType] = useSyncedState(tourType);
-  const deferredTourType = useDeferredValue(localTourType);
+  const [localTourContentTypeId] = useSyncedState(tourContentTypeId);
+  const deferredTourContentTypeId = useDeferredValue(localTourContentTypeId);
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useGeoLocationBasedTourQuery({
       location,
       radius: distance,
-      contentTypeId: deferredTourType,
+      contentTypeId: deferredTourContentTypeId,
     });
   const cachedData = queryClient.getQueryData([
     'locationBasedData',
     {
       location,
       radius: distance,
-      contentTypeId: localTourType,
+      contentTypeId: localTourContentTypeId,
     },
   ]);
 
   const tourItems = data.pages.flatMap(page => page.items);
 
   const hasCache = Boolean(cachedData);
-  const isSwitching = localTourType !== deferredTourType;
+  const isSwitching = localTourContentTypeId !== deferredTourContentTypeId;
   const showFallback = isSwitching && !hasCache;
 
   return (

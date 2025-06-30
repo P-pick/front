@@ -14,17 +14,17 @@ import type { AroundContentTypeId } from '@/pages/map/aroundSearch/types';
 interface TourResultSwiperProps {
   location: GeoTripLocation;
   distance: string;
-  tourType: AroundContentTypeId;
+  tourContentTypeId: AroundContentTypeId;
 }
 function TourResultSwiper({
   location,
   distance,
-  tourType,
+  tourContentTypeId,
 }: TourResultSwiperProps) {
   const { data, fetchNextPage, hasNextPage } = useGeoLocationBasedTourQuery({
     location,
     radius: distance,
-    contentTypeId: tourType,
+    contentTypeId: tourContentTypeId,
   });
   const [showDetail, setShowDetail] = useState(false);
   const slides = useMemo(() => data.pages.flatMap(page => page.items), [data]);

@@ -7,7 +7,7 @@ import { isValidTourType } from '@/lib';
 interface InjectedProps {
   location: GeoTripLocation;
   distance: string;
-  tourType: AroundContentTypeId;
+  tourContentTypeId: AroundContentTypeId;
 }
 
 export default function withGeoTripParams<P extends InjectedProps>(

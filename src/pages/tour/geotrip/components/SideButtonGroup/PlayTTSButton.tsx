@@ -1,4 +1,4 @@
-import { SoundIcon } from '@/assets';
+import { commonSVG } from '@/assets';
 import useTTS from '../../lib/useTTS';
 
 interface PlayTTSButtonProps {
@@ -15,7 +15,7 @@ export default function PlayTTSButton({ text }: PlayTTSButtonProps) {
         onClick={toggleAudio}
         className="w-10 h-10 flex items-center justify-center rounded-full bg-white cursor-pointer"
       >
-        <SoundIcon />
+        <commonSVG.SoundIcon />
       </button>
     </>
   );

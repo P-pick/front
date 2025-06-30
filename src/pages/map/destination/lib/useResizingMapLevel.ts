@@ -1,4 +1,3 @@
-import { useCurrentLocation } from '@/lib';
 import type { GeoTripLocation } from '@/pages/types';
 import { useMemo } from 'react';
 import { useMap } from 'react-kakao-maps-sdk';

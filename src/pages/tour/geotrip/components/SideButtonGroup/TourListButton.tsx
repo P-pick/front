@@ -1,4 +1,4 @@
-import { ListIcon } from '@/assets';
+import { commonSVG } from '@/assets';
 import { useLocation, useNavigate } from 'react-router-dom';
 export default function TourListButton() {
   const location = useLocation();
@@ -14,7 +14,7 @@ export default function TourListButton() {
       onClick={handleClick}
       className="w-10 h-10 flex items-center justify-center rounded-full bg-white cursor-pointer"
     >
-      <ListIcon />
+      <commonSVG.ListIcon />
     </button>
   );
 }

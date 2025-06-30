@@ -1,4 +1,4 @@
-import { HeartIcon, OptionIcon } from '@/assets';
+import { commonSVG } from '@/assets';
 import { DistanceTimeInfo } from '@/components';
 import { truncate } from '@/lib';
 import { TOUR_TYPE } from '@/pages/const/MARKER';
@@ -53,10 +53,10 @@ export default function TourInfoCard({ tourInfo }: TourInfoCardProps) {
         </div>
         <nav className="flex gap-2.5" aria-label="카드 옵션">
           <button aria-label="옵션 보기">
-            <OptionIcon />
+            <commonSVG.ShareIcon />
           </button>
           <button aria-label="찜하기">
-            <HeartIcon />
+            <commonSVG.HeartIcon />
           </button>
         </nav>
       </header>

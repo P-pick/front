@@ -32,7 +32,7 @@ export default function Point({
         onClick={onClick}
         position={position}
         image={{
-          src: '/startpin2.png',
+          src: '/startPin.svg',
           size: {
             width: 45,
             height: 59,
@@ -58,7 +58,7 @@ export default function Point({
         onClick={onClick}
         position={position}
         image={{
-          src: '/endpin.png',
+          src: '/endPin.svg',
           size: {
             width: 45,
             height: 59,
@@ -81,7 +81,7 @@ export default function Point({
         onClick={onClick}
         position={position}
         image={{
-          src: '/Point.png',
+          src: '/pointIcon.svg',
           size: {
             width: 12,
             height: 12,

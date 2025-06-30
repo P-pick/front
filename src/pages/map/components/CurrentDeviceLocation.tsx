@@ -11,7 +11,7 @@ export default function CurrentDeviceLocation() {
         lng: geoLocation.lng!,
       }}
       image={{
-        src: '/myGeo.png',
+        src: '/myLocation.svg',
         size: {
           width: 38,
           height: 38,

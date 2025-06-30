@@ -1,4 +1,4 @@
-import { CheckIcon } from '@/assets';
+import { commonSVG } from '@/assets';
 import clsx from 'clsx';
 interface SetupButtonProps {
   label: string;
@@ -30,7 +30,7 @@ export default function SetupButton({
       className={`cursor-pointer flex items-center  justify-between px-4.5 w-[320px] h-[75px] rounded-2xl ${bgColor}`}
     >
       <span className="font-bold text-lg">{label}</span>
-      <CheckIcon className={checkButtonColor} />
+      <commonSVG.CheckIcon className={checkButtonColor} />
     </button>
   );
 }

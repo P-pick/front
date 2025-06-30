@@ -1,4 +1,4 @@
-import { MapIcon } from '@/assets';
+import { commonSVG } from '@/assets';
 
 interface DistanceTimeInfoProps {
   dist: string;
@@ -13,7 +13,7 @@ export default function DistanceTimeInfo({
 }: DistanceTimeInfoProps) {
   return (
     <span className="flex items-center">
-      <MapIcon className={iconFill} width={15} height={15} />
+      <commonSVG.LocationIcon className={iconFill} width={15} height={15} />
       <p className={className}>
         &nbsp;{Math.floor((Number(dist) / 1000) * 10) / 10} Km
       </p>

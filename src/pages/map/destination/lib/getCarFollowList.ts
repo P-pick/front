@@ -2,7 +2,6 @@ import type {
   CarFeatures,
   CarPointProperties,
   CarFollowFeature,
-  CarLineStringProperties,
 } from '../types';
 
 const getCarFollowList = (

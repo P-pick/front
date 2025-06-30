@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useStore } from 'zustand';
 import { useTransportation } from '../store';
 import { useCurrentLocation } from '@/lib';
-import { MyLocationIcon } from '@/assets';
+import { destinationSVG } from '@/assets';
 import useFollowAlong from '../store/useFollowAlong';
 import clsx from 'clsx';
 
@@ -42,7 +42,7 @@ export default function ResizingMap({ start, end }: ResizingMapProps) {
         onClick={goToMyLocation}
         className="fill-black w-10 h-10 bg-white rounded-full flex items-center justify-center cursor-pointer "
       >
-        <MyLocationIcon />
+        <destinationSVG.MyLocationIcon />
       </button>
     </div>
   );

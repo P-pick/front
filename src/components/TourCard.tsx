@@ -1,4 +1,4 @@
-import { HeartIcon, OptionIcon } from '@/assets';
+import { commonSVG } from '@/assets';
 import { TourTypeBadge, DistanceTimeInfo } from './';
 
 interface TourCardProps {
@@ -25,8 +25,8 @@ export default function TourCard({ title, distance, imgUrl }: TourCardProps) {
           </div>
           <span>곧 영업 종료 20:00 에 영엄 종료</span>
           <div className="flex items-center gap-4 mt-7">
-            <HeartIcon />
-            <OptionIcon />
+            <commonSVG.HeartIcon />
+            <commonSVG.ShareIcon />
           </div>
         </div>
         <div className="w-[130px] h-[130px] rounded-[5px] overflow-hidden">

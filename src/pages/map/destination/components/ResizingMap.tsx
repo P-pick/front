@@ -9,15 +9,14 @@ import useFollowAlong from '../store/useFollowAlong';
 import clsx from 'clsx';
 
 interface ResizingMapProps {
-  start: GeoTripLocation;
-  end: GeoTripLocation;
+  points: GeoTripLocation[];
 }
 
-export default function ResizingMap({ start, end }: ResizingMapProps) {
+export default function ResizingMap({ points }: ResizingMapProps) {
   const { searchOptions } = useStore(useTransportation);
   const { isFollowAlong } = useStore(useFollowAlong);
   const { map, handleMapResizing } = useResizingMapLevel({
-    points: [start, end],
+    points,
   });
 
   const { geoLocation } = useCurrentLocation();

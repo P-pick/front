@@ -44,7 +44,7 @@ export default function GeoDestinationMap({
         }}
       >
         {!isFollowAlong && <SelectTransportationFromGeoMap />}
-        <ResizingMap start={start} end={end} />
+        <ResizingMap points={[start, end]} />
         {features &&
           features.map(data => (
             <>

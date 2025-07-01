@@ -1,18 +1,12 @@
-import { Map, MapMarker } from 'react-kakao-maps-sdk';
+import { Map } from 'react-kakao-maps-sdk';
 import NearbyTouristAttractionPinPoint from './NearbyTouristAttractionPinpoint';
 import CurrentDeviceLocation from '../../components/CurrentDeviceLocation';
-import {
-  BottomSheet,
-  LoadingSpinner,
-  TourCard,
-  TouristContentsTypeFilter,
-} from '@/components';
-import { Suspense, useState } from 'react';
+import { TouristContentsTypeFilter } from '@/components';
+import { useMemo, useState } from 'react';
 import type { AroundContentTypeId, GeoTripLocation } from '@/pages/types';
 import useAroundTouristQuery from '../service/getAroundTouristMapData';
-import { TourOverView } from '@/pages/tour/geotrip/components';
 import { withAroundMapParams } from '../../components';
-import { LocationIcon } from '@/assets/common';
+import { ResizingMap } from '../../destination/components';
 
 interface GeoAroundTouristMapProps {
   location: GeoTripLocation;
@@ -32,6 +26,13 @@ function GeoAroundTouristMap({
     selectedContentTypeId
   );
 
+  const allLocation = useMemo(() => {
+    return aroundTouristObjects.map(tourist => ({
+      lat: tourist.mapy,
+      lng: tourist.mapx,
+    })) as GeoTripLocation[];
+  }, [aroundTouristObjects]);
+
   return (
     <Map center={location} className="w-full h-full relative" level={7}>
       <div className="absolute top-0 left-0 z-10 w-full">
@@ -40,7 +41,7 @@ function GeoAroundTouristMap({
           setContentTypeId={setSelectedContentTypeId}
         />
       </div>
-
+      <ResizingMap points={allLocation} />
       <CurrentDeviceLocation />
       {aroundTouristObjects.map(tourist => {
         return (

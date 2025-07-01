@@ -5,6 +5,14 @@ import { markerImageMap } from '@/pages/const/MARKER';
 import { BottomSheet, LoadingSpinner, TourCard } from '@/components';
 import { TourOverView } from '@/pages/tour/geotrip/components';
 
+function LoadingSpinnerInTourist() {
+  return (
+    <div className="flex items-center justify-center flex-1">
+      <LoadingSpinner />
+    </div>
+  );
+}
+
 interface AroundContentProps {
   tourist: TourItem;
   isFirst?: boolean;
@@ -22,26 +30,28 @@ function AroundContent({
     if (isFirst) {
       setOpenAttractionDetail(true);
     }
-  }, [tourist]);
+  }, []);
 
   return (
     <div className="absolute w-full h-full bottom-0 left-0">
       <BottomSheet
         isOpen={openAttractionDetail}
         onClose={() => setOpenAttractionDetail(false)}
-        initialY="55%"
-        minHeight={200}
+        initialY="20%"
+        minHeight={600}
       >
         <BottomSheet.Content>
-          <div className="bg-white w-full h-full">
+          <div className="bg-white w-full h-300">
             <TourCard
               title={tourist.title}
               distance={tourist.dist}
               imgUrl={tourist.firstimage || ''}
             />
-            <Suspense fallback={<LoadingSpinner />}>
-              <TourOverView contentId={tourist.contentid} />
-            </Suspense>
+            <div className="flex-1">
+              <Suspense fallback={<LoadingSpinnerInTourist />}>
+                <TourOverView contentId={tourist.contentid} />
+              </Suspense>
+            </div>
           </div>
         </BottomSheet.Content>
         <BottomSheet.Footer>

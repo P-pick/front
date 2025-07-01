@@ -2,7 +2,7 @@ import { Map } from 'react-kakao-maps-sdk';
 import NearbyTouristAttractionPinPoint from './NearbyTouristAttractionPinpoint';
 import CurrentDeviceLocation from '../../components/CurrentDeviceLocation';
 import { TouristContentsTypeFilter } from '@/components';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import type {
   AroundContentTypeId,
   GeoTripLocation,

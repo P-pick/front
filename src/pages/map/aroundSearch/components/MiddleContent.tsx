@@ -1,7 +1,7 @@
 import { MapMarker } from 'react-kakao-maps-sdk';
 import AroundContent from './AroundContent';
 import type { GeoTripLocation, TourItem } from '@/pages/types';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 
 interface MiddleContentProps {
   location: GeoTripLocation;

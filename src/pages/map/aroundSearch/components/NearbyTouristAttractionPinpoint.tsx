@@ -30,7 +30,7 @@ function AroundContent({
     if (isFirst) {
       setOpenAttractionDetail(true);
     }
-  }, []);
+  }, [tourist]);
 
   return (
     <div className="absolute w-full h-full bottom-0 left-0">
@@ -114,6 +114,12 @@ export default function NearbyTouristAttractionPinPoint({
           size: {
             width: 38,
             height: 50,
+          },
+          options: {
+            offset: {
+              x: 18,
+              y: 40,
+            },
           },
         }}
         onClick={() => setOpenAttractionDetail(prev => !prev)}

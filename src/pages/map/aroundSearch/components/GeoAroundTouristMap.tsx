@@ -2,7 +2,7 @@ import { Map } from 'react-kakao-maps-sdk';
 import NearbyTouristAttractionPinPoint from './NearbyTouristAttractionPinpoint';
 import CurrentDeviceLocation from '../../components/CurrentDeviceLocation';
 import { TouristContentsTypeFilter } from '@/components';
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import type { AroundContentTypeId, GeoTripLocation } from '@/pages/types';
 import useAroundTouristQuery from '../service/getAroundTouristMapData';
 import { withAroundMapParams } from '../../components';
@@ -25,6 +25,8 @@ function GeoAroundTouristMap({
     location,
     selectedContentTypeId
   );
+
+  const middleTouristObject = useRef(aroundTouristObjects[0]);
 
   const allLocation = useMemo(() => {
     return aroundTouristObjects.map(tourist => ({
@@ -53,7 +55,7 @@ function GeoAroundTouristMap({
       })}
       {aroundTouristObjects.length > 0 && (
         <NearbyTouristAttractionPinPoint
-          tourist={aroundTouristObjects[0]}
+          tourist={middleTouristObject.current}
           location={location}
         />
       )}

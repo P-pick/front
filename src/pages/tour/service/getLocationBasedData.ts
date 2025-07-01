@@ -25,7 +25,7 @@ type LocationBasedItemResponse = Promise<{
   totalCount: number;
 }>;
 
-const fetchDetailImages = async (contentId: number) => {
+const fetchDetailImages = async (contentId: string) => {
   const params = { contentId };
   const imageRes = await api.get<ApiResponse<TourDetailImage[]>>(
     `/detailImage2`,

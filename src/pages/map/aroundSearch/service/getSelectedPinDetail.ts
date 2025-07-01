@@ -3,7 +3,7 @@ import api from '@/config/instance';
 import { useQuery } from '@tanstack/react-query';
 
 type GetSelectedPinDetailRequest = {
-  contentId: number;
+  contentId: string | null;
   contentTypeId: AroundContentTypeId;
 };
 
@@ -20,7 +20,7 @@ const getSelectedPinDetail = async ({
   contentId,
   contentTypeId,
 }: GetSelectedPinDetailRequest): GetSelectedPinDetailResponse => {
-  const response = await api.get('/detailInfo2', {
+  const response = await api.get('/detailCommon2', {
     params: {
       contentId,
       contentTypeId,
@@ -37,7 +37,7 @@ const useGetSelectedPinDetail = ({
     queryKey: ['selectedPinDetail', contentId, contentTypeId],
     queryFn: () => getSelectedPinDetail({ contentId, contentTypeId }),
   });
-  return selectedPin.data;
+  return selectedPin.data?.items.item[0] || null;
 };
 
 export default useGetSelectedPinDetail;

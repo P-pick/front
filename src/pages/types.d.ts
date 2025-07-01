@@ -28,7 +28,7 @@ export type TourItem = {
   cat1?: string;
   cat2?: string;
   cat3?: string;
-  contentid: number;
+  contentid: string;
   contenttypeid: AroundContentTypeId;
   createdtime: string;
   dist: string;

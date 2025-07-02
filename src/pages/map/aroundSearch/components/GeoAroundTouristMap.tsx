@@ -2,7 +2,7 @@ import { Map } from 'react-kakao-maps-sdk';
 import NearbyTouristAttractionPinPoint from './NearbyTouristAttractionPinpoint';
 import CurrentDeviceLocation from '../../components/CurrentDeviceLocation';
 import { TouristContentsTypeFilter } from '@/components';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import type {
   AroundContentTypeId,
   GeoTripLocation,
@@ -29,13 +29,14 @@ function GeoAroundTouristMap({
     location,
     selectedContentTypeId
   );
-  const [middleTouristObject, setMiddleTouristObject] =
-    useState<TourItem | null>(null);
+  const middleTouristRef = useRef<TourItem | null>(null);
 
-  useEffect(() => {
-    if (aroundTouristObjects.length > 0 && middleTouristObject === null) {
-      setMiddleTouristObject(aroundTouristObjects[0]);
+  const middleTouristObject = useMemo(() => {
+    if (aroundTouristObjects.length > 0 && middleTouristRef.current === null) {
+      middleTouristRef.current = aroundTouristObjects[0];
+      return aroundTouristObjects[0];
     }
+    return middleTouristRef.current;
   }, [aroundTouristObjects]);
 
   const allLocation = useMemo(() => {

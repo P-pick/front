@@ -6,11 +6,10 @@ import { useMap } from 'react-kakao-maps-sdk';
 const useMapController = () => {
   const map = useMap();
 
-  const handleSwitchLocationToPosition = <T extends void>(
+  const handleSwitchLocationToPosition = (
     position: { lat: number; lng: number },
     isPanTo: boolean = false,
-    level: number = 3,
-    callback?: (...args: any[]) => T
+    level: number = 3
   ) => {
     const switchLocation = new kakao.maps.LatLng(position.lat, position.lng);
 
@@ -19,9 +18,6 @@ const useMapController = () => {
       map.panTo(switchLocation);
     } else {
       map.setCenter(switchLocation);
-    }
-    if (callback) {
-      callback();
     }
   };
 

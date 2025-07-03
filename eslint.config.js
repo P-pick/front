@@ -3,16 +3,20 @@ import globals from 'globals';
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
 import tseslint from 'typescript-eslint';
-import tailwind from 'eslint-plugin-tailwindcss';
+import tailwind from 'eslint-plugin-better-tailwindcss';
 
 export default tseslint.config(
   { ignores: ['dist'] },
   {
-    extends: [
-      js.configs.recommended,
-      ...tseslint.configs.recommended,
-      ...tailwind.configs['flat/recommended'],
-    ],
+    settings: {
+      'better-tailwindcss': {
+        // tailwindcss 4: the path to the entry file of the css based tailwind config (eg: `src/global.css`)
+        entryPoint: 'src/styles.css',
+        // tailwindcss 3: the path to the tailwind config file (eg: `tailwind.config.js`)
+        tailwindConfig: 'tailwind.config.js',
+      },
+    },
+    extends: [js.configs.recommended, ...tseslint.configs.recommended],
     files: ['**/*.{ts,tsx}'],
     languageOptions: {
       ecmaVersion: 2020,

@@ -1,4 +1,4 @@
-import { queryOptions, useSuspenseInfiniteQuery } from '@tanstack/react-query';
+import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 import api from '@/config/instance';
 import type {
   ApiResponse,
@@ -126,7 +126,6 @@ const getLocationBasedData = async ({
 const useGeoLocationBasedTourQuery = (
   request: Omit<LocationBasedItemRequest, 'pageNo'>
 ) => {
-  queryOptions;
   const query = useSuspenseInfiniteQuery({
     queryKey: ['locationBasedData', request],
 

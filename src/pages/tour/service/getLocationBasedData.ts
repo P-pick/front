@@ -31,7 +31,7 @@ const fetchDetailImages = async (contentId: number) => {
     `/detailImage2`,
     { params }
   );
-  if (imageRes.data.response.body.items === '') {
+  if (imageRes.data.response.body.items === undefined) {
     throw new Error(`no images`);
   }
 
@@ -59,7 +59,7 @@ const fetchLocationBasedItems = async (
     }
   );
 
-  if (response.data.response.body.items === '') {
+  if (response.data.response.body.items === undefined) {
     throw new Error('아이템 데이터가 없습니다.');
   }
 

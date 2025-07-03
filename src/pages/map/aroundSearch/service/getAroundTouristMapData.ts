@@ -1,8 +1,8 @@
 import api from '@/config/instance';
-import {
-  type AroundContentTypeId,
-  type GeoTripLocation,
-  type TourItem,
+import type {
+  AroundContentTypeId,
+  GeoTripLocation,
+  TourItem,
 } from '@/pages/types';
 import { useQueries } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';

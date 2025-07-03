@@ -13,7 +13,7 @@ export type ResponseBody<T> = {
   numOfRows: number;
   pageNo: number;
   totalCount: number;
-  items: { item: T } | '';
+  items: { item: T };
 };
 
 export type GeoTripLocation = {

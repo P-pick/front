@@ -10,16 +10,14 @@ import { selectedTransportation } from '../service';
 import CurrentDeviceLocation from '../../components/CurrentDeviceLocation';
 import useFollowAlong from '../store/useFollowAlong';
 import { FollowAlong, SelectedFollow } from './follow';
+import withDestination from './withDestination';
 
 interface GeoDestinationMapProps {
   start: GeoTripLocation;
   end: GeoTripLocation;
 }
 
-export default function GeoDestinationMap({
-  start,
-  end,
-}: GeoDestinationMapProps) {
+function GeoDestinationMap({ start, end }: GeoDestinationMapProps) {
   const { vehicle, searchOptions } = useStore(useTransportation);
   const { mapLevel, setMapLevel } = useStore(useMapLevel);
   const { isFollowAlong } = useStore(useFollowAlong);
@@ -69,3 +67,5 @@ export default function GeoDestinationMap({
     </>
   );
 }
+
+export default withDestination(GeoDestinationMap);

@@ -12,7 +12,7 @@ function BottomSheetContent({ children }: PropsWithChildren) {
 
 function BottomSheetFooter({ children }: PropsWithChildren) {
   return (
-    <div className="absolute z-1500 bottom-0 left-0 w-full h-30">
+    <div className="absolute bottom-0 left-0 w-full h-30 pointer-events-auto">
       {children}
     </div>
   );
@@ -63,7 +63,7 @@ function BottomSheet({
         <>
           {showOverlay && (
             <motion.div
-              className="fixed left-0 top-0 w-full h-full bg-black/40 z-[999]"
+              className="fixed left-0 top-0 w-full h-full bg-black/40 z-(--z-layer6)"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -80,7 +80,7 @@ function BottomSheet({
               duration: 0.3,
               ease: 'easeInOut',
             }}
-            className="absolute bottom-0 left-0 w-full z-1200 h-full pointer-events-none"
+            className="absolute bottom-0 left-0 w-full z-(--z-layer8) h-full pointer-events-none"
           >
             <motion.div
               drag="y"
@@ -97,18 +97,17 @@ function BottomSheet({
                 top: 0,
                 bottom: minHeight,
               }}
-              className="relative flex flex-col items-center w-full z-1100 pointer-events-auto"
+              className="relative flex flex-col items-center w-full z-(--z-layer7) pointer-events-auto"
             >
               <div
                 onPointerDown={startDrag}
                 className="absolute top-0 left-0 w-full h-10 flex justify-center items-start cursor-grab active:cursor-grabbing"
                 style={{ touchAction: 'none' }}
               >
-                <div className="mt-1 w-[88px] h-[3px] bg-black rounded-full pointer-events-none" />
+                <div className="mt-1 w-[88px] h-[3px] bg-black rounded-full" />
               </div>
               {contentChildren}
             </motion.div>
-
             {footerChildren}
           </motion.div>
         </>

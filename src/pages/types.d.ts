@@ -35,8 +35,8 @@ export type TourItem = {
   firstimage?: string;
   firstimage2?: string;
   cpyrhtDivCd?: string;
-  mapx?: number;
-  mapy?: number;
+  mapx: number;
+  mapy: number;
   mlevel?: number;
   modifiedtime: string;
   sigungucode?: number;

@@ -3,6 +3,7 @@ import { Pagination } from 'swiper/modules';
 import type { TourItemWithDetail } from '@/pages/types';
 import { commonSVG } from '@/assets';
 import { DistanceTimeInfo } from '@/components';
+import { useStartTrip } from '../lib';
 
 interface TourSlideProps {
   tourInfo: TourItemWithDetail;
@@ -13,6 +14,8 @@ export default function TourSlide({
   tourInfo,
   handleDetailOpen,
 }: TourSlideProps) {
+  const { handleStartTrip } = useStartTrip();
+
   return (
     <article className="relative text-white w-full h-full flex flex-col items-center">
       <Swiper
@@ -51,11 +54,17 @@ export default function TourSlide({
             <DistanceTimeInfo dist={tourInfo.dist} iconFill="white" />
           </div>
         </header>
-        <div className="mt-14" />
+        <div className="mt-6" />
         <nav className="w-full flex justify-center">
           <button
             type="button"
-            className="mb-[24px] bg-white rounded-[15px] w-[320px] h-[50px] text-black font-bold text-[16px]"
+            className="mb-[24px] bg-white rounded-[15px] w-[320px] h-[50px] text-black font-bold text-[16px] cursor-pointer"
+            onClick={() =>
+              handleStartTrip({
+                lat: tourInfo.mapy,
+                lng: tourInfo.mapx,
+              })
+            }
           >
             여행 시작하기
           </button>

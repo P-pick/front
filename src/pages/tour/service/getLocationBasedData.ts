@@ -29,9 +29,9 @@ const fetchDetailImages = async (contentId: number) => {
   const params = { contentId };
   const imageRes = await api.get<ApiResponse<TourDetailImage[]>>(
     `/detailImage2`,
-    { params }
+    { params },
   );
-  if (imageRes.data.response.body.items === undefined) {
+  if (imageRes.data.response.body.items.item) {
     throw new Error(`no images`);
   }
 
@@ -42,7 +42,7 @@ const fetchLocationBasedItems = async (
   location: GeoTripLocation,
   pageNo: number,
   contentTypeId: AroundContentTypeId,
-  radius: string
+  radius: string,
 ) => {
   const response = await api.get<ApiResponse<TourItem[]>>(
     `/locationBasedList2`,
@@ -56,10 +56,10 @@ const fetchLocationBasedItems = async (
         arrange: 'S',
         pageNo,
       },
-    }
+    },
   );
 
-  if (response.data.response.body.items === undefined) {
+  if (response.data.response.body.items.item) {
     throw new Error('아이템 데이터가 없습니다.');
   }
 
@@ -70,7 +70,7 @@ const fetchLocationBasedItems = async (
 };
 
 const attachDetailImages = async (
-  baseItems: TourItem[]
+  baseItems: TourItem[],
 ): Promise<TourItemWithDetail[]> => {
   const settledResults = await Promise.allSettled(
     baseItems.map(async (item, index) => {
@@ -88,7 +88,7 @@ const attachDetailImages = async (
           return { ...item, images: [firstImage] };
         }
       }
-    })
+    }),
   );
 
   return settledResults
@@ -108,7 +108,7 @@ const getLocationBasedData = async ({
     location,
     pageNo,
     contentTypeId,
-    radius
+    radius,
   );
 
   const baseItems = body.items.item;
@@ -124,7 +124,7 @@ const getLocationBasedData = async ({
 };
 
 const useGeoLocationBasedTourQuery = (
-  request: Omit<LocationBasedItemRequest, 'pageNo'>
+  request: Omit<LocationBasedItemRequest, 'pageNo'>,
 ) => {
   const query = useSuspenseInfiniteQuery({
     queryKey: ['locationBasedData', request],

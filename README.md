@@ -1,6 +1,6 @@
 # P-Pick
 
-![Image](/docs/image/ppickIcon.png)
+![Image](/docs/image/ppickFrame.png)
 MBTI의 P처럼 즉흥적으로 여행지를 Pick해 여행을 떠나보세요!
 
 ## 프로젝트 정보

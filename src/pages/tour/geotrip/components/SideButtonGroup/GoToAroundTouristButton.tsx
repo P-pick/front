@@ -5,18 +5,10 @@ import type { TourSummary } from '../../types';
 export default function GoToAroundTouristButton(tourInfo: TourSummary) {
   const navigate = useNavigate();
 
-  const tourInfoStringRecord = Object.entries(tourInfo).reduce(
-    (acc, [key, value]) => {
-      acc[key] = String(value);
-      return acc;
-    },
-    {} as Record<string, string>
-  );
-
-  const encodingTour = new URLSearchParams(tourInfoStringRecord);
-
   const handleClick = () => {
-    navigate(`/map/around-search?tourInfo=${encodingTour}`);
+    navigate(
+      `/map/around-search?contentId=${tourInfo.contentid}&contentTypeId=${tourInfo.contenttypeid}&lng=${tourInfo.mapx}&lat=${tourInfo.mapy}`
+    );
   };
 
   return (

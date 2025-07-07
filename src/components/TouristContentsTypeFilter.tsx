@@ -32,7 +32,7 @@ export default function TouristContentsTypeFilter({
       className="cursor-grab"
     >
       {markerList.map(marker => (
-        <SwiperSlide className=" !w-auto " key={marker.contentTypeId}>
+        <SwiperSlide className=" !w-auto bg-white" key={marker.contentTypeId}>
           <button
             className={getButtonClass(contentTypeId === marker.contentTypeId)}
             onClick={() => setContentTypeId(marker.contentTypeId)}

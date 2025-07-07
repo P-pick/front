@@ -1,54 +1,74 @@
-import { Map, MapMarker } from 'react-kakao-maps-sdk';
-import AroundTouristNavigate from './AroundTouristNavigate';
+import { Map } from 'react-kakao-maps-sdk';
 import NearbyTouristAttractionPinPoint from './NearbyTouristAttractionPinpoint';
-import { useGetAroundNavigate, useGetDestinationInfo } from '../lib';
 import CurrentDeviceLocation from '../../components/CurrentDeviceLocation';
-import { BottomSheet, TourCard } from '@/components';
-import { useState } from 'react';
+import { TouristContentsTypeFilter } from '@/components';
+import { useMemo, useRef, useState } from 'react';
+import type {
+  AroundContentTypeId,
+  GeoTripLocation,
+  TourItem,
+} from '@/pages/types';
+import useAroundTouristQuery from '../service/getAroundTouristMapData';
+import { withAroundMapParams } from '../../components';
+import { ResizingMap } from '../../destination/components';
+import MiddleContent from './MiddleContent';
 
-export default function GeoAroundTouristMap() {
-  const [isOpenBottomSheet, setIsOpenBottomSheet] = useState(true);
-  const { currentTourInfo, destination } = useGetDestinationInfo();
-  const {
-    aroundTouristObjects,
-    contentTypeIdGroup,
-    handleAdditionalMarkerClick,
-    removeMakerFilter,
-  } = useGetAroundNavigate(destination);
+interface GeoAroundTouristMapProps {
+  location: GeoTripLocation;
+  contentId: string;
+  tourContentTypeId: AroundContentTypeId;
+}
+
+function GeoAroundTouristMap({
+  location,
+  tourContentTypeId,
+}: GeoAroundTouristMapProps) {
+  const [selectedContentTypeId, setSelectedContentTypeId] =
+    useState<AroundContentTypeId>(tourContentTypeId);
+  const aroundTouristObjects = useAroundTouristQuery(
+    location,
+    selectedContentTypeId
+  );
+  const middleTouristRef = useRef<TourItem | null>(null);
+
+  const middleTouristObject = useMemo(() => {
+    if (aroundTouristObjects.length > 0 && middleTouristRef.current === null) {
+      middleTouristRef.current = aroundTouristObjects[0];
+      return aroundTouristObjects[0];
+    }
+    return middleTouristRef.current;
+  }, [aroundTouristObjects]);
+
+  const allLocation = useMemo(() => {
+    return aroundTouristObjects.map(tourist => ({
+      lat: tourist.mapy,
+      lng: tourist.mapx,
+    })) as GeoTripLocation[];
+  }, [aroundTouristObjects]);
 
   return (
-    <Map center={destination} className="w-full h-full" level={7}>
-      <AroundTouristNavigate
-        contentTypeIdGroup={contentTypeIdGroup}
-        handleAdditionalMarkerClick={handleAdditionalMarkerClick}
-        removeMakerFilter={removeMakerFilter}
-      />
-
+    <Map center={location} className="w-full h-full relative" level={7}>
+      <div className="absolute top-0 left-0 z-10 w-full">
+        <TouristContentsTypeFilter
+          contentTypeId={selectedContentTypeId}
+          setContentTypeId={setSelectedContentTypeId}
+        />
+      </div>
+      <ResizingMap points={allLocation} />
       <CurrentDeviceLocation />
       {aroundTouristObjects.map(tourist => {
-        return <NearbyTouristAttractionPinPoint {...tourist} />;
+        return (
+          <NearbyTouristAttractionPinPoint
+            key={tourist.contentid}
+            tourist={tourist}
+          />
+        );
       })}
-      <MapMarker
-        zIndex={999}
-        position={destination}
-        onClick={() => setIsOpenBottomSheet(true)}
-      ></MapMarker>
-      <div className="absolute w-full h-full bottom-0 left-0">
-        <BottomSheet
-          isOpen={isOpenBottomSheet}
-          onClose={() => setIsOpenBottomSheet(false)}
-          initialY="55%"
-          minHeight={200}
-        >
-          <BottomSheet.Content>
-            <TourCard
-              title={currentTourInfo.title}
-              distance={currentTourInfo.title}
-              imgUrl={''}
-            />
-          </BottomSheet.Content>
-        </BottomSheet>
-      </div>
+      {aroundTouristObjects.length > 0 && middleTouristObject && (
+        <MiddleContent location={location} tourist={middleTouristObject} />
+      )}
     </Map>
   );
 }
+
+export default withAroundMapParams(GeoAroundTouristMap);

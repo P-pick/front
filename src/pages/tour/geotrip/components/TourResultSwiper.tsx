@@ -10,6 +10,7 @@ import type { TourSummary } from '../types';
 import { SideButtonGroup } from './SideButtonGroup';
 import type { Swiper as SwiperType } from 'swiper/types';
 import { withGeoTripParams } from '@/pages/tour/components';
+import { useStartTrip } from '../lib';
 interface TourResultSwiperProps {
   location: GeoTripLocation;
   distance: string;
@@ -51,6 +52,8 @@ function TourResultSwiper({
       });
     }
   };
+
+  const { handleStartTrip } = useStartTrip();
 
   return (
     <>
@@ -99,6 +102,12 @@ function TourResultSwiper({
                 <button
                   type="button"
                   className="bg-gradient-to-r from-primary-orange to-primary-red rounded-[15px] w-[320px] h-[50px] text-black font-bold text-[16px] shadow-[0_4px_16px_0_rgba(250,129,47,0.3)]"
+                  onClick={() => {
+                    handleStartTrip({
+                      lng: currentTourInfo.mapx,
+                      lat: currentTourInfo.mapy,
+                    });
+                  }}
                 >
                   여행 시작하기
                 </button>

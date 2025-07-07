@@ -1,6 +1,6 @@
 import { useGetTourDetailSuspenseQuery } from '@/pages/tour/service';
 interface TourOverViewProps {
-  contentId: number;
+  contentId: string | null;
 }
 
 export default function TourOverView({ contentId }: TourOverViewProps) {

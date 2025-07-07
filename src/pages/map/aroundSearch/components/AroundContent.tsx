@@ -23,11 +23,11 @@ export default function AroundContent({
   openAttractionDetail,
   setOpenAttractionDetail,
 }: AroundContentProps) {
+  const { handleStartTrip } = useStartTrip();
+
   if (!tourist) {
     return null;
   }
-
-  const { handleStartTrip } = useStartTrip();
 
   return (
     <div className="absolute w-full h-full bottom-0 left-0">

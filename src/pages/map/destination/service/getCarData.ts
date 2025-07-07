@@ -5,9 +5,8 @@ import type {
   CarSearchOption,
   MultiplePathResponse,
 } from '../types';
-import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
-import { TMAP_APP_KEY } from '@/pages/const/TMAP';
+import { tmapApi } from '@/config/instance';
 
 const SEARCH_OPTIONS = [
   {
@@ -45,26 +44,17 @@ const SEARCH_OPTIONS = [
 ] as const;
 
 const getCarDestinationPathInfo = async (
-  carRequest: CarRequestBody
+  carRequest: CarRequestBody,
 ): Promise<CarResponse> => {
-  const response = await axios.post(
-    '/path/navigation',
-    { trafficInfo: 'Y', ...carRequest },
-    {
-      params: {
-        version: '1',
-        callback: 'function',
-      },
-      headers: {
-        appKey: TMAP_APP_KEY,
-      },
-    }
-  );
+  const response = await tmapApi.post('/', {
+    trafficInfo: 'Y',
+    ...carRequest,
+  });
   return response.data;
 };
 
 const useCarDestination = (
-  baseRequest: CarRequestBody
+  baseRequest: CarRequestBody,
 ): MultiplePathResponse[] => {
   const { data } = useQuery({
     queryKey: [
@@ -86,15 +76,15 @@ const useCarDestination = (
             optionId: searchOption.id as CarSearchOption,
             name: searchOption.name as CarOptionNames,
             features: res.features,
-          }))
-        )
+          })),
+        ),
       );
 
       return results
         .filter(result => result.status === 'fulfilled')
         .map(
           result =>
-            (result as PromiseFulfilledResult<MultiplePathResponse>).value
+            (result as PromiseFulfilledResult<MultiplePathResponse>).value,
         );
     },
   });

@@ -1,11 +1,10 @@
-import axios from 'axios';
 import type {
   MultiplePathResponse,
   PedestrianRequestBody,
   PedestrianResponse,
 } from '../types';
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { TMAP_APP_KEY } from '@/pages/const/TMAP';
+import { tmapApi } from '@/config/instance';
 
 const SEARCH_OPTIONS = [
   {
@@ -27,26 +26,14 @@ const SEARCH_OPTIONS = [
 ] as const;
 
 const getPedestrianDestinationPathInfo = async (
-  pedestrianRequest: PedestrianRequestBody
+  pedestrianRequest: PedestrianRequestBody,
 ): Promise<PedestrianResponse> => {
-  const response = await axios.post(
-    '/path/navigation/pedestrian',
-    pedestrianRequest,
-    {
-      params: {
-        version: '1',
-        callback: 'function',
-      },
-      headers: {
-        appKey: TMAP_APP_KEY,
-      },
-    }
-  );
+  const response = await tmapApi.post('/pedestrian', pedestrianRequest);
   return response.data;
 };
 
 const usePedestrianDestination = (
-  baseRequest: PedestrianRequestBody
+  baseRequest: PedestrianRequestBody,
 ): MultiplePathResponse[] => {
   const { data } = useSuspenseQuery({
     queryKey: [
@@ -68,15 +55,15 @@ const usePedestrianDestination = (
             optionId: searchOption.id,
             name: searchOption.name,
             features: res.features,
-          }))
-        )
+          })),
+        ),
       );
 
       return results
         .filter(result => result.status === 'fulfilled')
         .map(
           result =>
-            (result as PromiseFulfilledResult<MultiplePathResponse>).value
+            (result as PromiseFulfilledResult<MultiplePathResponse>).value,
         );
     },
   });

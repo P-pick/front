@@ -1,5 +1,5 @@
 import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
-import api from '@/config/instance';
+import { tourApi } from '@/config/instance';
 import type {
   ApiResponse,
   TourItem,
@@ -27,11 +27,11 @@ type LocationBasedItemResponse = Promise<{
 
 const fetchDetailImages = async (contentId: string) => {
   const params = { contentId };
-  const imageRes = await api.get<ApiResponse<TourDetailImage[]>>(
+  const imageRes = await tourApi.get<ApiResponse<TourDetailImage[]>>(
     `/detailImage2`,
     { params },
   );
-  if (imageRes.data.response.body.items.item) {
+  if (!imageRes.data.response.body.items.item) {
     throw new Error(`no images`);
   }
 
@@ -44,7 +44,7 @@ const fetchLocationBasedItems = async (
   contentTypeId: AroundContentTypeId,
   radius: string,
 ) => {
-  const response = await api.get<ApiResponse<TourItem[]>>(
+  const response = await tourApi.get<ApiResponse<TourItem[]>>(
     `/locationBasedList2`,
     {
       params: {
@@ -59,7 +59,7 @@ const fetchLocationBasedItems = async (
     },
   );
 
-  if (response.data.response.body.items.item) {
+  if (!response.data.response.body.items.item) {
     throw new Error('아이템 데이터가 없습니다.');
   }
 

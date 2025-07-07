@@ -1,4 +1,4 @@
-import api from '@/config/instance';
+import { tourApi } from '@/config/instance';
 import type {
   AroundContentTypeId,
   GeoTripLocation,
@@ -26,7 +26,7 @@ const getAroundTouristMapData = async ({
 }: LocationBasedItemRequest): LocationBasedItemResponse => {
   if (!location) return Promise.reject('위치 정보가 없습니다.');
 
-  const response = await api.get(`/locationBasedList2`, {
+  const response = await tourApi.get(`/locationBasedList2`, {
     params: {
       mapX: location.lng,
       mapY: location.lat,
@@ -43,7 +43,7 @@ const getAroundTouristMapData = async ({
 
 const useAroundTouristQuery = (
   destination: GeoTripLocation,
-  contentTypeId: AroundContentTypeId
+  contentTypeId: AroundContentTypeId,
 ) => {
   const response = useQuery({
     queryKey: ['aroundTouristMapData', destination, contentTypeId],

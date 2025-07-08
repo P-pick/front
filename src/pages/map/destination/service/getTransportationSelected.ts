@@ -5,8 +5,9 @@ import type {
   PedestrianRequestBody,
   TransportationType,
 } from '../types';
-import useCarDestination from './getCarData';
-import usePedestrianDestination from './getPedestrianData';
+import getCarDestinationQueryOptions from './getCarData';
+import getPedestrianDestinationQueryOptions from './getPedestrianData';
+import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
 
 const getTransportationSelected = (
   vehicle: TransportationType,
@@ -14,11 +15,11 @@ const getTransportationSelected = (
 ): MultiplePathResponse[] => {
   const selectedTransportation = {
     pedestrian: () =>
-      usePedestrianDestination(destination as PedestrianRequestBody),
-    car: () => useCarDestination(destination as CarRequestBody),
-    bicycle: () => useCarDestination(destination as CarRequestBody),
+      useSuspenseQuery(getPedestrianDestinationQueryOptions(destination as PedestrianRequestBody)).data,
+    car: () => useQuery(getCarDestinationQueryOptions(destination as CarRequestBody)).data || [],
+    bicycle: () => useQuery(getCarDestinationQueryOptions(destination as CarRequestBody)).data || [],
     'public-transportation': () =>
-      useCarDestination(destination as CarRequestBody),
+     useQuery(getCarDestinationQueryOptions(destination as CarRequestBody)).data || [],
   };
   return selectedTransportation[vehicle]();
 };

@@ -1,8 +1,8 @@
 import { BottomSheet, LoadingSpinner, TourCard } from '@/components';
-import { Suspense } from 'react';
 import { TourOverView } from '@/pages/tour/geotrip/components';
-import type { TourItem } from '@/pages/types';
 import { useStartTrip } from '@/pages/tour/geotrip/lib';
+import type { TourItem } from '@/pages/types';
+import { Suspense } from 'react';
 
 function LoadingSpinnerInTourist() {
   return (

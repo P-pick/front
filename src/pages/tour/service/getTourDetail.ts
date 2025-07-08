@@ -1,6 +1,5 @@
 import { tourApi } from '@/config/instance';
 import type { ApiResponse, TourItem } from '@/pages/types';
-import { useSuspenseQuery } from '@tanstack/react-query';
 
 type getTourDetailRequest = {
   contentId: string | null;
@@ -23,14 +22,17 @@ const getTourDetail = async ({
   );
   const items = response.data.response.body.items;
 
-  return items.item[0] || Promise.reject('해당 콘텐츠를 찾을 수 없습니다.');
+  if (!items) {
+    throw new Error(`콘텐츠 ID ${contentId}에 대한 상세 정보가 없습니다.`);
+  }
+
+  return items.item[0];
 };
 
-const useGetTourDetailSuspenseQuery = ({ contentId }: getTourDetailRequest) => {
-  return useSuspenseQuery({
-    queryKey: ['tourDetail', contentId],
-    queryFn: () => getTourDetail({ contentId }),
-  });
-};
+ const getTourDetailQueryOptions = ({ contentId }: getTourDetailRequest) => ({
+  queryKey: ['tourDetail', contentId],
+  queryFn: () => getTourDetail({ contentId }),
+});
 
-export default useGetTourDetailSuspenseQuery;
+
+export default getTourDetailQueryOptions;

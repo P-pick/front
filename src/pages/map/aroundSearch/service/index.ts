@@ -1,2 +1,3 @@
-export { default as useAroundTouristQuery } from './getAroundTouristMapData';
-export { default as useGetSelectedPinDetail } from './getSelectedPinDetail';
+export {default as getAroundTouristQueryOptions} from './getAroundTouristMapData';
+export {default as getSelectedPinDetailQueryOptions} from './getSelectedPinDetail';
+

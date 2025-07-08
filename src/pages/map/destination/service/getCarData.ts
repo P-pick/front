@@ -6,7 +6,6 @@ import type {
   MultiplePathResponse,
 } from '../types';
 import axios from 'axios';
-import { useQuery } from '@tanstack/react-query';
 import { TMAP_APP_KEY } from '@/pages/const/TMAP';
 
 const SEARCH_OPTIONS = [
@@ -63,43 +62,39 @@ const getCarDestinationPathInfo = async (
   return response.data;
 };
 
-const useCarDestination = (
+const getCarDestinationQueryOptions = (
   baseRequest: CarRequestBody
-): MultiplePathResponse[] => {
-  const { data } = useQuery({
-    queryKey: [
-      'carDestination',
-      baseRequest.startX,
-      baseRequest.startY,
-      baseRequest.endX,
-      baseRequest.endY,
-      baseRequest.startName,
-      baseRequest.endName,
-    ],
-    queryFn: async () => {
-      const results = await Promise.allSettled(
-        SEARCH_OPTIONS.map(searchOption =>
-          getCarDestinationPathInfo({
-            ...baseRequest,
-            searchOption: searchOption.id as CarSearchOption,
-          }).then(res => ({
-            optionId: searchOption.id as CarSearchOption,
-            name: searchOption.name as CarOptionNames,
-            features: res.features,
-          }))
-        )
+) => ({
+  queryKey: [
+    'carDestination',
+    baseRequest.startX,
+    baseRequest.startY,
+    baseRequest.endX,
+    baseRequest.endY,
+    baseRequest.startName,
+    baseRequest.endName,
+  ],
+  queryFn: async (): Promise<MultiplePathResponse[]> => {
+    const results = await Promise.allSettled(
+      SEARCH_OPTIONS.map(searchOption =>
+        getCarDestinationPathInfo({
+          ...baseRequest,
+          searchOption: searchOption.id as CarSearchOption,
+        }).then(res => ({
+          optionId: searchOption.id as CarSearchOption,
+          name: searchOption.name as CarOptionNames,
+          features: res.features,
+        }))
+      )
+    );
+
+    return results
+      .filter(result => result.status === 'fulfilled')
+      .map(
+        result =>
+          (result as PromiseFulfilledResult<MultiplePathResponse>).value
       );
+  },
+});
 
-      return results
-        .filter(result => result.status === 'fulfilled')
-        .map(
-          result =>
-            (result as PromiseFulfilledResult<MultiplePathResponse>).value
-        );
-    },
-  });
-
-  return data ?? [];
-};
-
-export default useCarDestination;
+export default getCarDestinationQueryOptions;

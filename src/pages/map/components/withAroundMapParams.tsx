@@ -1,5 +1,6 @@
 import type { AroundContentTypeId, GeoTripLocation } from '@/pages/types';
 import type React from 'react';
+import { useKakaoLoader } from 'react-kakao-maps-sdk';
 import { useSearchParams } from 'react-router-dom';
 
 interface InjectedProps {
@@ -9,16 +10,21 @@ interface InjectedProps {
 }
 
 export default function withAroundMapParams<P extends InjectedProps>(
-  WrappedComponent: React.ComponentType<P>
+  WrappedComponent: React.ComponentType<P>,
 ) {
   return function AroundMapWrapper(props: Omit<P, keyof InjectedProps>) {
+    useKakaoLoader({
+      appkey: import.meta.env.VITE_KAKAO_MAP_KEY,
+      libraries: ['services', 'clusterer'],
+    });
+
     const [searchParams] = useSearchParams();
 
     const mapx = searchParams.get('lng');
     const mapy = searchParams.get('lat');
     const contentId = searchParams.get('contentId');
     const tourContentTypeId = searchParams.get(
-      'contentTypeId'
+      'contentTypeId',
     ) as AroundContentTypeId;
 
     const location: GeoTripLocation = {

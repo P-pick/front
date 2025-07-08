@@ -27,6 +27,10 @@ const getTourDetail = async ({
   return items.item[0];
 };
 
+ const getTourDetailQueryOptions = ({ contentId }: getTourDetailRequest) => ({
+  queryKey: ['tourDetail', contentId],
+  queryFn: () => getTourDetail({ contentId }),
+});
 const useGetTourDetailSuspenseQuery = ({ contentId }: getTourDetailRequest) => {
   return useSuspenseQuery({
     queryKey: ['tourDetail', contentId],
@@ -34,4 +38,4 @@ const useGetTourDetailSuspenseQuery = ({ contentId }: getTourDetailRequest) => {
   });
 };
 
-export default useGetTourDetailSuspenseQuery;
+export default getTourDetailQueryOptions;

@@ -1,4 +1,3 @@
-import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 import { tourApi } from '@/config/instance';
 import type {
   ApiResponse,
@@ -136,7 +135,6 @@ const getGeoLocationBasedTourQueryOptions = (
       radius: request.radius,
     }),
   getNextPageParam: (lastPage: LocationBasedItemResponse) => {
-    
     const currentPage = lastPage.pageNo;
     const totalPage = Math.ceil(lastPage.totalCount / lastPage.numOfRows);
     return currentPage < totalPage ? currentPage + 1 : undefined;

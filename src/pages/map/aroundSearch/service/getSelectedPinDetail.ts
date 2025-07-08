@@ -1,6 +1,5 @@
 import type { AroundContentTypeId, TourItem } from '@/pages/types';
 import { tourApi } from '@/config/instance';
-import { useQuery } from '@tanstack/react-query';
 
 type GetSelectedPinDetailRequest = {
   contentId: string | null;

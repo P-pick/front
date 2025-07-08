@@ -5,7 +5,6 @@ import type {
   CarSearchOption,
   MultiplePathResponse,
 } from '../types';
-import { useQuery } from '@tanstack/react-query';
 import { tmapApi } from '@/config/instance';
 
 const SEARCH_OPTIONS = [
@@ -53,9 +52,7 @@ const getCarDestinationPathInfo = async (
   return response.data;
 };
 
-const getCarDestinationQueryOptions = (
-  baseRequest: CarRequestBody
-) => ({
+const getCarDestinationQueryOptions = (baseRequest: CarRequestBody) => ({
   queryKey: [
     'carDestination',
     baseRequest.startX,
@@ -75,15 +72,15 @@ const getCarDestinationQueryOptions = (
           optionId: searchOption.id as CarSearchOption,
           name: searchOption.name as CarOptionNames,
           features: res.features,
-        }))
-      )
+        })),
+      ),
     );
 
     return results
       .filter(result => result.status === 'fulfilled')
       .map(
         result =>
-          (result as PromiseFulfilledResult<MultiplePathResponse>).value
+          (result as PromiseFulfilledResult<MultiplePathResponse>).value,
       );
   },
 });

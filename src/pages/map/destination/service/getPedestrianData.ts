@@ -3,7 +3,6 @@ import type {
   PedestrianRequestBody,
   PedestrianResponse,
 } from '../types';
-import { useSuspenseQuery } from '@tanstack/react-query';
 import { tmapApi } from '@/config/instance';
 
 const SEARCH_OPTIONS = [
@@ -33,7 +32,7 @@ const getPedestrianDestinationPathInfo = async (
 };
 
 const getPedestrianDestinationQueryOptions = (
-  baseRequest: PedestrianRequestBody
+  baseRequest: PedestrianRequestBody,
 ) => ({
   queryKey: [
     'pedestrianDestination',
@@ -54,15 +53,15 @@ const getPedestrianDestinationQueryOptions = (
           optionId: searchOption.id,
           name: searchOption.name,
           features: res.features,
-        }))
-      )
+        })),
+      ),
     );
 
     return results
       .filter(result => result.status === 'fulfilled')
       .map(
         result =>
-          (result as PromiseFulfilledResult<MultiplePathResponse>).value
+          (result as PromiseFulfilledResult<MultiplePathResponse>).value,
       );
   },
 });

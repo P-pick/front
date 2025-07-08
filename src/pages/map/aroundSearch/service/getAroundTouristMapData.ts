@@ -4,7 +4,6 @@ import type {
   GeoTripLocation,
   TourItem,
 } from '@/pages/types';
-import { useQuery } from '@tanstack/react-query';
 
 export type LocationBasedItemRequest = {
   location: GeoTripLocation;
@@ -41,16 +40,12 @@ const getAroundTouristMapData = async ({
   return response.data.response.body;
 };
 
-const useAroundTouristQuery = (
+const getAroundTouristQueryOptions = (
   destination: GeoTripLocation,
   contentTypeId: AroundContentTypeId
-) => {
-  const response = useQuery({
-    queryKey: ['aroundTouristMapData', destination, contentTypeId],
-    queryFn: () =>
-      getAroundTouristMapData({ location: destination, contentTypeId }),
-  });
-  return response.data?.items.item || [];
-};
+) => ({
+  queryKey: ['aroundTouristMapData', destination, contentTypeId],
+  queryFn: () => getAroundTouristMapData({ location: destination, contentTypeId }),
+});
 
-export default useAroundTouristQuery;
+export default getAroundTouristQueryOptions;

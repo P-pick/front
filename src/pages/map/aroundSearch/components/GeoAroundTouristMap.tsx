@@ -8,10 +8,11 @@ import type {
   GeoTripLocation,
   TourItem,
 } from '@/pages/types';
-import useAroundTouristQuery from '../service/getAroundTouristMapData';
+import getAroundTouristQueryOptions from '../service/getAroundTouristMapData';
 import { withAroundMapParams } from '../../components';
 import { ResizingMap } from '../../destination/components';
 import MiddleContent from './MiddleContent';
+import { useQuery } from '@tanstack/react-query';
 
 interface GeoAroundTouristMapProps {
   location: GeoTripLocation;
@@ -25,10 +26,11 @@ function GeoAroundTouristMap({
 }: GeoAroundTouristMapProps) {
   const [selectedContentTypeId, setSelectedContentTypeId] =
     useState<AroundContentTypeId>(tourContentTypeId);
-  const aroundTouristObjects = useAroundTouristQuery(
-    location,
-    selectedContentTypeId
+  const {data:aroundTouristObjects} = useQuery(getAroundTouristQueryOptions(location,
+    selectedContentTypeId)
+   
   );
+  
   const middleTouristRef = useRef<TourItem | null>(null);
 
   const middleTouristObject = useMemo(() => {

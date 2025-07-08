@@ -1,4 +1,3 @@
-import { queryOptions, useSuspenseInfiniteQuery } from '@tanstack/react-query';
 import api from '@/config/instance';
 import type {
   ApiResponse,
@@ -31,7 +30,7 @@ const fetchDetailImages = async (contentId: string) => {
     `/detailImage2`,
     { params },
   );
-  if (imageRes.data.response.body.items.item) {
+  if (!imageRes.data.response.body.items.item) {
     throw new Error(`no images`);
   }
 
@@ -59,7 +58,7 @@ const fetchLocationBasedItems = async (
     },
   );
 
-  if (response.data.response.body.items.item) {
+  if (!response.data.response.body.items.item) {
     throw new Error('아이템 데이터가 없습니다.');
   }
 

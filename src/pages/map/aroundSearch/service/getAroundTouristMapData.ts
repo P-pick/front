@@ -1,5 +1,6 @@
 import api from '@/config/instance';
 import type {
+  ApiResponse,
   AroundContentTypeId,
   GeoTripLocation,
   TourItem,
@@ -10,22 +11,14 @@ export type LocationBasedItemRequest = {
   contentTypeId?: AroundContentTypeId;
 };
 
-type LocationBasedItemResponse = Promise<{
-  items: {
-    item: TourItem[];
-  };
-  pageNo: number;
-  numOfRows: number;
-  totalCount: number;
-}>;
 
 const getAroundTouristMapData = async ({
   location,
   contentTypeId,
-}: LocationBasedItemRequest): LocationBasedItemResponse => {
+}: LocationBasedItemRequest):Promise<TourItem[]> => {
   if (!location) return Promise.reject('위치 정보가 없습니다.');
 
-  const response = await api.get(`/locationBasedList2`, {
+  const response = await api.get<ApiResponse<TourItem[]>>(`/locationBasedList2`, {
     params: {
       mapX: location.lng,
       mapY: location.lat,
@@ -37,7 +30,7 @@ const getAroundTouristMapData = async ({
     },
   });
 
-  return response.data.response.body;
+  return response.data.response.body.items.item;
 };
 
 const getAroundTouristQueryOptions = (
@@ -46,6 +39,7 @@ const getAroundTouristQueryOptions = (
 ) => ({
   queryKey: ['aroundTouristMapData', destination, contentTypeId],
   queryFn: () => getAroundTouristMapData({ location: destination, contentTypeId }),
+  
 });
 
 export default getAroundTouristQueryOptions;

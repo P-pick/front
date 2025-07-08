@@ -26,9 +26,9 @@ function GeoAroundTouristMap({
 }: GeoAroundTouristMapProps) {
   const [selectedContentTypeId, setSelectedContentTypeId] =
     useState<AroundContentTypeId>(tourContentTypeId);
-  const {data:aroundTouristObjects} = useQuery(getAroundTouristQueryOptions(location,
+
+  const {data:aroundTouristObjects = []} = useQuery(getAroundTouristQueryOptions(location,
     selectedContentTypeId)
-   
   );
   
   const middleTouristRef = useRef<TourItem | null>(null);

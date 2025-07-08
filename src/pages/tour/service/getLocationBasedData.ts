@@ -1,4 +1,3 @@
-import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 import api from '@/config/instance';
 import type {
   ApiResponse,
@@ -18,12 +17,12 @@ type LocationBasedItemRequest = {
   radius?: string;
 };
 
-type LocationBasedItemResponse = Promise<{
+type LocationBasedItemResponse = {
   items: TourItemWithDetail[];
   pageNo: number;
   numOfRows: number;
   totalCount: number;
-}>;
+};
 
 const fetchDetailImages = async (contentId: string) => {
   const params = { contentId };
@@ -31,7 +30,7 @@ const fetchDetailImages = async (contentId: string) => {
     `/detailImage2`,
     { params },
   );
-  if (imageRes.data.response.body.items.item) {
+  if (!imageRes.data.response.body.items.item) {
     throw new Error(`no images`);
   }
 
@@ -59,7 +58,7 @@ const fetchLocationBasedItems = async (
     },
   );
 
-  if (response.data.response.body.items.item) {
+  if (!response.data.response.body.items.item) {
     throw new Error('아이템 데이터가 없습니다.');
   }
 
@@ -101,7 +100,7 @@ const getLocationBasedData = async ({
   pageNo,
   contentTypeId = '12',
   radius = '5000',
-}: LocationBasedItemRequest): LocationBasedItemResponse => {
+}: LocationBasedItemRequest): Promise<LocationBasedItemResponse> => {
   if (!location) throw new Error('위치 정보가 없습니다.');
 
   const body = await fetchLocationBasedItems(
@@ -123,28 +122,24 @@ const getLocationBasedData = async ({
   };
 };
 
-const useGeoLocationBasedTourQuery = (
+const getGeoLocationBasedTourQueryOptions = (
   request: Omit<LocationBasedItemRequest, 'pageNo'>,
-) => {
-  const query = useSuspenseInfiniteQuery({
-    queryKey: ['locationBasedData', request],
+) => ({
+  queryKey: ['locationBasedData', request],
+  initialPageParam: 1,
+  queryFn: ({ pageParam }: { pageParam: number }) =>
+    getLocationBasedData({
+      location: request.location,
+      pageNo: pageParam,
+      contentTypeId: request.contentTypeId,
+      radius: request.radius,
+    }),
+  getNextPageParam: (lastPage: LocationBasedItemResponse) => {
+    
+    const currentPage = lastPage.pageNo;
+    const totalPage = Math.ceil(lastPage.totalCount / lastPage.numOfRows);
+    return currentPage < totalPage ? currentPage + 1 : undefined;
+  },
+});
 
-    initialPageParam: 1,
-    queryFn: ({ pageParam }) =>
-      getLocationBasedData({
-        location: request.location,
-        pageNo: pageParam,
-        contentTypeId: request.contentTypeId,
-        radius: request.radius,
-      }),
-    getNextPageParam: lastPage => {
-      const currentPage = lastPage.pageNo;
-      const totalPage = Math.ceil(lastPage.totalCount / lastPage.numOfRows);
-      return currentPage < totalPage ? currentPage + 1 : undefined;
-    },
-  });
-
-  return query;
-};
-
-export default useGeoLocationBasedTourQuery;
+export default getGeoLocationBasedTourQueryOptions;

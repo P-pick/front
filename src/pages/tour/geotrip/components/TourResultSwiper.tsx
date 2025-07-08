@@ -3,7 +3,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Navigation, Mousewheel } from 'swiper/modules';
 import TourSlide from './TourSlide';
 import type { AroundContentTypeId, GeoTripLocation } from '@/pages/types';
-import { useGeoLocationBasedTourQuery } from '../../service';
+import { getGeoLocationBasedTourQueryOptions } from '../../service';
 import { BottomSheet, LoadingSpinner, TourCard } from '@/components';
 import { TourOverView } from './';
 import type { TourSummary } from '../types';
@@ -11,6 +11,7 @@ import { SideButtonGroup } from './SideButtonGroup';
 import type { Swiper as SwiperType } from 'swiper/types';
 import { withGeoTripParams } from '@/pages/tour/components';
 import { useStartTrip } from '../lib';
+import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 interface TourResultSwiperProps {
   location: GeoTripLocation;
   distance: string;
@@ -21,11 +22,11 @@ function TourResultSwiper({
   distance,
   tourContentTypeId,
 }: TourResultSwiperProps) {
-  const { data, fetchNextPage, hasNextPage } = useGeoLocationBasedTourQuery({
+  const { data, fetchNextPage, hasNextPage } = useSuspenseInfiniteQuery(getGeoLocationBasedTourQueryOptions({
     location,
     radius: distance,
     contentTypeId: tourContentTypeId,
-  });
+  }));
   const [showDetail, setShowDetail] = useState(false);
   const slides = useMemo(() => data.pages.flatMap(page => page.items), [data]);
   const [currentTourInfo, setCurrentTourInfo] = useState<TourSummary>({

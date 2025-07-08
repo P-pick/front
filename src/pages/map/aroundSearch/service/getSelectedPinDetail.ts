@@ -1,6 +1,5 @@
 import type { AroundContentTypeId, TourItem } from '@/pages/types';
 import api from '@/config/instance';
-import { useQuery } from '@tanstack/react-query';
 
 type GetSelectedPinDetailRequest = {
   contentId: string | null;
@@ -29,15 +28,12 @@ const getSelectedPinDetail = async ({
   return response.data.response.body;
 };
 
-const useGetSelectedPinDetail = ({
+const getSelectedPinDetailQueryOptions = ({
   contentId,
   contentTypeId,
-}: GetSelectedPinDetailRequest) => {
-  const selectedPin = useQuery({
-    queryKey: ['selectedPinDetail', contentId, contentTypeId],
-    queryFn: () => getSelectedPinDetail({ contentId, contentTypeId }),
-  });
-  return selectedPin.data?.items.item[0] || null;
-};
+}: GetSelectedPinDetailRequest) => ({
+  queryKey: ['selectedPinDetail', contentId, contentTypeId],
+  queryFn: () => getSelectedPinDetail({ contentId, contentTypeId }),
+});
 
-export default useGetSelectedPinDetail;
+export default getSelectedPinDetailQueryOptions;

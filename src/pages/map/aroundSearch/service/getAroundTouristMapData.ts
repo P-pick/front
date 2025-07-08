@@ -1,32 +1,24 @@
 import api from '@/config/instance';
 import type {
+  ApiResponse,
   AroundContentTypeId,
   GeoTripLocation,
   TourItem,
 } from '@/pages/types';
-import { useQuery } from '@tanstack/react-query';
 
 export type LocationBasedItemRequest = {
   location: GeoTripLocation;
   contentTypeId?: AroundContentTypeId;
 };
 
-type LocationBasedItemResponse = Promise<{
-  items: {
-    item: TourItem[];
-  };
-  pageNo: number;
-  numOfRows: number;
-  totalCount: number;
-}>;
 
 const getAroundTouristMapData = async ({
   location,
   contentTypeId,
-}: LocationBasedItemRequest): LocationBasedItemResponse => {
+}: LocationBasedItemRequest):Promise<TourItem[]> => {
   if (!location) return Promise.reject('위치 정보가 없습니다.');
 
-  const response = await api.get(`/locationBasedList2`, {
+  const response = await api.get<ApiResponse<TourItem[]>>(`/locationBasedList2`, {
     params: {
       mapX: location.lng,
       mapY: location.lat,
@@ -38,19 +30,16 @@ const getAroundTouristMapData = async ({
     },
   });
 
-  return response.data.response.body;
+  return response.data.response.body.items.item;
 };
 
-const useAroundTouristQuery = (
+const getAroundTouristQueryOptions = (
   destination: GeoTripLocation,
   contentTypeId: AroundContentTypeId
-) => {
-  const response = useQuery({
-    queryKey: ['aroundTouristMapData', destination, contentTypeId],
-    queryFn: () =>
-      getAroundTouristMapData({ location: destination, contentTypeId }),
-  });
-  return response.data?.items.item || [];
-};
+) => ({
+  queryKey: ['aroundTouristMapData', destination, contentTypeId],
+  queryFn: () => getAroundTouristMapData({ location: destination, contentTypeId }),
+  
+});
 
-export default useAroundTouristQuery;
+export default getAroundTouristQueryOptions;

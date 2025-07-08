@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const isLocal = import.meta.env.MODE === 'local';
+const isLocal = import.meta.env.DEV;
 
 /**
  * TourAPI 요청을 위한 Axios 인스턴스

@@ -1,4 +1,4 @@
-import api from '@/config/instance';
+import { tourApi } from '@/config/instance';
 import type {
   ApiResponse,
   TourItem,
@@ -26,7 +26,7 @@ type LocationBasedItemResponse = {
 
 const fetchDetailImages = async (contentId: string) => {
   const params = { contentId };
-  const imageRes = await api.get<ApiResponse<TourDetailImage[]>>(
+  const imageRes = await tourApi.get<ApiResponse<TourDetailImage[]>>(
     `/detailImage2`,
     { params },
   );
@@ -43,7 +43,7 @@ const fetchLocationBasedItems = async (
   contentTypeId: AroundContentTypeId,
   radius: string,
 ) => {
-  const response = await api.get<ApiResponse<TourItem[]>>(
+  const response = await tourApi.get<ApiResponse<TourItem[]>>(
     `/locationBasedList2`,
     {
       params: {
@@ -135,7 +135,6 @@ const getGeoLocationBasedTourQueryOptions = (
       radius: request.radius,
     }),
   getNextPageParam: (lastPage: LocationBasedItemResponse) => {
-    
     const currentPage = lastPage.pageNo;
     const totalPage = Math.ceil(lastPage.totalCount / lastPage.numOfRows);
     return currentPage < totalPage ? currentPage + 1 : undefined;

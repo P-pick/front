@@ -1,5 +1,5 @@
 import type { AroundContentTypeId, TourItem } from '@/pages/types';
-import api from '@/config/instance';
+import { tourApi } from '@/config/instance';
 
 type GetSelectedPinDetailRequest = {
   contentId: string | null;
@@ -19,7 +19,7 @@ const getSelectedPinDetail = async ({
   contentId,
   contentTypeId,
 }: GetSelectedPinDetailRequest): GetSelectedPinDetailResponse => {
-  const response = await api.get('/detailCommon2', {
+  const response = await tourApi.get('/detailCommon2', {
     params: {
       contentId,
       contentTypeId,

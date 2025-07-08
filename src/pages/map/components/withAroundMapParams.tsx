@@ -9,7 +9,7 @@ interface InjectedProps {
 }
 
 export default function withAroundMapParams<P extends InjectedProps>(
-  WrappedComponent: React.ComponentType<P>
+  WrappedComponent: React.ComponentType<P>,
 ) {
   return function AroundMapWrapper(props: Omit<P, keyof InjectedProps>) {
     const [searchParams] = useSearchParams();
@@ -18,7 +18,7 @@ export default function withAroundMapParams<P extends InjectedProps>(
     const mapy = searchParams.get('lat');
     const contentId = searchParams.get('contentId');
     const tourContentTypeId = searchParams.get(
-      'contentTypeId'
+      'contentTypeId',
     ) as AroundContentTypeId;
 
     const location: GeoTripLocation = {

@@ -19,12 +19,12 @@ export default defineConfig(({ mode }) => {
       allowedHosts: [env.VITE_NGROK_HOST],
       proxy: {
         '/api': {
-          target: 'https://apis.data.go.kr/B551011/KorService2',
+          target: env.VITE_TOUR_BASE_URL,
           changeOrigin: true,
           rewrite: path => path.replace(/^\/api/, ''),
         },
         '/path/navigation': {
-          target: 'https://apis.openapi.sk.com/tmap/routes',
+          target: env.VITE_TMAP_BASE_URL,
           changeOrigin: true,
           rewrite: path => path.replace(/^\/path\/navigation/, ''),
         },

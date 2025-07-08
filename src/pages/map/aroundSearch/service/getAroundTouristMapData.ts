@@ -1,4 +1,4 @@
-import api from '@/config/instance';
+import { tourApi } from '@/config/instance';
 import type {
   ApiResponse,
   AroundContentTypeId,
@@ -18,7 +18,7 @@ const getAroundTouristMapData = async ({
 }: LocationBasedItemRequest):Promise<TourItem[]> => {
   if (!location) return Promise.reject('위치 정보가 없습니다.');
 
-  const response = await api.get<ApiResponse<TourItem[]>>(`/locationBasedList2`, {
+  const response = await tourApi.get<ApiResponse<TourItem[]>>(`/locationBasedList2`, {
     params: {
       mapX: location.lng,
       mapY: location.lat,

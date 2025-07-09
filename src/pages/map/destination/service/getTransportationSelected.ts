@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { href } from 'react-router-dom';
 import type {
   CarRequestBody,
   MultiplePathResponse,
@@ -9,6 +8,7 @@ import type {
 import getCarDestinationQueryOptions from './getCarData';
 import getPedestrianDestinationQueryOptions from './getPedestrianData';
 import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
+import handleRedirectTransportation from './redirectTransportation';
 
 const getTransportationSelected = (
   vehicle: TransportationType,
@@ -25,15 +25,31 @@ const getTransportationSelected = (
       useQuery(getCarDestinationQueryOptions(destination as CarRequestBody))
         .data || [],
     bicycle: () => {
-      window.location.href = href(
-        'http://m.map.kakao.com/scheme/route?sp=37.40205,127.10821&vp=37.39424,127.11030&ep=37.39529,127.11044&by=bicycle',
-      );
+      handleRedirectTransportation({
+        start: {
+          lat: destination.startY,
+          lng: destination.startX,
+        },
+        end: {
+          lat: destination.endY,
+          lng: destination.endX,
+        },
+        vehicle: 'bicycle',
+      });
       return [];
     },
     'public-transportation': () => {
-      window.location.href = href(
-        'http://m.map.kakao.com/scheme/route?sp=37.40205,127.10821&vp=37.39424,127.11030&ep=37.39529,127.11044&by=publictransit',
-      );
+      handleRedirectTransportation({
+        start: {
+          lat: destination.startY,
+          lng: destination.startX,
+        },
+        end: {
+          lat: destination.endY,
+          lng: destination.endX,
+        },
+        vehicle: 'public-transportation',
+      });
       return [];
     },
   };

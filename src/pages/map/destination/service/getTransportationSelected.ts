@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
+import { href } from 'react-router-dom';
 import type {
   CarRequestBody,
   MultiplePathResponse,
@@ -11,15 +12,30 @@ import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
 
 const getTransportationSelected = (
   vehicle: TransportationType,
-  destination: PedestrianRequestBody | CarRequestBody
+  destination: PedestrianRequestBody | CarRequestBody,
 ): MultiplePathResponse[] => {
   const selectedTransportation = {
     pedestrian: () =>
-      useSuspenseQuery(getPedestrianDestinationQueryOptions(destination as PedestrianRequestBody)).data,
-    car: () => useQuery(getCarDestinationQueryOptions(destination as CarRequestBody)).data || [],
-    bicycle: () => useQuery(getCarDestinationQueryOptions(destination as CarRequestBody)).data || [],
-    'public-transportation': () =>
-     useQuery(getCarDestinationQueryOptions(destination as CarRequestBody)).data || [],
+      useSuspenseQuery(
+        getPedestrianDestinationQueryOptions(
+          destination as PedestrianRequestBody,
+        ),
+      ).data,
+    car: () =>
+      useQuery(getCarDestinationQueryOptions(destination as CarRequestBody))
+        .data || [],
+    bicycle: () => {
+      window.location.href = href(
+        'http://m.map.kakao.com/scheme/route?sp=37.40205,127.10821&vp=37.39424,127.11030&ep=37.39529,127.11044&by=bicycle',
+      );
+      return [];
+    },
+    'public-transportation': () => {
+      window.location.href = href(
+        'http://m.map.kakao.com/scheme/route?sp=37.40205,127.10821&vp=37.39424,127.11030&ep=37.39529,127.11044&by=publictransit',
+      );
+      return [];
+    },
   };
   return selectedTransportation[vehicle]();
 };

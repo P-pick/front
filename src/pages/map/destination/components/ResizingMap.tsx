@@ -15,13 +15,11 @@ interface ResizingMapProps {
 export default function ResizingMap({ points }: ResizingMapProps) {
   const { searchOptions } = useStore(useTransportation);
   const { isFollowAlong } = useStore(useFollowAlong);
-  const { map, handleMapResizing } = useResizingMapLevel({
-    points,
-  });
+  const { map, handleMapResizing } = useResizingMapLevel();
 
   const { geoLocation } = useCurrentLocation();
   useEffect(() => {
-    handleMapResizing();
+    handleMapResizing({ points });
   }, [map, searchOptions]);
 
   const goToMyLocation = () => [

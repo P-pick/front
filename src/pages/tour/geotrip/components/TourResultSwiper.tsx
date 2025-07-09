@@ -22,11 +22,13 @@ function TourResultSwiper({
   distance,
   tourContentTypeId,
 }: TourResultSwiperProps) {
-  const { data, fetchNextPage, hasNextPage } = useSuspenseInfiniteQuery(getGeoLocationBasedTourQueryOptions({
-    location,
-    radius: distance,
-    contentTypeId: tourContentTypeId,
-  }));
+  const { data, fetchNextPage, hasNextPage } = useSuspenseInfiniteQuery(
+    getGeoLocationBasedTourQueryOptions({
+      location,
+      radius: distance,
+      contentTypeId: tourContentTypeId,
+    }),
+  );
   const [showDetail, setShowDetail] = useState(false);
   const slides = useMemo(() => data.pages.flatMap(page => page.items), [data]);
   const [currentTourInfo, setCurrentTourInfo] = useState<TourSummary>({
@@ -86,23 +88,19 @@ function TourResultSwiper({
             initialY="20%"
             minHeight={600}
           >
-            <BottomSheet.Content>
-              <div className="bg-white w-full h-300">
-                <TourCard
-                  title={currentTourInfo.title}
-                  distance={currentTourInfo.dist}
-                  imgUrl={currentTourInfo.images[0].originimgurl || ''}
-                />
-                <Suspense fallback={<LoadingSpinner />}>
-                  <TourOverView contentId={currentTourInfo.contentid} />
-                </Suspense>
-              </div>
-            </BottomSheet.Content>
-            <BottomSheet.Footer>
-              <div className="absolute left-0 bottom-0 bg-gradient-to-t from-white to-white/90 w-full h-full flex justify-center items-center">
+            <div className="bg-white w-full h-300">
+              <TourCard
+                title={currentTourInfo.title}
+                distance={currentTourInfo.dist}
+                imgUrl={currentTourInfo.images[0].originimgurl || ''}
+              />
+              <Suspense fallback={<LoadingSpinner />}>
+                <TourOverView contentId={currentTourInfo.contentid} />
+              </Suspense>
+              <div className="fixed w-full flex items-center justify-center z-10000">
                 <button
                   type="button"
-                  className="bg-gradient-to-r from-primary-orange to-primary-red rounded-[15px] w-[320px] h-[50px] text-black font-bold text-[16px] shadow-[0_4px_16px_0_rgba(250,129,47,0.3)]"
+                  className=" bg-gradient-to-r from-primary-orange to-primary-red rounded-[15px] w-[320px] h-[50px] text-black font-bold text-[16px] shadow-[0_4px_16px_0_rgba(250,129,47,0.3)]"
                   onClick={() => {
                     handleStartTrip({
                       lng: currentTourInfo.mapx,
@@ -113,7 +111,7 @@ function TourResultSwiper({
                   여행 시작하기
                 </button>
               </div>
-            </BottomSheet.Footer>
+            </div>
           </BottomSheet>
         </div>
       </div>

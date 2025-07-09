@@ -1,22 +1,5 @@
 import { AnimatePresence, motion, useDragControls } from 'framer-motion';
-import {
-  Children,
-  isValidElement,
-  type PropsWithChildren,
-  type ReactNode,
-} from 'react';
-
-function BottomSheetContent({ children }: PropsWithChildren) {
-  return <>{children}</>;
-}
-
-function BottomSheetFooter({ children }: PropsWithChildren) {
-  return (
-    <div className="absolute bottom-0 left-0 w-full h-30 pointer-events-auto">
-      {children}
-    </div>
-  );
-}
+import { type ReactNode } from 'react';
 
 interface BottomSheetProps {
   isOpen: boolean;
@@ -24,6 +7,7 @@ interface BottomSheetProps {
   showOverlay?: boolean;
   initialY?: string;
   minHeight?: number;
+  children: ReactNode;
 }
 
 function BottomSheet({
@@ -33,23 +17,13 @@ function BottomSheet({
   showOverlay = true,
   initialY = '0%',
   minHeight = 400,
-}: PropsWithChildren<BottomSheetProps>) {
+}: BottomSheetProps) {
   const dragControls = useDragControls();
 
   const startDrag = (event: React.PointerEvent<HTMLDivElement>) => {
     event.preventDefault();
     dragControls.start(event, { snapToCursor: false });
   };
-  const contentChildren: ReactNode[] = [];
-  const footerChildren: ReactNode[] = [];
-
-  Children.forEach(children, child => {
-    if (isValidElement(child) && child.type === BottomSheet.Footer) {
-      footerChildren.push(child);
-    } else {
-      contentChildren.push(child);
-    }
-  });
 
   const handleOnClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
@@ -58,7 +32,7 @@ function BottomSheet({
   };
 
   return (
-    <AnimatePresence>
+    <AnimatePresence mode="wait">
       {isOpen && (
         <>
           {showOverlay && (
@@ -70,53 +44,39 @@ function BottomSheet({
               onClick={handleOnClick}
             />
           )}
+
           <motion.div
+            key="bottom-sheet"
+            drag="y"
+            animate={{ y: initialY }}
             initial={{ y: '100%' }}
-            animate={{ y: '0%' }}
-            exit={{ y: '100%' }}
-            dragElastic={0.1}
-            transition={{
-              type: 'tween',
-              duration: 0.3,
-              ease: 'easeInOut',
+            dragControls={dragControls}
+            dragListener={false}
+            dragElastic={0.2}
+            onDragEnd={(_, info) => {
+              if (info.point.y > minHeight) {
+                onClose();
+              }
             }}
-            className="absolute bottom-0 left-0 w-full z-(--z-layer8) h-full pointer-events-none"
+            dragConstraints={{
+              top: 0,
+              bottom: minHeight,
+            }}
+            className="relative flex flex-col items-center w-full z-(--z-layer7) pointer-events-auto"
           >
-            <motion.div
-              drag="y"
-              animate={{ y: initialY }}
-              dragControls={dragControls}
-              dragListener={false}
-              dragElastic={0.2}
-              onDragEnd={(_, info) => {
-                if (info.point.y > minHeight) {
-                  onClose();
-                }
-              }}
-              dragConstraints={{
-                top: 0,
-                bottom: minHeight,
-              }}
-              className="relative flex flex-col items-center w-full z-(--z-layer7) pointer-events-auto"
+            <div
+              onPointerDown={startDrag}
+              className="absolute top-0 left-0 w-full h-10 flex justify-center items-start cursor-grab active:cursor-grabbing"
+              style={{ touchAction: 'none' }}
             >
-              <div
-                onPointerDown={startDrag}
-                className="absolute top-0 left-0 w-full h-10 flex justify-center items-start cursor-grab active:cursor-grabbing"
-                style={{ touchAction: 'none' }}
-              >
-                <div className="mt-1 w-[88px] h-[3px] bg-black rounded-full" />
-              </div>
-              {contentChildren}
-            </motion.div>
-            {footerChildren}
+              <div className="mt-1 w-[88px] h-[3px] bg-black rounded-full" />
+            </div>
+            {children}
           </motion.div>
         </>
       )}
     </AnimatePresence>
   );
 }
-
-BottomSheet.Content = BottomSheetContent;
-BottomSheet.Footer = BottomSheetFooter;
 
 export default BottomSheet;

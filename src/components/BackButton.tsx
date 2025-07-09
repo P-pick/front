@@ -1,6 +1,14 @@
+import { useNavigate } from 'react-router-dom';
+
 export default function BackButton() {
+  const navigate = useNavigate();
+
+  const handleBack = () => {
+    navigate(-1);
+  };
+
   return (
-    <button type="button" className="cursor-pointer">
+    <button onClick={handleBack} type="button" className="cursor-pointer">
       <svg
         width="35"
         height="35"

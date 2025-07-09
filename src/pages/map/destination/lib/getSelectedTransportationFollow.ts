@@ -11,13 +11,13 @@ import getPedestrianFollowList from './getPedestrianFollowList';
 
 const getSelectedTransportationFollow = (
   vehicle: TransportationType,
-  features: PolyFeatures
+  features: PolyFeatures,
 ): CarFollowFeature[] | PedestrianFollowFeature[] => {
   const selectedTransportation = {
     pedestrian: () => getPedestrianFollowList(features as PedestrianFeatures[]),
     car: () => getCarFollowList(features as CarFeatures[]),
     bicycle: () => getCarFollowList(features as CarFeatures[]),
-    'public-transportation': () => getCarFollowList(features as CarFeatures[]),
+    publictransit: () => getCarFollowList(features as CarFeatures[]),
   };
   return selectedTransportation[vehicle]();
 };

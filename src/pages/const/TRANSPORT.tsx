@@ -12,7 +12,7 @@ export const selectedTransportationList = [
     label: '차량',
   },
   {
-    id: 'public-transportation',
+    id: 'publictransit',
     icon: <vehicleSVG.TransportationIcon width={16} height={16} />,
     label: '대중교통',
   },

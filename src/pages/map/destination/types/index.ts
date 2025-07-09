@@ -84,7 +84,7 @@ export type TransportationType =
   | 'pedestrian'
   | 'car'
   | 'bicycle'
-  | 'public-transportation';
+  | 'publictransit';
 
 export interface FollowBase {
   id: string;

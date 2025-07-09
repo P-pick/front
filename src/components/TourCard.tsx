@@ -1,19 +1,26 @@
 import { commonSVG } from '@/assets';
 import { TourTypeBadge, DistanceTimeInfo } from './';
+import type { AroundContentTypeId } from '@/pages/types';
 
 interface TourCardProps {
   title: string;
   distance: string;
   imgUrl: string;
+  tourTypeId: AroundContentTypeId;
 }
-export default function TourCard({ title, distance, imgUrl }: TourCardProps) {
+export default function TourCard({
+  title,
+  distance,
+  imgUrl,
+  tourTypeId,
+}: TourCardProps) {
   return (
     <section>
       <div className="py-6 px-5 flex">
         <div className="mr-5">
           <div className="flex  gap-1.5 mb-2 items-center">
             <h1 className="font-bold text-[24px] w-38">{title}</h1>
-            <TourTypeBadge contenttypeid="12" className="text-center" />
+            <TourTypeBadge contenttypeid={tourTypeId} className="text-center" />
           </div>
           <div className="flex items-center gap-1.5 mb-2">
             <DistanceTimeInfo

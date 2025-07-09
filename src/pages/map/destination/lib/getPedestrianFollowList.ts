@@ -5,7 +5,7 @@ import type {
 } from '../types';
 
 const getPedestrianFollowList = (
-  destination: PedestrianFeatures[] = []
+  destination: PedestrianFeatures[] = [],
 ): PedestrianFollowFeature[] => {
   return destination
     .map(feature => {

@@ -1,5 +1,4 @@
 import type { GeoTripLocation } from '@/pages/types';
-import { useResizingMapLevel } from '../lib/useResizingMapLevel';
 import { useEffect } from 'react';
 import { useStore } from 'zustand';
 import { useTransportation } from '../store';
@@ -7,6 +6,7 @@ import { useCurrentLocation } from '@/lib';
 import { destinationSVG } from '@/assets';
 import useFollowAlong from '../store/useFollowAlong';
 import clsx from 'clsx';
+import { useMapController } from '../lib';
 
 interface ResizingMapProps {
   points: GeoTripLocation[];
@@ -15,7 +15,7 @@ interface ResizingMapProps {
 export default function ResizingMap({ points }: ResizingMapProps) {
   const { searchOptions } = useStore(useTransportation);
   const { isFollowAlong } = useStore(useFollowAlong);
-  const { map, handleMapResizing } = useResizingMapLevel();
+  const { map, handleMapResizing } = useMapController();
 
   const { geoLocation } = useCurrentLocation();
   useEffect(() => {

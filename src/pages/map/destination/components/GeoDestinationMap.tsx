@@ -11,6 +11,8 @@ import CurrentDeviceLocation from '../../components/CurrentDeviceLocation';
 import useFollowAlong from '../store/useFollowAlong';
 import { FollowAlong, SelectedFollow } from './follow';
 import withDestination from './withDestination';
+import { useMemo } from 'react';
+import type { PedestrianFeatures } from '../types';
 
 interface GeoDestinationMapProps {
   start: GeoTripLocation;
@@ -30,6 +32,18 @@ function GeoDestinationMap({ start, end }: GeoDestinationMapProps) {
     endName: '목적지',
   });
 
+  const points = useMemo(() => {
+    return features.flatMap(data => {
+      const feature = data.features as PedestrianFeatures[];
+      return feature
+        .filter(filterData => filterData.geometry.type === 'Point')
+        .map(point => ({
+          lat: point.geometry.coordinates[1],
+          lng: point.geometry.coordinates[0],
+        }));
+    }) as GeoTripLocation[];
+  }, [features]);
+
   return (
     <>
       <Map
@@ -44,7 +58,7 @@ function GeoDestinationMap({ start, end }: GeoDestinationMapProps) {
         {!isFollowAlong && (
           <SelectTransportationFromGeoMap start={start} end={end} />
         )}
-        <ResizingMap points={[start, end]} />
+        <ResizingMap points={points} />
         {features &&
           features.map(data => (
             <>

@@ -38,7 +38,7 @@ const getTransportationSelected = (
       });
       return [];
     },
-    'public-transportation': () => {
+    publictransit: () => {
       handleRedirectTransportation({
         start: {
           lat: destination.startY,
@@ -48,7 +48,7 @@ const getTransportationSelected = (
           lat: destination.endY,
           lng: destination.endX,
         },
-        vehicle: 'public-transportation',
+        vehicle: 'publictransit',
       });
       return [];
     },

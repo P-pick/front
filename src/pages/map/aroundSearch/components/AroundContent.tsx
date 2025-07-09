@@ -43,6 +43,7 @@ export default function AroundContent({
               title={tourist.title}
               distance={tourist.dist}
               imgUrl={tourist.firstimage || ''}
+              tourTypeId={tourist.contenttypeid}
             />
             <div className="flex-1">
               <Suspense fallback={<LoadingSpinnerInTourist />}>

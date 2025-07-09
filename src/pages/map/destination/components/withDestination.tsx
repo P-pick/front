@@ -10,14 +10,15 @@ interface WithDestinationProps {
 }
 
 export default function withDestination<P extends WithDestinationProps>(
-  WrappedComponent: React.ComponentType<P>
+  WrappedComponent: React.ComponentType<P>,
 ) {
   return function GeoDestinationMapWrapper(
-    props: Omit<P, keyof WithDestinationProps>
+    props: Omit<P, keyof WithDestinationProps>,
   ) {
     const [searchParams] = useSearchParams();
     const lng = searchParams.get('lnt');
     const lat = searchParams.get('lat');
+
     const destination = {
       lng: lng ? parseFloat(lng) : 0,
       lat: lat ? parseFloat(lat) : 0,

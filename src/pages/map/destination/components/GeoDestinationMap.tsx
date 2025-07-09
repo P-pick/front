@@ -41,7 +41,9 @@ function GeoDestinationMap({ start, end }: GeoDestinationMapProps) {
           setMapLevel(map.getLevel());
         }}
       >
-        {!isFollowAlong && <SelectTransportationFromGeoMap />}
+        {!isFollowAlong && (
+          <SelectTransportationFromGeoMap start={start} end={end} />
+        )}
         <ResizingMap points={[start, end]} />
         {features &&
           features.map(data => (

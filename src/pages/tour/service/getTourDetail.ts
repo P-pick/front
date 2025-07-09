@@ -29,10 +29,9 @@ const getTourDetail = async ({
   return items.item[0];
 };
 
- const getTourDetailQueryOptions = ({ contentId }: getTourDetailRequest) => ({
+const getTourDetailQueryOptions = ({ contentId }: getTourDetailRequest) => ({
   queryKey: ['tourDetail', contentId],
   queryFn: () => getTourDetail({ contentId }),
 });
-
 
 export default getTourDetailQueryOptions;

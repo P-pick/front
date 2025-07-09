@@ -1,13 +1,17 @@
 import { Portal } from '@/components';
-import { AnimatePresence, motion, useDragControls } from 'framer-motion';
-import { type ReactNode } from 'react';
+import {
+  AnimatePresence,
+  motion,
+  useDragControls,
+  type PanInfo,
+} from 'framer-motion';
+import { useRef, useState, type ReactNode } from 'react';
 
 interface BottomSheetProps {
   isOpen: boolean;
   onClose: () => void;
   showOverlay?: boolean;
-  initialY?: string;
-  minHeight?: number;
+  bottomSheetHeight?: string;
   children: ReactNode;
 }
 
@@ -16,25 +20,52 @@ function BottomSheet({
   onClose,
   children,
   showOverlay = true,
-  initialY = '0%',
-  minHeight = 400,
 }: BottomSheetProps) {
   const dragControls = useDragControls();
-
-  const startDrag = (event: React.PointerEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    dragControls.start(event, { snapToCursor: false });
-  };
-
+  const constraintsRef = useRef(null);
+  const [yPosition, setYPosition] = useState<'0%' | '50%' | '80%'>('80%');
   const handleOnClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
       onClose();
     }
   };
 
+  const sheetVariants = {
+    initial: { y: '100%' },
+    opened: { y: yPosition },
+    closed: { y: '100%' },
+  };
+  const handleDragEnd = (
+    _: MouseEvent | TouchEvent | PointerEvent,
+    info: PanInfo,
+  ) => {
+    const offsetY = info.offset.y;
+
+    if (yPosition === '80%') {
+      if (offsetY < -50) {
+        setYPosition('0%');
+      } else if (offsetY < -10) {
+        setYPosition('50%');
+      }
+    } else if (yPosition === '50%') {
+      if (offsetY < -10) {
+        setYPosition('0%');
+      } else if (offsetY > 10) {
+        setYPosition('80%');
+      }
+    }
+    if (yPosition === '0%') {
+      if (offsetY > 50) {
+        setYPosition('80%');
+      } else if (offsetY > 10) {
+        setYPosition('50%');
+      }
+    }
+  };
+
   return (
     <Portal containerId="bottomsheet-root">
-      <AnimatePresence mode="wait">
+      <AnimatePresence>
         {isOpen && (
           <>
             {showOverlay && (
@@ -46,34 +77,37 @@ function BottomSheet({
                 onClick={handleOnClick}
               />
             )}
-
             <motion.div
-              key="bottom-sheet"
-              drag="y"
-              animate={{ y: initialY }}
-              initial={{ y: '100%' }}
-              dragControls={dragControls}
-              dragListener={false}
-              dragElastic={0.2}
-              onDragEnd={(_, info) => {
-                if (info.point.y > minHeight) {
-                  onClose();
-                }
-              }}
-              dragConstraints={{
-                top: 0,
-                bottom: minHeight,
-              }}
-              className="relative flex flex-col items-center w-full z-(--z-layer7) pointer-events-auto"
+              ref={constraintsRef}
+              className="absolute w-full h-full left-0 top-0 z-(--z-layer1000)"
             >
-              <div
-                onPointerDown={startDrag}
-                className="absolute top-0 left-0 w-full h-10 flex justify-center items-start cursor-grab active:cursor-grabbing"
-                style={{ touchAction: 'none' }}
+              <motion.div
+                drag="y"
+                dragConstraints={{ top: 0, bottom: 740 }}
+                dragControls={dragControls}
+                dragListener={false}
+                dragElastic={0}
+                dragMomentum={false}
+                variants={sheetVariants}
+                initial="initial"
+                animate="opened"
+                exit="closed"
+                transition={{ type: 'tween', duration: 0.3 }}
+                onDragEnd={handleDragEnd}
+                className="h-full"
               >
-                <div className="mt-1 w-[88px] h-[3px] bg-black rounded-full" />
-              </div>
-              {children}
+                <div className="bg-white flex flex-col rounded-t-2xl h-full">
+                  <header
+                    className="h-[50px] cursor-grab select-none w-full flex items-center justify-center touch-none"
+                    onPointerDown={e =>
+                      dragControls.start(e, { distanceThreshold: 10 })
+                    }
+                  >
+                    <div className="w-15 h-1 bg-black rounded-full mb-5" />
+                  </header>
+                  <article className="h-full">{children}</article>
+                </div>
+              </motion.div>
             </motion.div>
           </>
         )}

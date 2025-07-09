@@ -22,11 +22,13 @@ function TourResultSwiper({
   distance,
   tourContentTypeId,
 }: TourResultSwiperProps) {
-  const { data, fetchNextPage, hasNextPage } = useSuspenseInfiniteQuery(getGeoLocationBasedTourQueryOptions({
-    location,
-    radius: distance,
-    contentTypeId: tourContentTypeId,
-  }));
+  const { data, fetchNextPage, hasNextPage } = useSuspenseInfiniteQuery(
+    getGeoLocationBasedTourQueryOptions({
+      location,
+      radius: distance,
+      contentTypeId: tourContentTypeId,
+    }),
+  );
   const [showDetail, setShowDetail] = useState(false);
   const slides = useMemo(() => data.pages.flatMap(page => page.items), [data]);
   const [currentTourInfo, setCurrentTourInfo] = useState<TourSummary>({
@@ -92,6 +94,7 @@ function TourResultSwiper({
                   title={currentTourInfo.title}
                   distance={currentTourInfo.dist}
                   imgUrl={currentTourInfo.images[0].originimgurl || ''}
+                  tourTypeId={currentTourInfo.contenttypeid}
                 />
                 <Suspense fallback={<LoadingSpinner />}>
                   <TourOverView contentId={currentTourInfo.contentid} />

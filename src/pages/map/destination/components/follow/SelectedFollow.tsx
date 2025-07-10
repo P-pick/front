@@ -1,4 +1,5 @@
 import { useLayoutEffect, useMemo, useRef } from 'react';
+import { useDebouncedCallback } from '@/lib/useDebouncedCallback';
 import { useTransportation } from '../../store';
 import type { PolyFeatures } from '../../types';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -18,7 +19,8 @@ export default function SelectedFollow({
   followFeatures,
 }: SelectedFollowProps) {
   const { vehicle } = useTransportation();
-  const { currentFollowIndex } = useStore(useFollowAlong);
+  const { currentFollowIndex, setCurrentFollowIndex } =
+    useStore(useFollowAlong);
   const { handleSwitchLocationToPosition } = useMapController();
 
   const swiperRef = useRef<SwiperType | null>(null);
@@ -27,9 +29,23 @@ export default function SelectedFollow({
     return getSelectedTransportationFollow(vehicle, followFeatures);
   }, [vehicle, followFeatures]);
 
+  const debouncedSwitchLocation = useDebouncedCallback(
+    (position: GeoTripLocation) => {
+      handleSwitchLocationToPosition(position, true);
+    },
+    300,
+  );
+
+  const handleSlideChange = (swiper: SwiperType) => {
+    const currentIndex = swiper.realIndex;
+    const currentPosition = followList[currentIndex].path[0];
+    setCurrentFollowIndex(currentIndex);
+    debouncedSwitchLocation(currentPosition);
+  };
+
   const handleSwitchPositionAndSwiperToCurrentIndex = (
     position: GeoTripLocation,
-    index: number
+    index: number,
   ) => {
     handleSwitchLocationToPosition(position, true);
     swiperRef.current?.slideTo(index, 500, false);
@@ -50,12 +66,7 @@ export default function SelectedFollow({
         onSwiper={swiper => {
           swiperRef.current = swiper;
         }}
-        onRealIndexChange={swiper => {
-          handleSwitchLocationToPosition(
-            followList[swiper.realIndex].path[0],
-            true
-          );
-        }}
+        onRealIndexChange={handleSlideChange}
       >
         {followList.map((option, idx) => (
           <>

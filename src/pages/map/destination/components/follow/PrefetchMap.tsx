@@ -1,52 +1,32 @@
-import { useMapController } from '../../lib';
+import { Map } from 'react-kakao-maps-sdk';
 import type { CarFollowFeature, PedestrianFollowFeature } from '../../types';
-import { StaticMap } from 'react-kakao-maps-sdk';
-import { useEffect, useState } from 'react';
 import { useStore } from 'zustand';
 import useFollowAlong from '../../store/useFollowAlong';
+import { useMemo } from 'react';
 
-export default function PrefetchMap({
-  followList,
-}: {
+interface PrefetchMapProps {
   followList: PedestrianFollowFeature[] | CarFollowFeature[];
-}) {
-  const [nextPosition, setNextPosition] = useState({
-    lat: 0,
-    lng: 0,
-  });
-  const { map } = useMapController();
+}
+
+const PrefetchMap = ({ followList }: PrefetchMapProps) => {
   const { currentFollowIndex } = useStore(useFollowAlong);
 
-  useEffect(() => {
-    if (!followList || followList.length === 0) {
-      return;
-    }
+  const position = useMemo(() => {
     const nextIndex = currentFollowIndex + 1;
-    const nextFollowItem =
-      nextIndex < followList.length ? followList[nextIndex] : undefined;
-
-    if (nextFollowItem) {
-      const position = nextFollowItem.path[0];
-      setNextPosition({
-        lat: position.lat,
-        lng: position.lng,
-      });
+    if (followList.length === 0 || nextIndex >= followList.length) {
+      return followList[currentFollowIndex].path[0];
     }
-  }, [currentFollowIndex]);
-
-  console.log(nextPosition);
+    return followList[nextIndex].path[0];
+  }, [followList, currentFollowIndex]);
 
   return (
-    <>
-      <StaticMap
-        center={{
-          lat: nextPosition.lat,
-          lng: nextPosition.lng,
-        }}
-        style={{ width: '100%', height: '100%' }}
-        level={map.getLevel()}
-        marker={false}
-      />
-    </>
+    <Map
+      id="prefetch-map"
+      center={position}
+      level={3}
+      className="w-full h-full absolute -z-40 top-0 left-0"
+    ></Map>
   );
-}
+};
+
+export default PrefetchMap;

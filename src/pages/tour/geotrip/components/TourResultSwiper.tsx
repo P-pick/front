@@ -90,6 +90,7 @@ function TourResultSwiper({
             title={currentTourInfo.title}
             distance={currentTourInfo.dist}
             imgUrl={currentTourInfo.images[0].originimgurl || ''}
+            tourTypeId={currentTourInfo.contenttypeid}
           />
           <Suspense fallback={<LoadingSpinner />}>
             <TourOverView contentId={currentTourInfo.contentid} />

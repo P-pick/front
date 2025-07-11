@@ -39,7 +39,7 @@ export default function GetPolylines({
         searchOption={searchOption as CarSearchOption}
       />
     ),
-    'public-transportation': (
+    publictransit: (
       <CarPolylines
         destination={destination as CarFeatures[]}
         searchOption={searchOption as CarSearchOption}

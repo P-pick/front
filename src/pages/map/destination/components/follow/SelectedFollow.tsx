@@ -20,8 +20,7 @@ export default function SelectedFollow({
   followFeatures,
 }: SelectedFollowProps) {
   const { vehicle } = useTransportation();
-  const { currentFollowIndex, setCurrentFollowIndex } =
-    useStore(useFollowAlong);
+  const { currentFollowIndex } = useStore(useFollowAlong);
   const { handleSwitchLocationToPosition } = useMapController();
 
   const swiperRef = useRef<SwiperType | null>(null);
@@ -40,8 +39,6 @@ export default function SelectedFollow({
   const handleSlideChange = (swiper: SwiperType) => {
     const currentIndex = swiper.realIndex;
     const currentPosition = followList[currentIndex].path[0];
-    setCurrentFollowIndex(currentIndex);
-    handleSwitchLocationToPosition(currentPosition, true);
     debouncedSwitchLocation(currentPosition);
   };
 

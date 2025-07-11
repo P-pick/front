@@ -1,4 +1,5 @@
 import { Portal } from '@/components';
+import clsx from 'clsx';
 import {
   AnimatePresence,
   motion,
@@ -19,7 +20,7 @@ function BottomSheet({
   isOpen,
   onClose,
   children,
-  showOverlay = true,
+  showOverlay = false,
 }: BottomSheetProps) {
   const dragControls = useDragControls();
   const constraintsRef = useRef(null);
@@ -46,6 +47,8 @@ function BottomSheet({
         setYPosition('0%');
       } else if (offsetY < -10) {
         setYPosition('50%');
+      } else if (offsetY > 10) {
+        onClose();
       }
     } else if (yPosition === '50%') {
       if (offsetY < -10) {
@@ -62,24 +65,20 @@ function BottomSheet({
       }
     }
   };
+  const className = clsx(
+    'absolute w-full h-full left-0 top-0 z-(--z-layer1000)',
+    showOverlay && 'bg-black/40',
+  );
 
   return (
     <Portal containerId="bottomsheet-root">
       <AnimatePresence>
         {isOpen && (
           <>
-            {showOverlay && (
-              <motion.div
-                className="fixed left-0 top-0 w-full h-full bg-black/40 z-(--z-layer6)"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                onClick={handleOnClick}
-              />
-            )}
             <motion.div
               ref={constraintsRef}
-              className="absolute w-full h-full left-0 top-0 z-(--z-layer1000)"
+              className={className}
+              onClick={handleOnClick}
             >
               <motion.div
                 drag="y"

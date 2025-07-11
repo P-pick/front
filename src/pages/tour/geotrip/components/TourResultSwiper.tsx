@@ -1,17 +1,17 @@
-import { Suspense, useMemo, useState } from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination, Navigation, Mousewheel } from 'swiper/modules';
-import TourSlide from './TourSlide';
-import type { AroundContentTypeId, GeoTripLocation } from '@/pages/types';
-import { getGeoLocationBasedTourQueryOptions } from '../../service';
 import { BottomSheet, LoadingSpinner, TourCard } from '@/components';
-import { TourOverView } from './';
-import type { TourSummary } from '../types';
-import { SideButtonGroup } from './SideButtonGroup';
-import type { Swiper as SwiperType } from 'swiper/types';
 import { withGeoTripParams } from '@/pages/tour/components';
-import { useStartTrip } from '../lib';
+import type { AroundContentTypeId, GeoTripLocation } from '@/pages/types';
 import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
+import { Suspense, useMemo, useState } from 'react';
+import { Mousewheel, Navigation, Pagination } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import type { Swiper as SwiperType } from 'swiper/types';
+import { getGeoLocationBasedTourQueryOptions } from '../../service';
+import { useStartTrip } from '../lib';
+import type { TourSummary } from '../types';
+import { TourOverView } from './';
+import { SideButtonGroup } from './SideButtonGroup';
+import TourSlide from './TourSlide';
 interface TourResultSwiperProps {
   location: GeoTripLocation;
   distance: string;
@@ -79,39 +79,37 @@ function TourResultSwiper({
           </SwiperSlide>
         ))}
       </Swiper>
-      <div className="absolute w-full h-full bottom-0 left-0">
-        <SideButtonGroup goToAroundTouristButtonProps={currentTourInfo} />
-        <BottomSheet
-          isOpen={showDetail}
-          onClose={() => setShowDetail(false)}
-          showOverlay={false}
-        >
-          <div className="bg-white w-full">
-            <TourCard
-              title={currentTourInfo.title}
-              distance={currentTourInfo.dist}
-              imgUrl={currentTourInfo.images[0].originimgurl || ''}
-            />
-            <Suspense fallback={<LoadingSpinner />}>
-              <TourOverView contentId={currentTourInfo.contentid} />
-            </Suspense>
-            <div className=" w-full flex items-center justify-center">
-              <button
-                type="button"
-                className=" bg-gradient-to-r from-primary-orange to-primary-red rounded-[15px] w-[320px] h-[50px] text-black font-bold text-[16px] shadow-[0_4px_16px_0_rgba(250,129,47,0.3)]"
-                onClick={() => {
-                  handleStartTrip({
-                    lng: currentTourInfo.mapx,
-                    lat: currentTourInfo.mapy,
-                  });
-                }}
-              >
-                여행 시작하기
-              </button>
-            </div>
+      <SideButtonGroup goToAroundTouristButtonProps={currentTourInfo} />
+      <BottomSheet
+        isOpen={showDetail}
+        onClose={() => setShowDetail(false)}
+        showOverlay={false}
+      >
+        <div className="bg-white w-full">
+          <TourCard
+            title={currentTourInfo.title}
+            distance={currentTourInfo.dist}
+            imgUrl={currentTourInfo.images[0].originimgurl || ''}
+          />
+          <Suspense fallback={<LoadingSpinner />}>
+            <TourOverView contentId={currentTourInfo.contentid} />
+          </Suspense>
+          <div className="mt-4  w-full flex items-center justify-center">
+            <button
+              type="button"
+              className="bg-gradient-to-r from-primary-orange to-primary-red rounded-[15px] w-[320px] h-[50px] text-black font-bold text-[16px] shadow-[0_4px_16px_0_rgba(250,129,47,0.3)]"
+              onClick={() => {
+                handleStartTrip({
+                  lng: currentTourInfo.mapx,
+                  lat: currentTourInfo.mapy,
+                });
+              }}
+            >
+              여행 시작하기
+            </button>
           </div>
-        </BottomSheet>
-      </div>
+        </div>
+      </BottomSheet>
     </>
   );
 }

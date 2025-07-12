@@ -7,6 +7,7 @@ import {
   type PanInfo,
 } from 'framer-motion';
 import { useRef, useState, type ReactNode } from 'react';
+import { getNextYPosition, shouldClose, type YPosition } from './utils';
 
 interface BottomSheetProps {
   isOpen: boolean;
@@ -15,8 +16,6 @@ interface BottomSheetProps {
   bottomSheetHeight?: string;
   children: ReactNode;
 }
-
-type YPosition = '0%' | '50%' | '80%';
 
 export function BottomSheet({
   isOpen,
@@ -38,6 +37,7 @@ export function BottomSheet({
     opened: { y: yPosition },
     closed: { y: '100%' },
   };
+
   const handleDragEnd = (
     _: MouseEvent | TouchEvent | PointerEvent,
     info: PanInfo,
@@ -50,32 +50,6 @@ export function BottomSheet({
       const nextY = getNextYPosition(yPosition, offsetY);
       setYPosition(nextY);
     }
-  };
-
-  const getNextYPosition = (
-    currentY: YPosition,
-    offsetY: number,
-  ): YPosition => {
-    if (currentY === '80%') {
-      if (offsetY < -50) return '0%';
-      if (offsetY < -10) return '50%';
-      return '80%';
-    }
-    if (currentY === '50%') {
-      if (offsetY < -10) return '0%';
-      if (offsetY > 10) return '80%';
-      return '50%';
-    }
-    if (currentY === '0%') {
-      if (offsetY > 50) return '80%';
-      if (offsetY > 10) return '50%';
-      return '0%';
-    }
-    return currentY;
-  };
-
-  const shouldClose = (currentY: YPosition, offsetY: number): boolean => {
-    return currentY === '80%' && offsetY > 10;
   };
 
   const className = clsx(

@@ -66,6 +66,7 @@ export function BottomSheet({
               ref={constraintsRef}
               className={className}
               onClick={handleOnClick}
+              data-testid="bottomsheet-overlay"
             >
               <motion.div
                 drag="y"
@@ -84,6 +85,7 @@ export function BottomSheet({
               >
                 <div className="bg-white flex flex-col rounded-t-2xl h-full">
                   <header
+                    data-testid="bottomsheet-header"
                     className="h-[50px] cursor-grab select-none w-full flex items-center justify-center touch-none"
                     onPointerDown={e =>
                       dragControls.start(e, { distanceThreshold: 10 })

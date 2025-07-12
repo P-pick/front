@@ -16,7 +16,9 @@ interface BottomSheetProps {
   children: ReactNode;
 }
 
-function BottomSheet({
+type YPosition = '0%' | '50%' | '80%';
+
+export function BottomSheet({
   isOpen,
   onClose,
   children,
@@ -24,7 +26,7 @@ function BottomSheet({
 }: BottomSheetProps) {
   const dragControls = useDragControls();
   const constraintsRef = useRef(null);
-  const [yPosition, setYPosition] = useState<'0%' | '50%' | '80%'>('80%');
+  const [yPosition, setYPosition] = useState<YPosition>('80%');
   const handleOnClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
       onClose();
@@ -42,29 +44,40 @@ function BottomSheet({
   ) => {
     const offsetY = info.offset.y;
 
-    if (yPosition === '80%') {
-      if (offsetY < -50) {
-        setYPosition('0%');
-      } else if (offsetY < -10) {
-        setYPosition('50%');
-      } else if (offsetY > 10) {
-        onClose();
-      }
-    } else if (yPosition === '50%') {
-      if (offsetY < -10) {
-        setYPosition('0%');
-      } else if (offsetY > 10) {
-        setYPosition('80%');
-      }
-    }
-    if (yPosition === '0%') {
-      if (offsetY > 50) {
-        setYPosition('80%');
-      } else if (offsetY > 10) {
-        setYPosition('50%');
-      }
+    if (shouldClose(yPosition, offsetY)) {
+      onClose();
+    } else {
+      const nextY = getNextYPosition(yPosition, offsetY);
+      setYPosition(nextY);
     }
   };
+
+  const getNextYPosition = (
+    currentY: YPosition,
+    offsetY: number,
+  ): YPosition => {
+    if (currentY === '80%') {
+      if (offsetY < -50) return '0%';
+      if (offsetY < -10) return '50%';
+      return '80%';
+    }
+    if (currentY === '50%') {
+      if (offsetY < -10) return '0%';
+      if (offsetY > 10) return '80%';
+      return '50%';
+    }
+    if (currentY === '0%') {
+      if (offsetY > 50) return '80%';
+      if (offsetY > 10) return '50%';
+      return '0%';
+    }
+    return currentY;
+  };
+
+  const shouldClose = (currentY: YPosition, offsetY: number): boolean => {
+    return currentY === '80%' && offsetY > 10;
+  };
+
   const className = clsx(
     'absolute w-full h-full left-0 top-0 z-(--z-layer1000)',
     showOverlay && 'bg-black/40',
@@ -114,5 +127,3 @@ function BottomSheet({
     </Portal>
   );
 }
-
-export default BottomSheet;

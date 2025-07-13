@@ -17,6 +17,9 @@ export default defineConfig(({ mode }) => {
     test: {
       environment: 'jsdom',
       globals: true,
+      alias: {
+        '^.+\\.svg\\?react$': './__mocks__/svgMock.js',
+      },
     },
     server: {
       host: '0.0.0.0',

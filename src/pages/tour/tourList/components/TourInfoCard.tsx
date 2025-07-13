@@ -3,8 +3,9 @@ import { DistanceTimeInfo } from '@/components';
 import { truncate } from '@/lib';
 import { TOUR_TYPE } from '@/pages/const/MARKER';
 import type { TourItem } from '@/pages/types';
-import { TourCardImages } from './';
-
+import { Suspense } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
+import { SkeletonCard, TourCardImages } from './';
 interface TourInfoCardProps {
   tourInfo: TourItem;
 }
@@ -12,7 +13,14 @@ interface TourInfoCardProps {
 export default function TourInfoCard({ tourInfo }: TourInfoCardProps) {
   return (
     <article className="flex flex-col my-8">
-      <TourCardImages contentId={tourInfo.contentid} title={tourInfo.title} />
+      <ErrorBoundary FallbackComponent={() => <>임시 에러처리</>}>
+        <Suspense fallback={<SkeletonCard />}>
+          <TourCardImages
+            contentId={tourInfo.contentid}
+            title={tourInfo.title}
+          />
+        </Suspense>
+      </ErrorBoundary>
 
       {/* 타이틀 및 옵션 */}
       <header className="flex mt-4 items-center justify-between px-5">

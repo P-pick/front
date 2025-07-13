@@ -1,10 +1,10 @@
-import type { AroundContentTypeId, GeoTripLocation } from '@/pages/types';
-import {
-  useSuspenseInfiniteQuery,
-  useSuspenseQuery,
-} from '@tanstack/react-query';
+import type {
+  AroundContentTypeId,
+  GeoTripLocation,
+  TourItem,
+} from '@/pages/types';
+import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 
-import type { TourItemWithDetailImages } from '@/pages/tour/types';
 import { useMemo } from 'react';
 import { tourQueries } from '../../service';
 
@@ -14,16 +14,16 @@ interface TourSwiperDataProps {
   contentTypeId: AroundContentTypeId;
 }
 interface TourSwiperDataReturn {
-  slides: TourItemWithDetailImages[];
+  slides: TourItem[];
   hasNextPage: boolean;
   fetchNextPage: () => void;
 }
 
-export function useTourSwiperData({
+const useTourSwiperBasedData = ({
   location,
   distance,
   contentTypeId,
-}: TourSwiperDataProps): TourSwiperDataReturn {
+}: TourSwiperDataProps): TourSwiperDataReturn => {
   const {
     data: basedItems,
     hasNextPage,
@@ -41,16 +41,7 @@ export function useTourSwiperData({
     [basedItems],
   );
 
-  const { data: images } = useSuspenseQuery(
-    tourQueries.detailImages(flatBasedItems[0].contentid),
-  );
+  return { slides: flatBasedItems, hasNextPage, fetchNextPage };
+};
 
-  const slides = flatBasedItems.map(item => {
-    return {
-      ...item,
-      images: images,
-    };
-  });
-
-  return { slides, hasNextPage, fetchNextPage };
-}
+export default useTourSwiperBasedData;

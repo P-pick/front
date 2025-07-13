@@ -1,12 +1,12 @@
 import { BottomSheet, LoadingSpinner, TourCard } from '@/components';
 import { withGeoTripParams } from '@/pages/tour/components';
-import { useTourSwiperData } from '@/pages/tour/geotrip/service/useTourSwiperData';
 import type { AroundContentTypeId, GeoTripLocation } from '@/pages/types';
 import { Suspense, useState } from 'react';
-import { Mousewheel, Navigation, Pagination } from 'swiper/modules';
+import { Mousewheel, Navigation, Pagination, Virtual } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import type { Swiper as SwiperType } from 'swiper/types';
 import { useStartTrip } from '../lib';
+import { useTourSwiperBasedData } from '../service';
 import type { TourSummary } from '../types';
 import { TourOverView } from './';
 import { SideButtonGroup } from './SideButtonGroup';
@@ -21,7 +21,7 @@ function TourResultSwiper({
   distance,
   tourContentTypeId,
 }: TourResultSwiperProps) {
-  const { slides, fetchNextPage, hasNextPage } = useTourSwiperData({
+  const { slides, fetchNextPage, hasNextPage } = useTourSwiperBasedData({
     location,
     distance,
     contentTypeId: tourContentTypeId,
@@ -31,11 +31,11 @@ function TourResultSwiper({
   const [currentTourInfo, setCurrentTourInfo] = useState<TourSummary>({
     dist: slides[0].dist,
     title: slides[0].title,
-    images: slides[0].images,
     contentid: slides[0].contentid,
     mapx: slides[0].mapx,
     mapy: slides[0].mapy,
     contenttypeid: slides[0].contenttypeid,
+    firstimage: slides[0].firstimage,
   });
 
   const handleSlideChange = (swiper: SwiperType) => {
@@ -44,7 +44,6 @@ function TourResultSwiper({
       setCurrentTourInfo({
         dist: current.dist,
         title: current.title,
-        images: current.images,
         contentid: current.contentid,
         mapx: current.mapx,
         mapy: current.mapy,
@@ -59,16 +58,17 @@ function TourResultSwiper({
     <>
       <Swiper
         direction="vertical"
-        modules={[Navigation, Pagination, Mousewheel]}
+        modules={[Navigation, Pagination, Mousewheel, Virtual]}
         pagination={false}
         mousewheel={{ enabled: true, sensitivity: 1 }}
         onReachEnd={() => hasNextPage && fetchNextPage()}
         className="h-full"
         touchMoveStopPropagation={false}
         onSlideChange={handleSlideChange}
+        virtual
       >
-        {slides.map(slide => (
-          <SwiperSlide key={slide.contentid}>
+        {slides.map((slide, index) => (
+          <SwiperSlide key={slide.contentid} virtualIndex={index}>
             <TourSlide
               tourInfo={slide}
               handleDetailOpen={() => setShowDetail(true)}
@@ -86,7 +86,7 @@ function TourResultSwiper({
           <TourCard
             title={currentTourInfo.title}
             distance={currentTourInfo.dist}
-            imgUrl={currentTourInfo.images[0].originimgurl || ''}
+            imgUrl={currentTourInfo.firstimage || ''}
             tourTypeId={currentTourInfo.contenttypeid}
           />
           <Suspense fallback={<LoadingSpinner />}>

@@ -1,13 +1,14 @@
 import { commonSVG } from '@/assets';
-import { DistanceTimeInfo } from '@/components';
+import { DistanceTimeInfo, LoadingSpinner } from '@/components';
 
-import type { TourItemWithDetailImages } from '@/pages/tour/types';
-import { Pagination } from 'swiper/modules';
-import { Swiper, SwiperSlide } from 'swiper/react';
+import type { TourItem } from '@/pages/types';
+import { Suspense } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
+import { TourSlideImages } from '.';
 import { useStartTrip } from '../lib';
 
 interface TourSlideProps {
-  tourInfo: TourItemWithDetailImages;
+  tourInfo: TourItem;
   handleDetailOpen: () => void;
 }
 
@@ -19,29 +20,11 @@ export default function TourSlide({
 
   return (
     <article className="relative text-white w-full h-full flex flex-col items-center">
-      <Swiper
-        direction="horizontal"
-        modules={[Pagination]}
-        className="w-full h-full relative my-swiper"
-        pagination={{ clickable: true }}
-      >
-        {tourInfo.images.length === 0 ? (
-          <p className="absolute left-1/2 top-1/2 translate-x-[-50%] translate-y-[-50%] z-(--z-layer5) text-black">
-            준비된 이미지가 없습니다.
-          </p>
-        ) : (
-          tourInfo.images.map(img => (
-            <SwiperSlide key={img.serialnum}>
-              <img
-                src={img.originimgurl || undefined}
-                alt={img.imgname}
-                className="w-full h-full object-cover"
-              />
-            </SwiperSlide>
-          ))
-        )}
-      </Swiper>
-
+      <ErrorBoundary FallbackComponent={() => <>임시 에러처리</>}>
+        <Suspense fallback={<LoadingSpinner />}>
+          <TourSlideImages contentId={tourInfo.contentid} />
+        </Suspense>
+      </ErrorBoundary>
       <footer className="w-full absolute z-(--z-layer2) bottom-0 left-0 px-4">
         <header>
           <div className="flex gap-1 items-center">

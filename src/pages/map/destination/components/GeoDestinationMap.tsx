@@ -11,7 +11,7 @@ import CurrentDeviceLocation from '../../components/CurrentDeviceLocation';
 import useFollowAlong from '../store/useFollowAlong';
 import { FollowAlong, SelectedFollow } from './follow';
 import withDestination from './withDestination';
-import { useMemo } from 'react';
+import { useMemo, useEffect } from 'react';
 import type { PedestrianFeatures } from '../types';
 
 interface GeoDestinationMapProps {
@@ -20,9 +20,9 @@ interface GeoDestinationMapProps {
 }
 
 function GeoDestinationMap({ start, end }: GeoDestinationMapProps) {
-  const { vehicle, searchOptions } = useStore(useTransportation);
-  const { mapLevel, setMapLevel } = useStore(useMapLevel);
-  const { isFollowAlong } = useStore(useFollowAlong);
+  const { vehicle, searchOptions, reset: resetTransportation } = useStore(useTransportation);
+  const { mapLevel, setMapLevel, reset: resetMapLevel } = useStore(useMapLevel);
+  const { isFollowAlong, reset: resetFollowAlong } = useStore(useFollowAlong);
   const features = selectedTransportation(vehicle, {
     startX: start.lng,
     startY: start.lat,
@@ -43,6 +43,14 @@ function GeoDestinationMap({ start, end }: GeoDestinationMapProps) {
         }));
     }) as GeoTripLocation[];
   }, [features]);
+
+  useEffect(() => {
+    return () => {
+      resetTransportation();
+      resetMapLevel();
+      resetFollowAlong();
+    };
+  }, [resetTransportation, resetMapLevel, resetFollowAlong]);
 
   return (
     <>

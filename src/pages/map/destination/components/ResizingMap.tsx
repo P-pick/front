@@ -23,9 +23,7 @@ export default function ResizingMap({ points }: ResizingMapProps) {
   }, [map, searchOptions]);
 
   const goToMyLocation = () => [
-    geoLocation &&
-      map &&
-      map.setCenter(new kakao.maps.LatLng(geoLocation.lat, geoLocation.lng)),
+    map.setCenter(new kakao.maps.LatLng(geoLocation.lat, geoLocation.lng)),
   ];
 
   const isFollowAlongMode = clsx({

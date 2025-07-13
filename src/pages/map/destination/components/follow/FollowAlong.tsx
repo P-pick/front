@@ -18,10 +18,10 @@ export default function FollowAlong({ firstIndex }: FollowAlongProps) {
   };
 
   return (
-    <div className="absolute -bottom-3 left-0 z-(--z-layer2) w-full h-1/7 py-3">
+    <div className="absolute bottom-0 left-0 z-(--z-layer2) w-full h-1/12">
       <button
         onClick={handleFollowAlongButton}
-        className="w-full h-full bg-(--color-primary-red) flex pt-4 justify-center text-xs text-white cursor-pointer"
+        className="w-full h-full bg-(--color-primary-red) flex justify-center items-center text-xs text-white cursor-pointer"
       >
         따라가기
       </button>

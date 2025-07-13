@@ -14,22 +14,26 @@ export const createNavItems = ({
     {
       icon: HomeIcon,
       path: '/tour/geo-trip',
+      label: 'home Icon',
       onClick: () => navigate(`/tour/geo-trip?${currentParams.toString()}`),
     },
     {
       icon: ListIcon,
       path: '/tour/list',
+      label: 'list Icon',
       onClick: () => navigate(`/tour/list?${currentParams.toString()}`),
     },
     {
       icon: BookMarkIcon,
-      path: '/tour/bookmark',
-      onClick: () => navigate('/tour/bookmark'),
+      path: '/bookmark',
+      label: 'bookmark Icon',
+      onClick: () => navigate('/bookmark'),
     },
     {
       icon: ProfileIcon,
-      path: '/tour/profile',
-      onClick: () => navigate('/tour/profile'),
+      path: '/profile',
+      label: 'profile Icon',
+      onClick: () => navigate('/profile'),
     },
   ];
 };

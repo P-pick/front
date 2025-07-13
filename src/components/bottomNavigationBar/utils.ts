@@ -15,25 +15,29 @@ export const createNavItems = ({
       icon: HomeIcon,
       path: '/tour/geo-trip',
       label: 'home Icon',
-      onClick: () => navigate(`/tour/geo-trip?${currentParams.toString()}`),
+      onClick: () =>
+        navigate(`/tour/geo-trip?${currentParams.toString()}`, {
+          replace: true,
+        }),
     },
     {
       icon: ListIcon,
       path: '/tour/list',
       label: 'list Icon',
-      onClick: () => navigate(`/tour/list?${currentParams.toString()}`),
+      onClick: () =>
+        navigate(`/tour/list?${currentParams.toString()}`, { replace: true }),
     },
     {
       icon: BookMarkIcon,
       path: '/bookmark',
       label: 'bookmark Icon',
-      onClick: () => navigate('/bookmark'),
+      onClick: () => navigate('/bookmark', { replace: true }),
     },
     {
       icon: ProfileIcon,
       path: '/profile',
       label: 'profile Icon',
-      onClick: () => navigate('/profile'),
+      onClick: () => navigate('/profile', { replace: true }),
     },
   ];
 };

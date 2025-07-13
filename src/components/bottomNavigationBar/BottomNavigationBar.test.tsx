@@ -49,6 +49,7 @@ describe('BottomNavigationBar 컴포넌트', () => {
 
     expect(mockNavigate).toHaveBeenCalledWith(
       expect.stringContaining('/tour/geo-trip'),
+      { replace: true },
     );
   });
   it('list 아이콘 클릭 시 tour/list 경로로 이동한다', async () => {
@@ -68,6 +69,7 @@ describe('BottomNavigationBar 컴포넌트', () => {
 
     expect(mockNavigate).toHaveBeenCalledWith(
       expect.stringContaining('/tour/list'),
+      { replace: true },
     );
   });
   it('bookmark 아이콘 클릭 시 /bookmark 경로로 이동한다', async () => {
@@ -85,7 +87,7 @@ describe('BottomNavigationBar 컴포넌트', () => {
 
     await user.click(bookmarkButton);
 
-    expect(mockNavigate).toHaveBeenCalledWith('/bookmark');
+    expect(mockNavigate).toHaveBeenCalledWith('/bookmark', { replace: true });
   });
   it('profile 아이콘 클릭 시 /profile 경로로 이동한다', async () => {
     const user = userEvent.setup();
@@ -102,6 +104,6 @@ describe('BottomNavigationBar 컴포넌트', () => {
 
     await user.click(profileButton);
 
-    expect(mockNavigate).toHaveBeenCalledWith('/profile');
+    expect(mockNavigate).toHaveBeenCalledWith('/profile', { replace: true });
   });
 });

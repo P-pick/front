@@ -1,20 +1,16 @@
-import { useLocation, useNavigate } from 'react-router-dom';
+import { type NavigateOptions, type To } from 'react-router-dom';
 import { BookMarkIcon, HomeIcon, ListIcon, ProfileIcon } from '@/assets/common';
-import clsx from 'clsx';
 
-export function useBottomNavigation() {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const currentParams = new URLSearchParams(location.search);
-  const currentPath = location.pathname;
+type createNavItemsParams = {
+  currentParams: URLSearchParams;
+  navigate: (to: To, options?: NavigateOptions) => void | Promise<void>;
+};
 
-  const getIconClass = (path: string) =>
-    clsx({
-      'text-black': currentPath !== path,
-      'text-primary-red': currentPath === path,
-    });
-
-  const navItems = [
+export const createNavItems = ({
+  currentParams,
+  navigate,
+}: createNavItemsParams) => {
+  return [
     {
       icon: HomeIcon,
       path: '/tour/geo-trip',
@@ -36,6 +32,4 @@ export function useBottomNavigation() {
       onClick: () => navigate('/tour/profile'),
     },
   ];
-
-  return { navItems, getIconClass, currentPath };
-}
+};

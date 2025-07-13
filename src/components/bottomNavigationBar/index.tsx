@@ -1,7 +1,18 @@
-import { useBottomNavigation } from './utils';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { createNavItems } from './utils';
+import clsx from 'clsx';
 
 export default function BottomNavigationBar() {
-  const { navItems, getIconClass } = useBottomNavigation();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const currentParams = new URLSearchParams(location.search);
+
+  const navItems = createNavItems({ currentParams, navigate });
+  const getIconClass = (path: string) =>
+    clsx({
+      'text-black': location.pathname !== path,
+      'text-primary-red': location.pathname === path,
+    });
 
   return (
     <footer className="w-full bg-white flex justify-center items-center border-t border-gray-200">

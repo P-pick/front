@@ -31,8 +31,8 @@ export default function TourSlide({
           <TourSlideImages contentId={tourInfo.contentid} />
         </Suspense>
       </ErrorBoundary>
-      <footer className="w-full absolute z-(--z-layer2) bottom-0 left-0 px-4">
-        <header>
+      <footer className="w-full absolute z-[var(--z-layer2)] bottom-0 left-0 px-4 bg-gradient-to-t from-black/70 to-transparent max-h-60">
+        <div className="flex flex-col gap-2 py-4">
           <div className="flex gap-1 items-center">
             <h1 className="text-2xl font-bold max-w-60">{tourInfo.title}</h1>
             <commonSVG.InfoIcon
@@ -43,9 +43,8 @@ export default function TourSlide({
           <div className="flex justify-between">
             <DistanceTimeInfo dist={tourInfo.dist} iconFill="white" />
           </div>
-        </header>
-        <div className="mt-6" />
-        <nav className="w-full flex justify-center">
+        </div>
+        <nav className="w-full flex justify-center mt-4">
           <button
             type="button"
             className="mb-[24px] bg-white rounded-[15px] w-[320px] h-[50px] text-black font-bold text-[16px] cursor-pointer"

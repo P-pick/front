@@ -1,3 +1,4 @@
+import BottomNavigationBar from '@/components/bottomNavigationBar';
 import { Outlet } from 'react-router-dom';
 
 export default function Tour() {
@@ -6,6 +7,7 @@ export default function Tour() {
       <div className="h-full w-full relative">
         <Outlet />
       </div>
+      <BottomNavigationBar />
     </section>
   );
 }

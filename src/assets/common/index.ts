@@ -8,6 +8,9 @@ import LocationIcon from './mapIcon.svg?react';
 import ShareIcon from './share.svg?react';
 import RightArrowIcon from './rightArrowIcon.svg?react';
 import SoundIcon from './soundIcon.svg?react';
+import BookMarkIcon from './bookmarkIcon.svg?react';
+import HomeIcon from './homeIcon.svg?react';
+import ProfileIcon from './profileIcon.svg?react';
 
 export {
   CheckIcon,
@@ -20,4 +23,7 @@ export {
   ShareIcon,
   RightArrowIcon,
   SoundIcon,
+  BookMarkIcon,
+  HomeIcon,
+  ProfileIcon,
 };

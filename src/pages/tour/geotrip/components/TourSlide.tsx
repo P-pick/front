@@ -21,7 +21,13 @@ export default function TourSlide({
   return (
     <article className="relative text-white w-full h-full flex flex-col items-center">
       <ErrorBoundary FallbackComponent={() => <>임시 에러처리</>}>
-        <Suspense fallback={<LoadingSpinner />}>
+        <Suspense
+          fallback={
+            <div className="absolute w-full h-full flex ">
+              <LoadingSpinner />
+            </div>
+          }
+        >
           <TourSlideImages contentId={tourInfo.contentid} />
         </Suspense>
       </ErrorBoundary>

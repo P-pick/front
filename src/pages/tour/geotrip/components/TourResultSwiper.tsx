@@ -92,7 +92,7 @@ function TourResultSwiper({
           <Suspense fallback={<LoadingSpinner />}>
             <TourOverView contentId={currentTourInfo.contentid} />
           </Suspense>
-          <div className="mt-4  w-full flex items-center justify-center">
+          <div className="mt-4 w-full flex items-center justify-center">
             <button
               type="button"
               className="bg-gradient-to-r from-primary-orange to-primary-red rounded-[15px] w-[320px] h-[50px] text-black font-bold text-[16px] shadow-[0_4px_16px_0_rgba(250,129,47,0.3)]"

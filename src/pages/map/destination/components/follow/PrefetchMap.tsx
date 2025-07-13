@@ -13,7 +13,7 @@ const PrefetchMap = ({ followList }: PrefetchMapProps) => {
 
   const position = useMemo(() => {
     const nextIndex = currentFollowIndex + 1;
-    if (nextIndex > followList.length) {
+    if (nextIndex > followList.length - 1) {
       return followList[currentFollowIndex].path[0];
     }
     return followList[nextIndex].path[0];

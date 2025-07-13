@@ -20,7 +20,11 @@ interface GeoDestinationMapProps {
 }
 
 function GeoDestinationMap({ start, end }: GeoDestinationMapProps) {
-  const { vehicle, searchOptions, reset: resetTransportation } = useStore(useTransportation);
+  const {
+    vehicle,
+    searchOptions,
+    reset: resetTransportation,
+  } = useStore(useTransportation);
   const { mapLevel, setMapLevel, reset: resetMapLevel } = useStore(useMapLevel);
   const { isFollowAlong, reset: resetFollowAlong } = useStore(useFollowAlong);
   const features = selectedTransportation(vehicle, {
@@ -44,6 +48,7 @@ function GeoDestinationMap({ start, end }: GeoDestinationMapProps) {
     }) as GeoTripLocation[];
   }, [features]);
 
+  //언마운트 시 클린업
   useEffect(() => {
     return () => {
       resetTransportation();
@@ -69,22 +74,24 @@ function GeoDestinationMap({ start, end }: GeoDestinationMapProps) {
         <ResizingMap points={points} />
         {features &&
           features.map(data => (
-            <>
+            <div key={`${vehicle}-${data.optionId}`}>
               <GetPolylines
-                key={`${vehicle}-${data.optionId}`}
                 destination={data.features}
                 searchOption={data.optionId}
               />
               {isFollowAlong && data.optionId === searchOptions && (
-                <SelectedFollow followFeatures={data.features} />
+                <SelectedFollow
+                  firstIndexPosition={start}
+                  followFeatures={data.features}
+                />
               )}
-            </>
+            </div>
           ))}
         <CurrentDeviceLocation />
         {!isFollowAlong && (
           <>
             <GeoSearchOptions features={features} />
-            <FollowAlong firstIndex={start} />
+            <FollowAlong />
           </>
         )}
       </Map>

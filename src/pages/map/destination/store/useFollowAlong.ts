@@ -13,7 +13,7 @@ type Action = {
 
 const initialState: State = {
   isFollowAlong: false,
-  currentFollowIndex: 0,
+  currentFollowIndex: -1,
 };
 
 const useFollowAlong = create<State & Action>(set => ({

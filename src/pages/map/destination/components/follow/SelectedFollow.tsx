@@ -14,9 +14,11 @@ import PrefetchMap from './PrefetchMap';
 
 interface SelectedFollowProps {
   followFeatures: PolyFeatures;
+  firstIndexPosition: GeoTripLocation;
 }
 
 export default function SelectedFollow({
+  firstIndexPosition,
   followFeatures,
 }: SelectedFollowProps) {
   const { vehicle } = useTransportation();
@@ -51,6 +53,8 @@ export default function SelectedFollow({
   };
 
   useLayoutEffect(() => {
+    if (currentFollowIndex === -1) return;
+    handleSwitchLocationToPosition(firstIndexPosition, true);
     swiperRef.current?.slideTo(currentFollowIndex, 500, false);
   }, [currentFollowIndex]);
 
@@ -81,7 +85,7 @@ export default function SelectedFollow({
                   )
                 }
               >
-                <FollowElement key={option.id} option={option} idx={idx} />
+                <FollowElement key={option.id} option={option} idx={idx + 1} />
               </SwiperSlide>
             </>
           ))}

@@ -1,18 +1,10 @@
-import type { GeoTripLocation } from '@/pages/types';
 import { useStore } from 'zustand';
 import useFollowAlong from '../../store/useFollowAlong';
-import { useMapController } from '../../lib';
 
-interface FollowAlongProps {
-  firstIndex: GeoTripLocation;
-}
-
-export default function FollowAlong({ firstIndex }: FollowAlongProps) {
+export default function FollowAlong() {
   const { setIsFollowAlong, setCurrentFollowIndex } = useStore(useFollowAlong);
-  const { handleSwitchLocationToPosition } = useMapController();
 
   const handleFollowAlongButton = () => {
-    handleSwitchLocationToPosition(firstIndex, true, 3);
     setIsFollowAlong(true);
     setCurrentFollowIndex(0);
   };

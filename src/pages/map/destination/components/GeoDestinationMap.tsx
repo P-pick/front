@@ -11,7 +11,7 @@ import CurrentDeviceLocation from '../../components/CurrentDeviceLocation';
 import useFollowAlong from '../store/useFollowAlong';
 import { FollowAlong, SelectedFollow } from './follow';
 import withDestination from './withDestination';
-import { useMemo } from 'react';
+import { useMemo, useEffect } from 'react';
 import type { PedestrianFeatures } from '../types';
 
 interface GeoDestinationMapProps {
@@ -20,9 +20,13 @@ interface GeoDestinationMapProps {
 }
 
 function GeoDestinationMap({ start, end }: GeoDestinationMapProps) {
-  const { vehicle, searchOptions } = useStore(useTransportation);
-  const { mapLevel, setMapLevel } = useStore(useMapLevel);
-  const { isFollowAlong } = useStore(useFollowAlong);
+  const {
+    vehicle,
+    searchOptions,
+    reset: resetTransportation,
+  } = useStore(useTransportation);
+  const { mapLevel, setMapLevel, reset: resetMapLevel } = useStore(useMapLevel);
+  const { isFollowAlong, reset: resetFollowAlong } = useStore(useFollowAlong);
   const features = selectedTransportation(vehicle, {
     startX: start.lng,
     startY: start.lat,
@@ -44,6 +48,15 @@ function GeoDestinationMap({ start, end }: GeoDestinationMapProps) {
     }) as GeoTripLocation[];
   }, [features]);
 
+  //언마운트 시 클린업
+  useEffect(() => {
+    return () => {
+      resetTransportation();
+      resetMapLevel();
+      resetFollowAlong();
+    };
+  }, [resetTransportation, resetMapLevel, resetFollowAlong]);
+
   return (
     <>
       <Map
@@ -61,22 +74,24 @@ function GeoDestinationMap({ start, end }: GeoDestinationMapProps) {
         <ResizingMap points={points} />
         {features &&
           features.map(data => (
-            <>
+            <div key={`${vehicle}-${data.optionId}`}>
               <GetPolylines
-                key={`${vehicle}-${data.optionId}`}
                 destination={data.features}
                 searchOption={data.optionId}
               />
               {isFollowAlong && data.optionId === searchOptions && (
-                <SelectedFollow followFeatures={data.features} />
+                <SelectedFollow
+                  firstIndexPosition={start}
+                  followFeatures={data.features}
+                />
               )}
-            </>
+            </div>
           ))}
         <CurrentDeviceLocation />
         {!isFollowAlong && (
           <>
             <GeoSearchOptions features={features} />
-            <FollowAlong firstIndex={start} />
+            <FollowAlong />
           </>
         )}
       </Map>

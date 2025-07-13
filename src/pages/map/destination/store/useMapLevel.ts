@@ -6,11 +6,17 @@ type State = {
 
 type Action = {
   setMapLevel: (level: number) => void;
+  reset: () => void;
+};
+
+const initialState: State = {
+  mapLevel: 6,
 };
 
 const useMapLevel = create<State & Action>(set => ({
-  mapLevel: 6,
+  ...initialState,
   setMapLevel: (level: number) => set({ mapLevel: level }),
+  reset: () => set(initialState),
 }));
 
 export default useMapLevel;

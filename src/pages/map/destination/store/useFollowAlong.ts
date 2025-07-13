@@ -8,14 +8,20 @@ type State = {
 type Action = {
   setIsFollowAlong: (isFollowAlong: boolean) => void;
   setCurrentFollowIndex: (index: number) => void;
+  reset: () => void;
+};
+
+const initialState: State = {
+  isFollowAlong: false,
+  currentFollowIndex: -1,
 };
 
 const useFollowAlong = create<State & Action>(set => ({
-  isFollowAlong: false,
-  currentFollowIndex: 0,
+  ...initialState,
   setIsFollowAlong: (isFollowAlong: boolean) => set(() => ({ isFollowAlong })),
   setCurrentFollowIndex: (index: number) =>
     set(() => ({ currentFollowIndex: index })),
+  reset: () => set(initialState),
 }));
 
 export default useFollowAlong;

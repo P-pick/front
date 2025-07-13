@@ -1,48 +1,23 @@
 import { tourApi } from '@/config/instance';
+import { NUM_OF_ROWS } from '@/pages/const/TOUR';
 import type {
   ApiResponse,
-  TourItem,
-  TourDetailImage,
-  TourItemWithDetail,
-  GeoTripLocation,
-  ResponseBody,
   AroundContentTypeId,
+  GeoTripLocation,
+  TourItem,
 } from '@/pages/types';
-import { NUM_OF_ROWS } from '@/pages/const/TOUR';
 
-type LocationBasedItemRequest = {
-  location: GeoTripLocation | null;
+const getLocationBasedItems = async ({
+  location,
+  pageNo,
+  contentTypeId,
+  radius = '200000',
+}: {
+  location: GeoTripLocation;
   pageNo: number;
   contentTypeId: AroundContentTypeId;
-  radius?: string;
-};
-
-type LocationBasedItemResponse = {
-  items: TourItemWithDetail[];
-  pageNo: number;
-  numOfRows: number;
-  totalCount: number;
-};
-
-const fetchDetailImages = async (contentId: string) => {
-  const params = { contentId };
-  const imageRes = await tourApi.get<ApiResponse<TourDetailImage[]>>(
-    `/detailImage2`,
-    { params },
-  );
-  if (!imageRes.data.response.body.items.item) {
-    throw new Error(`no images`);
-  }
-
-  return imageRes.data.response.body.items.item;
-};
-
-const fetchLocationBasedItems = async (
-  location: GeoTripLocation,
-  pageNo: number,
-  contentTypeId: AroundContentTypeId,
-  radius: string,
-) => {
+  radius: string;
+}) => {
   const response = await tourApi.get<ApiResponse<TourItem[]>>(
     `/locationBasedList2`,
     {
@@ -62,83 +37,7 @@ const fetchLocationBasedItems = async (
     throw new Error('아이템 데이터가 없습니다.');
   }
 
-  return response.data.response.body as Omit<
-    ResponseBody<TourItem[]>,
-    'items'
-  > & { items: { item: TourItem[] } };
+  return response.data.response.body;
 };
 
-const attachDetailImages = async (
-  baseItems: TourItem[],
-): Promise<TourItemWithDetail[]> => {
-  const settledResults = await Promise.allSettled(
-    baseItems.map(async (item, index) => {
-      const firstImage: TourDetailImage = {
-        imgname: item.firstimage,
-        originimgurl: item.firstimage,
-        serialnum: item.firstimage + String(index),
-      };
-      try {
-        const imageArray = await fetchDetailImages(item.contentid);
-
-        return { ...item, images: imageArray };
-      } catch (error) {
-        if (error instanceof Error && error.message === 'no images') {
-          return { ...item, images: [firstImage] };
-        }
-      }
-    }),
-  );
-
-  return settledResults
-    .filter(r => r.status === 'fulfilled' && r.value !== null)
-    .map(r => (r as PromiseFulfilledResult<TourItemWithDetail>).value);
-};
-
-const getLocationBasedData = async ({
-  location,
-  pageNo,
-  contentTypeId = '12',
-  radius = '5000',
-}: LocationBasedItemRequest): Promise<LocationBasedItemResponse> => {
-  if (!location) throw new Error('위치 정보가 없습니다.');
-
-  const body = await fetchLocationBasedItems(
-    location,
-    pageNo,
-    contentTypeId,
-    radius,
-  );
-
-  const baseItems = body.items.item;
-
-  const itemsWithDetail = await attachDetailImages(baseItems);
-
-  return {
-    items: itemsWithDetail,
-    pageNo: body.pageNo,
-    numOfRows: body.numOfRows,
-    totalCount: body.totalCount,
-  };
-};
-
-const getGeoLocationBasedTourQueryOptions = (
-  request: Omit<LocationBasedItemRequest, 'pageNo'>,
-) => ({
-  queryKey: ['locationBasedData', request],
-  initialPageParam: 1,
-  queryFn: ({ pageParam }: { pageParam: number }) =>
-    getLocationBasedData({
-      location: request.location,
-      pageNo: pageParam,
-      contentTypeId: request.contentTypeId,
-      radius: request.radius,
-    }),
-  getNextPageParam: (lastPage: LocationBasedItemResponse) => {
-    const currentPage = lastPage.pageNo;
-    const totalPage = Math.ceil(lastPage.totalCount / lastPage.numOfRows);
-    return currentPage < totalPage ? currentPage + 1 : undefined;
-  },
-});
-
-export default getGeoLocationBasedTourQueryOptions;
+export default getLocationBasedItems;

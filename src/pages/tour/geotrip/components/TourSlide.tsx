@@ -1,12 +1,13 @@
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination } from 'swiper/modules';
-import type { TourItemWithDetail } from '@/pages/types';
 import { commonSVG } from '@/assets';
 import { DistanceTimeInfo } from '@/components';
+
+import type { TourItemWithDetailImages } from '@/pages/tour/types';
+import { Pagination } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
 import { useStartTrip } from '../lib';
 
 interface TourSlideProps {
-  tourInfo: TourItemWithDetail;
+  tourInfo: TourItemWithDetailImages;
   handleDetailOpen: () => void;
 }
 

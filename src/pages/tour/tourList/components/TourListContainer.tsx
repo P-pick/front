@@ -1,11 +1,13 @@
 import { withGeoTripParams } from '@/pages/tour/components';
-import { getGeoLocationBasedTourQueryOptions } from '../../service';
 import type { AroundContentTypeId, GeoTripLocation } from '@/pages/types';
-import { InfiniteScroll, SkeletonCard, TourInfoCard } from '.';
+import {
+  useQueryClient,
+  useSuspenseInfiniteQuery,
+} from '@tanstack/react-query';
 import { useDeferredValue } from 'react';
+import { InfiniteScroll, SkeletonCard, TourInfoCard } from '.';
+import { tourQueries } from '../../service';
 import { useSyncedState } from '../lib';
-import { queryClient } from '@/config/QueryProvider';
-import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 interface TourListContainerProps {
   location: GeoTripLocation;
   distance: string;
@@ -20,21 +22,23 @@ function TourListContainer({
   const [localTourContentTypeId] = useSyncedState(tourContentTypeId);
   const deferredTourContentTypeId = useDeferredValue(localTourContentTypeId);
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useSuspenseInfiniteQuery(getGeoLocationBasedTourQueryOptions({
-      location,
-      radius: distance,
-      contentTypeId: deferredTourContentTypeId,
-    }));
+    useSuspenseInfiniteQuery(
+      tourQueries.locationBasedList({
+        location,
+        radius: distance,
+        contentTypeId: deferredTourContentTypeId,
+      }),
+    );
 
-  const queryOptionsForCache = getGeoLocationBasedTourQueryOptions({
-      location,
-      radius: distance,
-      contentTypeId: localTourContentTypeId,
-    })
-
+  const queryOptionsForCache = tourQueries.locationBasedList({
+    location,
+    radius: distance,
+    contentTypeId: localTourContentTypeId,
+  });
+  const queryClient = useQueryClient();
   const cachedData = queryClient.getQueryData(queryOptionsForCache.queryKey);
 
-  const tourItems = data.pages.flatMap(page => page.items);
+  const tourItems = data.pages.flatMap(page => page.items.item);
 
   const hasCache = Boolean(cachedData);
   const isSwitching = localTourContentTypeId !== deferredTourContentTypeId;

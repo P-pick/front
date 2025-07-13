@@ -44,7 +44,7 @@ export default function ResizingMap({ points }: ResizingMapProps) {
         </button>
         <button
           onClick={goToMyLocation}
-          className="fill-black w-10 h-10 bg-white rounded-full flex items-center justify-center cursor-pointer "
+          className="fill-black border-black  border-1 w-10 h-10 bg-white rounded-full flex items-center justify-center cursor-pointer "
         >
           <destinationSVG.MyLocationIcon />
         </button>

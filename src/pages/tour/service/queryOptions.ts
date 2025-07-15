@@ -15,7 +15,7 @@ const tourQueries = {
         ...tourQueries.locationBasedLists(),
         { location, radius, contentTypeId },
       ],
-      initialPageParam: 10,
+      initialPageParam: 5,
       queryFn: ({ pageParam }) =>
         getLocationBasedItems({
           location,

@@ -1,14 +1,14 @@
 import { withGeoTripParams } from '@/pages/tour/components';
 import type { AroundContentTypeId, GeoTripLocation } from '@/pages/types';
-import { useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Mousewheel, Navigation, Pagination, Virtual } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { useTourSwiperBasedData } from '../service';
 import { TourBottomSheet } from './';
 import { SideButtonGroup } from './SideButtonGroup';
 import TourSlide from './TourSlide';
-import { useCurrentTourInfo } from '../lib';
-
+import { useCurrentSlideInfo } from '../lib';
+import type { Swiper as SwiperType } from 'swiper/types';
 interface TourResultSwiperProps {
   location: GeoTripLocation;
   distance: string;
@@ -20,13 +20,41 @@ function TourResultSwiper({
   distance,
   tourContentTypeId,
 }: TourResultSwiperProps) {
-  const { slides, fetchNextPage, hasNextPage } = useTourSwiperBasedData({
+  const saved = sessionStorage.getItem('tour-swiper-cache');
+  const swiperRef = useRef<SwiperType | null>(null);
+  const parsedCache = useMemo(
+    () => (saved ? JSON.parse(saved) : undefined),
+    [saved],
+  );
+
+  const {
+    slides,
+    fetchNextPage,
+    hasNextPage,
+    hasPreviousPage,
+    fetchPreviousPage,
+    isFetchingPreviousPage,
+  } = useTourSwiperBasedData({
     location,
-    distance,
+    radius: distance,
     contentTypeId: tourContentTypeId,
+    initialData: parsedCache,
   });
   const [showDetail, setShowDetail] = useState(false);
-  const { currentTourInfo, handleSlideChange } = useCurrentTourInfo(slides);
+  const { handleSlideChange, currentSlide } = useCurrentSlideInfo(slides);
+
+  const onSwiper = (swiper: SwiperType) => {
+    swiperRef.current = swiper;
+    if (hasPreviousPage) {
+      fetchPreviousPage();
+      console.log('이전 페이지를 가져옵니다.');
+    }
+  };
+  useEffect(() => {
+    if (!isFetchingPreviousPage) {
+      if (swiperRef.current) swiperRef.current.slideTo(slides.length - 1, 0);
+    }
+  }, [isFetchingPreviousPage]);
 
   return (
     <>
@@ -35,10 +63,18 @@ function TourResultSwiper({
         modules={[Navigation, Pagination, Mousewheel, Virtual]}
         pagination={false}
         mousewheel={{ enabled: true, sensitivity: 1 }}
-        onReachEnd={() => hasNextPage && fetchNextPage()}
         className="h-full"
         touchMoveStopPropagation={false}
         onSlideChange={handleSlideChange}
+        onTouchEnd={swiper => {
+          if (swiper.realIndex === slides.length - 1) {
+            if (hasNextPage) fetchNextPage();
+          } else if (swiper.realIndex === 0) {
+            if (hasPreviousPage) fetchPreviousPage();
+          }
+          console.log('현재 슬라이드 인덱스:', swiper.realIndex);
+        }}
+        onSwiper={onSwiper}
         virtual
       >
         {slides.map((slide, index) => (
@@ -50,16 +86,10 @@ function TourResultSwiper({
           </SwiperSlide>
         ))}
       </Swiper>
-      <SideButtonGroup goToAroundTouristButtonProps={currentTourInfo} />
+      <SideButtonGroup goToAroundTouristButtonProps={currentSlide} />
       <TourBottomSheet
-        title={currentTourInfo.title}
-        dist={currentTourInfo.dist}
-        firstimage={currentTourInfo.firstimage}
-        contenttypeid={currentTourInfo.contenttypeid}
+        {...currentSlide}
         isOpen={showDetail}
-        contentid={currentTourInfo.contentid}
-        mapx={currentTourInfo.mapx}
-        mapy={currentTourInfo.mapy}
         onClose={() => setShowDetail(false)}
       />
     </>

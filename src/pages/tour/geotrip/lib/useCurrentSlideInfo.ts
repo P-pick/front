@@ -2,8 +2,8 @@ import { useState } from 'react';
 import type { Swiper as SwiperType } from 'swiper/types';
 import type { TourSummary } from '../types';
 
-const useCurrentTourInfo = (slides: TourSummary[]) => {
-  const [currentTourInfo, setCurrentTourInfo] = useState<TourSummary>(() => ({
+const useCurrentSlideInfo = (slides: TourSummary[]) => {
+  const [currentSlide, setCurrentSlide] = useState<TourSummary>(() => ({
     dist: slides[0].dist,
     title: slides[0].title,
     contentid: slides[0].contentid,
@@ -16,7 +16,7 @@ const useCurrentTourInfo = (slides: TourSummary[]) => {
   const handleSlideChange = (swiper: SwiperType) => {
     const current = slides[swiper.realIndex];
     if (current) {
-      setCurrentTourInfo({
+      setCurrentSlide({
         dist: current.dist,
         title: current.title,
         contentid: current.contentid,
@@ -28,7 +28,7 @@ const useCurrentTourInfo = (slides: TourSummary[]) => {
     }
   };
 
-  return { currentTourInfo, handleSlideChange };
+  return { currentSlide, handleSlideChange };
 };
 
-export default useCurrentTourInfo;
+export default useCurrentSlideInfo;

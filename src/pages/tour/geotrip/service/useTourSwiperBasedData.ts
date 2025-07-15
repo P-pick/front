@@ -1,47 +1,28 @@
-import type {
-  AroundContentTypeId,
-  GeoTripLocation,
-  TourItem,
-} from '@/pages/types';
 import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 
 import { useMemo } from 'react';
 import { tourQueries } from '../../service';
-
-interface TourSwiperDataProps {
-  location: GeoTripLocation;
-  distance: string;
-  contentTypeId: AroundContentTypeId;
-}
-interface TourSwiperDataReturn {
-  slides: TourItem[];
-  hasNextPage: boolean;
-  fetchNextPage: () => void;
-}
+import type { LocationBasedInfiniteQueryParams } from '@/pages/tour/types';
 
 const useTourSwiperBasedData = ({
   location,
-  distance,
+  radius,
   contentTypeId,
-}: TourSwiperDataProps): TourSwiperDataReturn => {
-  const {
-    data: basedItems,
-    hasNextPage,
-    fetchNextPage,
-  } = useSuspenseInfiniteQuery(
+}: LocationBasedInfiniteQueryParams) => {
+  const { data: infiniteData, ...rest } = useSuspenseInfiniteQuery(
     tourQueries.locationBasedList({
       location,
-      radius: distance,
+      radius,
       contentTypeId,
     }),
   );
 
   const flatBasedItems = useMemo(
-    () => basedItems.pages.flatMap(page => page.items.item),
-    [basedItems],
+    () => infiniteData.pages.flatMap(page => page.items.item),
+    [infiniteData],
   );
 
-  return { slides: flatBasedItems, hasNextPage, fetchNextPage };
+  return { slides: flatBasedItems, ...rest, infiniteData };
 };
 
 export default useTourSwiperBasedData;

@@ -2,44 +2,25 @@ import { commonSVG } from '@/assets';
 import { DistanceTimeInfo } from '@/components';
 import { truncate } from '@/lib';
 import { TOUR_TYPE } from '@/pages/const/MARKER';
-
-import type { TourItemWithDetail } from '@/pages/types';
-
+import type { TourItem } from '@/pages/types';
+import { Suspense } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
+import { SkeletonCard, TourCardImages } from './';
 interface TourInfoCardProps {
-  tourInfo: TourItemWithDetail;
+  tourInfo: TourItem;
 }
 
 export default function TourInfoCard({ tourInfo }: TourInfoCardProps) {
   return (
     <article className="flex flex-col my-8">
-      {/* 이미지 섹션 */}
-      <figure className="w-full h-[150px]">
-        <div className="flex gap-0.5 h-full flex-6/10">
-          <div className="relative">
-            <img
-              src={tourInfo.images[0].originimgurl}
-              className="h-full object-cover aspect-square rounded"
-              alt={tourInfo.title}
-            />
-          </div>
-          <div className="flex flex-col gap-0.5 h-full flex-4/10">
-            <div className="relative h-1/2">
-              <img
-                src={tourInfo.images[0].originimgurl}
-                className="object-cover h-full w-full"
-                alt={`${tourInfo.title} 썸네일 1`}
-              />
-            </div>
-            <div className="relative h-1/2">
-              <img
-                src={tourInfo.images[0].originimgurl}
-                className="object-cover h-full w-full"
-                alt={`${tourInfo.title} 썸네일 2`}
-              />
-            </div>
-          </div>
-        </div>
-      </figure>
+      <ErrorBoundary FallbackComponent={() => <>임시 에러처리</>}>
+        <Suspense fallback={<SkeletonCard />}>
+          <TourCardImages
+            contentId={tourInfo.contentid}
+            title={tourInfo.title}
+          />
+        </Suspense>
+      </ErrorBoundary>
 
       {/* 타이틀 및 옵션 */}
       <header className="flex mt-4 items-center justify-between px-5">

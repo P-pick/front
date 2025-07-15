@@ -1,13 +1,12 @@
 import { BottomSheet, LoadingSpinner, TourCard } from '@/components';
 import { withGeoTripParams } from '@/pages/tour/components';
 import type { AroundContentTypeId, GeoTripLocation } from '@/pages/types';
-import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
-import { Suspense, useMemo, useState } from 'react';
-import { Mousewheel, Navigation, Pagination } from 'swiper/modules';
+import { Suspense, useState } from 'react';
+import { Mousewheel, Navigation, Pagination, Virtual } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import type { Swiper as SwiperType } from 'swiper/types';
-import { getGeoLocationBasedTourQueryOptions } from '../../service';
 import { useStartTrip } from '../lib';
+import { useTourSwiperBasedData } from '../service';
 import type { TourSummary } from '../types';
 import { TourOverView } from './';
 import { SideButtonGroup } from './SideButtonGroup';
@@ -22,23 +21,21 @@ function TourResultSwiper({
   distance,
   tourContentTypeId,
 }: TourResultSwiperProps) {
-  const { data, fetchNextPage, hasNextPage } = useSuspenseInfiniteQuery(
-    getGeoLocationBasedTourQueryOptions({
-      location,
-      radius: distance,
-      contentTypeId: tourContentTypeId,
-    }),
-  );
+  const { slides, fetchNextPage, hasNextPage } = useTourSwiperBasedData({
+    location,
+    distance,
+    contentTypeId: tourContentTypeId,
+  });
   const [showDetail, setShowDetail] = useState(false);
-  const slides = useMemo(() => data.pages.flatMap(page => page.items), [data]);
+
   const [currentTourInfo, setCurrentTourInfo] = useState<TourSummary>({
     dist: slides[0].dist,
     title: slides[0].title,
-    images: slides[0].images,
     contentid: slides[0].contentid,
     mapx: slides[0].mapx,
     mapy: slides[0].mapy,
     contenttypeid: slides[0].contenttypeid,
+    firstimage: slides[0].firstimage,
   });
 
   const handleSlideChange = (swiper: SwiperType) => {
@@ -47,7 +44,6 @@ function TourResultSwiper({
       setCurrentTourInfo({
         dist: current.dist,
         title: current.title,
-        images: current.images,
         contentid: current.contentid,
         mapx: current.mapx,
         mapy: current.mapy,
@@ -62,16 +58,17 @@ function TourResultSwiper({
     <>
       <Swiper
         direction="vertical"
-        modules={[Navigation, Pagination, Mousewheel]}
+        modules={[Navigation, Pagination, Mousewheel, Virtual]}
         pagination={false}
         mousewheel={{ enabled: true, sensitivity: 1 }}
         onReachEnd={() => hasNextPage && fetchNextPage()}
         className="h-full"
         touchMoveStopPropagation={false}
         onSlideChange={handleSlideChange}
+        virtual
       >
-        {slides.map(slide => (
-          <SwiperSlide key={slide.contentid}>
+        {slides.map((slide, index) => (
+          <SwiperSlide key={slide.contentid} virtualIndex={index}>
             <TourSlide
               tourInfo={slide}
               handleDetailOpen={() => setShowDetail(true)}
@@ -89,13 +86,13 @@ function TourResultSwiper({
           <TourCard
             title={currentTourInfo.title}
             distance={currentTourInfo.dist}
-            imgUrl={currentTourInfo.images[0].originimgurl || ''}
+            imgUrl={currentTourInfo.firstimage || ''}
             tourTypeId={currentTourInfo.contenttypeid}
           />
           <Suspense fallback={<LoadingSpinner />}>
             <TourOverView contentId={currentTourInfo.contentid} />
           </Suspense>
-          <div className="mt-4  w-full flex items-center justify-center">
+          <div className="mt-4 w-full flex items-center justify-center">
             <button
               type="button"
               className="bg-gradient-to-r from-primary-orange to-primary-red rounded-[15px] w-[320px] h-[50px] text-black font-bold text-[16px] shadow-[0_4px_16px_0_rgba(250,129,47,0.3)]"

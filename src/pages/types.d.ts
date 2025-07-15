@@ -50,21 +50,6 @@ export type TourItem = {
   zipcode?: string;
 };
 
-export type TourDetailImage = {
-  imgname?: string;
-  originimgurl?: string;
-  serialnum: string;
-};
-
-export type TourDetailResponse = {
-  overview: string;
-  images?: TourDetailImage[];
-};
-
-export type TourItemWithDetail = TourItem & {
-  images: TourDetailImage[];
-};
-
 export type AroundContentTypeId =
   | '' // 없음
   | '12' // 관광지

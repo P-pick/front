@@ -1,6 +1,12 @@
-import type { TourItemWithDetail } from '@/pages/types';
+import type { TourItemWithDetailImages } from '@/pages/tour/types';
 
 export type TourSummary = Pick<
-  TourItemWithDetail,
-  'title' | 'dist' | 'mapx' | 'mapy' | 'contenttypeid' | 'images' | 'contentid'
+  TourItemWithDetailImages,
+  | 'title'
+  | 'dist'
+  | 'mapx'
+  | 'mapy'
+  | 'contenttypeid'
+  | 'contentid'
+  | 'firstimage'
 >;

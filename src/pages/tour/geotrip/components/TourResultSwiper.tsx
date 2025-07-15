@@ -1,21 +1,20 @@
-import { BottomSheet, LoadingSpinner, TourCard } from '@/components';
 import { withGeoTripParams } from '@/pages/tour/components';
 import type { AroundContentTypeId, GeoTripLocation } from '@/pages/types';
-import { Suspense, useState } from 'react';
+import { useState } from 'react';
 import { Mousewheel, Navigation, Pagination, Virtual } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import type { Swiper as SwiperType } from 'swiper/types';
-import { useStartTrip } from '../lib';
 import { useTourSwiperBasedData } from '../service';
-import type { TourSummary } from '../types';
-import { TourOverView } from './';
+import { TourBottomSheet } from './';
 import { SideButtonGroup } from './SideButtonGroup';
 import TourSlide from './TourSlide';
+import { useCurrentTourInfo } from '../lib';
+
 interface TourResultSwiperProps {
   location: GeoTripLocation;
   distance: string;
   tourContentTypeId: AroundContentTypeId;
 }
+
 function TourResultSwiper({
   location,
   distance,
@@ -27,32 +26,7 @@ function TourResultSwiper({
     contentTypeId: tourContentTypeId,
   });
   const [showDetail, setShowDetail] = useState(false);
-
-  const [currentTourInfo, setCurrentTourInfo] = useState<TourSummary>({
-    dist: slides[0].dist,
-    title: slides[0].title,
-    contentid: slides[0].contentid,
-    mapx: slides[0].mapx,
-    mapy: slides[0].mapy,
-    contenttypeid: slides[0].contenttypeid,
-    firstimage: slides[0].firstimage,
-  });
-
-  const handleSlideChange = (swiper: SwiperType) => {
-    const current = slides[swiper.realIndex];
-    if (current) {
-      setCurrentTourInfo({
-        dist: current.dist,
-        title: current.title,
-        contentid: current.contentid,
-        mapx: current.mapx,
-        mapy: current.mapy,
-        contenttypeid: current.contenttypeid,
-      });
-    }
-  };
-
-  const { handleStartTrip } = useStartTrip();
+  const { currentTourInfo, handleSlideChange } = useCurrentTourInfo(slides);
 
   return (
     <>
@@ -77,37 +51,17 @@ function TourResultSwiper({
         ))}
       </Swiper>
       <SideButtonGroup goToAroundTouristButtonProps={currentTourInfo} />
-      <BottomSheet
+      <TourBottomSheet
+        title={currentTourInfo.title}
+        dist={currentTourInfo.dist}
+        firstimage={currentTourInfo.firstimage}
+        contenttypeid={currentTourInfo.contenttypeid}
         isOpen={showDetail}
+        contentid={currentTourInfo.contentid}
+        mapx={currentTourInfo.mapx}
+        mapy={currentTourInfo.mapy}
         onClose={() => setShowDetail(false)}
-        showOverlay={false}
-      >
-        <div className="bg-white w-full">
-          <TourCard
-            title={currentTourInfo.title}
-            distance={currentTourInfo.dist}
-            imgUrl={currentTourInfo.firstimage || ''}
-            tourTypeId={currentTourInfo.contenttypeid}
-          />
-          <Suspense fallback={<LoadingSpinner />}>
-            <TourOverView contentId={currentTourInfo.contentid} />
-          </Suspense>
-          <div className="mt-4 w-full flex items-center justify-center">
-            <button
-              type="button"
-              className="bg-gradient-to-r from-primary-orange to-primary-red rounded-[15px] w-[320px] h-[50px] text-black font-bold text-[16px] shadow-[0_4px_16px_0_rgba(250,129,47,0.3)]"
-              onClick={() => {
-                handleStartTrip({
-                  lng: currentTourInfo.mapx,
-                  lat: currentTourInfo.mapy,
-                });
-              }}
-            >
-              여행 시작하기
-            </button>
-          </div>
-        </div>
-      </BottomSheet>
+      />
     </>
   );
 }

@@ -1,19 +1,21 @@
 import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 
+import type { LocationBasedInfiniteQueryParams } from '@/pages/tour/types';
 import { useMemo } from 'react';
 import { tourQueries } from '../../service';
-import type { LocationBasedInfiniteQueryParams } from '@/pages/tour/types';
 
 const useTourSwiperBasedData = ({
   location,
   radius,
   contentTypeId,
+  initialPageParam,
 }: LocationBasedInfiniteQueryParams) => {
   const { data: infiniteData, ...rest } = useSuspenseInfiniteQuery(
     tourQueries.locationBasedList({
       location,
       radius,
       contentTypeId,
+      initialPageParam,
     }),
   );
 

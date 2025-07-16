@@ -34,22 +34,28 @@ function TourResultSwiper({
     location,
     radius: distance,
     contentTypeId: tourContentTypeId,
+    initialPageParam: 1,
   });
-
   const [showDetail, setShowDetail] = useState(false);
   const { handleSlideChange, currentSlide } = useCurrentSlideInfo(slides);
 
-  const append = () => {
+  const append = async () => {
     if (hasNextPage) {
-      fetchNextPage();
+      const { data } = await fetchNextPage();
+      if (data) {
+        const currentPage = data.pageParams.at(-1) as number;
+        sessionStorage.setItem('currentPage', currentPage.toString());
+      }
     }
   };
 
   const prepend = async () => {
     if (!hasPreviousPage || !swiperRef.current) return;
-    const result = await fetchPreviousPage();
-    if (result.data) {
-      swiperRef.current.slideTo(result.data.pages[0]?.items.item.length, 0);
+    const { data } = await fetchPreviousPage();
+    if (data) {
+      swiperRef.current.slideTo(data.pages[0]?.items.item.length, 0);
+      const currentPage = data.pageParams[0] as number;
+      sessionStorage.setItem('currentPage', currentPage.toString());
     }
   };
 
@@ -59,7 +65,16 @@ function TourResultSwiper({
     const result = await fetchPreviousPage();
     if (result.data) {
       swiperRef.current.slideTo(result.data.pages[0]?.items.item.length, 0);
+      const initPage = result.data.pageParams[0] as number;
+      sessionStorage.setItem('currentPage', initPage.toString());
     }
+  };
+
+  const handleTransitionEnd = (swiper: SwiperType) => {
+    sessionStorage.setItem(
+      'currentIndex',
+      ((swiper.activeIndex + 1) % 10).toString(),
+    );
   };
 
   return (
@@ -80,6 +95,7 @@ function TourResultSwiper({
         onSlideChange={handleSlideChange}
         onReachEnd={append}
         onReachBeginning={prepend}
+        onTransitionEnd={handleTransitionEnd}
         virtual
       >
         {slides.map((slide, index) => (

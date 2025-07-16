@@ -1,8 +1,6 @@
-import { TourItem } from '@/pages/types';
-import type { InfiniteData } from '@tanstack/react-query';
+import type { AroundContentTypeId, TourDetailImage } from '@/pages/tour/types';
 import type { GeoTripLocation } from '@/pages/types';
-import type { ResponseBody } from '@/pages/types';
-import type { TourDetailImage, AroundContentTypeId } from '@/pages/tour/types';
+import { TourItem } from '@/pages/types';
 
 export type LocationBasedItemRequest = {
   location: GeoTripLocation;
@@ -11,7 +9,7 @@ export type LocationBasedItemRequest = {
   radius: string;
 };
 export type LocationBasedInfiniteQueryParams = {
-  initialData?: InfiniteData<ResponseBody<TourItem[]>, number>;
+  initialPageParam?: number;
 } & Omit<LocationBasedItemRequest, 'pageNo'>;
 
 export type TourDetailImage = {

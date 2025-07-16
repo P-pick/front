@@ -9,14 +9,15 @@ const tourQueries = {
     location,
     radius,
     contentTypeId,
+    initialPageParam = 1,
   }: LocationBasedInfiniteQueryParams) =>
     infiniteQueryOptions({
       queryKey: [
         ...tourQueries.locationBasedLists(),
         { location, radius, contentTypeId },
       ],
-      initialPageParam: 5,
-      queryFn: ({ pageParam }) =>
+      initialPageParam,
+      queryFn: ({ pageParam }: { pageParam: number }) =>
         getLocationBasedItems({
           location,
           pageNo: pageParam,

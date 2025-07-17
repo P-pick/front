@@ -10,3 +10,8 @@ export type TourSummary = Pick<
   | 'contentid'
   | 'firstimage'
 >;
+
+export type SlideEntries = {
+  slide: TourItem;
+  pageParam: number;
+};

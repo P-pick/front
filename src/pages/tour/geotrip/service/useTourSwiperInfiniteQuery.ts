@@ -28,12 +28,12 @@ const useTourSwiperInfiniteQuery = ({
     }),
   );
 
-  const append = () => {
+  const fetchAppend = () => {
     if (!hasNextPage || isFetchingNextPage || isFetchingPreviousPage) return;
     return fetchNextPage();
   };
 
-  const prepend = () => {
+  const fetchPrepend = () => {
     if (!hasPreviousPage || isFetchingPreviousPage || isFetchingNextPage)
       return;
     return fetchPreviousPage();
@@ -53,8 +53,8 @@ const useTourSwiperInfiniteQuery = ({
 
   return {
     slideEntries: slidesWithPageInfo,
-    append,
-    prepend,
+    fetchAppend,
+    fetchPrepend,
     isFetchingNextPage,
     isFetchingPreviousPage,
   };

@@ -1,37 +1,36 @@
 import { withGeoTripParams } from '@/pages/tour/components';
 import type { AroundContentTypeId, GeoTripLocation } from '@/pages/types';
 import { useState } from 'react';
-import { Mousewheel, Navigation, Pagination, Virtual } from 'swiper/modules';
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { TourBottomSheet, TourSwiperView } from '.';
 import { persistSlideSession, useInfiniteSwiperControl } from '../lib';
 import { useTourSwiperBasedData } from '../service';
-import { TourBottomSheet } from './';
 import { SideButtonGroup } from './SideButtonGroup';
-import TourSlide from './TourSlide';
 
-interface TourResultSwiperProps {
+interface TourSwiperContainerProps {
   location: GeoTripLocation;
   distance: string;
   tourContentTypeId: AroundContentTypeId;
 }
 
-function TourResultSwiper({
+function TourSwiperContainer({
   location,
   distance,
   tourContentTypeId,
-}: TourResultSwiperProps) {
-  const { slideEntries, append, prepend, isFetchingPreviousPage } =
+}: TourSwiperContainerProps) {
+  const { slideEntries, fetchAppend, fetchPrepend, isFetchingPreviousPage } =
     useTourSwiperBasedData({
       location,
       radius: distance,
       contentTypeId: tourContentTypeId,
     });
-  const [showDetail, setShowDetail] = useState(false);
   const { swiperRef, onSwiper, handlePrepend, handleAppend } =
     useInfiniteSwiperControl({
-      prepend,
-      append,
+      fetchPrepend,
+      fetchAppend,
     });
+
+  const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
+
   const currentSlideEntries = slideEntries[swiperRef.current?.activeIndex ?? 0];
   const currentSlide = currentSlideEntries.slide;
   const handleSlideChange = persistSlideSession(currentSlideEntries);
@@ -43,39 +42,22 @@ function TourResultSwiper({
           <div className="text-white">Loading...</div>
         </div>
       )}
-
-      <Swiper
-        direction="vertical"
-        watchSlidesProgress
-        modules={[Navigation, Pagination, Mousewheel, Virtual]}
-        pagination={false}
-        mousewheel={{ enabled: true, sensitivity: 1 }}
-        className="h-full"
+      <TourSwiperView
+        handleAppend={handleAppend}
+        handlePrepend={handlePrepend}
+        handleSlideChange={handleSlideChange}
         onSwiper={onSwiper}
-        onSlideChange={swiper => {
-          handleSlideChange(swiper);
-        }}
-        onReachEnd={handleAppend}
-        onReachBeginning={handlePrepend}
-        virtual
-      >
-        {slideEntries.map(({ slide }, index) => (
-          <SwiperSlide key={slide.contentid} virtualIndex={index}>
-            <TourSlide
-              tourInfo={slide}
-              handleDetailOpen={() => setShowDetail(true)}
-            />
-          </SwiperSlide>
-        ))}
-      </Swiper>
+        slideEntries={slideEntries}
+        openBottomSheet={() => setIsBottomSheetOpen(true)}
+      />
       <SideButtonGroup goToAroundTouristButtonProps={currentSlide} />
       <TourBottomSheet
         {...currentSlide}
-        isOpen={showDetail}
-        onClose={() => setShowDetail(false)}
+        isOpen={isBottomSheetOpen}
+        onClose={() => setIsBottomSheetOpen(false)}
       />
     </>
   );
 }
 
-export default withGeoTripParams(TourResultSwiper);
+export default withGeoTripParams(TourSwiperContainer);

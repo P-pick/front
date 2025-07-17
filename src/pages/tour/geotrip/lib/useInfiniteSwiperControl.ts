@@ -15,13 +15,13 @@ type PageFetchQuery = () =>
     >
   | undefined;
 interface UseInfiniteSwiperControlProps {
-  prepend: PageFetchQuery;
-  append: PageFetchQuery;
+  fetchPrepend: PageFetchQuery;
+  fetchAppend: PageFetchQuery;
 }
 
 const useInfiniteSwiperControl = ({
-  prepend,
-  append,
+  fetchPrepend,
+  fetchAppend,
 }: UseInfiniteSwiperControlProps) => {
   const swiperRef = useRef<SwiperType | null>(null);
 
@@ -29,7 +29,7 @@ const useInfiniteSwiperControl = ({
     swiperRef.current = swiper;
 
     const currentIndex = Number(sessionStorage.getItem('currentIndex') ?? 0);
-    const result = await prepend();
+    const result = await fetchPrepend();
     const prependLength = result?.data?.pages[0]?.items.item.length ?? 0;
 
     const targetIndex = currentIndex + prependLength;
@@ -43,11 +43,11 @@ const useInfiniteSwiperControl = ({
   };
 
   const handleAppend = async () => {
-    await append();
+    await fetchAppend();
   };
 
   const handlePrepend = async () => {
-    const result = await prepend();
+    const result = await fetchPrepend();
     if (!result) return;
     if (result.data && swiperRef.current) {
       swiperRef.current.slideTo(result.data.pages[0]?.items.item.length, 0);

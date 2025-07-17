@@ -9,12 +9,12 @@ import { useStartTrip } from '../lib';
 
 interface TourSlideProps {
   tourInfo: TourItem;
-  handleDetailOpen: () => void;
+  openBottomSheet: () => void;
 }
 
 export default function TourSlide({
   tourInfo,
-  handleDetailOpen,
+  openBottomSheet,
 }: TourSlideProps) {
   const { handleStartTrip } = useStartTrip();
 
@@ -46,7 +46,7 @@ export default function TourSlide({
             <h1 className="text-2xl font-bold max-w-60">{tourInfo.title}</h1>
             <commonSVG.InfoIcon
               className="text-white cursor-pointer"
-              onClick={handleDetailOpen}
+              onClick={openBottomSheet}
             />
           </div>
           <div className="flex justify-between">

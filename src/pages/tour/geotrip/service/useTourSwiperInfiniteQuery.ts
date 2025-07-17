@@ -8,8 +8,9 @@ const useTourSwiperInfiniteQuery = ({
   location,
   radius,
   contentTypeId,
-  initialPageParam,
 }: LocationBasedInfiniteQueryParams) => {
+  const initialPageParam = Number(sessionStorage.getItem('currentPage') ?? 1);
+
   const {
     data: infiniteData,
     fetchNextPage,
@@ -42,7 +43,7 @@ const useTourSwiperInfiniteQuery = ({
     if (!infiniteData) return [];
 
     return infiniteData.pages.flatMap((page, pageIndex) => {
-      const pageParam = infiniteData.pageParams[pageIndex];
+      const pageParam = infiniteData.pageParams[pageIndex] as number;
       return page.items.item.map(slide => ({
         slide,
         pageParam,
@@ -51,7 +52,7 @@ const useTourSwiperInfiniteQuery = ({
   }, [infiniteData]);
 
   return {
-    slides: slidesWithPageInfo,
+    slideEntries: slidesWithPageInfo,
     append,
     prepend,
     isFetchingNextPage,

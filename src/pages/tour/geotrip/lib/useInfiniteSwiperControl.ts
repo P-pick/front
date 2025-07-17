@@ -24,7 +24,7 @@ const useInfiniteSwiperControl = ({
   append,
 }: UseInfiniteSwiperControlProps) => {
   const swiperRef = useRef<SwiperType | null>(null);
-  const pendingSlideTo = useRef<number | null>(null);
+
   const onSwiper = async (swiper: SwiperType) => {
     swiperRef.current = swiper;
 
@@ -32,14 +32,14 @@ const useInfiniteSwiperControl = ({
     const result = await prepend();
     const prependLength = result?.data?.pages[0]?.items.item.length ?? 0;
 
-    pendingSlideTo.current = currentIndex + prependLength;
+    const targetIndex = currentIndex + prependLength;
 
-    swiper.on('slidesUpdated', () => {
-      if (pendingSlideTo.current !== null) {
-        swiper.slideTo(pendingSlideTo.current, 0);
-        pendingSlideTo.current = null;
-      }
-    });
+    const handleSlidesUpdated = () => {
+      swiper.slideTo(targetIndex, 0);
+      swiper.off('slidesUpdated', handleSlidesUpdated);
+    };
+
+    swiper.on('slidesUpdated', handleSlidesUpdated);
   };
 
   const handleAppend = async () => {

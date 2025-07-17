@@ -3,7 +3,7 @@ import type { AroundContentTypeId, GeoTripLocation } from '@/pages/types';
 import { useState } from 'react';
 import { Mousewheel, Navigation, Pagination, Virtual } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { useCurrentSlideInfo, useInfiniteSwiperControl } from '../lib';
+import { persistSlideSession, useInfiniteSwiperControl } from '../lib';
 import { useTourSwiperBasedData } from '../service';
 import { TourBottomSheet } from './';
 import { SideButtonGroup } from './SideButtonGroup';
@@ -20,21 +20,21 @@ function TourResultSwiper({
   distance,
   tourContentTypeId,
 }: TourResultSwiperProps) {
-  const initialPageParam = (sessionStorage.getItem('currentPage') ??
-    1) as number;
-  const { slides, append, prepend, isFetchingPreviousPage } =
+  const { slideEntries, append, prepend, isFetchingPreviousPage } =
     useTourSwiperBasedData({
       location,
       radius: distance,
       contentTypeId: tourContentTypeId,
-      initialPageParam,
     });
   const [showDetail, setShowDetail] = useState(false);
-  const { handleSlideChange, currentSlide } = useCurrentSlideInfo(slides);
-  const { onSwiper, handlePrepend, handleAppend } = useInfiniteSwiperControl({
-    prepend,
-    append,
-  });
+  const { swiperRef, onSwiper, handlePrepend, handleAppend } =
+    useInfiniteSwiperControl({
+      prepend,
+      append,
+    });
+  const currentSlideEntries = slideEntries[swiperRef.current?.activeIndex ?? 0];
+  const currentSlide = currentSlideEntries.slide;
+  const handleSlideChange = persistSlideSession(currentSlideEntries);
 
   return (
     <>
@@ -59,7 +59,7 @@ function TourResultSwiper({
         onReachBeginning={handlePrepend}
         virtual
       >
-        {slides.map(({ slide }, index) => (
+        {slideEntries.map(({ slide }, index) => (
           <SwiperSlide key={slide.contentid} virtualIndex={index}>
             <TourSlide
               tourInfo={slide}

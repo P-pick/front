@@ -31,8 +31,7 @@ const tourQueries = {
       },
       getPreviousPageParam: (firstPage: ResponseBody<TourItem[]>) => {
         const currentPage = firstPage.pageNo;
-
-        return currentPage > 1 ? currentPage - 1 : undefined;
+        return currentPage === 1 ? undefined : currentPage - 1;
       },
     }),
   detail: (contentId: string) =>

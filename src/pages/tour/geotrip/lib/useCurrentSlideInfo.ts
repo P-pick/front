@@ -2,29 +2,22 @@ import { useState } from 'react';
 import type { Swiper as SwiperType } from 'swiper/types';
 import type { TourSummary } from '../types';
 
-const useCurrentSlideInfo = (slides: TourSummary[]) => {
-  const [currentSlide, setCurrentSlide] = useState<TourSummary>(() => ({
-    dist: slides[0].dist,
-    title: slides[0].title,
-    contentid: slides[0].contentid,
-    mapx: slides[0].mapx,
-    mapy: slides[0].mapy,
-    contenttypeid: slides[0].contenttypeid,
-    firstimage: slides[0].firstimage,
-  }));
+const useCurrentSlideInfo = (
+  slides: {
+    slide: TourSummary;
+    pageParam: unknown;
+  }[],
+) => {
+  const [currentSlide, setCurrentSlide] = useState<TourSummary>(
+    () => slides[0].slide,
+  );
 
   const handleSlideChange = (swiper: SwiperType) => {
-    const current = slides[swiper.realIndex];
+    const current = slides[swiper.activeIndex];
     if (current) {
-      setCurrentSlide({
-        dist: current.dist,
-        title: current.title,
-        contentid: current.contentid,
-        mapx: current.mapx,
-        mapy: current.mapy,
-        contenttypeid: current.contenttypeid,
-        firstimage: current.firstimage,
-      });
+      setCurrentSlide(current.slide);
+      sessionStorage.setItem('currentIndex', String(swiper.activeIndex % 10));
+      sessionStorage.setItem('currentPage', String(current.pageParam));
     }
   };
 

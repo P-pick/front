@@ -26,32 +26,32 @@ const useTourSwiperInfiniteQuery = ({
       initialPageParam,
     }),
   );
+
   const append = () => {
-    if (!hasNextPage && isFetchingNextPage) return;
+    if (!hasNextPage || isFetchingNextPage || isFetchingPreviousPage) return;
     return fetchNextPage();
-    // if (data) {
-    //   const currentPage = data.pageParams.at(-1) as number;
-    //   sessionStorage.setItem('currentPage', currentPage.toString());
-    // }
   };
 
   const prepend = () => {
-    if (!hasPreviousPage && isFetchingPreviousPage) return;
+    if (!hasPreviousPage || isFetchingPreviousPage || isFetchingNextPage)
+      return;
     return fetchPreviousPage();
-    // if (data) {
-    //   swiperRef.current.slideTo(data.pages[0]?.items.item.length, 0);
-    //   const currentPage = data.pageParams[0] as number;
-    //   sessionStorage.setItem('currentPage', currentPage.toString());
-    // }
   };
 
-  const flatBasedItems = useMemo(
-    () => infiniteData.pages.flatMap(page => page.items.item),
-    [infiniteData],
-  );
+  const slidesWithPageInfo = useMemo(() => {
+    if (!infiniteData) return [];
+
+    return infiniteData.pages.flatMap((page, pageIndex) => {
+      const pageParam = infiniteData.pageParams[pageIndex];
+      return page.items.item.map(slide => ({
+        slide,
+        pageParam,
+      }));
+    });
+  }, [infiniteData]);
 
   return {
-    slides: flatBasedItems,
+    slides: slidesWithPageInfo,
     append,
     prepend,
     isFetchingNextPage,

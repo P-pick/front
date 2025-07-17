@@ -20,20 +20,21 @@ function TourResultSwiper({
   distance,
   tourContentTypeId,
 }: TourResultSwiperProps) {
+  const initialPageParam = (sessionStorage.getItem('currentPage') ??
+    1) as number;
   const { slides, append, prepend, isFetchingPreviousPage } =
     useTourSwiperBasedData({
       location,
       radius: distance,
       contentTypeId: tourContentTypeId,
-      initialPageParam: 1,
+      initialPageParam,
     });
   const [showDetail, setShowDetail] = useState(false);
   const { handleSlideChange, currentSlide } = useCurrentSlideInfo(slides);
-  const { onSwiper, handlePrepend, handleAppend, saveSwiperIndexToSession } =
-    useInfiniteSwiperControl({
-      prepend,
-      append,
-    });
+  const { onSwiper, handlePrepend, handleAppend } = useInfiniteSwiperControl({
+    prepend,
+    append,
+  });
 
   return (
     <>
@@ -45,18 +46,20 @@ function TourResultSwiper({
 
       <Swiper
         direction="vertical"
+        watchSlidesProgress
         modules={[Navigation, Pagination, Mousewheel, Virtual]}
         pagination={false}
         mousewheel={{ enabled: true, sensitivity: 1 }}
         className="h-full"
         onSwiper={onSwiper}
-        onSlideChange={handleSlideChange}
+        onSlideChange={swiper => {
+          handleSlideChange(swiper);
+        }}
         onReachEnd={handleAppend}
         onReachBeginning={handlePrepend}
-        onTransitionEnd={saveSwiperIndexToSession}
         virtual
       >
-        {slides.map((slide, index) => (
+        {slides.map(({ slide }, index) => (
           <SwiperSlide key={slide.contentid} virtualIndex={index}>
             <TourSlide
               tourInfo={slide}

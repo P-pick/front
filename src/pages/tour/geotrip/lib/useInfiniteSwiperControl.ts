@@ -24,42 +24,39 @@ const useInfiniteSwiperControl = ({
   append,
 }: UseInfiniteSwiperControlProps) => {
   const swiperRef = useRef<SwiperType | null>(null);
-  const saveSwiperIndexToSession = (swiper: SwiperType) => {
-    sessionStorage.setItem(
-      'currentIndex',
-      ((swiper.activeIndex + 1) % 10).toString(),
-    );
-  };
+  const pendingSlideTo = useRef<number | null>(null);
   const onSwiper = async (swiper: SwiperType) => {
     swiperRef.current = swiper;
+
+    const currentIndex = Number(sessionStorage.getItem('currentIndex') ?? 0);
     const result = await prepend();
-    if (result && result.data) {
-      swiperRef.current.slideTo(result.data.pages[0]?.items.item.length, 0);
-      const initPage = result.data.pageParams[0] as number;
-      sessionStorage.setItem('currentPage', initPage.toString());
-      saveSwiperIndexToSession(swiper);
-    }
+    const prependLength = result?.data?.pages[0]?.items.item.length ?? 0;
+
+    pendingSlideTo.current = currentIndex + prependLength;
+
+    swiper.on('slidesUpdated', () => {
+      if (pendingSlideTo.current !== null) {
+        swiper.slideTo(pendingSlideTo.current, 0);
+        pendingSlideTo.current = null;
+      }
+    });
   };
+
   const handleAppend = async () => {
-    const result = await append();
-    if (result && result.data) {
-      const currentPage = result.data.pageParams.at(-1) as number;
-      sessionStorage.setItem('currentPage', currentPage.toString());
-    }
+    await append();
   };
+
   const handlePrepend = async () => {
     const result = await prepend();
-    if (result && result.data && swiperRef.current) {
+    if (!result) return;
+    if (result.data && swiperRef.current) {
       swiperRef.current.slideTo(result.data.pages[0]?.items.item.length, 0);
-      const currentPage = result.data.pageParams[0] as number;
-      sessionStorage.setItem('currentPage', currentPage.toString());
     }
   };
 
   return {
     swiperRef,
     onSwiper,
-    saveSwiperIndexToSession,
     handlePrepend,
     handleAppend,
   };

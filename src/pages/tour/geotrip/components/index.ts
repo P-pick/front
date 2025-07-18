@@ -1,3 +1,4 @@
+export { default as StartTripButton } from './StartTripButton';
 export { default as TourBottomSheet } from './TourBottomSheet';
 export { default as TourOverView } from './TourOverView';
 export { default as TourSlide } from './TourSlide';

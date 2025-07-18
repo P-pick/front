@@ -1,8 +1,7 @@
 import { BottomSheet, LoadingSpinner, TourCard } from '@/components';
-import type { TourSummary } from '../types';
-import { TourOverView } from './';
 import { Suspense } from 'react';
-import { useStartTrip } from '../lib';
+import type { TourSummary } from '../types';
+import { StartTripButton, TourOverView } from './';
 
 interface TourBottomSheetProps extends TourSummary {
   isOpen: boolean;
@@ -20,7 +19,6 @@ export default function TourBottomSheet({
   mapy,
   onClose,
 }: TourBottomSheetProps) {
-  const { handleStartTrip } = useStartTrip();
   return (
     <BottomSheet isOpen={isOpen} onClose={onClose} showOverlay={false}>
       <div className="bg-white w-full">
@@ -34,18 +32,11 @@ export default function TourBottomSheet({
           <TourOverView contentId={contentid} />
         </Suspense>
         <div className="mt-4 w-full flex items-center justify-center">
-          <button
-            type="button"
+          <StartTripButton
+            lng={mapx}
+            lat={mapy}
             className="bg-gradient-to-r from-primary-orange to-primary-red rounded-[15px] w-[320px] h-[50px] text-black font-bold text-[16px] shadow-[0_4px_16px_0_rgba(250,129,47,0.3)]"
-            onClick={() => {
-              handleStartTrip({
-                lng: mapx,
-                lat: mapy,
-              });
-            }}
-          >
-            여행 시작하기
-          </button>
+          />
         </div>
       </div>
     </BottomSheet>

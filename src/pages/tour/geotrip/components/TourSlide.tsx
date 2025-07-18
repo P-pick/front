@@ -4,8 +4,7 @@ import { DistanceTimeInfo, LoadingSpinner } from '@/components';
 import type { TourItem } from '@/pages/types';
 import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
-import { TourSlideImages } from '.';
-import { useStartTrip } from '../lib';
+import { StartTripButton, TourSlideImages } from '.';
 
 interface TourSlideProps {
   tourInfo: TourItem;
@@ -16,8 +15,6 @@ export default function TourSlide({
   tourInfo,
   openBottomSheet,
 }: TourSlideProps) {
-  const { handleStartTrip } = useStartTrip();
-
   return (
     <article className="relative text-white w-full h-full flex flex-col items-center">
       <ErrorBoundary
@@ -54,18 +51,11 @@ export default function TourSlide({
           </div>
         </div>
         <nav className="w-full flex justify-center mt-4">
-          <button
-            type="button"
+          <StartTripButton
+            lng={tourInfo.mapx}
+            lat={tourInfo.mapy}
             className="mb-[24px] bg-white rounded-[15px] w-[320px] h-[50px] text-black font-bold text-[16px] cursor-pointer"
-            onClick={() =>
-              handleStartTrip({
-                lat: tourInfo.mapy,
-                lng: tourInfo.mapx,
-              })
-            }
-          >
-            여행 시작하기
-          </button>
+          />
         </nav>
       </footer>
 

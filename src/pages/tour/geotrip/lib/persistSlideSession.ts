@@ -1,13 +1,15 @@
-import type { Swiper as SwiperType } from 'swiper/types';
 import type { SlideEntries } from '../types';
 
-const persistSlideSession = (slideEntries: SlideEntries) => {
-  const handleSlideChange = (swiper: SwiperType) => {
-    sessionStorage.setItem('currentIndex', String(swiper.activeIndex % 10));
-    sessionStorage.setItem('currentPage', String(slideEntries.pageParam));
-  };
-
-  return handleSlideChange;
+interface PersistSlideSessionProps {
+  slideEntries: SlideEntries;
+  activeIndex: number;
+}
+const persistSlideSession = ({
+  slideEntries,
+  activeIndex,
+}: PersistSlideSessionProps) => {
+  sessionStorage.setItem('currentIndex', String(activeIndex % 10));
+  sessionStorage.setItem('currentPage', String(slideEntries.pageParam));
 };
 
 export default persistSlideSession;

@@ -3,7 +3,7 @@ import type {
   InfiniteData,
   InfiniteQueryObserverResult,
 } from '@tanstack/react-query';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import type { Swiper as SwiperType } from 'swiper/types';
 
 type PageFetchQuery = () =>
@@ -14,6 +14,7 @@ type PageFetchQuery = () =>
       >
     >
   | undefined;
+
 interface UseInfiniteSwiperControlProps {
   fetchPrepend: PageFetchQuery;
   fetchAppend: PageFetchQuery;
@@ -24,22 +25,22 @@ const useInfiniteSwiperControl = ({
   fetchAppend,
 }: UseInfiniteSwiperControlProps) => {
   const swiperRef = useRef<SwiperType | null>(null);
+  const [initialSlideIndex, setInitialSlideIndex] = useState(
+    Number(sessionStorage.getItem('currentIndex') ?? 0),
+  );
 
   const onSwiper = async (swiper: SwiperType) => {
     swiperRef.current = swiper;
 
-    const currentIndex = Number(sessionStorage.getItem('currentIndex') ?? 0);
-    const result = await fetchPrepend();
-    const prependLength = result?.data?.pages[0]?.items.item.length ?? 0;
+    const currentIndex = initialSlideIndex;
 
-    const targetIndex = currentIndex + prependLength;
-
-    const handleSlidesUpdated = () => {
-      swiper.slideTo(targetIndex, 0);
-      swiper.off('slidesUpdated', handleSlidesUpdated);
-    };
-
-    swiper.on('slidesUpdated', handleSlidesUpdated);
+    if (currentIndex > 0) {
+      const result = await fetchPrepend();
+      const prependLength = result?.data?.pages[0]?.items.item.length ?? 0;
+      setInitialSlideIndex(currentIndex + prependLength);
+    } else {
+      setInitialSlideIndex(0);
+    }
   };
 
   const handleAppend = async () => {
@@ -59,6 +60,7 @@ const useInfiniteSwiperControl = ({
     onSwiper,
     handlePrepend,
     handleAppend,
+    initialSlideIndex,
   };
 };
 

@@ -1,6 +1,8 @@
+import { LoadingSpinner } from '@/components';
 import { withGeoTripParams } from '@/pages/tour/components';
 import type { AroundContentTypeId, GeoTripLocation } from '@/pages/types';
 import { useState } from 'react';
+import type { Swiper as SwiperType } from 'swiper/types';
 import { TourBottomSheet, TourSwiperView } from '.';
 import { persistSlideSession, useInfiniteSwiperControl } from '../lib';
 import { useTourSwiperBasedData } from '../service';
@@ -17,29 +19,45 @@ function TourSwiperContainer({
   distance,
   tourContentTypeId,
 }: TourSwiperContainerProps) {
-  const { slideEntries, fetchAppend, fetchPrepend, isFetchingPreviousPage } =
-    useTourSwiperBasedData({
-      location,
-      radius: distance,
-      contentTypeId: tourContentTypeId,
-    });
-  const { swiperRef, onSwiper, handlePrepend, handleAppend } =
-    useInfiniteSwiperControl({
-      fetchPrepend,
-      fetchAppend,
-    });
+  const {
+    slideEntries,
+    fetchAppend,
+    fetchPrepend,
+    isFetchingPreviousPage,
+    isFetchingNextPage,
+  } = useTourSwiperBasedData({
+    location,
+    radius: distance,
+    contentTypeId: tourContentTypeId,
+  });
+  const {
+    swiperRef,
+    onSwiper,
+    handlePrepend,
+    handleAppend,
+    initialSlideIndex,
+  } = useInfiniteSwiperControl({
+    fetchPrepend,
+    fetchAppend,
+  });
 
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
 
-  const currentSlideEntries = slideEntries[swiperRef.current?.activeIndex ?? 0];
-  const currentSlide = currentSlideEntries.slide;
-  const handleSlideChange = persistSlideSession(currentSlideEntries);
+  const currentSlide = slideEntries[swiperRef.current?.activeIndex ?? 0].slide;
+
+  const handleSlideChange = (swiper: SwiperType) => {
+    const index = swiper.activeIndex;
+    persistSlideSession({
+      slideEntries: slideEntries[index],
+      activeIndex: index,
+    });
+  };
 
   return (
     <>
       {isFetchingPreviousPage && (
-        <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center bg-black/40 z-50">
-          <div className="text-white">Loading...</div>
+        <div className="absolute top-0 left-0 w-full flex justify-center items-center">
+          <LoadingSpinner />
         </div>
       )}
       <TourSwiperView
@@ -47,6 +65,7 @@ function TourSwiperContainer({
         handlePrepend={handlePrepend}
         handleSlideChange={handleSlideChange}
         onSwiper={onSwiper}
+        initialSlideIndex={initialSlideIndex}
         slideEntries={slideEntries}
         openBottomSheet={() => setIsBottomSheetOpen(true)}
       />
@@ -56,6 +75,11 @@ function TourSwiperContainer({
         isOpen={isBottomSheetOpen}
         onClose={() => setIsBottomSheetOpen(false)}
       />
+      {isFetchingNextPage && (
+        <div className="absolute bottom-0 left-0 w-full flex justify-center items-center">
+          <LoadingSpinner />
+        </div>
+      )}
     </>
   );
 }

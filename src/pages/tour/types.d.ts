@@ -2,13 +2,10 @@ import type { AroundContentTypeId, TourDetailImage } from '@/pages/tour/types';
 import type { GeoTripLocation } from '@/pages/types';
 import { TourItem } from '@/pages/types';
 
-export type LocationBasedItemRequest = {
+export type LocationBasedInfiniteQueryParams = {
   location: GeoTripLocation;
-  pageNo: number;
   contentTypeId: AroundContentTypeId;
   radius: string;
-};
-export type LocationBasedInfiniteQueryParams = {
   initialPageParam?: number;
 } & Omit<LocationBasedItemRequest, 'pageNo'>;
 

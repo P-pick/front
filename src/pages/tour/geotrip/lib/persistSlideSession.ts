@@ -1,0 +1,15 @@
+import type { SlideEntries } from '../types';
+
+interface PersistSlideSessionProps {
+  slideEntries: SlideEntries;
+  activeIndex: number;
+}
+const persistSlideSession = ({
+  slideEntries,
+  activeIndex,
+}: PersistSlideSessionProps) => {
+  sessionStorage.setItem('currentIndex', String(activeIndex % 10));
+  sessionStorage.setItem('currentPage', String(slideEntries.pageParam));
+};
+
+export default persistSlideSession;

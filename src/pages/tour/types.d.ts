@@ -1,11 +1,14 @@
+import type { AroundContentTypeId, TourDetailImage } from '@/pages/tour/types';
+import type { GeoTripLocation } from '@/pages/types';
 import { TourItem } from '@/pages/types';
 
-export type LocationBasedItemRequest = {
-  location: GeoTripLocation | null;
-  pageNo: number;
+export type LocationBasedInfiniteQueryParams = {
+  location: GeoTripLocation;
   contentTypeId: AroundContentTypeId;
   radius: string;
-};
+  initialPageParam?: number;
+} & Omit<LocationBasedItemRequest, 'pageNo'>;
+
 export type TourDetailImage = {
   imgname?: string;
   originimgurl?: string;
@@ -15,3 +18,6 @@ export type TourDetailImage = {
 export type TourItemWithDetailImages = TourItem & {
   images: TourDetailImage[];
 };
+
+export type PickOptional<T, K extends keyof T> = Omit<T, K> &
+  Partial<Pick<T, K>>;

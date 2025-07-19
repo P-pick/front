@@ -151,6 +151,11 @@ const getTransitDestinationQueryOptions = (
     transitRequest.endY,
   ],
   queryFn: () => getTransitDestinationPathInfo(transitRequest),
+  //캐싱 무한
+  cacheTime: Infinity,
+  refetchOnReconnect: false,
+  staleTime: Infinity,
+  gcTime: Infinity,
 });
 
 const destinationQueries = {

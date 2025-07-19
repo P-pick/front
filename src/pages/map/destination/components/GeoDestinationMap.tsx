@@ -13,6 +13,7 @@ import { FollowAlong, SelectedFollow } from './follow';
 import withDestination from './withDestination';
 import { useMemo, useEffect } from 'react';
 import type { PedestrianFeatures } from '../types';
+import PublicTransit from './publicTransit/PublicTransit';
 
 interface GeoDestinationMapProps {
   start: GeoTripLocation;
@@ -67,9 +68,11 @@ function GeoDestinationMap({ start, end }: GeoDestinationMapProps) {
           setMapLevel(map.getLevel());
         }}
       >
-        {vehicle === 'publictransit' && ''}
         {!isFollowAlong && (
           <SelectTransportationFromGeoMap start={start} end={end} />
+        )}
+        {vehicle === 'publictransit' && (
+          <PublicTransit start={start} end={end} />
         )}
         <ResizingMap points={points} />
         {features &&

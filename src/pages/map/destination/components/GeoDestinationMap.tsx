@@ -35,7 +35,6 @@ function GeoDestinationMap({ start, end }: GeoDestinationMapProps) {
     endY: end.lat,
     endName: '목적지',
   });
-
   const points = useMemo(() => {
     return features.flatMap(data => {
       const feature = data.features as PedestrianFeatures[];
@@ -68,6 +67,7 @@ function GeoDestinationMap({ start, end }: GeoDestinationMapProps) {
           setMapLevel(map.getLevel());
         }}
       >
+        {vehicle === 'publictransit' && ''}
         {!isFollowAlong && (
           <SelectTransportationFromGeoMap start={start} end={end} />
         )}

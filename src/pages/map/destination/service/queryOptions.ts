@@ -150,47 +150,7 @@ const getTransitDestinationQueryOptions = (
     transitRequest.endX,
     transitRequest.endY,
   ],
-  queryFn: async (): Promise<MultiplePathResponse[]> => {
-    const res = await getTransitDestinationPathInfo(transitRequest);
-
-    return res.metaData.plan.itineraries.map((itinerary, index) => {
-      const features: PedestrianFeatures[] = [];
-
-      itinerary.legs.forEach((leg, legIndex) => {
-        if (!leg.passShape) return;
-
-        const coords = leg.passShape.linestring
-          .split(';')
-          .map(pair => pair.split(',').map(Number) as [number, number]);
-
-        features.push({
-          type: 'Feature',
-          geometry: {
-            type: 'LineString',
-            coordinates: coords,
-          },
-          properties: {
-            index: legIndex,
-            lineIndex: index,
-            name: leg.mode,
-            description: `${leg.mode} - ${leg.start.name} → ${leg.end.name}`,
-            distance: leg.distance,
-            time: leg.sectionTime,
-            roadType: 21,
-            categoryRoadType: 0,
-            facilityType: 1,
-            facilityName: '',
-          },
-        });
-      });
-
-      return {
-        optionId: 0,
-        name: '추천',
-        features,
-      };
-    });
-  },
+  queryFn: () => getTransitDestinationPathInfo(transitRequest),
 });
 
 const destinationQueries = {

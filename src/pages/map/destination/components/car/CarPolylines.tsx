@@ -1,10 +1,10 @@
-import Point from './Point';
 import { Polyline } from 'react-kakao-maps-sdk';
 import { TRAFFIC } from '@/pages/const/TMAP';
 import type { CarFeatures, CarSearchOption } from '../../types';
 import type { PointProperties } from '../../types/carType';
 import isSelectedOptions from '../../lib/isSelectedOptions';
 import { useMapController } from '../../lib';
+import Point from '../Point';
 
 const getCoordinatesPointLines = (coords: number[][]) => {
   return coords.map(coord => ({

@@ -4,14 +4,14 @@ import type { GeoTripLocation } from '@/pages/types';
 import { Map } from 'react-kakao-maps-sdk';
 import { useStore } from 'zustand';
 import { useMapLevel, useTransportation } from '../../store';
-import { GetPolylines } from '../polylines';
 import { FollowAlong, SelectedFollow } from '../follow';
 import useFollowAlong from '../../store/useFollowAlong';
 import { CurrentDeviceLocation } from '@/pages/map/components';
 import GeoSearchOptions from '../GeoSearchOptions';
 import ResizingMap from '../ResizingMap';
 import { useMemo } from 'react';
-import type { PedestrianFeatures } from '../../types';
+import type { PedestrianFeatures, PedestrianSearchOption } from '../../types';
+import PedestrianPolylines from './PedestrianPolylines';
 
 interface PedestrianProps {
   start: GeoTripLocation;
@@ -60,9 +60,9 @@ export default function Pedestrian({ start, end }: PedestrianProps) {
       {pedestrianOptions &&
         pedestrianOptions.map(data => (
           <div key={`${vehicle}-${data.optionId}`}>
-            <GetPolylines
-              destination={data.features}
-              searchOption={data.optionId}
+            <PedestrianPolylines
+              destination={data.features as PedestrianFeatures[]}
+              searchOption={data.optionId as PedestrianSearchOption}
             />
             {isFollowAlong && data.optionId === searchOptions && (
               <SelectedFollow

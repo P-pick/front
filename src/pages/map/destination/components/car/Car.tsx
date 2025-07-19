@@ -4,14 +4,14 @@ import type { GeoTripLocation } from '@/pages/types';
 import { Map } from 'react-kakao-maps-sdk';
 import { useStore } from 'zustand';
 import { useMapLevel, useTransportation } from '../../store';
-import { GetPolylines } from '../polylines';
 import { FollowAlong, SelectedFollow } from '../follow';
 import useFollowAlong from '../../store/useFollowAlong';
 import { CurrentDeviceLocation } from '@/pages/map/components';
 import GeoSearchOptions from '../GeoSearchOptions';
 import ResizingMap from '../ResizingMap';
 import { useMemo } from 'react';
-import type { CarFeatures } from '../../types';
+import type { CarFeatures, CarSearchOption } from '../../types';
+import CarPolylines from './CarPolylines';
 
 interface CarProps {
   start: GeoTripLocation;
@@ -60,9 +60,9 @@ export default function Car({ start, end }: CarProps) {
       {carOptions &&
         carOptions.map(data => (
           <div key={`${vehicle}-${data.optionId}`}>
-            <GetPolylines
-              destination={data.features}
-              searchOption={data.optionId}
+            <CarPolylines
+              destination={data.features as CarFeatures[]}
+              searchOption={data.optionId as CarSearchOption}
             />
             {isFollowAlong && data.optionId === searchOptions && (
               <SelectedFollow

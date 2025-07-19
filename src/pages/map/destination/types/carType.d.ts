@@ -97,7 +97,7 @@ export type CarRequestBody = {
   directionOption?: DataDirectionOption;
   endX: number; // 목적지 경도
   endY: number; // 목적지 위도
-  endPoild: string; // 목적지의
+  endPoild?: string; // 목적지의
   endRpFlag?: string;
   reqCoordType?: CoordType; // 요청 좌표계, 기본값: "WGS84GEO"
   startX: number; // 출발지 경도
@@ -109,13 +109,13 @@ export type CarRequestBody = {
   carType?: CarType;
   startName: string;
   endName: string;
-  searchOption: SearchOption;
+  searchOption?: SearchOption;
   passList?: string; //경유지들의 X, Y좌표를 콤마와, _ 로 구분하여 순서대로 나열
   gpsInfoList?: string; // GPS 궤적 정보 목록
   detailPosFlag?: DetailPosFlag;
   resCoordType?: CoordType; // 응답 좌표계, 기본값: "WGS84GEO"
   sort?: 'index' | 'distance'; // 정렬 옵션, 기본값: "index"
-  totalValue: TotalValue; // 전체 응답 데이터 옵션
+  totalValue?: TotalValue; // 전체 응답 데이터 옵션
   trafficInfo?: 'Y' | 'N'; // 교통 정보 포함 여부
   mainRoadInfo?: 'Y' | 'N'; // 주요 도로 정보
 };

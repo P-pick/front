@@ -6,7 +6,7 @@ import type {
 } from '@/pages/types';
 import { infiniteQueryOptions, queryOptions } from '@tanstack/react-query';
 import type { LocationBasedInfiniteQueryParams } from '../types';
-import { getDetailImages, getLocationBasedItems, getTourDetailInfo } from './';
+import { getDetailImages, getLocationBasedItems, getTourDetailIntro } from './';
 
 const tourQueries = {
   locationBasedLists: () => ['locationBasedData'] as const,
@@ -46,10 +46,10 @@ const tourQueries = {
       queryKey: [...tourQueries.detail(contentId), 'images'],
       queryFn: () => getDetailImages(contentId),
     }),
-  detailInfo: (contentId: string, contentTypeId: AroundContentTypeId) =>
+  detailIntro: (contentId: string, contentTypeId: AroundContentTypeId) =>
     queryOptions({
       queryKey: [...tourQueries.detail(contentId), 'info', contentTypeId],
-      queryFn: () => getTourDetailInfo({ contentId, contentTypeId }),
+      queryFn: () => getTourDetailIntro({ contentId, contentTypeId }),
     }),
   detailCommon: (contentId: string) =>
     queryOptions({

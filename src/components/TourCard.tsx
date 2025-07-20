@@ -8,6 +8,7 @@ interface TourCardProps {
   imgUrl: string;
   tourTypeId: AroundContentTypeId;
   businessHours: string;
+  address: string;
 }
 export default function TourCard({
   title,
@@ -15,6 +16,7 @@ export default function TourCard({
   imgUrl,
   tourTypeId,
   businessHours,
+  address,
 }: TourCardProps) {
   return (
     <section>
@@ -30,7 +32,7 @@ export default function TourCard({
               className="text-primary-red font-bold"
               iconFill="text-primary-red "
             />
-            <span>서울 용산구</span>
+            <span>{address}</span>
           </div>
           <span>{businessHours}</span>
           <div className="flex items-center gap-4 mt-7">

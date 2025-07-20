@@ -1,22 +1,22 @@
 import { tourApi } from '@/config/instance';
 import type { ApiResponse, AroundContentTypeId } from '@/pages/types';
 
-type getTourDetailInfoRequest = {
+type getTourDetailIntroRequest = {
   contentId: string | null;
   contentTypeId: AroundContentTypeId;
 };
 
-interface getTourDetailInfoResponse {
+interface getTourDetailIntroResponse {
   playtime: string;
   usetimeculture: string;
   usetime: string;
 }
 
-const getTourDetailInfo = async ({
+const getTourDetailIntro = async ({
   contentId,
   contentTypeId,
-}: getTourDetailInfoRequest): Promise<getTourDetailInfoResponse> => {
-  const response = await tourApi.get<ApiResponse<getTourDetailInfoResponse[]>>(
+}: getTourDetailIntroRequest): Promise<getTourDetailIntroResponse> => {
+  const response = await tourApi.get<ApiResponse<getTourDetailIntroResponse[]>>(
     '/detailIntro2',
     {
       params: { contentId, contentTypeId },
@@ -31,4 +31,4 @@ const getTourDetailInfo = async ({
   return items.item[0];
 };
 
-export default getTourDetailInfo;
+export default getTourDetailIntro;

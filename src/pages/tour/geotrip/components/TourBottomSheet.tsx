@@ -1,7 +1,7 @@
 import { BottomSheet, LoadingSpinner } from '@/components';
 import { Suspense } from 'react';
 import type { TourSummary } from '../types';
-import { StartTripButton, TourCardContainer, TourOverView } from './';
+import { StartTripButton, TourCardContainer } from './';
 
 interface TourBottomSheetProps extends TourSummary {
   isOpen: boolean;
@@ -30,9 +30,6 @@ export default function TourBottomSheet({
             contenttypeid={contenttypeid}
             contentid={contentid}
           />
-        </Suspense>
-        <Suspense fallback={<LoadingSpinner />}>
-          <TourOverView contentId={contentid} />
         </Suspense>
         <div className="mt-4 w-full flex items-center justify-center">
           <StartTripButton

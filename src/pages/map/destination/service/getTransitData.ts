@@ -1,6 +1,8 @@
 import { tmapApi } from '@/config/instance';
-import type { TransitPlanResponse } from '../types';
-import type { TransitRequestBody } from '../types/transitType';
+import type {
+  TransitPlanResponse,
+  TransitRequestBody,
+} from '../publicTransit/type';
 
 const getTransitDestinationPathInfo = async (
   transitRequest: TransitRequestBody,

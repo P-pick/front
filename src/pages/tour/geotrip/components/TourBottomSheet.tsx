@@ -22,7 +22,13 @@ export default function TourBottomSheet({
   return (
     <BottomSheet isOpen={isOpen} onClose={onClose} showOverlay={false}>
       <div className="bg-white w-full">
-        <Suspense fallback={<LoadingSpinner />}>
+        <Suspense
+          fallback={
+            <div className="w-full flex justify-center">
+              <LoadingSpinner />
+            </div>
+          }
+        >
           <TourCardContainer
             title={title}
             dist={dist}

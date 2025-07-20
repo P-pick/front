@@ -10,7 +10,6 @@ interface TourSwiperViewProps {
   handleAppend: () => Promise<void>;
   handlePrepend: () => Promise<void>;
   slideEntries: SlideEntries[];
-  initialSlideIndex: number;
   openBottomSheet: () => void;
 }
 export default function TourSwiperView({
@@ -19,7 +18,6 @@ export default function TourSwiperView({
   handleAppend,
   handlePrepend,
   openBottomSheet,
-  initialSlideIndex,
   slideEntries,
 }: TourSwiperViewProps) {
   return (
@@ -30,7 +28,6 @@ export default function TourSwiperView({
       pagination={false}
       mousewheel={{ enabled: true, sensitivity: 1 }}
       className="h-full"
-      initialSlide={initialSlideIndex}
       onSwiper={onSwiper}
       onSlideChange={handleSlideChange}
       onReachEnd={handleAppend}

@@ -30,16 +30,11 @@ function TourSwiperContainer({
     radius: distance,
     contentTypeId: tourContentTypeId,
   });
-  const {
-    swiperRef,
-    onSwiper,
-    handlePrepend,
-    handleAppend,
-    initialSlideIndex,
-  } = useInfiniteSwiperControl({
-    fetchPrepend,
-    fetchAppend,
-  });
+  const { swiperRef, onSwiper, handlePrepend, handleAppend } =
+    useInfiniteSwiperControl({
+      fetchPrepend,
+      fetchAppend,
+    });
 
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
 
@@ -65,7 +60,6 @@ function TourSwiperContainer({
         handlePrepend={handlePrepend}
         handleSlideChange={handleSlideChange}
         onSwiper={onSwiper}
-        initialSlideIndex={initialSlideIndex}
         slideEntries={slideEntries}
         openBottomSheet={() => setIsBottomSheetOpen(true)}
       />

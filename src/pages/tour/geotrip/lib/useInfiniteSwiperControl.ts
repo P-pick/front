@@ -24,23 +24,25 @@ const useInfiniteSwiperControl = ({
   fetchPrepend,
   fetchAppend,
 }: UseInfiniteSwiperControlProps) => {
-  const swiperRef = useRef<SwiperType | null>(null);
-  const [initialSlideIndex, setInitialSlideIndex] = useState(
-    Number(sessionStorage.getItem('currentIndex') ?? 0),
-  );
+  const [isInitializing, setIsInitializing] = useState(true);
 
+  const swiperRef = useRef<SwiperType | null>(null);
   const onSwiper = async (swiper: SwiperType) => {
     swiperRef.current = swiper;
 
-    const currentIndex = initialSlideIndex;
+    const currentIndex = Number(sessionStorage.getItem('currentIndex') ?? 0);
+    const result = await fetchPrepend();
+    const prependLength = result?.data?.pages[0]?.items.item.length ?? 0;
 
-    if (currentIndex > 0) {
-      const result = await fetchPrepend();
-      const prependLength = result?.data?.pages[0]?.items.item.length ?? 0;
-      setInitialSlideIndex(currentIndex + prependLength);
-    } else {
-      setInitialSlideIndex(0);
-    }
+    const targetIndex = currentIndex + prependLength;
+
+    const handleSlidesUpdated = () => {
+      swiper.slideTo(targetIndex, 0);
+      swiper.off('slidesUpdated', handleSlidesUpdated);
+      setIsInitializing(false);
+    };
+
+    swiper.on('slidesUpdated', handleSlidesUpdated);
   };
 
   const handleAppend = async () => {
@@ -56,11 +58,11 @@ const useInfiniteSwiperControl = ({
   };
 
   return {
+    isInitializing,
     swiperRef,
     onSwiper,
     handlePrepend,
     handleAppend,
-    initialSlideIndex,
   };
 };
 

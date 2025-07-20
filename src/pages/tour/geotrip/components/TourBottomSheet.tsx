@@ -1,7 +1,7 @@
-import { BottomSheet, LoadingSpinner, TourCard } from '@/components';
+import { BottomSheet, LoadingSpinner } from '@/components';
 import { Suspense } from 'react';
 import type { TourSummary } from '../types';
-import { StartTripButton, TourOverView } from './';
+import { StartTripButton, TourCardContainer, TourOverView } from './';
 
 interface TourBottomSheetProps extends TourSummary {
   isOpen: boolean;
@@ -22,12 +22,15 @@ export default function TourBottomSheet({
   return (
     <BottomSheet isOpen={isOpen} onClose={onClose} showOverlay={false}>
       <div className="bg-white w-full">
-        <TourCard
-          title={title}
-          distance={dist}
-          imgUrl={firstimage || ''}
-          tourTypeId={contenttypeid}
-        />
+        <Suspense fallback={<LoadingSpinner />}>
+          <TourCardContainer
+            title={title}
+            dist={dist}
+            firstimage={firstimage}
+            contenttypeid={contenttypeid}
+            contentid={contentid}
+          />
+        </Suspense>
         <Suspense fallback={<LoadingSpinner />}>
           <TourOverView contentId={contentid} />
         </Suspense>

@@ -1,7 +1,11 @@
-import type { ResponseBody, TourItem } from '@/pages/types';
+import type {
+  AroundContentTypeId,
+  ResponseBody,
+  TourItem,
+} from '@/pages/types';
 import { infiniteQueryOptions, queryOptions } from '@tanstack/react-query';
 import type { LocationBasedInfiniteQueryParams } from '../types';
-import { getDetailImages, getLocationBasedItems } from './';
+import { getDetailImages, getLocationBasedItems, getTourDetailInfo } from './';
 
 const tourQueries = {
   locationBasedLists: () => ['locationBasedData'] as const,
@@ -40,6 +44,11 @@ const tourQueries = {
     queryOptions({
       queryKey: [...tourQueries.detail(contentId), 'images'],
       queryFn: () => getDetailImages(contentId),
+    }),
+  detailInfo: (contentId: string, contentTypeId: AroundContentTypeId) =>
+    queryOptions({
+      queryKey: [...tourQueries.detail(contentId), 'info', contentTypeId],
+      queryFn: () => getTourDetailInfo({ contentId, contentTypeId }),
     }),
 };
 

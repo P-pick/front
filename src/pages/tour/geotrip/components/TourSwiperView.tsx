@@ -13,6 +13,7 @@ interface TourSwiperViewProps {
   initialSlideIndex: number;
   openBottomSheet: () => void;
 }
+
 export default function TourSwiperView({
   handleSlideChange,
   onSwiper,

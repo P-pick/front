@@ -1,15 +1,15 @@
-import { FreeMode } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import DestinationDetail from './DestinationDetail';
+import type { CarMultiplePathResponse } from '../../types';
+import { FreeMode } from 'swiper/modules';
 import { useStore } from 'zustand';
-import { useTransportation } from '../store';
-import type { MultiplePathResponse } from '../types';
+import { useTransportation } from '../../store';
+import CarOptionDetail from './CarOptionDetail';
 
-interface DestinationDetailProps {
-  features: MultiplePathResponse[];
+interface CarOptionsProps {
+  options: CarMultiplePathResponse[];
 }
 
-export default function GeoSearchOptions({ features }: DestinationDetailProps) {
+export default function CarOptions({ options }: CarOptionsProps) {
   const { setSearchOptions } = useStore(useTransportation);
 
   return (
@@ -21,15 +21,15 @@ export default function GeoSearchOptions({ features }: DestinationDetailProps) {
         slidesPerView="auto"
         className="px-2 cursor-grab"
       >
-        {features.map(option => (
+        {options.map(option => (
           <SwiperSlide
             key={option.optionId}
             className="!w-auto mx-2 min-w-35"
             onClick={() => setSearchOptions(option.optionId)}
           >
-            <DestinationDetail
-              searchId={option.optionId}
-              searchName={option.name}
+            <CarOptionDetail
+              optionId={option.optionId}
+              name={option.name}
               features={option.features}
             />
           </SwiperSlide>

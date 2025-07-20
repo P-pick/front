@@ -142,3 +142,15 @@ export type MultiplePathResponse = {
   name: PedestrianOptionNames | CarOptionNames;
   features: PolyFeatures;
 };
+
+export type PedestrianMultiplePathResponse = {
+  optionId: SearchOptions;
+  name: PedestrianOptionNames;
+  features: PedestrianFeatures[];
+};
+
+export type CarMultiplePathResponse = {
+  optionId: SearchOptions;
+  name: CarOptionNames;
+  features: CarFeatures[];
+};

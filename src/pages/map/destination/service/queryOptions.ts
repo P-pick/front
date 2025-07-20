@@ -1,13 +1,8 @@
 import type {
-  CarFeatures,
-  CarOptionNames,
+  CarMultiplePathResponse,
   CarRequestBody,
-  CarSearchOption,
-  MultiplePathResponse,
-  PedestrianFeatures,
-  PedestrianOptionNames,
+  PedestrianMultiplePathResponse,
   PedestrianRequestBody,
-  SearchOptions,
 } from '../types';
 import type { TransitRequestBody } from '../types/transitType';
 import getCarDestinationPathInfo from './getCarData';
@@ -68,18 +63,10 @@ const PEDESTRAIN_SEARCH_OPTIONS = [
   },
 ] as const;
 
-const getPathResultFulfilled = (
-  results: PromiseSettledResult<{
-    optionId: SearchOptions;
-    name: CarOptionNames | PedestrianOptionNames;
-    features: CarFeatures[] | PedestrianFeatures[];
-  }>[],
-) => {
+const getPathResultFulfilled = <T>(results: PromiseSettledResult<T>[]) => {
   return results
     .filter(result => result.status === 'fulfilled')
-    .map(
-      result => (result as PromiseFulfilledResult<MultiplePathResponse>).value,
-    );
+    .map(result => (result as PromiseFulfilledResult<T>).value);
 };
 
 const getCarDestinationQueryOptions = (baseRequest: CarRequestBody) => ({
@@ -92,15 +79,15 @@ const getCarDestinationQueryOptions = (baseRequest: CarRequestBody) => ({
     baseRequest.startName,
     baseRequest.endName,
   ],
-  queryFn: async (): Promise<MultiplePathResponse[]> => {
+  queryFn: async (): Promise<CarMultiplePathResponse[]> => {
     const results = await Promise.allSettled(
       CAR_SEARCH_OPTIONS.map(searchOption =>
         getCarDestinationPathInfo({
           ...baseRequest,
-          searchOption: searchOption.id as CarSearchOption,
+          searchOption: searchOption.id,
         }).then(res => ({
-          optionId: searchOption.id as CarSearchOption,
-          name: searchOption.name as CarOptionNames,
+          optionId: searchOption.id,
+          name: searchOption.name,
           features: res.features,
         })),
       ),
@@ -122,7 +109,7 @@ const getPedestrianDestinationQueryOptions = (
     baseRequest.startName,
     baseRequest.endName,
   ],
-  queryFn: async (): Promise<MultiplePathResponse[]> => {
+  queryFn: async (): Promise<PedestrianMultiplePathResponse[]> => {
     const results = await Promise.allSettled(
       PEDESTRAIN_SEARCH_OPTIONS.map(searchOption =>
         getPedestrianDestinationPathInfo({

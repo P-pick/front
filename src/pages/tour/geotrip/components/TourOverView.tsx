@@ -5,7 +5,7 @@ interface TourOverViewProps {
 }
 
 export default function TourOverView({ contentId }: TourOverViewProps) {
-  const { data } = useSuspenseQuery(getTourDetailQueryOptions({contentId}))
+  const { data } = useSuspenseQuery(getTourDetailQueryOptions({ contentId }));
 
   return <div className="overflow-auto px-4">{data.overview}</div>;
 }

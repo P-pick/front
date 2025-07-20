@@ -1,3 +1,4 @@
+import getTourDetail from '@/pages/tour/service/getTourDetailCommon';
 import type {
   AroundContentTypeId,
   ResponseBody,
@@ -49,6 +50,11 @@ const tourQueries = {
     queryOptions({
       queryKey: [...tourQueries.detail(contentId), 'info', contentTypeId],
       queryFn: () => getTourDetailInfo({ contentId, contentTypeId }),
+    }),
+  detailCommon: (contentId: string) =>
+    queryOptions({
+      queryKey: [...tourQueries.detail(contentId), 'common'],
+      queryFn: () => getTourDetail({ contentId }), // Assuming '12' is a valid contentTypeId for common details
     }),
 };
 

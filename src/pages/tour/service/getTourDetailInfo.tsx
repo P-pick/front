@@ -8,6 +8,8 @@ type getTourDetailInfoRequest = {
 
 interface getTourDetailInfoResponse {
   playtime: string;
+  usetimeculture: string;
+  usetime: string;
 }
 
 const getTourDetailInfo = async ({

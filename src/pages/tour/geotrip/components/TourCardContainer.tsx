@@ -1,7 +1,7 @@
-import type { TourSummary } from '@/pages/tour/geotrip/types';
-import { tourQueries } from '../../service';
-import { useSuspenseQuery } from '@tanstack/react-query';
 import { TourCard } from '@/components';
+import type { TourSummary } from '@/pages/tour/geotrip/types';
+import { useSuspenseQuery } from '@tanstack/react-query';
+import { tourQueries } from '../../service';
 
 type TourCardContainerProps = Omit<TourSummary, 'mapx' | 'mapy'>;
 
@@ -15,7 +15,6 @@ export default function TourCardContainer({
   const { data } = useSuspenseQuery(
     tourQueries.detailInfo(contentid, contenttypeid),
   );
-  console.log(data.playtime);
 
   return (
     <TourCard
@@ -23,6 +22,7 @@ export default function TourCardContainer({
       distance={dist}
       imgUrl={firstimage || ''}
       tourTypeId={contenttypeid}
+      businessHours={data.usetimeculture || data.usetime || data.playtime}
     />
   );
 }

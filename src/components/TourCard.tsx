@@ -1,18 +1,20 @@
 import { commonSVG } from '@/assets';
-import { TourTypeBadge, DistanceTimeInfo } from './';
 import type { AroundContentTypeId } from '@/pages/types';
+import { DistanceTimeInfo, TourTypeBadge } from './';
 
 interface TourCardProps {
   title: string;
   distance: string;
   imgUrl: string;
   tourTypeId: AroundContentTypeId;
+  businessHours: string;
 }
 export default function TourCard({
   title,
   distance,
   imgUrl,
   tourTypeId,
+  businessHours,
 }: TourCardProps) {
   return (
     <section>
@@ -30,7 +32,7 @@ export default function TourCard({
             />
             <span>서울 용산구</span>
           </div>
-          <span>곧 영업 종료 20:00 에 영엄 종료</span>
+          <span>{businessHours}</span>
           <div className="flex items-center gap-4 mt-7">
             <commonSVG.HeartIcon />
             <commonSVG.ShareIcon />

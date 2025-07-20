@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import { Mousewheel, Navigation, Pagination, Virtual } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import type { Swiper as SwiperType } from 'swiper/types';
@@ -11,6 +12,7 @@ interface TourSwiperViewProps {
   handlePrepend: () => Promise<void>;
   slideEntries: SlideEntries[];
   openBottomSheet: () => void;
+  isInitializing: boolean;
 }
 export default function TourSwiperView({
   handleSlideChange,
@@ -19,7 +21,13 @@ export default function TourSwiperView({
   handlePrepend,
   openBottomSheet,
   slideEntries,
+  isInitializing,
 }: TourSwiperViewProps) {
+  const className = clsx(
+    isInitializing
+      ? 'opacity-0 pointer-events-none'
+      : 'h-full transition-opacity duration-300',
+  );
   return (
     <Swiper
       direction="vertical"
@@ -27,12 +35,11 @@ export default function TourSwiperView({
       modules={[Navigation, Pagination, Mousewheel, Virtual]}
       pagination={false}
       mousewheel={{ enabled: true, sensitivity: 1 }}
-      className="h-full"
+      className={className}
       onSwiper={onSwiper}
       onSlideChange={handleSlideChange}
       onReachEnd={handleAppend}
       onReachBeginning={handlePrepend}
-      virtual
     >
       {slideEntries.map(({ slide }, index) => (
         <SwiperSlide key={slide.contentid} virtualIndex={index}>

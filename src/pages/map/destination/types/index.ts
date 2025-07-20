@@ -9,7 +9,6 @@ import type {
   SearchOption as PedestrianSearchOptions,
   FacilityType as PedestrianFacilityType,
 } from './pedestrianType';
-import type { Itinerary } from './transitType';
 
 export type {
   TollgateFareOption as CarTollgateFareOption,
@@ -48,8 +47,6 @@ export type {
   PedestrianResponse,
   PedestrianRequestBody,
 } from './pedestrianType';
-
-export type { TransitPlanResponse } from './transitType';
 
 export type TurnType =
   | 11 //직진
@@ -131,11 +128,7 @@ export type CarOptionNames =
   | '이륜차도로우선'
   | '어린이보호구역 회피';
 
-export type PolyFeatures =
-  | PedestrianFeatures[]
-  | CarFeatures[]
-  | Itinerary[]
-  | undefined;
+export type PolyFeatures = PedestrianFeatures[] | CarFeatures[] | undefined;
 export type SearchOptions = CarSearchOptions | PedestrianSearchOptions;
 export type MultiplePathResponse = {
   optionId: SearchOptions;

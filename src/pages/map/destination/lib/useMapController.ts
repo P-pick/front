@@ -61,7 +61,7 @@ const useMapController = () => {
       bounds.extend(new kakao.maps.LatLng(point.lat, point.lng));
     });
     if (map && points.length > 0) {
-      map.setBounds(bounds, 100, 0, 150, 0);
+      map.setBounds(bounds, -50, 20, 150, 20);
     }
   };
 

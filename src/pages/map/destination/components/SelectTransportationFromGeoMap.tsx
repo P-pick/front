@@ -40,7 +40,7 @@ export default function SelectTransportationFromGeoMap({
   }
 
   return (
-    <div className="absolute top-0 left-0 px-5 w-full h-auto bg-white z-(--z-layer2)">
+    <div className="px-5 w-full h-auto bg-white z-(--z-layer2)">
       <div className="border-1 rounded-2xl w-full border-gray-300 flex justify-between items-center py-3 px-6">
         <div className="flex justify-center items-center gap-2 text-xs font-bold">
           <destinationSVG.StartPoint width={10} height={10} />

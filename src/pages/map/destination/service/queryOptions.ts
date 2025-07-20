@@ -1,10 +1,10 @@
+import type { TransitRequestBody } from '../publicTransit/type';
 import type {
   CarMultiplePathResponse,
   CarRequestBody,
   PedestrianMultiplePathResponse,
   PedestrianRequestBody,
 } from '../types';
-import type { TransitRequestBody } from '../types/transitType';
 import getCarDestinationPathInfo from './getCarData';
 import getPedestrianDestinationPathInfo from './getPedestrianData';
 import getTransitDestinationPathInfo from './getTransitData';

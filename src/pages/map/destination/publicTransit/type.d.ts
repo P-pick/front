@@ -70,14 +70,13 @@ type LegBase = {
 };
 
 // 도보 구간
-type WalkLeg = LegBase & {
+export type WalkLeg = LegBase & {
   mode: 'WALK';
   steps?: WalkStep[];
-  passShape?: PassShape;
 };
 
 // 지하철 구간
-type SubwayLeg = LegBase & {
+export type SubwayLeg = LegBase & {
   mode: 'SUBWAY';
   routeColor: string;
   route: string;
@@ -91,7 +90,7 @@ type SubwayLeg = LegBase & {
 };
 
 // 버스 구간
-type BusLeg = LegBase & {
+export type BusLeg = LegBase & {
   mode: 'BUS';
   routeColor: string;
   route: string;
@@ -105,7 +104,7 @@ type BusLeg = LegBase & {
 };
 
 // 하나의 이동 경로
-type Itinerary = {
+export type Itinerary = {
   fare: Fare;
   totalTime: number;
   totalWalkTime: number;
@@ -122,7 +121,7 @@ type TransitPlan = {
 };
 
 // 요청 파라미터 정보
-type RequestParameters = {
+export type RequestParameters = {
   busCount: number;
   expressbusCount: number;
   subwayCount: number;

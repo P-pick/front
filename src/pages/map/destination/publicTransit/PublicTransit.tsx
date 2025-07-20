@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
-import destinationQueries from '../../service/queryOptions';
 import type { GeoTripLocation } from '@/pages/types';
 import { useMemo } from 'react';
+import destinationQueries from '../service/queryOptions';
 
 interface PublicTransitProps {
   start: GeoTripLocation;

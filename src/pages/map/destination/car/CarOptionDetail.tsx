@@ -1,10 +1,10 @@
 import { useStore } from 'zustand';
-import type { CarMultiplePathResponse } from '../../types';
-import { useTransportation } from '../../store';
 import { useMemo } from 'react';
 import { gettingConversion } from '@/pages/map/lib';
 import clsx from 'clsx';
 import getCarFollowList from './getCarFollowList';
+import type { CarMultiplePathResponse } from '../types';
+import { useTransportation } from '../store';
 
 export default function CarOptionDetail({
   optionId,

@@ -1,10 +1,10 @@
 import { useMemo } from 'react';
-import type { PedestrianMultiplePathResponse } from '../../types';
 import getPedestrianFollowList from './getPedestrianFollowList';
 import { useStore } from 'zustand';
-import { useTransportation } from '../../store';
 import { gettingConversion } from '@/pages/map/lib';
 import clsx from 'clsx';
+import type { PedestrianMultiplePathResponse } from '../types';
+import { useTransportation } from '../store';
 
 export default function PedestrianOptionDetail({
   optionId,

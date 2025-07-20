@@ -2,7 +2,7 @@ import type {
   CarFeatures,
   CarFollowFeature,
   CarPointProperties,
-} from '../../types';
+} from '../types';
 
 const getCarFollowList = (
   destination: CarFeatures[] = [],

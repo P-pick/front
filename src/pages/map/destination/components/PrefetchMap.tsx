@@ -1,8 +1,8 @@
 import { Map } from 'react-kakao-maps-sdk';
-import type { CarFollowFeature, PedestrianFollowFeature } from '../../types';
 import { useStore } from 'zustand';
-import useFollowAlong from '../../store/useFollowAlong';
 import { useMemo } from 'react';
+import useFollowAlong from '../store/useFollowAlong';
+import type { CarFollowFeature, PedestrianFollowFeature } from '../types';
 
 interface PrefetchMapProps {
   followList: PedestrianFollowFeature[] | CarFollowFeature[];

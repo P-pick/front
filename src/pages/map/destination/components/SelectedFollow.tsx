@@ -1,15 +1,15 @@
 import { useLayoutEffect, useRef } from 'react';
 import { useDebouncedCallback } from '@/lib/useDebouncedCallback';
-import type { CarFollowFeature, PedestrianFollowFeature } from '../../types';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
 import { useStore } from 'zustand';
-import useFollowAlong from '../../store/useFollowAlong';
 import type { Swiper as SwiperType } from 'swiper/types';
 import type { GeoTripLocation } from '@/pages/types';
 import FollowElement from './FollowElement';
 import PrefetchMap from './PrefetchMap';
-import { useMapController } from '../../lib';
+import type { CarFollowFeature, PedestrianFollowFeature } from '../types';
+import { useMapController } from '../lib';
+import useFollowAlong from '../store/useFollowAlong';
 
 interface SelectedFollowProps {
   followList: PedestrianFollowFeature[] | CarFollowFeature[];

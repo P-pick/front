@@ -1,8 +1,8 @@
 import React from 'react';
-import type { PedestrianFeatures } from '../../types';
-import { SelectedFollow } from '../follow';
 import type { GeoTripLocation } from '@/pages/types';
 import getPedestrianFollowList from './getPedestrianFollowList';
+import type { PedestrianFeatures } from '../types';
+import { SelectedFollow } from '../components';
 
 const PedestrianFollowList = ({
   start,

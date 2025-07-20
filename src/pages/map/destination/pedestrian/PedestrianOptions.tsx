@@ -1,9 +1,9 @@
 import { useStore } from 'zustand';
-import type { PedestrianMultiplePathResponse } from '../../types';
-import { useTransportation } from '../../store';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { FreeMode } from 'swiper/modules';
 import PedestrianOptionDetail from './PedestrianOptionDetail';
+import type { PedestrianMultiplePathResponse } from '../types';
+import { useTransportation } from '../store';
 
 interface PedestrianOptionsProps {
   options: PedestrianMultiplePathResponse[];

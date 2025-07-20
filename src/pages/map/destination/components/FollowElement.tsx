@@ -1,8 +1,8 @@
 import { followInfo } from '@/pages/const/FOLLOW';
-import type { CarFollowFeature, PedestrianFollowFeature } from '../../types';
 import { commonSVG } from '@/assets';
 import { useStore } from 'zustand';
-import useFollowAlong from '../../store/useFollowAlong';
+import type { CarFollowFeature, PedestrianFollowFeature } from '../types';
+import useFollowAlong from '../store/useFollowAlong';
 
 interface FollowElementProps {
   option: CarFollowFeature | PedestrianFollowFeature;

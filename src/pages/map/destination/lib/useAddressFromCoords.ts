@@ -1,7 +1,7 @@
 import type { GeoTripLocation } from '@/pages/types';
 import { useEffect, useState } from 'react';
 
-export function useAddressFromCoords({ lng, lat }: GeoTripLocation) {
+export default function useAddressFromCoords({ lng, lat }: GeoTripLocation) {
   const [address, setAddress] = useState<string>('');
 
   useEffect(() => {

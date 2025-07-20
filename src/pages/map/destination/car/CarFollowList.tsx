@@ -1,8 +1,8 @@
 import React from 'react';
-import type { CarFeatures } from '../../types';
 import type { GeoTripLocation } from '@/pages/types';
-import { SelectedFollow } from '../follow';
 import getCarFollowList from './getCarFollowList';
+import type { CarFeatures } from '../types';
+import { SelectedFollow } from '../components';
 
 const CarFollowList = ({
   start,

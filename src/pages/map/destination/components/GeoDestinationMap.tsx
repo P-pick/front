@@ -2,11 +2,11 @@ import type { GeoTripLocation } from '@/pages/types';
 import { useStore } from 'zustand';
 import { useTransportation } from '../store';
 import withDestination from './withDestination';
-import PublicTransit from './publicTransit/PublicTransit';
-import { Pedestrian } from './pedestrian';
-import { Car } from './car';
 import { LoadingSpinner } from '@/components';
 import handleRedirectTransportation from '../service/redirectTransportation';
+import { Pedestrian } from '../pedestrian';
+import { Car } from '../car';
+import PublicTransit from '../publicTransit/PublicTransit';
 
 interface GeoDestinationMapProps {
   start: GeoTripLocation;

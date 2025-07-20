@@ -6,7 +6,7 @@ import { truncate } from '@/lib';
 import { useTransportation } from '../store';
 import type { TransportationType } from '../types';
 import type { GeoTripLocation } from '@/pages/types';
-import { useAddressFromCoords } from '../lib/useAddressFromCoords';
+import { useAddressFromCoords } from '../lib';
 
 interface SelectTransportationFromGeoMapProps {
   start: GeoTripLocation;

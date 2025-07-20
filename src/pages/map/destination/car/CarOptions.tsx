@@ -1,9 +1,9 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
-import type { CarMultiplePathResponse } from '../../types';
 import { FreeMode } from 'swiper/modules';
 import { useStore } from 'zustand';
-import { useTransportation } from '../../store';
 import CarOptionDetail from './CarOptionDetail';
+import type { CarMultiplePathResponse } from '../types';
+import { useTransportation } from '../store';
 
 interface CarOptionsProps {
   options: CarMultiplePathResponse[];

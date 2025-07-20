@@ -1,31 +1,30 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
-import destinationQueries from '../../service/queryOptions';
 import type { GeoTripLocation } from '@/pages/types';
 import { Map } from 'react-kakao-maps-sdk';
 import { useStore } from 'zustand';
-import { useMapLevel, useTransportation } from '../../store';
-import { FollowAlong } from '../follow';
-import useFollowAlong from '../../store/useFollowAlong';
 import { CurrentDeviceLocation } from '@/pages/map/components';
-import ResizingMap from '../ResizingMap';
 import { useMemo } from 'react';
-import type { PedestrianFeatures, PedestrianSearchOption } from '../../types';
-import PedestrianPolylines from './PedestrianPolylines';
-import PedestrianFollowList from './PedestrianFollowList';
-import PedestrianOptions from './PedestrianOptions';
+import CarPolylines from './CarPolylines';
+import CarFollowList from './CarFollowList';
+import CarOptions from './CarOptions';
+import { useMapLevel, useTransportation } from '../store';
+import useFollowAlong from '../store/useFollowAlong';
+import type { CarFeatures, CarSearchOption } from '../types';
+import destinationQueries from '../service/queryOptions';
+import { FollowAlong, ResizingMap } from '../components';
 
-interface PedestrianProps {
+interface CarProps {
   start: GeoTripLocation;
   end: GeoTripLocation;
 }
 
-export default function Pedestrian({ start, end }: PedestrianProps) {
+export default function Car({ start, end }: CarProps) {
   const { vehicle, searchOptions } = useStore(useTransportation);
   const { mapLevel, setMapLevel } = useStore(useMapLevel);
   const { isFollowAlong } = useStore(useFollowAlong);
 
-  const pedestrianOptions = useSuspenseQuery(
-    destinationQueries.pedestrian({
+  const carOptions = useSuspenseQuery(
+    destinationQueries.car({
       startX: start.lng,
       startY: start.lat,
       endX: end.lng,
@@ -36,8 +35,8 @@ export default function Pedestrian({ start, end }: PedestrianProps) {
   ).data;
 
   const points = useMemo(() => {
-    return pedestrianOptions.flatMap(data => {
-      const feature = data.features as PedestrianFeatures[];
+    return carOptions.flatMap(data => {
+      const feature = data.features as CarFeatures[];
       return feature
         .filter(filterData => filterData.geometry.type === 'Point')
         .map(point => ({
@@ -45,11 +44,11 @@ export default function Pedestrian({ start, end }: PedestrianProps) {
           lng: point.geometry.coordinates[0],
         }));
     }) as GeoTripLocation[];
-  }, [pedestrianOptions]);
+  }, [carOptions]);
 
   return (
     <Map
-      id="pedestrian-map"
+      id="car-map"
       className="flex-1 relative w-full h-full"
       center={start}
       level={mapLevel}
@@ -58,22 +57,22 @@ export default function Pedestrian({ start, end }: PedestrianProps) {
       }}
     >
       <ResizingMap points={points} />
-      {pedestrianOptions &&
-        pedestrianOptions.map(data => (
+      {carOptions &&
+        carOptions.map(data => (
           <div key={`${vehicle}-${data.optionId}`}>
-            <PedestrianPolylines
-              destination={data.features as PedestrianFeatures[]}
-              searchOption={data.optionId as PedestrianSearchOption}
+            <CarPolylines
+              destination={data.features as CarFeatures[]}
+              searchOption={data.optionId as CarSearchOption}
             />
             {isFollowAlong && data.optionId === searchOptions && (
-              <PedestrianFollowList start={start} destination={data.features} />
+              <CarFollowList start={start} destination={data.features} />
             )}
           </div>
         ))}
       <CurrentDeviceLocation />
       {!isFollowAlong && (
         <>
-          <PedestrianOptions options={pedestrianOptions} />
+          <CarOptions options={carOptions} />
           <FollowAlong />
         </>
       )}

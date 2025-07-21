@@ -1,5 +1,5 @@
-import { BottomSheet, LoadingSpinner, TourCard } from '@/components';
-import { TourOverView } from '@/pages/tour/geotrip/components';
+import { BottomSheet, LoadingSpinner } from '@/components';
+import { TourCardContainer } from '@/pages/tour/geotrip/components';
 import { useStartTrip } from '@/pages/tour/geotrip/lib';
 import type { TourItem } from '@/pages/types';
 import { Suspense } from 'react';
@@ -35,15 +35,14 @@ export default function AroundContent({
       onClose={() => setOpenAttractionDetail(false)}
     >
       <div className="bg-white w-full">
-        <TourCard
-          title={tourist.title}
-          distance={tourist.dist}
-          imgUrl={tourist.firstimage || ''}
-          tourTypeId={tourist.contenttypeid}
-        />
         <div className="flex-1">
           <Suspense fallback={<LoadingSpinnerInTourist />}>
-            <TourOverView contentId={tourist.contentid} />
+            <TourCardContainer
+              contentid={tourist.contentid}
+              contenttypeid={tourist.contenttypeid}
+              title={tourist.title}
+              dist={tourist.dist}
+            />
           </Suspense>
         </div>
       </div>

@@ -1,11 +1,11 @@
 import { MapMarker, Polyline } from 'react-kakao-maps-sdk';
-import type { BusLeg, SubwayLeg, WalkLeg } from './type';
+import type { TransitLeg } from './type';
 import { getCoordinatesPointLines } from '../lib';
 import { useStore } from 'zustand';
 import { useMapLevel } from '../store';
 
 interface PublicTransitProps {
-  leg: WalkLeg | SubwayLeg | BusLeg;
+  leg: TransitLeg;
 }
 
 export default function PublicTransitPolylines({ leg }: PublicTransitProps) {
@@ -64,7 +64,7 @@ export default function PublicTransitPolylines({ leg }: PublicTransitProps) {
                   lng: Number(station.lon),
                 }}
                 image={{
-                  src: '/pointIcon.svg',
+                  src: `/publictransit/subway_${leg.type}line.svg`,
                   size: { width: 24, height: 24 },
                 }}
               ></MapMarker>
@@ -101,6 +101,44 @@ export default function PublicTransitPolylines({ leg }: PublicTransitProps) {
                 position={{
                   lat: Number(stop.lat),
                   lng: Number(stop.lon),
+                }}
+                image={{
+                  src: `/publictransit/bus_${leg.type}.svg`,
+                  size: { width: 24, height: 24 },
+                }}
+              ></MapMarker>
+            );
+          })}
+      </>
+    );
+  }
+
+  if (leg.mode === 'TRAIN') {
+    if (!leg.passShape) {
+      return null;
+    }
+    const coordinates = leg.passShape.linestring
+      .split(' ')
+      .map(coord => coord.split(',').map(Number));
+    const path = getCoordinatesPointLines(coordinates);
+
+    return (
+      <>
+        <Polyline
+          key={`public-transit-train-${leg.routeId}-${leg.start.name}`}
+          path={path}
+          strokeColor={`#${leg.routeColor}`}
+          strokeOpacity={0.8}
+          strokeWeight={5}
+        />
+        {mapLevel < 6 &&
+          leg.passStopList.stationList.map(station => {
+            return (
+              <MapMarker
+                key={station.stationID}
+                position={{
+                  lat: Number(station.lat),
+                  lng: Number(station.lon),
                 }}
                 image={{
                   src: '/pointIcon.svg',

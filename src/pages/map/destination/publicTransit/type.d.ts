@@ -103,6 +103,34 @@ export type BusLeg = LegBase & {
   passShape?: PassShape;
 };
 
+// 기차 노선 정보
+type TrainLane = {
+  routeColor: string;
+  route: string;
+  routeId: string;
+  service: number;
+  type: number;
+};
+
+// 기차 구간
+export type TrainLeg = Omit<LegBase, 'mode'> & {
+  mode: 'TRAIN';
+  routeColor: string;
+  distance: number;
+  route: string;
+  routeId: string;
+  service: number;
+  type: number;
+  Lane: TrainLane[];
+  passStopList: {
+    stationList: Station[];
+  };
+  passShape?: PassShape;
+  routePayment: number;
+};
+
+export type TransitLeg = WalkLeg | SubwayLeg | BusLeg | TrainLeg;
+
 // 하나의 이동 경로
 export type Itinerary = {
   fare: Fare;
@@ -112,7 +140,7 @@ export type Itinerary = {
   totalDistance: number;
   pathType: number;
   totalWalkDistance: number;
-  legs: Array<WalkLeg | SubwayLeg | BusLeg>;
+  legs: Array<TransitLeg>;
 };
 
 // 전체 계획

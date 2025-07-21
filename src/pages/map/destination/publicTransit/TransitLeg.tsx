@@ -1,7 +1,7 @@
-import type { BusLeg, SubwayLeg, WalkLeg } from './type';
+import type { TransitLeg } from './type';
 
 interface TransitLegProps {
-  leg: WalkLeg | SubwayLeg | BusLeg;
+  leg: TransitLeg;
 }
 
 export default function TransitLeg({ leg }: TransitLegProps) {

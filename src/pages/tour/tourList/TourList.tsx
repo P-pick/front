@@ -1,7 +1,7 @@
-import TourListContainer from '@/pages/tour/tourList/components/TourListContainer';
+import { SkeletonCard, TouristFilterQueryUpdater } from '@/features/tour';
+import TourListContainer from '@/features/tour/ui/TourListContainer';
 import { Header } from '@/shared/ui';
 import { Suspense } from 'react';
-import { SkeletonCard, TouristFilterQueryUpdater } from './components';
 const fallbackList = [1, 2, 3, 4, 5];
 
 export default function TourList() {

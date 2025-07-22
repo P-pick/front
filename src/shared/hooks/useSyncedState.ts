@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
-const useSyncedState = <T>(
-  externalValue: T
+export const useSyncedState = <T>(
+  externalValue: T,
 ): [T, React.Dispatch<React.SetStateAction<T>>] => {
   const [localValue, setLocalValue] = useState(externalValue);
 
@@ -11,5 +11,3 @@ const useSyncedState = <T>(
 
   return [localValue, setLocalValue];
 };
-
-export default useSyncedState;

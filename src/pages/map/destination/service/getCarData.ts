@@ -1,3 +1,4 @@
+import { tmapApi } from '@/shared';
 import type {
   CarOptionNames,
   CarRequestBody,
@@ -5,7 +6,6 @@ import type {
   CarSearchOption,
   MultiplePathResponse,
 } from '../types';
-import { tmapApi } from '@/config/instance';
 
 const SEARCH_OPTIONS = [
   {

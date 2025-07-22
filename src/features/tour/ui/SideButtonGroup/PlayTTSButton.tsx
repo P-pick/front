@@ -1,5 +1,5 @@
 import { commonSVG } from '@/assets';
-import useTTS from '../../lib/useTTS';
+import { useTTS } from '../../lib';
 
 interface PlayTTSButtonProps {
   text: string;

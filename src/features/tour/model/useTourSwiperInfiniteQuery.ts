@@ -1,5 +1,7 @@
-import { tourQueries } from '@/entities/tour';
-import type { LocationBasedInfiniteQueryParams } from '@/pages/tour/types';
+import {
+  tourQueries,
+  type LocationBasedInfiniteQueryParams,
+} from '@/entities/tour';
 import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 

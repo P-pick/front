@@ -1,4 +1,4 @@
-import { tourQueries } from '@/pages/tour/service';
+import { tourQueries } from '@/entities/tour';
 import { useSuspenseQuery } from '@tanstack/react-query';
 
 interface TourCardImagesProps {

@@ -1,8 +1,4 @@
 import type { AroundContentTypeId } from '@/entities/tour';
-import { withGeoTripParams } from '@/features/tour/lib';
-import type { GeoTripLocation } from '@/shared';
-import { useState } from 'react';
-import type { Swiper as SwiperType } from 'swiper/types';
 import {
   persistSlideSession,
   TourBottomSheet,
@@ -10,8 +6,12 @@ import {
   TourSwiperView,
   useInfiniteSwiperControl,
   useTourSwiperInfiniteQuery,
-} from '../';
-import { SideButtonGroup } from './SideButtonGroup';
+} from '@/features/tour';
+import { withGeoTripParams } from '@/features/tour/lib';
+import { SideButtonGroup } from '@/features/tour/ui/SideButtonGroup';
+import type { GeoTripLocation } from '@/shared';
+import { useState } from 'react';
+import type { Swiper as SwiperType } from 'swiper/types';
 
 interface TourSwiperContainerProps {
   location: GeoTripLocation;

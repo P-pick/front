@@ -1,7 +1,12 @@
-import type { ResponseBody, TourItem } from '@/pages/types';
+import getTourDetail from '@/pages/tour/service/getTourDetailCommon';
+import type {
+  AroundContentTypeId,
+  ResponseBody,
+  TourItem,
+} from '@/pages/types';
 import { infiniteQueryOptions, queryOptions } from '@tanstack/react-query';
 import type { LocationBasedInfiniteQueryParams } from '../types';
-import { getDetailImages, getLocationBasedItems } from './';
+import { getDetailImages, getLocationBasedItems, getTourDetailIntro } from './';
 
 const tourQueries = {
   locationBasedLists: () => ['locationBasedData'] as const,
@@ -40,6 +45,16 @@ const tourQueries = {
     queryOptions({
       queryKey: [...tourQueries.detail(contentId), 'images'],
       queryFn: () => getDetailImages(contentId),
+    }),
+  detailIntro: (contentId: string, contentTypeId: AroundContentTypeId) =>
+    queryOptions({
+      queryKey: [...tourQueries.detail(contentId), 'info', contentTypeId],
+      queryFn: () => getTourDetailIntro({ contentId, contentTypeId }),
+    }),
+  detailCommon: (contentId: string) =>
+    queryOptions({
+      queryKey: [...tourQueries.detail(contentId), 'common'],
+      queryFn: () => getTourDetail({ contentId }), // Assuming '12' is a valid contentTypeId for common details
     }),
 };
 

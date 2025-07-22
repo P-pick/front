@@ -14,6 +14,7 @@ interface TourSwiperViewProps {
   openBottomSheet: () => void;
   isInitializing: boolean;
 }
+
 export default function TourSwiperView({
   handleSlideChange,
   onSwiper,

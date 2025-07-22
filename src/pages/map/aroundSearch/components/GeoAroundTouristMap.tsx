@@ -3,7 +3,7 @@ import type {
   GeoTripLocation,
   TourItem,
 } from '@/pages/types';
-import { TouristContentsTypeFilter } from '@/shared';
+import { TouristContentsTypeFilter } from '@/shared/ui';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo, useRef, useState } from 'react';
 import { Map } from 'react-kakao-maps-sdk';

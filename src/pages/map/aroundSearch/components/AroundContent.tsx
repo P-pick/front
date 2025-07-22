@@ -1,7 +1,7 @@
 import { TourCardContainer } from '@/pages/tour/geotrip/components';
 import { useStartTrip } from '@/pages/tour/geotrip/lib';
 import type { TourItem } from '@/pages/types';
-import { BottomSheet, LoadingSpinner } from '@/shared';
+import { BottomSheet, LoadingSpinner } from '@/shared/ui';
 import { Suspense } from 'react';
 
 function LoadingSpinnerInTourist() {

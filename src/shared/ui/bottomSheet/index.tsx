@@ -1,4 +1,4 @@
-import { Portal } from '@/shared';
+import { Portal } from '@/shared/ui';
 import clsx from 'clsx';
 import {
   AnimatePresence,

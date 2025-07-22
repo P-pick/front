@@ -1,6 +1,6 @@
 import { useCurrentLocation } from '@/lib';
 import type { GeoTripLocation } from '@/pages/types';
-import { LoadingSpinner } from '@/shared';
+import { LoadingSpinner } from '@/shared/ui';
 import { useSearchParams } from 'react-router-dom';
 import { isValidationLocation } from '../../lib';
 

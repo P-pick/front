@@ -1,4 +1,4 @@
-import { LoadingSpinner } from '@/shared';
+import { LoadingSpinner } from '@/shared/ui';
 import { Suspense } from 'react';
 import { GeoDestinationMap } from './components';
 

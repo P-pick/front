@@ -1,5 +1,5 @@
 import useCurrentLocation from '@/lib/useCurrentLocation';
-import { LoadingSpinner } from '@/shared';
+import { LoadingSpinner } from '@/shared/ui';
 import { Suspense } from 'react';
 import { isValidationLocation } from '../lib';
 import GeoAroundTouristMap from './components/GeoAroundTouristMap';

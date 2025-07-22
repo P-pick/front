@@ -2,7 +2,7 @@ import { commonSVG, destinationSVG } from '@/assets';
 import { truncate } from '@/lib';
 import { selectedTransportationList } from '@/pages/const/TRANSPORT';
 import type { GeoTripLocation } from '@/pages/types';
-import { LoadingSpinner } from '@/shared';
+import { LoadingSpinner } from '@/shared/ui';
 import clsx from 'clsx';
 import { useStore } from 'zustand';
 import { useAddressFromCoords } from '../lib/useAddressFromCoords';

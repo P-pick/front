@@ -11,17 +11,26 @@ export default function TransitLeg({ leg }: TransitLegProps) {
 
   if (leg.mode === 'SUBWAY') {
     return (
-      <div className="flex gap-2 justify-start items-start">
-        <span
-          className="text-white w-4 h-4 p-3 flex justify-center items-center rounded-full"
-          style={{ backgroundColor: `#${leg.routeColor}` }}
-        >
-          {leg.type}
-        </span>
-        <div>
-          <p>{leg.start.name}역</p>
+      <>
+        <div className="flex gap-2 justify-start items-start">
+          <span
+            className="text-white w-4 h-4 p-3 flex justify-center items-center rounded-full"
+            style={{ backgroundColor: `#${leg.routeColor}` }}
+          >
+            {leg.type}
+          </span>
+          <div>
+            <p>{leg.start.name}역</p>
+          </div>
         </div>
-      </div>
+        <div className="flex gap-2 justify-start items-start">
+          <span
+            className="relative left-1.5 top-1.5 w-3 h-3 bg-white flex justify-center items-center rounded-full border-3"
+            style={{ border: `3px solid#${leg.routeColor}` }}
+          ></span>
+          <p className="pl-2.5">{leg.end.name}</p>
+        </div>
+      </>
     );
   }
 

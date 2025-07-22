@@ -1,4 +1,4 @@
-import { MenuIcon, BackButton } from '@/components/';
+import { BackButton, MenuIcon } from '@/shared';
 import type { PropsWithChildren } from 'react';
 
 export default function Header({

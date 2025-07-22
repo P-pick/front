@@ -1,8 +1,8 @@
 import { useCurrentLocation } from '@/lib';
+import type { GeoTripLocation } from '@/pages/types';
+import { LoadingSpinner } from '@/shared';
 import { useSearchParams } from 'react-router-dom';
 import { isValidationLocation } from '../../lib';
-import { LoadingSpinner } from '@/components';
-import type { GeoTripLocation } from '@/pages/types';
 
 interface WithDestinationProps {
   start: GeoTripLocation;

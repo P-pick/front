@@ -1,4 +1,4 @@
-import { LoadingSpinner } from '@/components';
+import { LoadingSpinner } from '@/shared';
 
 interface TourSwiperLoadingOverlayProps {
   isInitializing: boolean;

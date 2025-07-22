@@ -1,4 +1,4 @@
-import { Portal } from '@/components';
+import { Portal } from '@/shared';
 import clsx from 'clsx';
 import {
   AnimatePresence,

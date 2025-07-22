@@ -1,5 +1,4 @@
-import { LoadingSpinner } from '@/components';
-import Header from '@/components/Header';
+import { Header, LoadingSpinner } from '@/shared';
 import { Suspense } from 'react';
 import { TourSwiperContainer } from './components';
 

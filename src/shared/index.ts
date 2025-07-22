@@ -1,6 +1,7 @@
 export { default as BackButton } from './BackButton';
 export * from './bottomSheet';
 export { default as DistanceTimeInfo } from './DistanceTimeInfo';
+export { default as Header } from './Header';
 export { default as LoadingSpinner } from './LoadingSpinner';
 export { default as MenuIcon } from './MenuIcon';
 export { default as Portal } from './Portal';

@@ -1,4 +1,4 @@
-import { BottomSheet, LoadingSpinner } from '@/components';
+import { BottomSheet, LoadingSpinner } from '@/shared';
 import { Suspense } from 'react';
 import type { TourSummary } from '../types';
 import { StartTripButton, TourCardContainer } from './';

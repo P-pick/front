@@ -1,5 +1,5 @@
 import { commonSVG } from '@/assets';
-import { DistanceTimeInfo, LoadingSpinner } from '@/components';
+import { DistanceTimeInfo, LoadingSpinner } from '@/shared';
 
 import type { TourItem } from '@/pages/types';
 import { Suspense } from 'react';

@@ -1,14 +1,14 @@
 // hooks/useTTS.ts
-import { useRef, useEffect, useCallback } from 'react';
-import { usePollySpeechMutation } from '../service';
+import { usePollySpeechMutation } from '@/features/tour';
 import type { VoiceId } from '@aws-sdk/client-polly';
+import { useCallback, useEffect, useRef } from 'react';
 
 interface UseTTSOptions {
   voiceId: VoiceId;
   autoPlay?: boolean;
 }
 
-const useTTS = (text: string, options?: UseTTSOptions) => {
+export const useTTS = (text: string, options?: UseTTSOptions) => {
   const { autoPlay = true, voiceId = 'Seoyeon' } = options || {};
   const { mutate, ...dist } = usePollySpeechMutation({ voiceId });
   const audioRef = useRef(new Audio());
@@ -71,5 +71,3 @@ const useTTS = (text: string, options?: UseTTSOptions) => {
 
   return { toggleAudio, ...dist };
 };
-
-export default useTTS;

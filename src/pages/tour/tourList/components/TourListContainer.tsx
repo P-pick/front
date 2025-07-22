@@ -1,4 +1,4 @@
-import { withGeoTripParams } from '@/pages/tour/components';
+import { withGeoTripParams } from '@/features/tour/lib';
 import type { AroundContentTypeId, GeoTripLocation } from '@/pages/types';
 import {
   useQueryClient,

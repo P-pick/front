@@ -1,10 +1,9 @@
-import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
-
+import { tourQueries } from '@/entities/tour';
 import type { LocationBasedInfiniteQueryParams } from '@/pages/tour/types';
+import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
-import { tourQueries } from '../../service';
 
-const useTourSwiperInfiniteQuery = ({
+export const useTourSwiperInfiniteQuery = ({
   location,
   radius,
   contentTypeId,
@@ -59,5 +58,3 @@ const useTourSwiperInfiniteQuery = ({
     isFetchingPreviousPage,
   };
 };
-
-export default useTourSwiperInfiniteQuery;

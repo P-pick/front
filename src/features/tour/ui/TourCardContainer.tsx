@@ -1,9 +1,9 @@
-import TourOverView from '@/pages/tour/geotrip/components/TourOverView';
-import type { TourSummary } from '@/pages/tour/geotrip/types';
+import { tourQueries } from '@/entities/tour';
 import { TourCard } from '@/shared/ui';
 import { useSuspenseQueries } from '@tanstack/react-query';
-import { tourQueries } from '../../service';
 import { extractRegionInfo } from '../lib';
+import type { TourSummary } from '../types';
+import { TourOverView } from './';
 
 type TourCardContainerProps = Omit<TourSummary, 'mapx' | 'mapy'>;
 

@@ -20,7 +20,7 @@ interface UseInfiniteSwiperControlProps {
   fetchAppend: PageFetchQuery;
 }
 
-const useInfiniteSwiperControl = ({
+export const useInfiniteSwiperControl = ({
   fetchPrepend,
   fetchAppend,
 }: UseInfiniteSwiperControlProps) => {
@@ -65,5 +65,3 @@ const useInfiniteSwiperControl = ({
     handleAppend,
   };
 };
-
-export default useInfiniteSwiperControl;

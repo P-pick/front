@@ -3,7 +3,9 @@ type RegionInfo = {
   sigungu: string;
 } | null;
 
-const extractRegionInfo = (addr: string | undefined | null): RegionInfo => {
+export const extractRegionInfo = (
+  addr: string | undefined | null,
+): RegionInfo => {
   if (!addr) return null;
 
   const match = addr.match(
@@ -15,5 +17,3 @@ const extractRegionInfo = (addr: string | undefined | null): RegionInfo => {
   const [, sido, sigungu] = match;
   return { sido, sigungu };
 };
-
-export default extractRegionInfo;

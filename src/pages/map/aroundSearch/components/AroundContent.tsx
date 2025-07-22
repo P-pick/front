@@ -1,4 +1,4 @@
-import { TourCardContainer } from '@/pages/tour/geotrip/components';
+import { TourCardContainer } from '@/features/tour/ui';
 import { useStartTrip } from '@/pages/tour/geotrip/lib';
 import type { TourItem } from '@/pages/types';
 import { BottomSheet, LoadingSpinner } from '@/shared/ui';

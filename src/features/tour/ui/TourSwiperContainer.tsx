@@ -1,10 +1,16 @@
-import { withGeoTripParams } from '@/pages/tour/components';
-import type { AroundContentTypeId, GeoTripLocation } from '@/pages/types';
+import type { AroundContentTypeId } from '@/entities/tour';
+import { withGeoTripParams } from '@/features/tour/lib';
+import type { GeoTripLocation } from '@/shared';
 import { useState } from 'react';
 import type { Swiper as SwiperType } from 'swiper/types';
-import { TourBottomSheet, TourSwiperLoadingOverlay, TourSwiperView } from '.';
-import { persistSlideSession, useInfiniteSwiperControl } from '../lib';
-import { useTourSwiperBasedData } from '../service';
+import {
+  persistSlideSession,
+  TourBottomSheet,
+  TourSwiperLoadingOverlay,
+  TourSwiperView,
+  useInfiniteSwiperControl,
+  useTourSwiperInfiniteQuery,
+} from '../';
 import { SideButtonGroup } from './SideButtonGroup';
 
 interface TourSwiperContainerProps {
@@ -19,7 +25,7 @@ function TourSwiperContainer({
   tourContentTypeId,
 }: TourSwiperContainerProps) {
   const { slideEntries, fetchAppend, fetchPrepend, isFetchingPreviousPage } =
-    useTourSwiperBasedData({
+    useTourSwiperInfiniteQuery({
       location,
       radius: distance,
       contentTypeId: tourContentTypeId,

@@ -1,7 +1,7 @@
-import { useSearchParams } from 'react-router-dom';
-import type { AroundContentTypeId, GeoTripLocation } from '@/pages/types';
-import getSuspenseLocation from '@/lib/getSuspenseLocation';
 import { isValidTourType } from '@/lib';
+import getSuspenseLocation from '@/lib/getSuspenseLocation';
+import type { AroundContentTypeId, GeoTripLocation } from '@/pages/types';
+import { useSearchParams } from 'react-router-dom';
 
 interface InjectedProps {
   location: GeoTripLocation;
@@ -9,8 +9,8 @@ interface InjectedProps {
   tourContentTypeId: AroundContentTypeId;
 }
 
-export default function withGeoTripParams<P extends InjectedProps>(
-  WrappedComponent: React.ComponentType<P>
+export function withGeoTripParams<P extends InjectedProps>(
+  WrappedComponent: React.ComponentType<P>,
 ) {
   return function GeoTripWrapper(props: Omit<P, keyof InjectedProps>) {
     const [searchParams] = useSearchParams();

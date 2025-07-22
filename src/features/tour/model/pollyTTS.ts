@@ -44,10 +44,8 @@ const getSpeechBlob = async ({
   return new Blob(chunks, { type: 'audio/mpeg' });
 };
 
-const usePollySpeechMutation = ({ voiceId }: { voiceId: VoiceId }) => {
+export const usePollySpeechMutation = ({ voiceId }: { voiceId: VoiceId }) => {
   return useMutation({
     mutationFn: (text: string) => getSpeechBlob({ text, voiceId }),
   });
 };
-
-export default usePollySpeechMutation;

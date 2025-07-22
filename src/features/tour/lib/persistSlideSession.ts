@@ -4,12 +4,10 @@ interface PersistSlideSessionProps {
   slideEntries: SlideEntries;
   activeIndex: number;
 }
-const persistSlideSession = ({
+export const persistSlideSession = ({
   slideEntries,
   activeIndex,
 }: PersistSlideSessionProps) => {
   sessionStorage.setItem('currentIndex', String(activeIndex % 10));
   sessionStorage.setItem('currentPage', String(slideEntries.pageParam));
 };
-
-export default persistSlideSession;

@@ -1,5 +1,5 @@
-import { useStartTrip } from '@/pages/tour/geotrip/lib';
-import type { GeoTripLocation } from '@/pages/types';
+import type { GeoTripLocation } from '@/shared';
+import { useStartTrip } from '../lib';
 
 interface StartTripButtonProps extends GeoTripLocation {
   className?: string;

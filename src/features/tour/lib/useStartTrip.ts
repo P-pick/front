@@ -1,6 +1,7 @@
 import type { GeoTripLocation } from '@/pages/types';
 import { useNavigate } from 'react-router-dom';
-const useStartTrip = () => {
+
+export const useStartTrip = () => {
   const navigate = useNavigate();
 
   const handleStartTrip = (destination: GeoTripLocation) => {
@@ -10,5 +11,3 @@ const useStartTrip = () => {
 
   return { handleStartTrip };
 };
-
-export default useStartTrip;

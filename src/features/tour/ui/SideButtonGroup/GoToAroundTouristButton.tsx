@@ -7,7 +7,7 @@ export default function GoToAroundTouristButton(tourInfo: TourSummary) {
 
   const handleClick = () => {
     navigate(
-      `/map/around-search?contentId=${tourInfo.contentid}&contentTypeId=${tourInfo.contenttypeid}&lng=${tourInfo.mapx}&lat=${tourInfo.mapy}`
+      `/map/around-search?contentId=${tourInfo.contentid}&contentTypeId=${tourInfo.contenttypeid}&lng=${tourInfo.mapx}&lat=${tourInfo.mapy}`,
     );
   };
 

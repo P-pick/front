@@ -1,9 +1,9 @@
+import type { SlideEntries } from '@/features/tour/types';
 import clsx from 'clsx';
 import { Mousewheel, Navigation, Pagination, Virtual } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import type { Swiper as SwiperType } from 'swiper/types';
-import type { SlideEntries } from '../types';
-import TourSlide from './TourSlide';
+import { TourSlide } from '../';
 
 interface TourSwiperViewProps {
   onSwiper: (swiper: SwiperType) => Promise<void>;

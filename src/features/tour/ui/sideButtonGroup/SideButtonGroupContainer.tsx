@@ -5,7 +5,7 @@ interface OverlayButtonGroupProps {
   goToAroundTouristButtonProps: TourSummary;
 }
 
-export default function OverlayButtonGroup({
+export default function SideButtonGroupContainer({
   goToAroundTouristButtonProps,
 }: OverlayButtonGroupProps) {
   return (

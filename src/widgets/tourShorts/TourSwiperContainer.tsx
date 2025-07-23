@@ -7,7 +7,7 @@ import {
   useInfiniteSwiperControl,
   useTourSwiperInfiniteQuery,
 } from '@/features';
-import { SideButtonGroup, withGeoTripParams } from '@/features';
+import { SideButtonGroupContainer, withGeoTripParams } from '@/features';
 import type { GeoTripLocation } from '@/shared';
 import { useState } from 'react';
 import type { Swiper as SwiperType } from 'swiper/types';
@@ -64,7 +64,7 @@ function TourSwiperContainer({
         isInitializing={isInitializing}
       />
 
-      <SideButtonGroup goToAroundTouristButtonProps={currentSlide} />
+      <SideButtonGroupContainer goToAroundTouristButtonProps={currentSlide} />
       <TourBottomSheet
         {...currentSlide}
         isOpen={isBottomSheetOpen}

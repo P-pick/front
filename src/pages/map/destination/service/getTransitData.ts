@@ -1,4 +1,5 @@
-import { tmapApi } from '@/config/instance';
+import { tmapApi } from '@/shared';
+
 import type {
   TransitPlanResponse,
   TransitRequestBody,

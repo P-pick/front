@@ -1,11 +1,4 @@
 export { default as StartTripButton } from './StartTripButton';
-export { default as TourBottomSheet } from './bottomsheet/TourBottomSheet';
-export { default as TourCardImages } from './list/TourCardImages';
-export { default as TourInfoCard } from './list/TourInfoCard';
-export { default as TouristFilterQueryUpdater } from './list/TouristFilterQueryUpdater';
-export { default as TourSlide } from './shortform/TourSlide';
-export { default as TourSlideImages } from './shortform/TourSlideImages';
-export { default as TourSwiperView } from './shortform/TourSwiperView';
 export * from './loading';
 export * from './bottomsheet';
 export * from './sideButtonGroup';

@@ -1,4 +1,4 @@
-import BottomNavigationBar from '@/components/bottomNavigationBar';
+import BottomNavigationBar from '@/shared/ui/bottomNavigationBar';
 import { Outlet } from 'react-router-dom';
 
 export default function Tour() {

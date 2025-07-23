@@ -1,13 +1,15 @@
-import { selectedTransportationList } from '@/pages/const/TRANSPORT';
 import clsx from 'clsx';
-import { commonSVG, destinationSVG } from '@/assets';
 import { useStore } from 'zustand';
-import { truncate } from '@/lib';
 import { useTransportation } from '../store';
-import type { TransportationType } from '../types';
-import type { GeoTripLocation } from '@/pages/types';
+
+import { commonSVG, destinationSVG } from '@/assets';
+
+import { selectedTransportationList } from '@/pages/const/TRANSPORT';
+import { truncate } from '@/lib';
 import { useAddressFromCoords } from '../lib';
 
+import type { GeoTripLocation } from '@/pages/types';
+import type { TransportationType } from '../types';
 interface SelectTransportationFromGeoMapProps {
   start: GeoTripLocation;
   end: GeoTripLocation;

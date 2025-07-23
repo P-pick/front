@@ -1,5 +1,5 @@
+import { tmapApi } from '@/shared';
 import type { PedestrianRequestBody, PedestrianResponse } from '../types';
-import { tmapApi } from '@/config/instance';
 
 const getPedestrianDestinationPathInfo = async (
   pedestrianRequest: PedestrianRequestBody,

@@ -1,13 +1,16 @@
-import { useCurrentLocation } from '@/lib';
+import { Suspense, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { isValidationLocation } from '../../lib';
-import { LoadingSpinner } from '@/components';
-import type { GeoTripLocation } from '@/pages/types';
-import SelectTransportationFromGeoMap from './SelectTransportationFromGeoMap';
 import { useStore } from 'zustand';
 import useFollowAlong from '../store/useFollowAlong';
-import { Suspense, useEffect } from 'react';
 import { useMapLevel, useTransportation } from '../store';
+
+import SelectTransportationFromGeoMap from './SelectTransportationFromGeoMap';
+import { LoadingSpinner } from '@/shared';
+
+import { useCurrentLocation } from '@/lib';
+import { isValidationLocation } from '../../lib';
+
+import type { GeoTripLocation } from '@/pages/types';
 
 interface WithDestinationProps {
   start: GeoTripLocation;

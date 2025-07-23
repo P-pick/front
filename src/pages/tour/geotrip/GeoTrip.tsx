@@ -1,6 +1,5 @@
-import { LoadingSpinner } from '@/components';
-import Header from '@/components/Header';
-import { TourResultSwiper } from '@/pages/tour/geotrip/components';
+import { Header, LoadingSpinner } from '@/shared';
+import { TourSwiperContainer } from '@/widgets';
 import { Suspense } from 'react';
 
 export default function GeoTrip() {
@@ -8,7 +7,7 @@ export default function GeoTrip() {
     <div className="absolute h-full w-full flex items-center justify-center">
       <Header className="w-full absolute flex items-center justify-between top-4 px-5 z-(--z-layer5)" />
       <Suspense fallback={<LoadingSpinner />}>
-        <TourResultSwiper />
+        <TourSwiperContainer />
       </Suspense>
     </div>
   );

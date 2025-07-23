@@ -1,5 +1,5 @@
 import type { AroundContentTypeId, TourItem } from '@/pages/types';
-import { tourApi } from '@/config/instance';
+import { tourApi } from '@/shared';
 
 type GetSelectedPinDetailRequest = {
   contentId: string | null;

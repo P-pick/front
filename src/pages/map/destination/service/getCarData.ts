@@ -1,5 +1,5 @@
+import { tmapApi } from '@/shared';
 import type { CarRequestBody, CarResponse } from '../types';
-import { tmapApi } from '@/config/instance';
 
 const getCarDestinationPathInfo = async (
   carRequest: CarRequestBody,

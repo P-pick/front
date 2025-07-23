@@ -1,5 +1,5 @@
 import { followSVG, destinationSVG } from '@/assets';
-import type { TurnType } from '../map/destination/types';
+import type { TurnType } from '@/entities/navigate';
 
 interface FollowInfo {
   name: string;

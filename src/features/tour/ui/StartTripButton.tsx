@@ -4,12 +4,14 @@ import { useStartTrip } from '../';
 interface StartTripButtonProps extends GeoTripLocation {
   className?: string;
 }
+
 export default function StartTripButton({
   lng,
   lat,
   className,
 }: StartTripButtonProps) {
   const { handleStartTrip } = useStartTrip();
+
   return (
     <button
       type="button"

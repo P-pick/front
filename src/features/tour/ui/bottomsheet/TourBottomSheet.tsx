@@ -1,7 +1,7 @@
 import { BottomSheet, LoadingSpinner } from '@/shared/ui';
 import { Suspense } from 'react';
-import type { TourSummary } from '../';
-import { StartTripButton, TourCardContainer } from './';
+import type { TourSummary } from '../../';
+import { StartTripButton, TourCardContainer } from '..';
 
 interface TourBottomSheetProps extends TourSummary {
   isOpen: boolean;

@@ -7,8 +7,7 @@ import {
   useInfiniteSwiperControl,
   useTourSwiperInfiniteQuery,
 } from '@/features/tour';
-import { withGeoTripParams } from '@/features/tour/lib';
-import { SideButtonGroup } from '@/features/tour/ui/SideButtonGroup';
+import { SideButtonGroup, withGeoTripParams } from '@/features/tour';
 import type { GeoTripLocation } from '@/shared';
 import { useState } from 'react';
 import type { Swiper as SwiperType } from 'swiper/types';

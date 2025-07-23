@@ -3,7 +3,7 @@ import type { TourItem } from '@/pages/types';
 import { DistanceTimeInfo, LoadingSpinner } from '@/shared/ui';
 import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
-import { StartTripButton, TourSlideImages } from './';
+import { StartTripButton, TourSlideImages } from '..';
 
 interface TourSlideProps {
   tourInfo: TourItem;

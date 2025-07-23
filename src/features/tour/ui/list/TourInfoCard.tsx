@@ -5,7 +5,7 @@ import type { TourItem } from '@/pages/types';
 import { DistanceTimeInfo } from '@/shared/ui';
 import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
-import { SkeletonCard, TourCardImages } from './';
+import { SkeletonCard, TourCardImages } from '..';
 interface TourInfoCardProps {
   tourInfo: TourItem;
 }

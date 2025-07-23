@@ -1,5 +1,5 @@
 import { SkeletonCard, TouristFilterQueryUpdater } from '@/features/tour';
-import TourListContainer from '@/features/tour/ui/TourListContainer';
+import TourListContainer from '@/widgets/tourList/TourListContainer';
 import { Header } from '@/shared/ui';
 import { Suspense } from 'react';
 const fallbackList = [1, 2, 3, 4, 5];

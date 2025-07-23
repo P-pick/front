@@ -1,9 +1,8 @@
 import { tourQueries } from '@/entities/tour';
 import { TourCard } from '@/shared/ui';
 import { useSuspenseQueries } from '@tanstack/react-query';
-import { extractRegionInfo } from '../lib';
-import type { TourSummary } from '../types';
-import { TourOverView } from './';
+import { extractRegionInfo } from '../../lib';
+import type { TourSummary } from '../../types';
 
 type TourCardContainerProps = Omit<TourSummary, 'mapx' | 'mapy'>;
 
@@ -36,7 +35,7 @@ export default function TourCardContainer({
         }
         address={`${region?.sido} ${region?.sigungu}`}
       />
-      <TourOverView overView={commonData.overview} />
+      <div className="overflow-auto px-4">{commonData.overview}</div>
     </>
   );
 }

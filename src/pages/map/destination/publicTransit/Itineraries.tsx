@@ -1,28 +1,15 @@
 import { gettingConversion } from '../../lib';
+import { TakeTimeToGo } from '../components';
 import TransitLeg from './TransitLeg';
 import type { Itinerary } from './type';
 
 export default function Itineraries({ fare, legs, ...etc }: Itinerary) {
-  const takeTimeToGo = gettingConversion.conversionSecToHour(etc.totalTime);
   const totalWalkTime = gettingConversion.conversionSecToHour(
     etc.totalWalkTime,
   );
   return (
     <>
-      <p className="text-xs">
-        {takeTimeToGo && takeTimeToGo.hours > 0 ? (
-          <>
-            <span className="text-xl font-bold">{takeTimeToGo.hours}</span>
-            시간&nbsp;
-          </>
-        ) : (
-          ''
-        )}
-        {takeTimeToGo && (
-          <span className="text-xl font-bold">{takeTimeToGo.minutes}</span>
-        )}
-        분
-      </p>
+      <TakeTimeToGo time={etc.totalTime} />
       <div>
         <span className="text-xs text-gray-500">
           도보&nbsp;{totalWalkTime.minutes}분

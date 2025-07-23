@@ -9,6 +9,8 @@ import { useStore } from 'zustand';
 import { useMapLevel } from '../store';
 import { CurrentDeviceLocation } from '../../components';
 import PublicTransitPolylines from './PublicTransitPolylines';
+import { FollowAlong } from '../components';
+import PublicTransitDetail from './PublicTransitDetail';
 
 interface PublicTransitProps {
   start: GeoTripLocation;
@@ -17,7 +19,7 @@ interface PublicTransitProps {
 
 export default function PublicTransit({ start, end }: PublicTransitProps) {
   const { mapLevel, setMapLevel } = useStore(useMapLevel);
-  const [SelectedTransitOption, setSelectedTransitOption] = useState(-1);
+  const [selectedTransitOption, setSelectedTransitOption] = useState(-1);
 
   const publicFeatures = useQuery(
     destinationQueries.transit({
@@ -31,7 +33,7 @@ export default function PublicTransit({ start, end }: PublicTransitProps) {
   const requestParams = publicFeatures.data?.metaData?.requestParameters;
   const itineraries = publicFeatures.data?.metaData?.plan.itineraries;
 
-  if (SelectedTransitOption !== -1) {
+  if (selectedTransitOption !== -1) {
     return (
       <Map
         id="publictransit-map"
@@ -44,7 +46,7 @@ export default function PublicTransit({ start, end }: PublicTransitProps) {
       >
         <CurrentDeviceLocation />
         {itineraries &&
-          itineraries[SelectedTransitOption].legs.map(leg => (
+          itineraries[selectedTransitOption].legs.map(leg => (
             <PublicTransitPolylines leg={leg} />
           ))}
         <MapMarker
@@ -85,6 +87,13 @@ export default function PublicTransit({ start, end }: PublicTransitProps) {
             },
           }}
         />
+        {itineraries && (
+          <PublicTransitDetail
+            itineraries={itineraries[selectedTransitOption]}
+            setSelectedTransitOption={setSelectedTransitOption}
+          />
+        )}
+        <FollowAlong />
       </Map>
     );
   }

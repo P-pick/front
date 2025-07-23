@@ -5,6 +5,7 @@ import { gettingConversion } from '@/pages/map/lib';
 import clsx from 'clsx';
 import type { PedestrianMultiplePathResponse } from '../types';
 import { useTransportation } from '../store';
+import { TakeTimeToGo } from '../components';
 
 export default function PedestrianOptionDetail({
   optionId,
@@ -14,13 +15,6 @@ export default function PedestrianOptionDetail({
   const { searchOptions } = useStore(useTransportation);
 
   const followList = getPedestrianFollowList(features);
-
-  const takeTimeToGo = useMemo(() => {
-    if (followList.length === 0 || !followList[0]?.totalTime) {
-      return null;
-    }
-    return gettingConversion.conversionSecToHour(followList[0].totalTime);
-  }, [followList]);
 
   const takeDistanceToGo = useMemo(() => {
     if (followList.length === 0 || !followList[0]?.totalDistance) {
@@ -44,20 +38,7 @@ export default function PedestrianOptionDetail({
       className={`w-full h-full bg-white flex-col p-3  rounded-2xl ${isSelectedBorder}`}
     >
       <h2 className={`text-xs font-bold ${isSelectedH2}`}>{name}</h2>
-      <p className="text-xs">
-        {takeTimeToGo && takeTimeToGo.hours > 0 ? (
-          <>
-            <span className="text-xl font-bold">{takeTimeToGo.hours}</span>
-            시간&nbsp;
-          </>
-        ) : (
-          ''
-        )}
-        {takeTimeToGo && (
-          <span className="text-xl font-bold">{takeTimeToGo.minutes}</span>
-        )}
-        분
-      </p>
+      <TakeTimeToGo time={followList[0].totalTime} />
       <div>
         <span className="text-xs">{takeDistanceToGo}</span>
       </div>

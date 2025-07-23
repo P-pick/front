@@ -1,11 +1,13 @@
-import { tourQueries, type AroundContentTypeId } from '@/entities/tour';
-import { InfiniteScroll, useSyncedState, type GeoTripLocation } from '@/shared';
+import { useDeferredValue } from 'react';
 import {
   useQueryClient,
   useSuspenseInfiniteQuery,
 } from '@tanstack/react-query';
-import { useDeferredValue } from 'react';
-import { SkeletonCard, TourInfoCard, withGeoTripParams } from '@/features/tour';
+
+import { SkeletonCard, withGeoTripParams } from '@/features/tour';
+import { TourInfoCard } from '@/features/tourList';
+import { tourQueries, type AroundContentTypeId } from '@/entities/tour';
+import { InfiniteScroll, useSyncedState, type GeoTripLocation } from '@/shared';
 
 interface TourListContainerProps {
   location: GeoTripLocation;

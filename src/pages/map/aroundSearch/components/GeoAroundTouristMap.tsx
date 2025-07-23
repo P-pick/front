@@ -1,18 +1,18 @@
-import { Map } from 'react-kakao-maps-sdk';
-import NearbyTouristAttractionPinPoint from './NearbyTouristAttractionPinpoint';
-import CurrentDeviceLocation from '../../components/CurrentDeviceLocation';
-import { TouristContentsTypeFilter } from '@/components';
-import { useMemo, useRef, useState } from 'react';
 import type {
   AroundContentTypeId,
   GeoTripLocation,
   TourItem,
 } from '@/pages/types';
-import getAroundTouristQueryOptions from '../service/getAroundTouristMapData';
-import { withAroundMapParams } from '../../components';
-import { ResizingMap } from '../../destination/components';
-import MiddleContent from './MiddleContent';
+import { TouristContentsTypeFilter } from '@/shared/ui';
 import { useQuery } from '@tanstack/react-query';
+import { useMemo, useRef, useState } from 'react';
+import { Map } from 'react-kakao-maps-sdk';
+import { withAroundMapParams } from '../../components';
+import CurrentDeviceLocation from '../../components/CurrentDeviceLocation';
+import { ResizingMap } from '../../destination/components';
+import getAroundTouristQueryOptions from '../service/getAroundTouristMapData';
+import MiddleContent from './MiddleContent';
+import NearbyTouristAttractionPinPoint from './NearbyTouristAttractionPinpoint';
 
 interface GeoAroundTouristMapProps {
   location: GeoTripLocation;
@@ -27,10 +27,10 @@ function GeoAroundTouristMap({
   const [selectedContentTypeId, setSelectedContentTypeId] =
     useState<AroundContentTypeId>(tourContentTypeId);
 
-  const {data:aroundTouristObjects = []} = useQuery(getAroundTouristQueryOptions(location,
-    selectedContentTypeId)
+  const { data: aroundTouristObjects = [] } = useQuery(
+    getAroundTouristQueryOptions(location, selectedContentTypeId),
   );
-  
+
   const middleTouristRef = useRef<TourItem | null>(null);
 
   const middleTouristObject = useMemo(() => {

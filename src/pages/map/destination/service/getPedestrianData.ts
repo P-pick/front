@@ -1,9 +1,9 @@
+import { tmapApi } from '@/shared';
 import type {
   MultiplePathResponse,
   PedestrianRequestBody,
   PedestrianResponse,
 } from '../types';
-import { tmapApi } from '@/config/instance';
 
 const SEARCH_OPTIONS = [
   {

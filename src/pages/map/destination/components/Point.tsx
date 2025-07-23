@@ -1,8 +1,8 @@
-import type { PointType as PedestrianPointType } from '../../types/pedestrianType';
-import type { PointType as CarPointType } from '../../types/carType';
+import type { PointType as PedestrianPointType } from '../types/pedestrianType';
+import type { PointType as CarPointType } from '../types/carType';
 import { MapMarker } from 'react-kakao-maps-sdk';
 import { useStore } from 'zustand';
-import { useMapLevel } from '../../store';
+import { useMapLevel } from '../store';
 
 export interface PointProps {
   pointType: PedestrianPointType | CarPointType;

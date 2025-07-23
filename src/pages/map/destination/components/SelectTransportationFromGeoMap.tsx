@@ -1,12 +1,14 @@
-import { commonSVG, destinationSVG } from '@/assets';
-import { truncate } from '@/lib';
-import { selectedTransportationList } from '@/pages/const/TRANSPORT';
-import type { GeoTripLocation } from '@/pages/types';
-import { LoadingSpinner } from '@/shared/ui';
 import clsx from 'clsx';
 import { useStore } from 'zustand';
-import { useAddressFromCoords } from '../lib/useAddressFromCoords';
 import { useTransportation } from '../store';
+
+import { commonSVG, destinationSVG } from '@/assets';
+
+import { selectedTransportationList } from '@/pages/const/TRANSPORT';
+import { truncate } from '@/lib';
+import { useAddressFromCoords } from '../lib';
+
+import type { GeoTripLocation } from '@/pages/types';
 import type { TransportationType } from '../types';
 interface SelectTransportationFromGeoMapProps {
   start: GeoTripLocation;
@@ -35,21 +37,21 @@ export default function SelectTransportationFromGeoMap({
       },
     );
 
-  if (!startName.address || !endName.address) {
-    return <LoadingSpinner />;
+  if (!startName || !endName) {
+    return null;
   }
 
   return (
-    <div className="absolute top-0 left-0 px-5 w-full h-auto bg-white z-(--z-layer2)">
+    <div className="px-5 w-full h-auto bg-white z-(--z-layer2)">
       <div className="border-1 rounded-2xl w-full border-gray-300 flex justify-between items-center py-3 px-6">
         <div className="flex justify-center items-center gap-2 text-xs font-bold">
           <destinationSVG.StartPoint width={10} height={10} />
-          <span>{truncate(startName.address, { length: 10 })}</span>
+          <span>{truncate(startName, { length: 10 })}</span>
         </div>
         <commonSVG.RightArrowIcon />
         <div className="flex justify-center items-center gap-2 text-xs font-bold">
           <destinationSVG.EndPoint width={10} height={10} />
-          <span>{truncate(endName.address, { length: 10 })}</span>
+          <span>{truncate(endName, { length: 10 })}</span>
         </div>
         <commonSVG.DeleteIcon className="cursor-pointer" />
       </div>

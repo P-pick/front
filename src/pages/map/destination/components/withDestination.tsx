@@ -1,8 +1,16 @@
-import { useCurrentLocation } from '@/lib';
-import type { GeoTripLocation } from '@/pages/types';
-import { LoadingSpinner } from '@/shared/ui';
+import { Suspense, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { useStore } from 'zustand';
+import useFollowAlong from '../store/useFollowAlong';
+import { useMapLevel, useTransportation } from '../store';
+
+import SelectTransportationFromGeoMap from './SelectTransportationFromGeoMap';
+import { LoadingSpinner } from '@/shared';
+
+import { useCurrentLocation } from '@/lib';
 import { isValidationLocation } from '../../lib';
+
+import type { GeoTripLocation } from '@/pages/types';
 
 interface WithDestinationProps {
   start: GeoTripLocation;
@@ -15,6 +23,10 @@ export default function withDestination<P extends WithDestinationProps>(
   return function GeoDestinationMapWrapper(
     props: Omit<P, keyof WithDestinationProps>,
   ) {
+    const { isFollowAlong, reset: resetFollowAlong } = useStore(useFollowAlong);
+    const { reset: resetTransportation } = useStore(useTransportation);
+    const { reset: resetMapLevel } = useStore(useMapLevel);
+
     const [searchParams] = useSearchParams();
     const lng = searchParams.get('lnt');
     const lat = searchParams.get('lat');
@@ -26,6 +38,14 @@ export default function withDestination<P extends WithDestinationProps>(
 
     const { geoLocation } = useCurrentLocation();
 
+    useEffect(() => {
+      return () => {
+        resetTransportation();
+        resetMapLevel();
+        resetFollowAlong();
+      };
+    }, [resetFollowAlong, resetTransportation, resetMapLevel]);
+
     if (
       !isValidationLocation(geoLocation) ||
       !isValidationLocation(destination)
@@ -34,11 +54,21 @@ export default function withDestination<P extends WithDestinationProps>(
     }
 
     return (
-      <WrappedComponent
-        {...(props as P)}
-        start={geoLocation}
-        end={destination}
-      />
+      <>
+        {!isFollowAlong && (
+          <SelectTransportationFromGeoMap
+            start={geoLocation}
+            end={destination}
+          />
+        )}
+        <Suspense fallback={<LoadingSpinner centered={true} />}>
+          <WrappedComponent
+            {...(props as P)}
+            start={geoLocation}
+            end={destination}
+          />
+        </Suspense>
+      </>
     );
   };
 }

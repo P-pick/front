@@ -1,5 +1,5 @@
 import { useStore } from 'zustand';
-import useFollowAlong from '../../store/useFollowAlong';
+import useFollowAlong from '../store/useFollowAlong';
 
 export default function FollowAlong() {
   const { setIsFollowAlong, setCurrentFollowIndex } = useStore(useFollowAlong);

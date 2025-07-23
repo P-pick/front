@@ -1,17 +1,13 @@
-import Point from './Point';
 import { Polyline } from 'react-kakao-maps-sdk';
 import { TRAFFIC } from '@/pages/const/TMAP';
-import type { CarFeatures, CarSearchOption } from '../../types';
-import type { PointProperties } from '../../types/carType';
-import isSelectedOptions from '../../lib/isSelectedOptions';
-import { useMapController } from '../../lib';
-
-const getCoordinatesPointLines = (coords: number[][]) => {
-  return coords.map(coord => ({
-    lat: coord[1],
-    lng: coord[0],
-  }));
-};
+import type { CarFeatures, CarSearchOption } from '../types';
+import {
+  getCoordinatesPointLines,
+  isSelectedOptions,
+  useMapController,
+} from '../lib';
+import type { PointProperties } from '../types/carType';
+import Point from '../components/Point';
 
 const getCheckedTrafficLevel = (level: number) => {
   switch (level) {

@@ -1,11 +1,11 @@
 import type {
   CarFeatures,
-  CarPointProperties,
   CarFollowFeature,
+  CarPointProperties,
 } from '../types';
 
 const getCarFollowList = (
-  destination: CarFeatures[] = []
+  destination: CarFeatures[] = [],
 ): CarFollowFeature[] => {
   return destination
     .map(feature => {

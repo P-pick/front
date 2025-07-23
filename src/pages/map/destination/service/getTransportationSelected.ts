@@ -5,8 +5,7 @@ import type {
   PedestrianRequestBody,
   TransportationType,
 } from '../types';
-import getCarDestinationQueryOptions from './getCarData';
-import getPedestrianDestinationQueryOptions from './getPedestrianData';
+import destinationQueries from './queryOptions';
 import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
 import handleRedirectTransportation from './redirectTransportation';
 
@@ -17,13 +16,11 @@ const getTransportationSelected = (
   const selectedTransportation = {
     pedestrian: () =>
       useSuspenseQuery(
-        getPedestrianDestinationQueryOptions(
-          destination as PedestrianRequestBody,
-        ),
+        destinationQueries.pedestrian(destination as PedestrianRequestBody),
       ).data,
     car: () =>
-      useQuery(getCarDestinationQueryOptions(destination as CarRequestBody))
-        .data || [],
+      useQuery(destinationQueries.car(destination as CarRequestBody)).data ||
+      [],
     bicycle: () => {
       handleRedirectTransportation({
         start: {
@@ -38,20 +35,7 @@ const getTransportationSelected = (
       });
       return [];
     },
-    publictransit: () => {
-      handleRedirectTransportation({
-        start: {
-          lat: destination.startY,
-          lng: destination.startX,
-        },
-        end: {
-          lat: destination.endY,
-          lng: destination.endX,
-        },
-        vehicle: 'publictransit',
-      });
-      return [];
-    },
+    publictransit: () => [],
   };
   return selectedTransportation[vehicle]();
 };

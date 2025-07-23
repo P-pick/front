@@ -1,7 +1,7 @@
 import type {
   PedestrianFeatures,
-  PedestrianPointProperties,
   PedestrianFollowFeature,
+  PedestrianPointProperties,
 } from '../types';
 
 const getPedestrianFollowList = (

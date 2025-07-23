@@ -1,35 +1,29 @@
-import { useLayoutEffect, useMemo, useRef } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 import { useDebouncedCallback } from '@/lib/useDebouncedCallback';
-import { useTransportation } from '../../store';
-import type { PolyFeatures } from '../../types';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
-import { getSelectedTransportationFollow, useMapController } from '../../lib';
 import { useStore } from 'zustand';
-import useFollowAlong from '../../store/useFollowAlong';
 import type { Swiper as SwiperType } from 'swiper/types';
 import type { GeoTripLocation } from '@/pages/types';
 import FollowElement from './FollowElement';
 import PrefetchMap from './PrefetchMap';
+import type { CarFollowFeature, PedestrianFollowFeature } from '../types';
+import { useMapController } from '../lib';
+import useFollowAlong from '../store/useFollowAlong';
 
 interface SelectedFollowProps {
-  followFeatures: PolyFeatures;
+  followList: PedestrianFollowFeature[] | CarFollowFeature[];
   firstIndexPosition: GeoTripLocation;
 }
 
 export default function SelectedFollow({
+  followList,
   firstIndexPosition,
-  followFeatures,
 }: SelectedFollowProps) {
-  const { vehicle } = useTransportation();
   const { currentFollowIndex } = useStore(useFollowAlong);
   const { handleSwitchLocationToPosition } = useMapController();
 
   const swiperRef = useRef<SwiperType | null>(null);
-
-  const followList = useMemo(() => {
-    return getSelectedTransportationFollow(vehicle, followFeatures);
-  }, [vehicle, followFeatures]);
 
   const debouncedSwitchLocation = useDebouncedCallback(
     (position: GeoTripLocation) => {

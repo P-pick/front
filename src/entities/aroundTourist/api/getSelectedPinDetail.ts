@@ -1,8 +1,8 @@
-import { tourApi } from '@/shared';
 import type {
   GetSelectedPinDetailRequest,
   GetSelectedPinDetailResponse,
 } from '@/entities/aroundTourist';
+import { tourApi } from '@/shared';
 
 const getSelectedPinDetail = async ({
   contentId,

@@ -1,3 +1,5 @@
+import { queryOptions } from '@tanstack/react-query';
+
 import {
   getAroundTouristMapData,
   getSelectedPinDetail,
@@ -10,19 +12,21 @@ import type { GeoTripLocation } from '@/shared';
 const getAroundTouristQueryOptions = (
   destination: GeoTripLocation,
   contentTypeId: AroundContentTypeId,
-) => ({
-  queryKey: ['aroundTouristMapData', destination, contentTypeId],
-  queryFn: () =>
-    getAroundTouristMapData({ location: destination, contentTypeId }),
-});
+) =>
+  queryOptions({
+    queryKey: ['aroundTouristMapData', destination, contentTypeId],
+    queryFn: () =>
+      getAroundTouristMapData({ location: destination, contentTypeId }),
+  });
 
 const getSelectedPinDetailQueryOptions = ({
   contentId,
   contentTypeId,
-}: GetSelectedPinDetailRequest) => ({
-  queryKey: ['selectedPinDetail', contentId, contentTypeId],
-  queryFn: () => getSelectedPinDetail({ contentId, contentTypeId }),
-});
+}: GetSelectedPinDetailRequest) =>
+  queryOptions({
+    queryKey: ['selectedPinDetail', contentId, contentTypeId],
+    queryFn: () => getSelectedPinDetail({ contentId, contentTypeId }),
+  });
 
 export const aroundTouristQueries = {
   list: getAroundTouristQueryOptions,

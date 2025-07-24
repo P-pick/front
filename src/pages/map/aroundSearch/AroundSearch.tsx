@@ -1,8 +1,9 @@
-import useCurrentLocation from '@/lib/useCurrentLocation';
-import { LoadingSpinner } from '@/shared/ui';
 import { Suspense } from 'react';
-import { isValidationLocation } from '../lib';
-import GeoAroundTouristMap from './components/GeoAroundTouristMap';
+
+import { useCurrentLocation } from '@/features/map';
+import { isValidationLocation } from '@/features/navigate';
+import { GeoAroundTouristMap } from '@/features/aroundTourist';
+import { LoadingSpinner } from '@/shared';
 
 const destination = {
   lat: 37.629362,

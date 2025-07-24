@@ -1,4 +1,4 @@
-export * from './hooks';
+export * from './hook';
 export * from './lib';
 export * from './model';
 export * from './types';

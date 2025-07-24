@@ -16,11 +16,6 @@ export type ResponseBody<T> = {
   items: { item: T };
 };
 
-export type GeoTripLocation = {
-  lat: number;
-  lng: number;
-};
-
 export type TourItem = {
   addr1?: string;
   addr2?: string;

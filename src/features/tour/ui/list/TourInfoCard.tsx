@@ -1,11 +1,11 @@
 import { commonSVG } from '@/assets';
-import { truncate } from '@/lib';
 import { TOUR_TYPE } from '@/pages/const/MARKER';
 import type { TourItem } from '@/pages/types';
 import { DistanceTimeInfo } from '@/shared/ui';
 import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { SkeletonCard, TourCardImages } from '..';
+import { truncate } from '@/shared';
 interface TourInfoCardProps {
   tourInfo: TourItem;
 }

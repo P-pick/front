@@ -1,6 +1,7 @@
-import { LoadingSpinner } from '@/shared/ui';
 import { Suspense } from 'react';
-import { GeoDestinationMap } from './components';
+
+import { GeoDestinationMap } from '@/features/navigate';
+import { LoadingSpinner } from '@/shared';
 
 export default function Destination() {
   return (

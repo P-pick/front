@@ -1,0 +1,103 @@
+import { Polyline } from 'react-kakao-maps-sdk';
+import { TRAFFIC } from '@/pages/const/TMAP';
+
+import { useMapController } from '@/features/map';
+import {
+  getCoordinatesPointLines,
+  isSelectedOptions,
+  Point,
+} from '@/features/navigate';
+
+import type { CAR } from '@/entities/navigate';
+
+const getCheckedTrafficLevel = (level: number) => {
+  switch (level) {
+    case 0:
+      return TRAFFIC.none; // 정보없음
+    case 1:
+      return TRAFFIC.normal; // 원활
+    case 2:
+      return TRAFFIC.slowly; // 서행
+    case 3:
+      return TRAFFIC.delay; // 지체
+    case 4:
+      return TRAFFIC.delay; // 정체
+    default:
+      return TRAFFIC.normal;
+  }
+};
+
+export default function CarPolylines({
+  destination = [],
+  searchOption,
+}: {
+  destination: CAR.CarFeatures[];
+  searchOption: CAR.SearchOptions;
+}) {
+  const { handleGoToFollowPin } = useMapController();
+
+  return destination.flatMap(feature => {
+    const { geometry, properties } = feature;
+
+    if (geometry.type === 'Point') {
+      const path = [
+        { lat: geometry.coordinates[1], lng: geometry.coordinates[0] },
+      ];
+      const spProperties = properties as CAR.PointProperties;
+
+      return (
+        <>
+          {isSelectedOptions(searchOption) && (
+            <Point
+              key={`car-point-${searchOption}-${spProperties.index}`}
+              position={path[0]}
+              pointType={spProperties.pointType}
+              zIndex={2}
+              onClick={() =>
+                handleGoToFollowPin(path[0], spProperties.pointIndex)
+              }
+            />
+          )}
+        </>
+      );
+    }
+
+    if (geometry.type === 'LineString') {
+      const coords = geometry.coordinates;
+
+      if (!geometry.traffic || geometry.traffic.length === 0) {
+        const path = getCoordinatesPointLines(coords);
+
+        return (
+          <Polyline
+            key={`car-lineString-${searchOption}-${properties.index}`}
+            path={path}
+            strokeColor={
+              isSelectedOptions(searchOption) ? '#24aa24' : '#999999'
+            }
+            strokeOpacity={0.8}
+            strokeWeight={5}
+            zIndex={isSelectedOptions(searchOption) ? 2 : 1}
+          />
+        );
+      }
+
+      return geometry.traffic.map(([start, end, level]) => {
+        const segmentCoords = coords.slice(start, end + 1);
+        const path = getCoordinatesPointLines(segmentCoords);
+        const color = getCheckedTrafficLevel(level);
+
+        return (
+          <Polyline
+            key={`car-traffic-${searchOption}-${properties.index}-${start}-${end}`}
+            path={path}
+            strokeColor={isSelectedOptions(searchOption) ? color : '#999999'}
+            strokeOpacity={0.8}
+            strokeWeight={5}
+            zIndex={isSelectedOptions(searchOption) ? 2 : 1}
+          />
+        );
+      });
+    }
+  });
+}

@@ -3,8 +3,6 @@ import { useStore } from 'zustand';
 import { useQuery } from '@tanstack/react-query';
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
 
-import { destinationQueries } from '@/entities/navigate';
-
 import { FollowAlong, useMapLevelStore } from '@/features/navigate';
 import { CurrentDeviceLocation } from '@/features/map';
 import {
@@ -13,6 +11,8 @@ import {
   PublicTransitPolylines,
   TransitCountList,
 } from '@/features/publicTransit';
+
+import { destinationQueries } from '@/entities/navigate';
 
 import type { GeoTripLocation } from '@/shared';
 

@@ -3,8 +3,6 @@ import { Map } from 'react-kakao-maps-sdk';
 import { useStore } from 'zustand';
 import { useSuspenseQuery } from '@tanstack/react-query';
 
-import { destinationQueries } from '@/entities/navigate';
-
 import { CurrentDeviceLocation } from '@/features/map';
 import {
   FollowAlong,
@@ -18,6 +16,8 @@ import {
   PedestrianFollowList,
   PedestrianOptions,
 } from '@/features/pedestrian';
+
+import { destinationQueries } from '@/entities/navigate';
 
 import type { PEDESTRIAN } from '@/entities/navigate';
 import type { GeoTripLocation } from '@/shared';

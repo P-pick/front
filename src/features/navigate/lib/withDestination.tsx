@@ -2,7 +2,6 @@ import { Suspense, useEffect } from 'react';
 import { useStore } from 'zustand';
 import { useSearchParams } from 'react-router-dom';
 
-import {} from '@/features/navigate';
 import {
   useFollowAlongStore,
   useMapLevelStore,

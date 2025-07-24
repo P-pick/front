@@ -26,14 +26,14 @@ export default function TourCardImages({
         <div className="flex flex-col gap-0.5 h-full flex-4/10">
           <div className="relative h-1/2">
             <img
-              src={images[0].originimgurl}
+              src={images[1].originimgurl}
               className="object-cover h-full w-full"
               alt={`${title} 썸네일 1`}
             />
           </div>
           <div className="relative h-1/2">
             <img
-              src={images[0].originimgurl}
+              src={images[2].originimgurl}
               className="object-cover h-full w-full"
               alt={`${title} 썸네일 2`}
             />

@@ -1,12 +1,9 @@
+import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 import { useDeferredValue } from 'react';
-import {
-  useQueryClient,
-  useSuspenseInfiniteQuery,
-} from '@tanstack/react-query';
 
-import { SkeletonCard, withGeoTripParams } from '@/features/tour';
-import { TourInfoCard } from '@/features/tourList';
 import { tourQueries, type AroundContentTypeId } from '@/entities/tour';
+import { SkeletonCard, withGeoTripParams } from '@/features/tour';
+import { TourInfoCard, useShouldShowFallback } from '@/features/tourList';
 import { InfiniteScroll, useSyncedState, type GeoTripLocation } from '@/shared';
 
 interface TourListContainerProps {
@@ -30,20 +27,13 @@ function TourListContainer({
         contentTypeId: deferredTourContentTypeId,
       }),
     );
-
-  const queryOptionsForCache = tourQueries.locationBasedList({
+  const shouldShowFallback = useShouldShowFallback({
     location,
     radius: distance,
-    contentTypeId: localTourContentTypeId,
+    localContentTypeId: localTourContentTypeId,
+    deferredContentTypeId: deferredTourContentTypeId,
   });
-  const queryClient = useQueryClient();
-  const cachedData = queryClient.getQueryData(queryOptionsForCache.queryKey);
-
   const tourItems = data.pages.flatMap(page => page.items.item);
-
-  const hasCache = Boolean(cachedData);
-  const isSwitching = localTourContentTypeId !== deferredTourContentTypeId;
-  const shouldShowFallback = isSwitching && !hasCache;
 
   return (
     <>

@@ -1,14 +1,14 @@
 import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 
+import { commonSVG } from '@/assets';
 import { TOUR_TYPE } from '@/pages/const/MARKER';
 import type { TourItem } from '@/pages/types';
-import { commonSVG } from '@/assets';
 
+import { SkeletonCard } from '@/features/tour/ui';
 import { TourCardImages } from '@/features/tourList/ui';
 import { truncate } from '@/lib';
 import { DistanceTimeInfo } from '@/shared/ui';
-import { SkeletonCard } from '@/features/tour/ui';
 
 interface TourInfoCardProps {
   tourInfo: TourItem;

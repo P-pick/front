@@ -1,13 +1,17 @@
+import { SearchIcon } from '@/assets/common';
+
 export default function SearchForm() {
   return (
-    <form className="flex items-center">
+    <form className="flex items-center relative mx-3">
       <input
         type="text"
-        placeholder="Search..."
-        className="border border-gray-300 rounded-l px-4 py-2"
+        className=" rounded-2xl px-4 py-2 w-full pr-10 shadow-lg"
       />
-      <button className="bg-blue-500 text-white rounded-r px-4 py-2">
-        Search
+      <button
+        type="submit"
+        className="absolute right-3 top-1/2 -translate-y-1/2"
+      >
+        <SearchIcon className="text-primary-red" />
       </button>
     </form>
   );

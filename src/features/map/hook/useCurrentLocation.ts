@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 
+import { getCurrentLocation } from '@/shared';
+
 import type { GeoTripLocation } from '@/shared';
-import { getCurrentLocation } from '@/lib';
 
 const useCurrentLocation = () => {
   const [geoLocation, setGeoLocation] = useState<GeoTripLocation>({

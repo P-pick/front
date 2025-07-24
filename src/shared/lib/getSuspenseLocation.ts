@@ -1,5 +1,6 @@
-import type { GeoTripLocation } from '@/pages/types';
-import getCurrentLocation from './getCurrentLocation';
+import { getCurrentLocation } from '@/shared';
+
+import type { GeoTripLocation } from '@/shared';
 
 let locationCache: GeoTripLocation | null = null;
 let locationPromise: Promise<GeoTripLocation> | null = null;

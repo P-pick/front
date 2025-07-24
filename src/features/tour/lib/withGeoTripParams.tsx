@@ -1,7 +1,11 @@
-import { isValidTourType } from '@/lib';
-import getSuspenseLocation from '@/lib/getSuspenseLocation';
-import type { AroundContentTypeId, GeoTripLocation } from '@/pages/types';
 import { useSearchParams } from 'react-router-dom';
+
+import type { AroundContentTypeId } from '@/entities/tour';
+
+import { isValidTourType } from '@/features/map';
+import { getSuspenseLocation } from '@/shared';
+
+import type { GeoTripLocation } from '@/shared';
 
 interface InjectedProps {
   location: GeoTripLocation;

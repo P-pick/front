@@ -1,4 +1,4 @@
-import type { AroundContentTypeId } from '@/entities';
+import type { AroundContentTypeId } from '@/entities/tour';
 import {
   persistSlideSession,
   TourBottomSheet,

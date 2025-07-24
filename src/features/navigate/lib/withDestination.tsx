@@ -2,17 +2,15 @@ import { Suspense, useEffect } from 'react';
 import { useStore } from 'zustand';
 import { useSearchParams } from 'react-router-dom';
 
-import { SelectTransportationFromGeoMap } from '@/features/navigate/ui';
-import { LoadingSpinner } from '@/shared';
-
+import {} from '@/features/navigate';
 import {
   useFollowAlongStore,
   useMapLevelStore,
   useTransportationStore,
-} from '@/features/navigate/lib';
-
-import { useCurrentLocation } from '@/lib';
-import { isValidationLocation } from '@/features/navigate';
+  SelectTransportationFromGeoMap,
+  isValidationLocation,
+} from '@/features/navigate';
+import { LoadingSpinner, useCurrentLocation } from '@/shared';
 
 import type { GeoTripLocation } from '@/shared';
 

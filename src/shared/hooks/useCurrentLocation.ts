@@ -1,8 +1,10 @@
-import getCurrentLocation from '@/lib/getCurrentLocation';
-import type { GeoTripLocation } from '@/pages/types';
 import { useEffect, useState } from 'react';
 
-const useCurrentLocation = () => {
+import { getCurrentLocation } from '@/shared';
+
+import type { GeoTripLocation } from '@/shared';
+
+export const useCurrentLocation = () => {
   const [geoLocation, setGeoLocation] = useState<GeoTripLocation>({
     lat: 0,
     lng: 0,
@@ -23,7 +25,7 @@ const useCurrentLocation = () => {
         setError(
           err instanceof Error
             ? err
-            : new Error('위치 정보 가져오는 중 에러 발생')
+            : new Error('위치 정보 가져오는 중 에러 발생'),
         );
       } finally {
         setIsLoading(false);
@@ -35,5 +37,3 @@ const useCurrentLocation = () => {
 
   return { geoLocation, isLoading, error };
 };
-
-export default useCurrentLocation;

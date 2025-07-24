@@ -1,5 +1,6 @@
-import type { GeoTripLocation } from '@/pages/types';
 import { useNavigate } from 'react-router-dom';
+
+import type { GeoTripLocation } from '@/shared';
 
 export const useStartTrip = () => {
   const navigate = useNavigate();

@@ -1,7 +1,7 @@
-import type { GeoTripLocation } from '@/pages/types';
+import type { GeoTripLocation } from '@/shared';
 
 const getCurrentLocation = (
-  options?: PositionOptions
+  options?: PositionOptions,
 ): Promise<GeoTripLocation> => {
   return new Promise((resolve, reject) => {
     if (!navigator.geolocation) {
@@ -17,7 +17,7 @@ const getCurrentLocation = (
       error => {
         reject(error);
       },
-      options
+      options,
     );
   });
 };

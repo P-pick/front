@@ -13,7 +13,7 @@ export default function SearchForm() {
         }}
       />
       <button
-        type="submit"
+        type="button"
         className="absolute right-3 top-1/2 -translate-y-1/2"
       >
         <SearchIcon className="text-primary-red" />

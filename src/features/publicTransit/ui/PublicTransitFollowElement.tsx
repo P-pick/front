@@ -18,7 +18,7 @@ export default function PublicTransitFollowElement({
 
   return (
     <>
-      <div className="w-full h-full border-2 border-(--color-primary-red) bg-(--color-primary-red) rounded-2xl p-2 flex flex-col items-start justify-center gap-2">
+      <div className="w-full h-24 border-2 border-(--color-primary-red) bg-(--color-primary-red) rounded-2xl p-2 flex flex-col items-start justify-center gap-2">
         <div className="flex gap-2">
           <span className="flex justify-center items-center rounded-full bg-white text-black text-xs w-6 h-6 p-1">
             {idx}

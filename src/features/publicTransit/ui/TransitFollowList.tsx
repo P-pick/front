@@ -29,13 +29,13 @@ export default function TransitFollowList({
   }
 
   return (
-    <div className="absolute bottom-0 left-0 w-full h-3/14 py-4 z-(--z-layer2)">
+    <div className="py-2 z-(--z-layer2)">
       <Swiper
         direction="horizontal"
         modules={[Navigation, Pagination]}
         freeMode={true}
         slidesPerView="auto"
-        className="px-2 cursor-grab h-full"
+        className="px-2 cursor-grab active:cursor-grabbing"
         onSwiper={swiper => {
           swiperRef.current = swiper;
         }}
@@ -45,7 +45,7 @@ export default function TransitFollowList({
           <>
             <SwiperSlide
               key={option?.id}
-              className="mx-2 min-w-60 max-w-60"
+              className="mx-2 max-w-60"
               onClick={() =>
                 handleSwitchPositionAndSwiperToCurrentIndex(
                   option?.path[0],

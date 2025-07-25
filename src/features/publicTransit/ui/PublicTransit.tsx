@@ -1,15 +1,17 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useStore } from 'zustand';
 import { useQuery } from '@tanstack/react-query';
 import { Map } from 'react-kakao-maps-sdk';
 
 import {
   FollowAlong,
+  ResizingMap,
   useFollowAlongStore,
   useMapLevelStore,
 } from '@/features/navigate';
 import { CurrentDeviceLocation, EndPin, StartPin } from '@/features/map';
 import {
+  getPublicTransitFollowList,
   Itineraries,
   PublicTransitDetail,
   PublicTransitPolylines,
@@ -43,11 +45,19 @@ export default function PublicTransit({ start, end }: PublicTransitProps) {
   const requestParams = publicFeatures.data?.metaData?.requestParameters;
   const itineraries = publicFeatures.data?.metaData?.plan.itineraries;
 
+  const points = useMemo(() => {
+    if (itineraries && selectedTransitOption !== -1) {
+      return getPublicTransitFollowList(
+        itineraries[selectedTransitOption],
+      ).flatMap(follow => follow.path);
+    }
+  }, [itineraries, selectedTransitOption]);
+
   if (selectedTransitOption !== -1) {
     return (
       <Map
         id="publictransit-map"
-        className="flex-1 relative w-full h-full"
+        className="relative w-full h-full"
         center={start}
         level={mapLevel}
         onZoomChanged={map => {
@@ -71,18 +81,23 @@ export default function PublicTransit({ start, end }: PublicTransitProps) {
             lng: Number(requestParams?.endX),
           }}
         />
-        {!isFollowAlong && itineraries && (
-          <>
-            <PublicTransitDetail
-              itineraries={itineraries[selectedTransitOption]}
-              setSelectedTransitOption={setSelectedTransitOption}
-            />
-            <FollowAlong />
-          </>
-        )}
-        {isFollowAlong && itineraries && (
-          <TransitFollowList itinerary={itineraries[selectedTransitOption]} />
-        )}
+        <div className="absolute bottom-0 left-0 right-0 w-full max-h-4/7  flex flex-col">
+          {points && (
+            <ResizingMap points={points} viewBounds={[0, 0, 400, 0]} />
+          )}
+          {!isFollowAlong && itineraries && (
+            <>
+              <PublicTransitDetail
+                itineraries={itineraries[selectedTransitOption]}
+                setSelectedTransitOption={setSelectedTransitOption}
+              />
+              <FollowAlong />
+            </>
+          )}
+          {isFollowAlong && itineraries && (
+            <TransitFollowList itinerary={itineraries[selectedTransitOption]} />
+          )}
+        </div>
       </Map>
     );
   }

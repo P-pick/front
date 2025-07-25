@@ -11,10 +11,10 @@ export default function FollowAlong() {
   };
 
   return (
-    <div className="absolute bottom-0 left-0 z-(--z-layer2) w-full h-1/12">
+    <div className="w-full h-full z-(--z-layer2) bg-(--color-primary-red) text-white p-3">
       <button
         onClick={handleFollowAlongButton}
-        className="w-full h-full bg-(--color-primary-red) flex justify-center items-center text-xs text-white cursor-pointer"
+        className="w-full h-full cursor-pointer"
       >
         따라가기
       </button>

@@ -13,8 +13,8 @@ export default function PublicTransitDetail({
   setSelectedTransitOption,
 }: PublicTransitDetailProps) {
   return (
-    <div className="absolute bottom-12 left-0 w-full h-1/3 z-(--z-layer2) overflow-y-auto">
-      <div className="p-3 rounded-t-lg bg-white">
+    <div className="absolute bottom-12 left-0 w-full h-1/3 z-(--z-layer2)">
+      <div className="p-3 rounded-t-lg w-full h-full bg-white overflow-y-auto">
         <span
           className="cursor-pointer text-xs text-(--color-primary-red)"
           onClick={() => setSelectedTransitOption(-1)}

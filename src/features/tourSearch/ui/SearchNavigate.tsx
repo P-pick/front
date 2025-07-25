@@ -1,8 +1,10 @@
+import { Link } from 'react-router-dom';
+
 import { SearchIcon } from '@/assets/common';
 
-export default function SearchForm() {
+export default function SearchNavigate() {
   return (
-    <form className="flex items-center relative mx-3">
+    <Link to="/tour/search" className="flex items-center relative mx-3">
       <input
         type="text"
         className=" rounded-2xl px-4 py-2 w-full pr-10 shadow-lg"
@@ -13,6 +15,6 @@ export default function SearchForm() {
       >
         <SearchIcon className="text-primary-red" />
       </button>
-    </form>
+    </Link>
   );
 }

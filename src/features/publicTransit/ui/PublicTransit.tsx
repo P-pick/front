@@ -81,7 +81,7 @@ export default function PublicTransit({ start, end }: PublicTransitProps) {
             lng: Number(requestParams?.endX),
           }}
         />
-        <div className="absolute bottom-0 left-0 right-0 w-full max-h-4/7  flex flex-col">
+        <div className="absolute bottom-0 left-0 right-0 w-full max-h-4/7 flex flex-col">
           {points && (
             <ResizingMap points={points} viewBounds={[0, 0, 400, 0]} />
           )}

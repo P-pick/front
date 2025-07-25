@@ -17,7 +17,7 @@ export default function FollowElement({ option, idx }: FollowElementProps) {
 
   return (
     <>
-      <div className="w-full h-full border-2 border-(--color-primary-red) bg-(--color-primary-red) rounded-2xl p-2 flex flex-col items-start justify-center gap-2">
+      <div className="w-full h-24 border-2 border-(--color-primary-red) bg-(--color-primary-red) rounded-2xl p-2 flex flex-col items-start justify-center gap-2">
         <div className="flex gap-2">
           <div>
             <span>

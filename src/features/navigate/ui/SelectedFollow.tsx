@@ -59,13 +59,13 @@ export default function SelectedFollow({
   return (
     <>
       <PrefetchMap followList={followList} />
-      <div className="absolute bottom-0 left-0 w-full h-3/14 py-4 z-(--z-layer2)">
+      <div className="flex-2 py-4 z-(--z-layer2)">
         <Swiper
           direction="horizontal"
           modules={[Navigation, Pagination]}
           freeMode={true}
           slidesPerView="auto"
-          className="px-2 cursor-grab h-full"
+          className="px-2 cursor-grab"
           onSwiper={swiper => {
             swiperRef.current = swiper;
           }}

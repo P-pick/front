@@ -31,7 +31,10 @@ export default function PublicTransitDetail({
         <ul className="relative before:absolute before:top-0 before:left-2.5 before:bottom-0 before:w-1 before:bg-gray-300">
           {itineraries.legs.map(leg => {
             return (
-              <li className="relative my-2 " key={leg.start.name}>
+              <li
+                className="relative my-2 "
+                key={`${leg.mode}-${leg.start.name}-${leg.distance}-${leg.end.name}`}
+              >
                 <TransitLeg leg={leg} isDetail={true} />
               </li>
             );

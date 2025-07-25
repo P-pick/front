@@ -47,9 +47,11 @@ export const tourQueries = {
   searchKeyWord: (keyword: string) =>
     infiniteQueryOptions({
       queryKey: ['searchKeyword', keyword],
+
       queryFn: ({ pageParam }: { pageParam: number }) =>
         getSearchKeyword({ keyword, pageNo: pageParam }),
       initialPageParam: 1,
+
       getNextPageParam: (lastPage: ResponseBody<TourItem[]>) => {
         const currentPage = lastPage.pageNo;
         const totalPage = Math.ceil(lastPage.totalCount / lastPage.numOfRows);

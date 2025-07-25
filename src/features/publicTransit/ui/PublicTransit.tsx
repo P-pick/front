@@ -65,10 +65,11 @@ export default function PublicTransit({ start, end }: PublicTransitProps) {
         }}
       >
         <CurrentDeviceLocation />
-        {itineraries &&
-          itineraries[selectedTransitOption].legs.map(leg => (
-            <PublicTransitPolylines leg={leg} />
-          ))}
+        {itineraries && (
+          <PublicTransitPolylines
+            itinerary={itineraries[selectedTransitOption]}
+          />
+        )}
         <StartPin
           position={{
             lat: Number(requestParams?.startY),

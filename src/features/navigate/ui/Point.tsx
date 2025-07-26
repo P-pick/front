@@ -4,6 +4,7 @@ import { useStore } from 'zustand';
 import { useMapLevelStore } from '@/features/navigate';
 
 import type { CAR, PEDESTRIAN } from '@/entities/navigate';
+import { EndPin, StartPin } from '@/features/map';
 
 export interface PointProps {
   pointType: PEDESTRIAN.PointType | CAR.PointType;
@@ -28,52 +29,14 @@ export default function Point({
     pointType === ('S' as CAR.PointType) ||
     pointType === ('SP' as PEDESTRIAN.PointType)
   ) {
-    return (
-      <MapMarker
-        onClick={onClick}
-        position={position}
-        image={{
-          src: '/startPin.svg',
-          size: {
-            width: 45,
-            height: 59,
-          },
-          options: {
-            offset: {
-              x: 23,
-              y: 46,
-            },
-          },
-        }}
-        zIndex={zIndex}
-      />
-    );
+    return <StartPin position={position} />;
   }
 
   if (
     pointType === ('E' as CAR.PointType) ||
     pointType === ('EP' as PEDESTRIAN.PointType)
   ) {
-    return (
-      <MapMarker
-        onClick={onClick}
-        position={position}
-        image={{
-          src: '/endPin.svg',
-          size: {
-            width: 45,
-            height: 59,
-          },
-          options: {
-            offset: {
-              x: 23,
-              y: 46,
-            },
-          },
-        }}
-        zIndex={zIndex}
-      />
-    );
+    return <EndPin position={position} />;
   }
 
   return (

@@ -65,26 +65,31 @@ export default function Pedestrian({ start, end }: PedestrianProps) {
         setMapLevel(map.getLevel());
       }}
     >
-      <ResizingMap points={points} />
-      {pedestrianOptions &&
-        pedestrianOptions.map(data => (
-          <div key={`${vehicle}-${data.optionId}`}>
-            <PedestrianPolylines
-              destination={data.features as PEDESTRIAN.PedestrianFeatures[]}
-              searchOption={data.optionId as PEDESTRIAN.SearchOptions}
-            />
-            {isFollowAlong && data.optionId === searchOptions && (
-              <PedestrianFollowList start={start} destination={data.features} />
-            )}
-          </div>
-        ))}
+      <div className="absolute bottom-0 left-0 right-0 w-full max-h-4/7 flex flex-col">
+        <ResizingMap points={points} viewBounds={[0, 0, 200, 0]} />
+        {pedestrianOptions &&
+          pedestrianOptions.map(data => (
+            <div key={`${vehicle}-${data.optionId}`}>
+              <PedestrianPolylines
+                destination={data.features as PEDESTRIAN.PedestrianFeatures[]}
+                searchOption={data.optionId as PEDESTRIAN.SearchOptions}
+              />
+              {isFollowAlong && data.optionId === searchOptions && (
+                <PedestrianFollowList
+                  start={start}
+                  destination={data.features}
+                />
+              )}
+            </div>
+          ))}
+        {!isFollowAlong && (
+          <>
+            <PedestrianOptions options={pedestrianOptions} />
+            <FollowAlong />
+          </>
+        )}
+      </div>
       <CurrentDeviceLocation />
-      {!isFollowAlong && (
-        <>
-          <PedestrianOptions options={pedestrianOptions} />
-          <FollowAlong />
-        </>
-      )}
     </Map>
   );
 }

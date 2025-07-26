@@ -1,31 +1,25 @@
 import { useStore } from 'zustand';
 
-import { followInfo } from '@/pages/const/FOLLOW';
 import { commonSVG } from '@/assets';
 import { useFollowAlongStore } from '@/features/navigate';
 
-import type { CarFollowFeature } from '@/entities/navigate/types/car';
-import type { PedestrianFollowFeature } from '@/entities/navigate/types/pedestrian';
+import type { FollowBase } from '@/entities/navigate';
 
-interface FollowElementProps {
-  option: CarFollowFeature | PedestrianFollowFeature;
+interface PublicTransitFollowElementProps {
+  option: FollowBase;
   idx: number;
 }
 
-export default function FollowElement({ option, idx }: FollowElementProps) {
+export default function PublicTransitFollowElement({
+  option,
+  idx,
+}: PublicTransitFollowElementProps) {
   const { setIsFollowAlong } = useStore(useFollowAlongStore);
 
   return (
     <>
       <div className="w-full h-24 border-2 border-(--color-primary-red) bg-(--color-primary-red) rounded-2xl p-2 flex flex-col items-start justify-center gap-2">
         <div className="flex gap-2">
-          <div>
-            <span>
-              {followInfo[option.turnType]
-                ? followInfo[option.turnType].svg
-                : null}
-            </span>
-          </div>
           <span className="flex justify-center items-center rounded-full bg-white text-black text-xs w-6 h-6 p-1">
             {idx}
           </span>

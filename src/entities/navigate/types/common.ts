@@ -1,4 +1,5 @@
 import { PEDESTRIAN, CAR } from '@/entities/navigate';
+import type { GeoTripLocation } from '@/shared';
 
 export type TurnType =
   | 11 //직진
@@ -40,10 +41,7 @@ export type TransportationType =
 
 export interface FollowBase {
   id: string;
-  path: {
-    lat: number;
-    lng: number;
-  }[];
+  path: GeoTripLocation[];
   description: string;
   distance?: number;
   index: number;

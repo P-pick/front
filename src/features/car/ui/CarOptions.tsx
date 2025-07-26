@@ -15,7 +15,7 @@ export default function CarOptions({ options }: CarOptionsProps) {
   const { setSearchOptions } = useStore(useTransportationStore);
 
   return (
-    <div className="absolute bottom-10 left-0 z-(--z-layer2) w-full h-1/5 py-3">
+    <div className="z-(--z-layer2) pb-3">
       <Swiper
         direction="horizontal"
         modules={[FreeMode]}

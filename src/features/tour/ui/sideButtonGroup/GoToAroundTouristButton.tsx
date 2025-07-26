@@ -13,6 +13,7 @@ export default function GoToAroundTouristButton(tourInfo: TourSummary) {
 
   return (
     <button
+      id="tour-map-tutorial"
       onClick={handleClick}
       className="w-10 h-10 flex items-center justify-center rounded-full bg-white cursor-pointer"
     >

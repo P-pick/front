@@ -1,14 +1,12 @@
 import { useStore } from 'zustand';
 
-import { followInfo } from '@/pages/const/FOLLOW';
 import { commonSVG } from '@/assets';
-import { useFollowAlongStore } from '@/features/navigate';
+import { followInfo, useFollowAlongStore } from '@/features/navigate';
 
-import type { CarFollowFeature } from '@/entities/navigate/types/car';
-import type { PedestrianFollowFeature } from '@/entities/navigate/types/pedestrian';
+import type { CAR, PEDESTRIAN } from '@/entities/navigate';
 
 interface FollowElementProps {
-  option: CarFollowFeature | PedestrianFollowFeature;
+  option: CAR.CarFollowFeature | PEDESTRIAN.PedestrianFollowFeature;
   idx: number;
 }
 

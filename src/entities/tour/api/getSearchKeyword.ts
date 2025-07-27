@@ -6,6 +6,7 @@ interface GetSearchKeywordParams {
   keyword?: string;
   pageNo: number;
 }
+
 export const getSearchKeyword = async ({
   keyword,
   pageNo,
@@ -13,6 +14,7 @@ export const getSearchKeyword = async ({
   if (!keyword) {
     throw new Error('검색어가 없습니다.');
   }
+
   const response = await tourApi.get<ApiResponse<TourItem[]>>(
     `/searchKeyword2`,
     {
@@ -22,6 +24,7 @@ export const getSearchKeyword = async ({
       },
     },
   );
+  const responseBody = response.data.response.body;
 
-  return response.data.response.body;
+  return responseBody;
 };

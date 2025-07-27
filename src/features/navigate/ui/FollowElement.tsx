@@ -1,14 +1,12 @@
 import { useStore } from 'zustand';
 
-import { followInfo } from '@/pages/const/FOLLOW';
 import { commonSVG } from '@/assets';
-import { useFollowAlongStore } from '@/features/navigate';
+import { followInfo, useFollowAlongStore } from '@/features/navigate';
 
-import type { CarFollowFeature } from '@/entities/navigate/types/car';
-import type { PedestrianFollowFeature } from '@/entities/navigate/types/pedestrian';
+import type { CAR, PEDESTRIAN } from '@/entities/navigate';
 
 interface FollowElementProps {
-  option: CarFollowFeature | PedestrianFollowFeature;
+  option: CAR.CarFollowFeature | PEDESTRIAN.PedestrianFollowFeature;
   idx: number;
 }
 
@@ -17,7 +15,7 @@ export default function FollowElement({ option, idx }: FollowElementProps) {
 
   return (
     <>
-      <div className="w-full h-full border-2 border-(--color-primary-red) bg-(--color-primary-red) rounded-2xl p-2 flex flex-col items-start justify-center gap-2">
+      <div className="w-full h-24 border-2 border-(--color-primary-red) bg-(--color-primary-red) rounded-2xl p-2 flex flex-col items-start justify-center gap-2">
         <div className="flex gap-2">
           <div>
             <span>

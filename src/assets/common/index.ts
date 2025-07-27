@@ -12,6 +12,7 @@ import RightArrowIcon from './rightArrowIcon.svg?react';
 import SearchIcon from './searchIcon.svg?react';
 import ShareIcon from './share.svg?react';
 import SoundIcon from './soundIcon.svg?react';
+import DownArrowIcon from './downArrow.svg?react';
 
 export {
   BookMarkIcon,
@@ -28,4 +29,5 @@ export {
   SearchIcon,
   ShareIcon,
   SoundIcon,
+  DownArrowIcon,
 };

@@ -61,26 +61,33 @@ export default function Car({ start, end }: CarProps) {
         setMapLevel(map.getLevel());
       }}
     >
-      <ResizingMap points={points} />
-      {carOptions &&
-        carOptions.map(data => (
-          <div key={`${vehicle}-${data.optionId}`}>
-            <CarPolylines
-              destination={data.features as CAR.CarFeatures[]}
-              searchOption={data.optionId as CAR.SearchOptions}
-            />
-            {isFollowAlong && data.optionId === searchOptions && (
-              <CarFollowList start={start} destination={data.features} />
-            )}
-          </div>
-        ))}
+      <div className="absolute bottom-0 left-0 right-0 w-full max-h-4/7 flex flex-col">
+        <ResizingMap points={points} viewBounds={[0, 0, 200, 0]} />
+        {carOptions &&
+          carOptions.map(data => (
+            <>
+              <CarPolylines
+                key={`${vehicle}-${data.optionId}`}
+                destination={data.features as CAR.CarFeatures[]}
+                searchOption={data.optionId as CAR.SearchOptions}
+              />
+              {isFollowAlong && data.optionId === searchOptions && (
+                <CarFollowList
+                  start={start}
+                  destination={data.features}
+                  key={`${vehicle}-${data.optionId}`}
+                />
+              )}
+            </>
+          ))}
+        {!isFollowAlong && (
+          <>
+            <CarOptions options={carOptions} />
+            <FollowAlong />
+          </>
+        )}
+      </div>
       <CurrentDeviceLocation />
-      {!isFollowAlong && (
-        <>
-          <CarOptions options={carOptions} />
-          <FollowAlong />
-        </>
-      )}
     </Map>
   );
 }

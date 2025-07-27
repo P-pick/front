@@ -2,10 +2,12 @@ import clsx from 'clsx';
 import { useStore } from 'zustand';
 
 import { commonSVG, destinationSVG } from '@/assets';
-import { selectedTransportationList } from '@/pages/const/TRANSPORT';
 
 import { useAddressFromCoords } from '@/features/map';
-import { useTransportationStore } from '@/features/navigate';
+import {
+  selectedTransportationList,
+  useTransportationStore,
+} from '@/features/navigate';
 import { truncate } from '@/shared';
 
 import type { TransportationType } from '@/entities/navigate';

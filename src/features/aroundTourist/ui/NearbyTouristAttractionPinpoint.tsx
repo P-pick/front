@@ -1,9 +1,7 @@
 import { useState } from 'react';
 import { MapMarker } from 'react-kakao-maps-sdk';
 
-import { markerImageMap } from '@/pages/const/MARKER';
-
-import { AroundContent } from '@/features/aroundTourist';
+import { AroundContent, markerImageMap } from '@/features/aroundTourist';
 
 import type { TourItem } from '@/entities/tour';
 import type { GeoTripLocation } from '@/shared';

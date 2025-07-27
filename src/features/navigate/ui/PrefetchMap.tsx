@@ -4,10 +4,10 @@ import { useStore } from 'zustand';
 
 import { useFollowAlongStore } from '@/features/navigate';
 
-import type { CAR, PEDESTRIAN } from '@/entities/navigate';
+import type { FollowBase } from '@/entities/navigate';
 
 interface PrefetchMapProps {
-  followList: PEDESTRIAN.PedestrianFollowFeature[] | CAR.CarFollowFeature[];
+  followList: FollowBase[];
 }
 
 const PrefetchMap = ({ followList }: PrefetchMapProps) => {

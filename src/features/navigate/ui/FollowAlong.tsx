@@ -1,20 +1,23 @@
 import { useStore } from 'zustand';
 import { useFollowAlongStore } from '@/features/navigate';
+import useMapLevel from '../lib/useMapLevelStore';
 
 export default function FollowAlong() {
   const { setIsFollowAlong, setCurrentFollowIndex } =
     useStore(useFollowAlongStore);
+  const { setMapLevel } = useStore(useMapLevel);
 
   const handleFollowAlongButton = () => {
     setIsFollowAlong(true);
     setCurrentFollowIndex(0);
+    setMapLevel(3);
   };
 
   return (
-    <div className="absolute bottom-0 left-0 z-(--z-layer2) w-full h-1/12">
+    <div className="w-full h-full z-(--z-layer2) bg-(--color-primary-red) text-white p-3">
       <button
         onClick={handleFollowAlongButton}
-        className="w-full h-full bg-(--color-primary-red) flex justify-center items-center text-xs text-white cursor-pointer"
+        className="w-full h-full cursor-pointer text-xs"
       >
         따라가기
       </button>

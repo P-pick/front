@@ -1,11 +1,6 @@
 import { useMap } from 'react-kakao-maps-sdk';
 import { useStore } from 'zustand';
 import { useFollowAlongStore } from '@/features/navigate';
-import type { GeoTripLocation } from '@/shared';
-
-interface UseResizingMapLevel {
-  points: GeoTripLocation[];
-}
 
 /**
  * 해당 훅은 Map컴포넌트 하위헤서 사용할 수 있습니다.
@@ -52,25 +47,10 @@ const useMapController = () => {
     setCurrentFollowIndex(index);
   };
 
-  /**
-   * @description 지도 리사이징 핸들러
-   * @param points - 리사이징할 포인트 배열
-   */
-  const handleMapResizing = ({ points }: UseResizingMapLevel) => {
-    const bounds = new kakao.maps.LatLngBounds();
-    points.forEach(point => {
-      bounds.extend(new kakao.maps.LatLng(point.lat, point.lng));
-    });
-    if (map && points.length > 0) {
-      map.setBounds(bounds, -50, 20, 150, 20);
-    }
-  };
-
   return {
     map,
     handleSwitchLocationToPosition,
     handleGoToFollowPin,
-    handleMapResizing,
   };
 };
 

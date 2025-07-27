@@ -1,11 +1,11 @@
 import { Polyline } from 'react-kakao-maps-sdk';
-import { TRAFFIC } from '@/pages/const/TMAP';
 
 import { useMapController } from '@/features/map';
 import {
   getCoordinatesPointLines,
   isSelectedOptions,
   Point,
+  TRAFFIC,
 } from '@/features/navigate';
 
 import type { CAR } from '@/entities/navigate';

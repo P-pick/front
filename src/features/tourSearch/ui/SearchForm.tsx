@@ -1,22 +1,28 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { SearchIcon } from '@/assets/common';
 
 interface SearchFormProps {
-  setKeyword: (keyword: string) => void;
+  setKeyword: (keyword: string, isSuggestionSelected: boolean) => void;
   defaultValue: string;
+  onSearch: (kw: string) => void;
 }
 
 export default function SearchForm({
   setKeyword,
   defaultValue,
+  onSearch,
 }: SearchFormProps) {
   const [localInput, setLocalInput] = useState(defaultValue);
+
+  useEffect(() => {
+    setLocalInput(defaultValue);
+  }, [defaultValue]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setLocalInput(value);
-    setKeyword(value);
+    setKeyword(value, false);
   };
 
   return (
@@ -36,6 +42,7 @@ export default function SearchForm({
       <button
         type="button"
         className="absolute right-3 top-1/2 -translate-y-1/2"
+        onClick={() => onSearch(localInput)}
       >
         <SearchIcon className="text-primary-red" />
       </button>

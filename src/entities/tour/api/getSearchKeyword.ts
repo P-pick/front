@@ -21,6 +21,7 @@ export const getSearchKeyword = async ({
       params: {
         keyword,
         pageNo,
+        arrange: 'A',
       },
     },
   );

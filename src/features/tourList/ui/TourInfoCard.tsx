@@ -5,9 +5,10 @@ import { commonSVG } from '@/assets';
 import { SkeletonCard } from '@/features/tour';
 import { TourCardImages } from '@/features/tourList';
 import { truncate, DistanceTimeInfo } from '@/shared';
-import { TOUR_TYPE } from '@/pages/const/MARKER';
 
 import type { TourItem } from '@/pages/types';
+import { TOUR_TYPE } from '@/pages/const/MARKER';
+
 interface TourInfoCardProps {
   tourInfo: TourItem;
 }

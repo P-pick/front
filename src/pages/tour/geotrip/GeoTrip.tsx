@@ -1,8 +1,8 @@
 import { Suspense } from 'react';
-import { TourSwiperContainer } from '@/features/tour';
-import { LoadingSpinner } from '@/shared';
-import { BottomNavigationBar } from '@/shared/ui';
+
 import { Header } from '@/widgets';
+import { TourSwiperContainer } from '@/features/tour';
+import { LoadingSpinner, BottomNavigationBar } from '@/shared';
 
 export default function GeoTrip() {
   return (

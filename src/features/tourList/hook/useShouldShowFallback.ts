@@ -1,7 +1,10 @@
 // hooks/useShouldShowFallback.ts
-import { tourQueries, type AroundContentTypeId } from '@/entities/tour';
-import { type GeoTripLocation } from '@/shared';
 import { useQueryClient } from '@tanstack/react-query';
+
+import { tourQueries } from '@/entities/tour';
+
+import { type AroundContentTypeId } from '@/entities/tour';
+import { type GeoTripLocation } from '@/shared';
 
 interface useShouldShowFallbackParams {
   location: GeoTripLocation;

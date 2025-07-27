@@ -1,5 +1,5 @@
-import { SearchContainer } from '@/features/tourSearch';
 import { Header } from '@/widgets';
+import { SearchContainer } from '@/features/tourSearch';
 
 export default function TourSearch() {
   return (

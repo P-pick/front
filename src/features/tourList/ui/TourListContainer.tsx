@@ -1,11 +1,13 @@
 import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 import { useDeferredValue } from 'react';
 
-import { tourQueries, type AroundContentTypeId } from '@/entities/tour';
+import { tourQueries } from '@/entities/tour';
 import { SkeletonCard, withGeoTripParams } from '@/features/tour';
 import { TourInfoCard, useShouldShowFallback } from '@/features/tourList';
-import { InfiniteScroll, useSyncedState, type GeoTripLocation } from '@/shared';
+import { InfiniteScroll, useSyncedState } from '@/shared';
 
+import { type AroundContentTypeId } from '@/entities/tour';
+import { type GeoTripLocation } from '@/shared';
 interface TourListContainerProps {
   location: GeoTripLocation;
   distance: string;

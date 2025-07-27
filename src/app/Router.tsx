@@ -7,7 +7,7 @@ import { Tour } from '@/pages/tour';
 import { Map } from '@/pages/map';
 import { Destination } from '@/pages/map/destination';
 import { AroundSearch } from '@/pages/map/aroundSearch';
-import TourSearch from '@/pages/tour/search/TourSearch';
+import { TourSearch } from '@/pages/tour/search';
 
 export default function Router() {
   return (

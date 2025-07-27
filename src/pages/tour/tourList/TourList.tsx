@@ -1,12 +1,12 @@
 import { Suspense } from 'react';
 
+import { Header } from '@/widgets';
 import { SkeletonCard } from '@/features/tour';
 import {
   TouristFilterQueryUpdater,
   TourListContainer,
 } from '@/features/tourList';
 import { SearchNavigate } from '@/features/tourSearch';
-import { Header } from '@/widgets';
 import { BottomNavigationBar } from '@/shared';
 
 const fallbackList = [1, 2, 3, 4, 5];

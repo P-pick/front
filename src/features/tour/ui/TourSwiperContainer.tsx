@@ -1,4 +1,5 @@
 import { useState } from 'react';
+
 import {
   persistSlideSession,
   TourBottomSheet,
@@ -9,10 +10,11 @@ import {
   SideButtonGroupContainer,
   withGeoTripParams,
 } from '@/features/tour';
-
-import type { GeoTripLocation } from '@/shared';
 import type { AroundContentTypeId } from '@/entities/tour';
+import type { GeoTripLocation } from '@/shared';
+
 import type { Swiper as SwiperType } from 'swiper/types';
+
 interface TourSwiperContainerProps {
   location: GeoTripLocation;
   distance: string;

@@ -1,4 +1,3 @@
-// FocusElements.tsx
 import { useLayoutEffect, useState } from 'react';
 
 import { commonSVG } from '@/assets';

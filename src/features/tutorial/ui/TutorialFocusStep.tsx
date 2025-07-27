@@ -13,7 +13,8 @@ export default function TutorialFocusStep({
   onStep,
   description,
 }: TutorialFocusStepProps) {
-  const [isTutorial, setTutorial] = useLocalStorage('isTutorial', true);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_, setTutorial] = useLocalStorage('isTutorial', true);
 
   const handlePrevious = () => {
     if (prevStepId) onStep(prevStepId);
@@ -21,10 +22,6 @@ export default function TutorialFocusStep({
   const handleNext = () => {
     if (nextStepId) onStep(nextStepId);
   };
-
-  if (!isTutorial) {
-    return <></>;
-  }
 
   return (
     <div className="fixed top-25 max-w-[300px] left-1/2 -translate-x-1/2 bg-white text-black p-4 rounded-lg shadow-lg z-(--z-layer2000)">

@@ -15,7 +15,7 @@ export default function TourShortFormTutor() {
       <div className="relative w-full h-full text-white">
         <Funnel>
           {SHORTFORM_TUTORIAL_STEP.map(step => (
-            <Funnel.Step key={step.id} name={step.name}>
+            <Funnel.Step key={step.id} name={step.id}>
               <FocusElements
                 id={step.id}
                 description={step.description}

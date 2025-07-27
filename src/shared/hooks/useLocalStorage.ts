@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 /**
  * localStorage에 값을 저장하고 불러오는 커스텀 훅입니다.
@@ -18,12 +18,12 @@ export const useLocalStorage = <T>(key: string, initialValue: T) => {
       const item = window.localStorage.getItem(key);
       return item ? JSON.parse(item) : initialValue;
     } catch (error) {
-      console.error(`Error reading localStorage key "${key}":`, error);
-      return initialValue;
+      throw new Error(`스토리지를 불러오는데 실패했습니다: ${error}`);
     }
   }, [key, initialValue]);
 
   const [storedValue, setStoredValue] = useState<T>(readValue);
+  const localStorageEventRef = useRef(new Event('local-storage'));
 
   const setValue = (value: T | ((val: T) => T)) => {
     try {
@@ -32,7 +32,7 @@ export const useLocalStorage = <T>(key: string, initialValue: T) => {
       setStoredValue(valueToStore);
       window.localStorage.setItem(key, JSON.stringify(valueToStore));
 
-      window.dispatchEvent(new Event('local-storage'));
+      window.dispatchEvent(localStorageEventRef.current);
     } catch (error) {
       console.error(`Error setting localStorage key "${key}":`, error);
     }

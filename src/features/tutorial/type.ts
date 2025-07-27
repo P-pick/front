@@ -1,7 +1,9 @@
-export type TutorialStep = {
+export type TutorialStepBase = {
   id: string;
-  name: string;
-  prevStepId: string;
-  nextStepId: string;
   description: string;
 };
+
+export interface TutorialStep extends TutorialStepBase {
+  prevStepId: string;
+  nextStepId: string;
+}

@@ -6,6 +6,7 @@ interface TourCardImagesProps {
   contentId: string;
   title: string;
 }
+
 export default function TourCardImages({
   contentId,
   title,

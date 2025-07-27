@@ -48,9 +48,7 @@ function TourListContainer({
       <InfiniteScroll
         hasNextPage={hasNextPage}
         isFetching={isFetchingNextPage}
-        onIntersect={() => {
-          fetchNextPage();
-        }}
+        onIntersect={fetchNextPage}
         LoadingComponent={<SkeletonCard />}
       />
     </>

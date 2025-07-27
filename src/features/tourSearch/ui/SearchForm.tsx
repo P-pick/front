@@ -4,10 +4,14 @@ import { SearchIcon } from '@/assets/common';
 
 interface SearchFormProps {
   setKeyword: (keyword: string) => void;
+  defaultValue: string;
 }
 
-export default function SearchForm({ setKeyword }: SearchFormProps) {
-  const [localInput, setLocalInput] = useState('');
+export default function SearchForm({
+  setKeyword,
+  defaultValue,
+}: SearchFormProps) {
+  const [localInput, setLocalInput] = useState(defaultValue);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;

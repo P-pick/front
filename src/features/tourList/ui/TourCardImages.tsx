@@ -1,5 +1,6 @@
-import { tourQueries } from '@/entities/tour';
 import { useSuspenseQuery } from '@tanstack/react-query';
+
+import { tourQueries } from '@/entities/tour';
 
 interface TourCardImagesProps {
   contentId: string;
@@ -13,31 +14,35 @@ export default function TourCardImages({
     tourQueries.detailImages(contentId),
   );
 
+  const getImageSrc = (index: number): string => {
+    if (images.length === 0) return '/common/fallback.webp';
+    const image = images[index];
+    if (!image || typeof image.originimgurl !== 'string') {
+      return '/common/fallback.webp';
+    }
+    return image.originimgurl;
+  };
+
   return (
-    <figure className="w-full h-[150px]">
-      <div className="flex gap-0.5 h-full flex-6/10">
-        <div className="relative">
+    <figure className="w-full aspect-[3/2]">
+      <div className="flex gap-0.5 h-full">
+        <img
+          src={getImageSrc(0)}
+          className="w-3/5 h-full object-cover rounded-l-lg"
+          alt={title}
+        />
+
+        <div className="flex flex-col w-2/5 gap-0.5 h-full">
           <img
-            src={images[0].originimgurl}
-            className="h-full object-cover aspect-square rounded"
-            alt={title}
+            src={getImageSrc(1)}
+            className="h-1/2 w-full object-cover rounded-tr-lg"
+            alt={`${title} 썸네일 1`}
           />
-        </div>
-        <div className="flex flex-col gap-0.5 h-full flex-4/10">
-          <div className="relative h-1/2">
-            <img
-              src={images[1].originimgurl}
-              className="object-cover h-full w-full"
-              alt={`${title} 썸네일 1`}
-            />
-          </div>
-          <div className="relative h-1/2">
-            <img
-              src={images[2].originimgurl}
-              className="object-cover h-full w-full"
-              alt={`${title} 썸네일 2`}
-            />
-          </div>
+          <img
+            src={getImageSrc(2)}
+            className="h-1/2 w-full object-cover rounded-br-lg"
+            alt={`${title} 썸네일 2`}
+          />
         </div>
       </div>
     </figure>

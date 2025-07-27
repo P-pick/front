@@ -15,7 +15,15 @@ interface TourInfoCardProps {
 export default function TourInfoCard({ tourInfo }: TourInfoCardProps) {
   return (
     <article className="flex flex-col my-8">
-      <ErrorBoundary FallbackComponent={() => <>임시 에러처리</>}>
+      <ErrorBoundary
+        FallbackComponent={() => (
+          <img
+            src="/common/fallback.webp"
+            alt="임시 에러처리"
+            className="w-full aspect-[3/2]"
+          />
+        )}
+      >
         <Suspense fallback={<SkeletonCard />}>
           <TourCardImages
             contentId={tourInfo.contentid}

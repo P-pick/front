@@ -11,6 +11,7 @@ import SoundIcon from './soundIcon.svg?react';
 import BookMarkIcon from './bookMarkIcon.svg?react';
 import HomeIcon from './homeIcon.svg?react';
 import ProfileIcon from './profileIcon.svg?react';
+import DownArrowIcon from './downArrow.svg?react';
 
 export {
   CheckIcon,
@@ -26,4 +27,5 @@ export {
   BookMarkIcon,
   HomeIcon,
   ProfileIcon,
+  DownArrowIcon,
 };

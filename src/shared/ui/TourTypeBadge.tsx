@@ -1,5 +1,5 @@
-import { TOUR_TYPE } from '@/pages/const/MARKER';
-import type { AroundContentTypeId } from '@/pages/types';
+import { TOUR_TYPE } from '@/entities/tour';
+import type { AroundContentTypeId } from '@/entities/tour';
 
 interface TourTypeBadgeProps {
   contenttypeid: AroundContentTypeId;

@@ -1,4 +1,5 @@
-import { followSVG, destinationSVG } from '@/assets';
+import { vehicleSVG, followSVG, destinationSVG } from '@/assets';
+
 import type { TurnType } from '@/entities/navigate';
 
 interface FollowInfo {
@@ -128,3 +129,33 @@ export const followInfo: Record<TurnType, FollowInfo> = {
     svg: <followSVG.Elevator />,
   },
 };
+
+export const selectedTransportationList = [
+  {
+    id: 'pedestrian',
+    icon: <vehicleSVG.PedestrianIcon width={16} height={16} />,
+    label: '도보',
+  },
+  {
+    id: 'car',
+    icon: <vehicleSVG.CarIcon width={16} height={16} />,
+    label: '차량',
+  },
+  {
+    id: 'publictransit',
+    icon: <vehicleSVG.TransportationIcon width={16} height={16} />,
+    label: '대중교통',
+  },
+  {
+    id: 'bicycle',
+    icon: <vehicleSVG.BicycleIcon width={16} height={16} />,
+    label: '자전거',
+  },
+] as const;
+
+export const TRAFFIC = {
+  none: '#888888',
+  normal: '#24aa24',
+  slowly: '#ffc107',
+  delay: '#dc3545',
+} as const;

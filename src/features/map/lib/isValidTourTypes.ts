@@ -1,5 +1,6 @@
-import type { AroundContentTypeId } from '@/entities/tour';
-import { TOUR_TYPE } from '@/pages/const/MARKER';
+import { TOUR_TYPE } from '@/entities/tour';
+
+import { type AroundContentTypeId } from '@/entities/tour';
 
 const isValidTourType = (value: string): value is AroundContentTypeId => {
   return value in TOUR_TYPE;

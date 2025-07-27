@@ -1,9 +1,11 @@
-import { markerList } from '@/pages/const/MARKER';
-import type { AroundContentTypeId } from '@/pages/types';
-import clsx from 'clsx';
 import { useCallback } from 'react';
-import { FreeMode } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { FreeMode } from 'swiper/modules';
+import clsx from 'clsx';
+
+import { markerList } from '@/features/aroundTourist';
+
+import type { AroundContentTypeId } from '@/entities/tour';
 
 interface TouristContentsTypeFilterProps {
   contentTypeId: AroundContentTypeId;
@@ -18,7 +20,7 @@ export default function TouristContentsTypeFilter({
       'px-2.5 py-[6px] flex items-center justify-center rounded-2xl border-primary-dark border-2 cursor-pointer',
       {
         'bg-primary-red text-white border-secondary-red': isActive,
-      }
+      },
     );
   }, []);
 

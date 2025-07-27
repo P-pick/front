@@ -42,7 +42,7 @@ export default function TourSlide({
             <h1 className="text-2xl font-bold max-w-60">{tourInfo.title}</h1>
             <commonSVG.InfoIcon
               id="tour-detail-tutorial"
-              className="text-white cursor-pointer"
+              className="text-white cursor-pointer fill-white"
               onClick={openBottomSheet}
             />
           </div>

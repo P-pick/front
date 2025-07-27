@@ -1,6 +1,9 @@
 // FocusElements.tsx
+import { useLayoutEffect, useState } from 'react';
+
+import { commonSVG } from '@/assets';
 import { useLocalStorage } from '@/shared';
-import { useEffect, useState } from 'react';
+
 import type { TutorialStep } from '../type';
 
 interface FocusElementsProps extends Omit<TutorialStep, 'name'> {
@@ -14,13 +17,13 @@ export default function FocusElements({
   nextStepId,
   description,
 }: FocusElementsProps) {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isTutorial, setTutorial] = useLocalStorage('isTutorial', true);
   const [rect, setRect] = useState<DOMRect | null>(null);
 
-  useEffect(() => {
-    const el = document.getElementById(id); // 하이라이트할 대상
+  useLayoutEffect(() => {
+    const el = document.getElementById(id);
     if (el) {
+      el.style.setProperty('fill', 'white');
       setRect(el.getBoundingClientRect());
     }
   }, [id]);
@@ -33,55 +36,57 @@ export default function FocusElements({
   };
 
   const clipPath = rect
-    ? `polygon(
-        0 0,
-        100% 0,
-        100% 100%,
-        0 100%,
-        0 ${rect.top}px,
-        ${rect.left}px ${rect.top}px,
-        ${rect.left}px ${rect.top + rect.height}px,
-        ${rect.left + rect.width}px ${rect.top + rect.height}px,
-        ${rect.left + rect.width}px ${rect.top}px,
-        0 ${rect.top}px
-        z-index: 2000;
-      )`
+    ? {
+        width: `${rect.width}px`,
+        height: `${rect.height}px`,
+        top: `${rect.top}px`,
+        left: `${rect.left}px`,
+      }
     : undefined;
 
   return (
     <>
-      {/* 하이라이트 오버레이 */}
+      {/* 포커스 영역 */}
       <div
-        className="fixed inset-0 bg-black/50 pointer-events-none transition-all duration-200"
-        style={{ clipPath }}
+        className="fixed mix-blend-hard-light inset-0 bg-white/50 pointer-events-none z-(--z-layer2000) rounded-lg"
+        style={clipPath}
       />
-      {/* 설명 및 버튼 UI */}
+      {/* 아래 방향 화살표 */}
+      {isTutorial && id === 'shortform-slide-tutorial' && (
+        <div
+          id="shortform-slide-tutorial"
+          className="fill-white fixed left-1/2 top-3/5 transform -translate-x-1/2 -translate-y-1/2 z-(--z-layer2000) animate-bounce"
+        >
+          <commonSVG.DownArrowIcon />
+        </div>
+      )}
       <div className="fixed top-[10%] max-w-[300px] left-1/2 -translate-x-1/2 bg-white text-black p-4 rounded-lg shadow-lg z-(--z-layer2000)">
         <p>{description}</p>
-        <div className="mt-3 flex justify-end">
-          {prevStepId && (
-            <button
-              onClick={handlePrevious}
-              className="px-3 py-1 bg-blue-500 text-white rounded"
-            >
-              이전
-            </button>
-          )}
-          {nextStepId ? (
-            <button
-              onClick={handleNext}
-              className="px-3 py-1 bg-blue-500 text-white rounded"
-            >
-              다음
-            </button>
-          ) : (
-            <button
-              onClick={() => setTutorial(false)}
-              className="px-3 py-1 bg-blue-500 text-white rounded"
-            >
-              종료
-            </button>
-          )}
+        <div className="flex justify-between mt-3">
+          <button
+            onClick={() => setTutorial(false)}
+            className="px-3 py-1 bg-(--color-secondary) text-white rounded"
+          >
+            종료
+          </button>
+          <div className="flex">
+            {prevStepId && (
+              <button
+                onClick={handlePrevious}
+                className="px-3 py-1 bg-blue-500 text-white rounded"
+              >
+                이전
+              </button>
+            )}
+            {nextStepId && (
+              <button
+                onClick={handleNext}
+                className="px-3 py-1 bg-blue-500 text-white rounded"
+              >
+                다음
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </>

@@ -14,7 +14,7 @@ export default function StartTripButton({
 
   return (
     <button
-      id="tour-start"
+      id="tour-start-tutorial"
       type="button"
       className={className}
       onClick={() => {

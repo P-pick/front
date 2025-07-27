@@ -43,11 +43,7 @@ export default function TourSwiperView({
       onReachBeginning={handlePrepend}
     >
       {slideEntries.map(({ slide }, index) => (
-        <SwiperSlide
-          key={slide.contentid}
-          virtualIndex={index}
-          id="shortform-slide-tutorial"
-        >
+        <SwiperSlide key={slide.contentid} virtualIndex={index}>
           <TourSlide tourInfo={slide} openBottomSheet={openBottomSheet} />
         </SwiperSlide>
       ))}

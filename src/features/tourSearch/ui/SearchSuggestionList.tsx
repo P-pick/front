@@ -2,6 +2,7 @@ import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 
 import { highlightKeyword } from '@/features/tourSearch';
 import { tourQueries } from '@/entities/tour';
+import { TourTypeBadge } from '@/shared';
 
 interface SearchSuggestionListProps {
   keyword: string;
@@ -17,7 +18,10 @@ export default function SearchSuggestionList({
   );
   const filterData = searchData.pages.filter(data => data.items);
   const flatData = filterData.flatMap(page => page.items.item);
-  const data = flatData.map(item => item.title);
+  const data = flatData.map(item => ({
+    title: item.title,
+    contentTypeId: item.contenttypeid,
+  }));
 
   if (data.length === 0) return null;
 
@@ -27,9 +31,10 @@ export default function SearchSuggestionList({
         <li
           key={index}
           className="px-4 py-2 cursor-pointer hover:bg-gray-100 text-sm"
-          onClick={() => onSelect(suggestion)}
+          onClick={() => onSelect(suggestion.title)}
         >
-          {highlightKeyword(suggestion, keyword)}
+          {highlightKeyword(suggestion.title, keyword)}
+          <TourTypeBadge contenttypeid={suggestion.contentTypeId} />
         </li>
       ))}
     </ul>

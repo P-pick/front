@@ -30,11 +30,12 @@ export default function SearchResult({ keyword }: SearchResultProps) {
               getDistanceFromLatLonInMeters(
                 item.mapx,
                 item.mapy,
-                location.lat,
                 location.lng,
+                location.lat,
               ),
             ),
           };
+          console.log('newItem', newItem);
           return (
             <li key={item.contentid}>
               <TourInfoCard tourInfo={newItem} />

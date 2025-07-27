@@ -29,20 +29,23 @@ export default function TourCardImages({
       <div className="flex gap-0.5 h-full">
         <img
           src={getImageSrc(0)}
-          className="w-3/5 h-full object-cover rounded-l-lg"
+          className="w-3/5 h-full object-cover rounded-l-lg aspect-square"
           alt={title}
+          loading="eager"
         />
 
         <div className="flex flex-col w-2/5 gap-0.5 h-full">
           <img
             src={getImageSrc(1)}
-            className="h-1/2 w-full object-cover rounded-tr-lg"
+            className="h-1/2 w-full object-cover rounded-tr-lg  aspect-[2/1]"
             alt={`${title} 썸네일 1`}
+            loading="eager"
           />
           <img
             src={getImageSrc(2)}
-            className="h-1/2 w-full object-cover rounded-br-lg"
+            className="h-1/2 w-full object-cover rounded-br-lg  aspect-[2/1]"
             alt={`${title} 썸네일 2`}
+            loading="eager"
           />
         </div>
       </div>

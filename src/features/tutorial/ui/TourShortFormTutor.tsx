@@ -1,4 +1,4 @@
-import { useLocalStorage, useFunnel, Portal } from '@/shared';
+import { useLocalStorage, useFunnel } from '@/shared';
 import { SHORTFORM_TUTORIAL_STEP, FocusElements } from '@/features/tutorial';
 
 export default function TourShortFormTutor() {
@@ -11,23 +11,21 @@ export default function TourShortFormTutor() {
   }
 
   return (
-    <div className="absolute z-(--z-layer1000) left-0 bottom-0 w-full h-full bg-gray-700/50 flex flex-col items-center justify-center">
+    <div className="fixed z-(--z-layer1000) left-0 bottom-0 w-full h-full flex flex-col items-center justify-center">
       <div className="relative w-full h-full text-white">
-        <Portal containerId="tutorial-root">
-          <Funnel>
-            {SHORTFORM_TUTORIAL_STEP.map(step => (
-              <Funnel.Step key={step.id} name={step.name}>
-                <FocusElements
-                  id={step.id}
-                  onStep={setStep}
-                  prevStepId={step.prevStepId}
-                  nextStepId={step.nextStepId}
-                  description={step.description}
-                />
-              </Funnel.Step>
-            ))}
-          </Funnel>
-        </Portal>
+        <Funnel>
+          {SHORTFORM_TUTORIAL_STEP.map(step => (
+            <Funnel.Step key={step.id} name={step.name}>
+              <FocusElements
+                id={step.id}
+                description={step.description}
+                prevStepId={step.prevStepId}
+                nextStepId={step.nextStepId}
+                onStep={setStep}
+              />
+            </Funnel.Step>
+          ))}
+        </Funnel>
       </div>
     </div>
   );

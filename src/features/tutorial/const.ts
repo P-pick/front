@@ -28,14 +28,14 @@ export const SHORTFORM_TUTORIAL_STEP: TutorialStep[] = [
     description:
       '여행 시작하기 버튼을 통해서 관광지까지의 길찾기를 진행할 수 있습니다.',
     prevStepId: 'tour-map-tutorial',
-    nextStepId: 'setting-tour-tutorial',
+    nextStepId: 'tour-setting-tutorial',
   },
   {
-    id: 'setting-tour-tutorial',
-    name: 'setting-tour-tutorial',
+    id: 'tour-setting-tutorial',
+    name: 'tour-setting-tutorial',
     description:
       '여행 설정을 통해서 불러오는 관광지 정보를 필더링 할 수 있습니다.',
-    prevStepId: 'start-tour-tutorial',
+    prevStepId: 'tour-start-tutorial',
     nextStepId: '',
   },
 ];

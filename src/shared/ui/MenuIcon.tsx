@@ -1,6 +1,6 @@
 export default function MenuIcon() {
   return (
-    <button type="button" className="cursor-pointer" id="setting-tour-tutorial">
+    <button type="button" className="cursor-pointer" id="tour-setting-tutorial">
       <svg
         width="35"
         height="35"

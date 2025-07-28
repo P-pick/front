@@ -1,14 +1,21 @@
-import { Header, LoadingSpinner } from '@/shared';
-import { TourSwiperContainer } from '@/widgets';
 import { Suspense } from 'react';
+
+import { Header } from '@/widgets';
+import { TourSwiperContainer } from '@/features/tour';
+import { LoadingSpinner, BottomNavigationBar } from '@/shared';
 
 export default function GeoTrip() {
   return (
-    <div className="absolute h-full w-full flex items-center justify-center">
-      <Header className="w-full absolute flex items-center justify-between top-4 px-5 z-(--z-layer5)" />
-      <Suspense fallback={<LoadingSpinner />}>
-        <TourSwiperContainer />
-      </Suspense>
-    </div>
+    <section className="flex flex-col h-full w-full">
+      <div className="h-full w-full relative">
+        <div className="absolute h-full w-full flex items-center justify-center">
+          <Header className="w-full absolute flex items-center justify-between top-4 px-5 z-(--z-layer5)" />
+          <Suspense fallback={<LoadingSpinner />}>
+            <TourSwiperContainer />
+          </Suspense>
+        </div>
+      </div>
+      <BottomNavigationBar />
+    </section>
   );
 }

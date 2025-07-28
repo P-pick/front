@@ -41,6 +41,7 @@ export default function TourSwiperView({
       onSlideChange={handleSlideChange}
       onReachEnd={handleAppend}
       onReachBeginning={handlePrepend}
+      virtual
     >
       {slideEntries.map(({ slide }, index) => (
         <SwiperSlide key={slide.contentid} virtualIndex={index}>

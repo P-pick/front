@@ -7,6 +7,7 @@ import { Tour } from '@/pages/tour';
 import { Map } from '@/pages/map';
 import { Destination } from '@/pages/map/destination';
 import { AroundSearch } from '@/pages/map/aroundSearch';
+import { TourSearch } from '@/pages/tour/search';
 
 export default function Router() {
   return (
@@ -21,6 +22,7 @@ export default function Router() {
         <Route path="/tour" element={<Tour />}>
           <Route path="geo-trip" element={<GeoTrip />} />
           <Route path="list" element={<TourList />} />
+          <Route path="search" element={<TourSearch />} />
         </Route>
       </Routes>
     </BrowserRouter>

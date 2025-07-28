@@ -7,6 +7,7 @@ import { infiniteQueryOptions, queryOptions } from '@tanstack/react-query';
 import {
   getDetailImages,
   getLocationBasedItems,
+  getSearchKeyword,
   getTourDetailCommon,
   getTourDetailIntro,
 } from './api';
@@ -41,6 +42,20 @@ export const tourQueries = {
       getPreviousPageParam: (firstPage: ResponseBody<TourItem[]>) => {
         const currentPage = firstPage.pageNo;
         return currentPage === 1 ? undefined : currentPage - 1;
+      },
+    }),
+  searchKeyWord: (keyword: string) =>
+    infiniteQueryOptions({
+      queryKey: ['searchKeyword', keyword],
+
+      queryFn: ({ pageParam }: { pageParam: number }) =>
+        getSearchKeyword({ keyword, pageNo: pageParam }),
+      initialPageParam: 1,
+
+      getNextPageParam: (lastPage: ResponseBody<TourItem[]>) => {
+        const currentPage = lastPage.pageNo;
+        const totalPage = Math.ceil(lastPage.totalCount / lastPage.numOfRows);
+        return currentPage < totalPage ? currentPage + 1 : undefined;
       },
     }),
   detail: (contentId: string) =>

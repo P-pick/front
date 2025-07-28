@@ -1,2 +1,1 @@
-export * from './tourList';
-export * from './tourShorts';
+export { default as Header } from './Header';

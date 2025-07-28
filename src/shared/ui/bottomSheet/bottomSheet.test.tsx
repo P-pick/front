@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { BottomSheet } from '@/shared';
+
 beforeEach(() => {
   const root = document.createElement('div');
   root.setAttribute('id', 'bottomsheet-root');

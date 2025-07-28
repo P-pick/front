@@ -1,6 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
-import Portal from './Portal';
 import { render } from '@testing-library/react';
+
+import { Portal } from '@/shared';
 
 beforeEach(() => {
   const root = document.createElement('div');

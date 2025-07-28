@@ -1,8 +1,9 @@
+import { MemoryRouter, Route, Routes, useLocation } from 'react-router-dom';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { MemoryRouter, Route, Routes, useLocation } from 'react-router-dom';
 import { describe, expect, it } from 'vitest';
-import BackButton from './BackButton';
+
+import { BackButton } from '@/shared';
 
 const PreviousPage = () => <div>이전 페이지</div>;
 const NextPage = () => {

@@ -3,7 +3,7 @@ import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 import { getDistanceFromLatLonInMeters } from '@/features/tourSearch';
 import { TourInfoCard } from '@/features/tourList';
 import { tourQueries } from '@/entities/tour';
-import { getSuspenseLocation, InfiniteScroll } from '@/shared';
+import { getSuspenseLocation, InfiniteScroll, LoadingSpinner } from '@/shared';
 
 interface SearchResultProps {
   keyword: string;
@@ -35,7 +35,6 @@ export default function SearchResult({ keyword }: SearchResultProps) {
               ),
             ),
           };
-          console.log('newItem', newItem);
           return (
             <li key={item.contentid}>
               <TourInfoCard tourInfo={newItem} />
@@ -48,7 +47,7 @@ export default function SearchResult({ keyword }: SearchResultProps) {
         isFetching={isFetchingNextPage}
         onIntersect={fetchNextPage}
         triggerClassName="h-2"
-        LoadingComponent={<div className="text-center">Loading...</div>}
+        LoadingComponent={<LoadingSpinner />}
       />
     </>
   );

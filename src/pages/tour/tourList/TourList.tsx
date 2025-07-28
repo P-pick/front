@@ -3,13 +3,12 @@ import { Suspense } from 'react';
 import { Header } from '@/widgets';
 import { SkeletonCard } from '@/features/tour';
 import {
+  FALLBACK_LIST,
   TouristFilterQueryUpdater,
   TourListContainer,
 } from '@/features/tourList';
 import { SearchNavigate } from '@/features/tourSearch';
 import { BottomNavigationBar } from '@/shared';
-
-const fallbackList = [1, 2, 3, 4, 5];
 
 export default function TourList() {
   return (
@@ -21,7 +20,7 @@ export default function TourList() {
           </Header>
           <TouristFilterQueryUpdater />
           <Suspense
-            fallback={fallbackList.map(v => (
+            fallback={FALLBACK_LIST.map(v => (
               <div key={v} className="my-1">
                 <SkeletonCard />
               </div>

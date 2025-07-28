@@ -6,7 +6,7 @@ export { default as DistanceTimeInfo } from './DistanceTimeInfo';
 export { default as Header } from './Header';
 export { default as InfiniteScroll } from './InfiniteScroll';
 export { default as MenuIcon } from './MenuIcon';
-export { default as Portal } from './Portal';
+export * from './portal';
 export { default as TourCard } from './TourCard';
 export { default as TouristContentsTypeFilter } from './TouristContentsTypeFilter';
 export { default as TourTypeBadge } from './TourTypeBadge';

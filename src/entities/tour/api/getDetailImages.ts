@@ -7,8 +7,8 @@ export const getDetailImages = async (contentId: string) => {
     `/detailImage2`,
     { params },
   );
-  if (!imageRes.data.response.body.items.item) {
-    throw new Error(`no images`);
+  if (!imageRes.data.response.body.items) {
+    return [];
   }
 
   return imageRes.data.response.body.items.item;

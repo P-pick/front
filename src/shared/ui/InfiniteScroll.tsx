@@ -5,6 +5,7 @@ interface InfiniteScrollProps {
   isFetching: boolean;
   onIntersect: () => void;
   LoadingComponent?: React.ReactNode;
+  triggerClassName?: string;
 }
 
 export default function InfiniteScroll({
@@ -12,6 +13,7 @@ export default function InfiniteScroll({
   isFetching,
   onIntersect,
   LoadingComponent,
+  triggerClassName = 'h-1',
 }: InfiniteScrollProps) {
   const observerRef = useRef<HTMLDivElement | null>(null);
 
@@ -38,7 +40,7 @@ export default function InfiniteScroll({
   return (
     <>
       {isFetching && LoadingComponent}
-      <div ref={observerRef} className="h-1" />
+      <div ref={observerRef} className={triggerClassName} />
     </>
   );
 }

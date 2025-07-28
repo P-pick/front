@@ -9,4 +9,4 @@ export * from './portal';
 export { default as TourCard } from './TourCard';
 export { default as TouristContentsTypeFilter } from './TouristContentsTypeFilter';
 export { default as TourTypeBadge } from './TourTypeBadge';
-export { default as BottomNavigationBar } from './bottomNavigationBar';
+export * from './bottomNavigationBar';

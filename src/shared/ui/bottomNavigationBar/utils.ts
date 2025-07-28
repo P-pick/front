@@ -12,6 +12,7 @@ export const createNavItems = ({
 }: createNavItemsParams) => {
   return [
     {
+      id: 'home-navigation-tutorial',
       icon: HomeIcon,
       path: '/tour/geo-trip',
       label: 'home Icon',
@@ -21,6 +22,7 @@ export const createNavItems = ({
         }),
     },
     {
+      id: 'list-navigation-tutorial',
       icon: ListIcon,
       path: '/tour/list',
       label: 'list Icon',
@@ -28,12 +30,14 @@ export const createNavItems = ({
         navigate(`/tour/list?${currentParams.toString()}`, { replace: true }),
     },
     {
+      id: 'bookmark-navigation-tutorial',
       icon: BookMarkIcon,
       path: '/bookmark',
       label: 'bookmark Icon',
       onClick: () => navigate('/bookmark', { replace: true }),
     },
     {
+      id: 'profile-navigation-tutorial',
       icon: ProfileIcon,
       path: '/profile',
       label: 'profile Icon',

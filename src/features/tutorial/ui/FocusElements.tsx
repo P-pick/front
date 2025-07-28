@@ -1,20 +1,12 @@
-import { useLayoutEffect, useState } from 'react';
-
 import { commonSVG } from '@/assets';
 
+import { useLayoutRect } from '@/features/tutorial';
 import { Portal } from '@/shared';
 
 import type { TutorialStep } from '@/features/tutorial';
 
 export default function FocusElements({ id }: Pick<TutorialStep, 'id'>) {
-  const [rect, setRect] = useState<DOMRect | null>(null);
-
-  useLayoutEffect(() => {
-    const el = document.getElementById(id);
-    if (el) {
-      setRect(el.getBoundingClientRect());
-    }
-  }, [id]);
+  const rect = useLayoutRect(id);
 
   const clipPath = rect
     ? {

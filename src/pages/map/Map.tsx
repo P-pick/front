@@ -1,4 +1,4 @@
-import Header from '@/shared/ui/Header';
+import Header from '@/widgets/Header';
 import { Outlet } from 'react-router-dom';
 
 export default function Map() {

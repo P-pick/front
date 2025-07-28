@@ -11,7 +11,7 @@ export default function Portal({ children, containerId }: PortalProps) {
 
   if (!container) {
     throw new Error(
-      `Element with id '${containerId}' not found. Please add <div id="${containerId}"></div> to your HTML.`,
+      `${containerId}라는 id를 가진 요소가 존재하지 않습니다. HTML에 <div id="${containerId}"></div>를 추가해주세요.`,
     );
   }
 

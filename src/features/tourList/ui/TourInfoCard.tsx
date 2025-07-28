@@ -2,7 +2,8 @@ import { Suspense } from 'react';
 import { commonSVG } from '@/assets';
 import { ErrorBoundary } from 'react-error-boundary';
 
-import { SkeletonCard, TourCardImages } from '@/features/tour';
+import { TourCardImages } from '@/features/tourList';
+import { SkeletonCard } from '@/features/tour';
 import { TOUR_TYPE } from '@/entities/tour';
 import { DistanceTimeInfo, truncate } from '@/shared';
 
@@ -14,7 +15,15 @@ interface TourInfoCardProps {
 export default function TourInfoCard({ tourInfo }: TourInfoCardProps) {
   return (
     <article className="flex flex-col my-8">
-      <ErrorBoundary FallbackComponent={() => <>임시 에러처리</>}>
+      <ErrorBoundary
+        FallbackComponent={() => (
+          <img
+            src="/common/fallback.webp"
+            alt="임시 에러처리"
+            className="w-full aspect-[3/2]"
+          />
+        )}
+      >
         <Suspense fallback={<SkeletonCard />}>
           <TourCardImages
             contentId={tourInfo.contentid}

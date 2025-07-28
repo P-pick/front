@@ -1,5 +1,9 @@
-import { useLocalStorage, useFunnel } from '@/shared';
-import { SHORTFORM_TUTORIAL_STEP, FocusElements } from '@/features/tutorial';
+import { useLocalStorage, useFunnel, Portal } from '@/shared';
+import {
+  SHORTFORM_TUTORIAL_STEP,
+  FocusElements,
+  TutorialFocusStep,
+} from '@/features/tutorial';
 
 export default function TourShortFormTutor() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -15,14 +19,16 @@ export default function TourShortFormTutor() {
       <div className="relative w-full h-full text-white">
         <Funnel>
           {SHORTFORM_TUTORIAL_STEP.map(step => (
-            <Funnel.Step key={step.id} name={step.id}>
-              <FocusElements
-                id={step.id}
-                description={step.description}
-                prevStepId={step.prevStepId}
-                nextStepId={step.nextStepId}
-                onStep={setStep}
-              />
+            <Funnel.Step name={step.id} key={step.id}>
+              <Portal containerId="tutorial-root">
+                <FocusElements id={step.id} />
+                <TutorialFocusStep
+                  description={step.description}
+                  prevStepId={step.prevStepId}
+                  nextStepId={step.nextStepId}
+                  onStep={setStep}
+                />
+              </Portal>
             </Funnel.Step>
           ))}
         </Funnel>

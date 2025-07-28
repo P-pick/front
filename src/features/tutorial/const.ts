@@ -23,4 +23,22 @@ export const SHORTFORM_TUTORIAL_STEP = createTutorialStep([
     description:
       '여행 설정을 통해서 불러오는 관광지 정보를 필더링 할 수 있습니다.',
   },
+  {
+    id: 'home-navigation-tutorial',
+    description: '숏폼으로 여행을 탐색할 수 있습니다.',
+  },
+  {
+    id: 'list-navigation-tutorial',
+    description: '관광지를 리스트 형태로 확인할 수 있습니다.',
+  },
+  {
+    id: 'bookmark-navigation-tutorial',
+    description:
+      '내가 지정한 관심 관광지 리스트를 확인 가능합니다.(회원 전용 기능)',
+  },
+  {
+    id: 'profile-navigation-tutorial',
+    description:
+      '내 프로필을 확인하고 설정할 수 있는 탭이 나옵니다.(회원 전용 기능)',
+  },
 ]);

@@ -2,21 +2,11 @@ import { useLayoutEffect, useState } from 'react';
 
 import { commonSVG } from '@/assets';
 
-import type { TutorialStep } from '../type';
 import { Portal } from '@/shared';
-import TutorialFocusStep from './TutorialFocusStep';
 
-interface TutorialFocusStepProps extends Omit<TutorialStep, 'name'> {
-  onStep: (stepId: string) => void;
-}
+import type { TutorialStep } from '@/features/tutorial';
 
-export default function FocusElements({
-  id,
-  description,
-  prevStepId,
-  nextStepId,
-  onStep,
-}: TutorialFocusStepProps) {
+export default function FocusElements({ id }: Pick<TutorialStep, 'id'>) {
   const [rect, setRect] = useState<DOMRect | null>(null);
 
   useLayoutEffect(() => {
@@ -49,12 +39,6 @@ export default function FocusElements({
           </div>
         )}
       </div>
-      <TutorialFocusStep
-        description={description}
-        prevStepId={prevStepId}
-        nextStepId={nextStepId}
-        onStep={onStep}
-      />
     </Portal>
   );
 }

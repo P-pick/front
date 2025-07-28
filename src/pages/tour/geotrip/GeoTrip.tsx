@@ -3,7 +3,7 @@ import { Suspense } from 'react';
 import { Header } from '@/widgets';
 import { TourSwiperContainer } from '@/features/tour';
 import { TourShortFormTutor } from '@/features/tutorial';
-import { BottomNavigationBar, LoadingSpinner } from '@/shared';
+import { LoadingSpinner, BottomNavigationBar } from '@/shared';
 
 export default function GeoTrip() {
   return (

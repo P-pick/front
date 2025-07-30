@@ -52,6 +52,7 @@ function TourListContainer({
         isFetching={isFetchingNextPage}
         onIntersect={fetchNextPage}
         LoadingComponent={<SkeletonCard />}
+        triggerClassName="h-3"
       />
     </>
   );

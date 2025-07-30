@@ -16,7 +16,7 @@ vi.mock('react-router-dom', async () => {
     useNavigate: () => mockNavigate,
   };
 });
-const Component = () => {
+const TestComponent = () => {
   return (
     <MemoryRouter initialEntries={['/tour/list?distance=10000&tour-type=15']}>
       <BottomNavigationBar />
@@ -29,7 +29,7 @@ describe('BottomNavigationBar 컴포넌트', () => {
   });
 
   it('모든 아이콘이 렌더링되어야 한다', () => {
-    render(<Component />);
+    render(<TestComponent />);
 
     const icons = screen.getAllByRole('button');
     expect(icons).toHaveLength(4);
@@ -37,7 +37,7 @@ describe('BottomNavigationBar 컴포넌트', () => {
   it('home 아이콘 클릭 시 tour/geo-trip 경로로 이동한다', async () => {
     const user = userEvent.setup();
 
-    render(<Component />);
+    render(<TestComponent />);
 
     const homeButton = screen.getByRole('button', {
       name: 'home Icon',
@@ -53,7 +53,7 @@ describe('BottomNavigationBar 컴포넌트', () => {
   it('list 아이콘 클릭 시 tour/list 경로로 이동한다', async () => {
     const user = userEvent.setup();
 
-    render(<Component />);
+    render(<TestComponent />);
 
     const listButton = screen.getByRole('button', {
       name: 'list Icon',
@@ -69,7 +69,7 @@ describe('BottomNavigationBar 컴포넌트', () => {
   it('bookmark 아이콘 클릭 시 /bookmark 경로로 이동한다', async () => {
     const user = userEvent.setup();
 
-    render(<Component />);
+    render(<TestComponent />);
 
     const bookmarkButton = screen.getByRole('button', {
       name: 'bookmark Icon',
@@ -82,7 +82,7 @@ describe('BottomNavigationBar 컴포넌트', () => {
   it('profile 아이콘 클릭 시 /profile 경로로 이동한다', async () => {
     const user = userEvent.setup();
 
-    render(<Component />);
+    render(<TestComponent />);
 
     const profileButton = screen.getByRole('button', {
       name: 'profile Icon',

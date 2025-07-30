@@ -3,10 +3,6 @@ import { commonSVG } from '@/assets';
 import { TourTypeBadge, DistanceTimeInfo } from '@/shared';
 
 import type { AroundContentTypeId } from '@/pages/types';
-import { useState } from 'react';
-import TourCardNavigate from './TourCardNavigate';
-import TourOverview from './TourOverview';
-import TourReview from './TourReivew';
 
 interface TourCardProps {
   title: string;
@@ -15,7 +11,6 @@ interface TourCardProps {
   tourTypeId: AroundContentTypeId;
   businessHours: string;
   address: string;
-  contentId: string;
 }
 export default function TourCard({
   title,
@@ -24,10 +19,7 @@ export default function TourCard({
   tourTypeId,
   businessHours,
   address,
-  contentId,
 }: TourCardProps) {
-  const [currentSection, setCurrentSection] = useState('overview');
-
   return (
     <section>
       <div className="py-6 px-5 flex">
@@ -58,12 +50,6 @@ export default function TourCard({
           />
         </div>
       </div>
-      <TourCardNavigate
-        currentSection={currentSection}
-        onNavigate={setCurrentSection}
-      />
-      {currentSection === 'overview' && <TourOverview description={'12312'} />}
-      {currentSection === 'review' && <TourReview contentId={contentId} />}
     </section>
   );
 }

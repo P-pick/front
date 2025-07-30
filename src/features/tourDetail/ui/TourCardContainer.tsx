@@ -1,8 +1,17 @@
-import { tourQueries } from '@/entities/tour';
-import { TourCard } from '@/shared/ui';
 import { useSuspenseQueries } from '@tanstack/react-query';
-import { extractRegionInfo } from '../../lib';
-import type { TourSummary } from '../../types';
+
+import { tourQueries } from '@/entities/tour';
+
+import { extractRegionInfo } from '@/features/tour';
+import {
+  TourCard,
+  TourCardNavigate,
+  TourOverview,
+  TourReview,
+} from '@/features/tourDetail';
+
+import type { TourSummary } from '@/features/tour';
+import { useState } from 'react';
 
 type TourCardContainerProps = Omit<TourSummary, 'mapx' | 'mapy'>;
 
@@ -13,6 +22,8 @@ export default function TourCardContainer({
   contenttypeid,
   contentid,
 }: TourCardContainerProps) {
+  const [currentSection, setCurrentSection] = useState('overview');
+
   const responseArray = useSuspenseQueries({
     queries: [
       tourQueries.detailCommon(contentid),
@@ -35,7 +46,14 @@ export default function TourCardContainer({
         }
         address={`${region?.sido} ${region?.sigungu}`}
       />
-      <div className="overflow-auto px-4">{commonData.overview}</div>
+      <TourCardNavigate
+        currentSection={currentSection}
+        onNavigate={setCurrentSection}
+      />
+      {currentSection === 'overview' && (
+        <TourOverview description={commonData?.overview} />
+      )}
+      {currentSection === 'review' && <TourReview contentId={contentid} />}
     </>
   );
 }

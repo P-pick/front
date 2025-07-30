@@ -1,9 +1,20 @@
+import { auth, provider } from '@/shared/config/firbaseConfig';
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 
 export default function AuthButtonContainer() {
   const navigate = useNavigate();
 
-  const handleKakaoLogin = () => {};
+  const handleKakaoLogin = () => {
+    signInWithPopup(auth, provider).then(result => {
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      if (credential === null) throw new Error('Credential is null');
+      const token = credential.accessToken;
+      // The signed-in user info.
+      const user = result.user;
+      console.log(user, token);
+    });
+  };
   const handleGuestLogin = () => {
     navigate('/tour/geo-trip?distance=1000&tour-type=12');
   };

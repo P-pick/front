@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 import { commonSVG } from '@/assets';
 import { ErrorBoundary } from 'react-error-boundary';
 
-import { TourCardImages, usePrefetchVisible } from '@/features/tourList';
+import { TourCardImages } from '@/features/tourList';
 import { SkeletonCard } from '@/features/tour';
 import { TOUR_TYPE } from '@/entities/tour';
 import { DistanceTimeInfo, truncate } from '@/shared';
@@ -13,10 +13,8 @@ interface TourInfoCardProps {
 }
 
 export default function TourInfoCard({ tourInfo }: TourInfoCardProps) {
-  const { ref, visible } = usePrefetchVisible('200px');
-
   return (
-    <article className="flex flex-col my-8" ref={ref}>
+    <article className="flex flex-col my-8">
       <ErrorBoundary
         FallbackComponent={() => (
           <img
@@ -27,14 +25,10 @@ export default function TourInfoCard({ tourInfo }: TourInfoCardProps) {
         )}
       >
         <Suspense fallback={<SkeletonCard />}>
-          {visible ? (
-            <TourCardImages
-              contentId={tourInfo.contentid}
-              title={tourInfo.title}
-            />
-          ) : (
-            <SkeletonCard />
-          )}
+          <TourCardImages
+            contentId={tourInfo.contentid}
+            title={tourInfo.title}
+          />
         </Suspense>
       </ErrorBoundary>
 

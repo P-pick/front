@@ -14,7 +14,7 @@ export default function TourList() {
   return (
     <section className="flex flex-col h-full w-full">
       <div className="h-full w-full relative">
-        <div className="absolute h-full w-full overflow-auto ">
+        <div className="absolute h-full w-full overflow-y-auto overflow-hidden">
           <Header className="w-full flex items-center justify-between px-5 mt-1.5 mb-6">
             <SearchNavigate />
           </Header>

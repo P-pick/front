@@ -1,8 +1,5 @@
-import {
-  useSuspenseInfiniteQuery,
-  useQueryClient,
-} from '@tanstack/react-query';
-import { useDeferredValue, useEffect } from 'react';
+import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
+import { useDeferredValue } from 'react';
 
 import { tourQueries } from '@/entities/tour';
 import { SkeletonCard, withGeoTripParams } from '@/features/tour';
@@ -30,6 +27,7 @@ function TourListContainer({
         location,
         radius: distance,
         contentTypeId: deferredTourContentTypeId,
+        numOfRows: 4,
       }),
     );
   const shouldShowFallback = useShouldShowFallback({
@@ -39,10 +37,6 @@ function TourListContainer({
     deferredContentTypeId: deferredTourContentTypeId,
   });
   const tourItems = data.pages.flatMap(page => page.items.item);
-  const queryClient = useQueryClient();
-  useEffect(() => {
-    queryClient.prefetchQuery(tourQueries.detailImages(tourItems[0].contentid));
-  }, []);
 
   return (
     <>
@@ -59,7 +53,7 @@ function TourListContainer({
         isFetching={isFetchingNextPage}
         onIntersect={fetchNextPage}
         LoadingComponent={<SkeletonCard />}
-        triggerClassName="h-3"
+        triggerClassName="h-50"
       />
     </>
   );

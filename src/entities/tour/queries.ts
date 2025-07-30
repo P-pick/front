@@ -20,6 +20,7 @@ export const tourQueries = {
     radius,
     contentTypeId,
     initialPageParam = 1,
+    numOfRows,
   }: LocationBasedInfiniteQueryParams) =>
     infiniteQueryOptions({
       queryKey: [
@@ -33,6 +34,7 @@ export const tourQueries = {
           pageNo: pageParam,
           contentTypeId,
           radius,
+          numOfRows,
         }),
       getNextPageParam: (lastPage: ResponseBody<TourItem[]>) => {
         const currentPage = lastPage.pageNo;

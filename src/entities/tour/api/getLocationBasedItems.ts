@@ -8,7 +8,9 @@ export const getLocationBasedItems = async ({
   pageNo,
   contentTypeId,
   radius = '200000',
+  numOfRows = NUM_OF_ROWS,
 }: {
+  numOfRows?: number;
   location: GeoTripLocation;
   pageNo: number;
   contentTypeId: AroundContentTypeId;
@@ -22,7 +24,7 @@ export const getLocationBasedItems = async ({
         mapY: location.lat,
         radius,
         contentTypeId: Number(contentTypeId),
-        numOfRows: NUM_OF_ROWS,
+        numOfRows,
         arrange: 'S',
         pageNo,
       },

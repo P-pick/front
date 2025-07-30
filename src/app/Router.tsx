@@ -5,6 +5,8 @@ import { Home } from '@/pages/home';
 import { GeoTrip } from '@/pages/tour/geotrip';
 import { GeoSetup } from '@/pages/geoSetup';
 import { Tour } from '@/pages/tour';
+import { LoadingSpinner } from '@/shared';
+
 const Map = lazy(() => import('@/pages/map/Map'));
 const Destination = lazy(() => import('@/pages/map/destination/Destination'));
 const AroundSearch = lazy(
@@ -12,10 +14,11 @@ const AroundSearch = lazy(
 );
 const TourList = lazy(() => import('@/pages/tour/tourList/TourList'));
 const TourSearch = lazy(() => import('@/pages/tour/search/TourSearch'));
+
 export default function Router() {
   return (
     <BrowserRouter>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<LoadingSpinner centered />}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/geo-setup" element={<GeoSetup />} />

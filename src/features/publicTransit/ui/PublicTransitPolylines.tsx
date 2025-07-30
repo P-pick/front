@@ -7,6 +7,7 @@ import {
 
 import type { PUBLICTRANSIT } from '@/entities/navigate';
 import { useMapController } from '@/features/map';
+import React from 'react';
 
 interface PublicTransitProps {
   itinerary: PUBLICTRANSIT.Itinerary;
@@ -21,7 +22,7 @@ export default function PublicTransitPolylines({
   return itinerary.legs.map((leg, legIndex) => {
     if (leg.mode === 'WALK') {
       return (
-        <>
+        <React.Fragment key={`public-transit-walk-${legIndex}`}>
           {leg.steps?.map((step, index) => {
             const coordinates = step.linestring
               .split(' ')
@@ -30,9 +31,8 @@ export default function PublicTransitPolylines({
             const path = getCoordinatesPointLines(coordinates);
 
             return (
-              <>
+              <React.Fragment key={`public-transit-walk-${legIndex}-${index}`}>
                 <Polyline
-                  key={`public-transit-walk-${index}-${step.description}`}
                   path={path}
                   strokeColor="#999999"
                   strokeOpacity={0.8}
@@ -40,7 +40,6 @@ export default function PublicTransitPolylines({
                 />
                 {mapLevel < 6 && (
                   <MapMarker
-                    key={`public-transit-walk-marker-${index}-${step.description}`}
                     position={path[0]}
                     image={{
                       src: '/pointIcon.svg',
@@ -56,10 +55,10 @@ export default function PublicTransitPolylines({
                     onClick={() => handleGoToFollowPin(path[0], legIndex)}
                   />
                 )}
-              </>
+              </React.Fragment>
             );
           })}
-        </>
+        </React.Fragment>
       );
     }
 
@@ -74,9 +73,8 @@ export default function PublicTransitPolylines({
       const path = getCoordinatesPointLines(coordinates);
 
       return (
-        <>
+        <React.Fragment key={`public-transit-subway-${leg.routeId}`}>
           <Polyline
-            key={`public-transit-subway-${leg.routeId}-${leg.start.name}`}
             path={path}
             strokeColor={`#${leg.routeColor}`}
             strokeOpacity={0.8}
@@ -99,7 +97,7 @@ export default function PublicTransitPolylines({
                 ></MapMarker>
               );
             })}
-        </>
+        </React.Fragment>
       );
     }
 
@@ -114,9 +112,8 @@ export default function PublicTransitPolylines({
       const path = getCoordinatesPointLines(coordinates);
 
       return (
-        <>
+        <React.Fragment key={`public-transit-bus-${leg.routeId}`}>
           <Polyline
-            key={`public-transit-bus-${leg.routeId}-${leg.start.name}`}
             path={path}
             strokeColor={`#${leg.routeColor}`}
             strokeOpacity={0.8}
@@ -139,7 +136,7 @@ export default function PublicTransitPolylines({
                 ></MapMarker>
               );
             })}
-        </>
+        </React.Fragment>
       );
     }
 
@@ -153,9 +150,8 @@ export default function PublicTransitPolylines({
       const path = getCoordinatesPointLines(coordinates);
 
       return (
-        <>
+        <React.Fragment key={`public-transit-train-${leg.routeId}`}>
           <Polyline
-            key={`public-transit-train-${leg.routeId}-${leg.start.name}`}
             path={path}
             strokeColor={`#${leg.routeColor}`}
             strokeOpacity={0.8}
@@ -178,7 +174,7 @@ export default function PublicTransitPolylines({
                 ></MapMarker>
               );
             })}
-        </>
+        </React.Fragment>
       );
     }
   });

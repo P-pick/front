@@ -1,8 +1,6 @@
-import { Suspense } from 'react';
-
 import { StartTripButton } from '@/features/tour';
 import { TourCardContainer } from '@/features/tourDetail';
-import { BottomSheet, LoadingSpinner } from '@/shared';
+import { BottomSheet } from '@/shared';
 
 import type { TourSummary } from '@/features/tour';
 interface TourBottomSheetProps extends TourSummary {
@@ -11,9 +9,7 @@ interface TourBottomSheetProps extends TourSummary {
 }
 
 export default function TourBottomSheet({
-  title,
   dist,
-  firstimage,
   contenttypeid,
   isOpen,
   contentid,
@@ -24,21 +20,11 @@ export default function TourBottomSheet({
   return (
     <BottomSheet isOpen={isOpen} onClose={onClose} showOverlay={false}>
       <div className="bg-white w-full">
-        <Suspense
-          fallback={
-            <div className="w-full flex justify-center">
-              <LoadingSpinner />
-            </div>
-          }
-        >
-          <TourCardContainer
-            title={title}
-            dist={dist}
-            firstimage={firstimage}
-            contenttypeid={contenttypeid}
-            contentid={contentid}
-          />
-        </Suspense>
+        <TourCardContainer
+          dist={dist}
+          contenttypeid={contenttypeid}
+          contentid={contentid}
+        />
         <div className="mt-4 w-full flex items-center justify-center">
           <StartTripButton
             lng={mapx}

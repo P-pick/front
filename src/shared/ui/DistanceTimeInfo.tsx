@@ -12,11 +12,11 @@ export default function DistanceTimeInfo({
   className = '',
 }: DistanceTimeInfoProps) {
   return (
-    <span className="flex items-center">
+    <div className="flex items-center whitespace-nowrap">
       <commonSVG.LocationIcon className={iconFill} width={15} height={15} />
-      <p className={className}>
+      <span className={className}>
         &nbsp;{Math.floor((Number(dist) / 1000) * 10) / 10} Km
-      </p>
-    </span>
+      </span>
+    </div>
   );
 }

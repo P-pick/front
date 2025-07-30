@@ -42,7 +42,6 @@ export default function AroundContent({
             <TourCardContainer
               contentid={tourist.contentid}
               contenttypeid={tourist.contenttypeid}
-              title={tourist.title}
               dist={tourist.dist}
             />
           </Suspense>

@@ -45,21 +45,19 @@ export default function CarPolylines({
       ];
       const spProperties = properties as CAR.PointProperties;
 
-      return (
-        <>
-          {isSelectedOptions(searchOption) && (
-            <Point
-              key={`car-point-${searchOption}-${spProperties.index}`}
-              position={path[0]}
-              pointType={spProperties.pointType}
-              zIndex={2}
-              onClick={() =>
-                handleGoToFollowPin(path[0], spProperties.pointIndex)
-              }
-            />
-          )}
-        </>
-      );
+      if (isSelectedOptions(searchOption)) {
+        return (
+          <Point
+            key={`car-point-${searchOption}-${spProperties.index}`}
+            position={path[0]}
+            pointType={spProperties.pointType}
+            zIndex={2}
+            onClick={() =>
+              handleGoToFollowPin(path[0], spProperties.pointIndex)
+            }
+          />
+        );
+      }
     }
 
     if (geometry.type === 'LineString') {

@@ -1,5 +1,8 @@
-import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
-import { useDeferredValue } from 'react';
+import {
+  useSuspenseInfiniteQuery,
+  useQueryClient,
+} from '@tanstack/react-query';
+import { useDeferredValue, useEffect } from 'react';
 
 import { tourQueries } from '@/entities/tour';
 import { SkeletonCard, withGeoTripParams } from '@/features/tour';
@@ -36,6 +39,10 @@ function TourListContainer({
     deferredContentTypeId: deferredTourContentTypeId,
   });
   const tourItems = data.pages.flatMap(page => page.items.item);
+  const queryClient = useQueryClient();
+  useEffect(() => {
+    queryClient.prefetchQuery(tourQueries.detailImages(tourItems[0].contentid));
+  }, []);
 
   return (
     <>

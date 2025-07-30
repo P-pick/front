@@ -5,11 +5,13 @@ import { tourQueries } from '@/entities/tour';
 interface TourCardImagesProps {
   contentId: string;
   title: string;
+  egger?: boolean;
 }
 
 export default function TourCardImages({
   contentId,
   title,
+  egger = false,
 }: TourCardImagesProps) {
   const { data: images } = useSuspenseQuery(
     tourQueries.detailImages(contentId),
@@ -31,6 +33,7 @@ export default function TourCardImages({
           src={getImageSrc(0)}
           className="w-3/5 h-full object-cover rounded-l-lg aspect-square"
           alt={title}
+          loading={egger ? 'eager' : 'lazy'}
         />
 
         <div className="flex flex-col w-2/5 gap-0.5 h-full">

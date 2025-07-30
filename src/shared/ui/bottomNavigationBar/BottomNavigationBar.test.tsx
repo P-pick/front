@@ -1,3 +1,5 @@
+import '@testing-library/jest-dom';
+
 import { BottomNavigationBar } from '@/shared/ui';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';

@@ -2,7 +2,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { createNavItems } from './utils';
 import clsx from 'clsx';
 
-export function BottomNavigationBar() {
+export default function BottomNavigationBar() {
   const location = useLocation();
   const navigate = useNavigate();
   const currentParams = new URLSearchParams(location.search);

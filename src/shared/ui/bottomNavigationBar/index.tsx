@@ -18,9 +18,9 @@ export function BottomNavigationBar() {
   return (
     <footer className="w-full bg-white flex justify-center items-center border-t border-gray-200">
       <ul className="h-15 flex items-center gap-15">
-        {navItems.map(({ icon: Icon, path, onClick, label }) => (
+        {navItems.map(({ id, icon: Icon, path, onClick, label }) => (
           <li key={path}>
-            <button onClick={onClick} aria-label={label}>
+            <button onClick={onClick} aria-label={label} id={id}>
               <Icon className={getIconClass(path)} />
             </button>
           </li>

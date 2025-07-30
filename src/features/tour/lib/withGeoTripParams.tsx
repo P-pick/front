@@ -3,7 +3,6 @@ import { useSearchParams } from 'react-router-dom';
 import type { AroundContentTypeId } from '@/entities/tour';
 
 import { isValidTourType } from '@/features/map';
-import { TourShortFormTutor } from '@/features/tutorial';
 import { getSuspenseLocation } from '@/shared';
 
 import type { GeoTripLocation } from '@/shared';
@@ -33,15 +32,12 @@ export function withGeoTripParams<P extends InjectedProps>(
     }
 
     return (
-      <>
-        <TourShortFormTutor />
-        <WrappedComponent
-          {...(props as P)}
-          location={geoLocation}
-          distance={distance}
-          tourContentTypeId={tourContentTypeId}
-        />
-      </>
+      <WrappedComponent
+        {...(props as P)}
+        location={geoLocation}
+        distance={distance}
+        tourContentTypeId={tourContentTypeId}
+      />
     );
   };
 }

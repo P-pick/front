@@ -3,11 +3,22 @@ import { useSuspenseQueries } from '@tanstack/react-query';
 import { tourQueries } from '@/entities/tour';
 import {
   TouristAttractionInfo,
-  CultureFacility,
-  FestivalEvent,
+  CultureFacilityInfo,
+  FestivalEventInfo,
+  LeportsInfo,
+  TourCourseInfo,
+  LodgingInfo,
 } from '@/features/tourDetail';
 
-import type { AroundContentTypeId } from '@/entities/tour';
+import type {
+  AroundContentTypeId,
+  CultureFacility,
+  FestivalEvent,
+  Leports,
+  Lodging,
+  TourCourse,
+  TouristAttraction,
+} from '@/entities/tour';
 
 interface TourInformationProps {
   contentId: string;
@@ -31,15 +42,44 @@ export default function TourInformation({
   console.log('tourCommon', tourCommon, 'tourIntro', tourIntro);
 
   if (tourCommon.contenttypeid === '12') {
-    return <TouristAttractionInfo common={tourCommon} intro={tourIntro} />;
+    return (
+      <TouristAttractionInfo
+        common={tourCommon}
+        intro={tourIntro as TouristAttraction}
+      />
+    );
   }
 
   if (tourCommon.contenttypeid === '14') {
-    return <CultureFacility common={tourCommon} intro={tourIntro} />;
+    return (
+      <CultureFacilityInfo
+        common={tourCommon}
+        intro={tourIntro as CultureFacility}
+      />
+    );
   }
 
   if (tourCommon.contenttypeid === '15') {
-    return <FestivalEvent common={tourCommon} intro={tourIntro} />;
+    return (
+      <FestivalEventInfo
+        common={tourCommon}
+        intro={tourIntro as FestivalEvent}
+      />
+    );
+  }
+
+  if (tourCommon.contenttypeid === '25') {
+    return (
+      <TourCourseInfo common={tourCommon} intro={tourIntro as TourCourse} />
+    );
+  }
+
+  if (tourCommon.contenttypeid === '28') {
+    return <LeportsInfo common={tourCommon} intro={tourIntro as Leports} />;
+  }
+
+  if (tourCommon.contenttypeid === '32') {
+    return <LodgingInfo common={tourCommon} intro={tourIntro as Lodging} />;
   }
 
   return null;

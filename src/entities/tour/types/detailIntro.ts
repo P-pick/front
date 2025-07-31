@@ -1,3 +1,4 @@
+//type 12 - 관광지
 export interface TouristAttraction {
   accomcount?: string; // 수용인원
   chkbabycarriage?: string; // 유모차대여정보
@@ -16,6 +17,7 @@ export interface TouristAttraction {
   usetime?: string; // 이용시간
 }
 
+// type 14 - 문화시설
 export interface CultureFacility {
   accomcountculture?: string; // 수용인원
   chkbabycarriageculture?: string; // 유모차대여정보
@@ -32,6 +34,7 @@ export interface CultureFacility {
   spendtime?: string; // 관람소요시간
 }
 
+// type 15 - 축제/공연/행사
 export interface FestivalEvent {
   agelimit?: string; // 관람가능연령
   bookingplace?: string; // 예매처
@@ -53,6 +56,7 @@ export interface FestivalEvent {
   usetimefestival?: string; // 이용요금
 }
 
+// type 25 - 여행코스
 export interface TourCourse {
   distance?: string; // 코스총거리
   infocentertourcourse?: string; // 문의 및 안내
@@ -61,6 +65,7 @@ export interface TourCourse {
   theme?: string; // 코스테마
 }
 
+// type 28 - 레포츠
 export interface Leports {
   accomcountleports?: string; // 수용인원
   chkbabycarriageleports?: string; // 유모차대여정보
@@ -78,6 +83,7 @@ export interface Leports {
   usetimeleports?: string; // 이용시간
 }
 
+// type 32 - 숙박
 export interface Lodging {
   accomcountlodging?: string; // 수용가능인원
   checkintime?: string; // 입실시간
@@ -111,6 +117,7 @@ export interface Lodging {
   refundregulation?: string; // 환불규정
 }
 
+// type 38 - 쇼핑
 export interface Shopping {
   chkbabycarriageshopping?: string; // 유모차대여정보
   chkcreditcardshopping?: string; // 신용카드가능정보
@@ -129,6 +136,7 @@ export interface Shopping {
   shopguide?: string; // 매장안내
 }
 
+// type 39 - 음식점
 export interface Food {
   chkcreditcardfood?: string; // 신용카드가능정보
   discountinfofood?: string; // 할인정보
@@ -147,3 +155,13 @@ export interface Food {
   treatmenu?: string; // 취급메뉴
   lcnsno?: string; // 인허가번호
 }
+
+export type DetailIntroResponse =
+  | TouristAttraction
+  | CultureFacility
+  | FestivalEvent
+  | TourCourse
+  | Leports
+  | Lodging
+  | Shopping
+  | Food;

@@ -3,15 +3,15 @@ import { tourDetailSVG, commonSVG } from '@/assets';
 import type { CultureFacility, TourDetailCommon } from '@/entities/tour';
 import { SafeHtmlRenderer } from '@/shared';
 
-interface CultureFacilityProps {
+interface CultureFacilityInfoProps {
   common: TourDetailCommon;
   intro: CultureFacility;
 }
 
-export default function CultureFacility({
+export default function CultureFacilityInfo({
   common,
   intro,
-}: CultureFacilityProps) {
+}: CultureFacilityInfoProps) {
   return (
     <div className="p-3 w-full">
       <ul className="flex flex-col gap-2 text-sm">

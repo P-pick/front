@@ -1,9 +1,14 @@
+import { signIn } from '@/entities/auth';
+import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 
 export default function AuthButtonContainer() {
   const navigate = useNavigate();
+  const { mutate } = useMutation({ mutationFn: signIn });
 
-  const handleKakaoLogin = () => {};
+  const handleKakaoLogin = () => {
+    mutate();
+  };
   const handleGuestLogin = () => {
     navigate('/tour/geo-trip?distance=1000&tour-type=12');
   };

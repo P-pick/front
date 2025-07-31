@@ -1,7 +1,11 @@
 import { useSuspenseQueries } from '@tanstack/react-query';
 
 import { tourQueries } from '@/entities/tour';
-import { TouristAttractionInfo, CultureFacility } from '@/features/tourDetail';
+import {
+  TouristAttractionInfo,
+  CultureFacility,
+  FestivalEvent,
+} from '@/features/tourDetail';
 
 import type { AroundContentTypeId } from '@/entities/tour';
 
@@ -32,6 +36,10 @@ export default function TourInformation({
 
   if (tourCommon.contenttypeid === '14') {
     return <CultureFacility common={tourCommon} intro={tourIntro} />;
+  }
+
+  if (tourCommon.contenttypeid === '15') {
+    return <FestivalEvent common={tourCommon} intro={tourIntro} />;
   }
 
   return null;

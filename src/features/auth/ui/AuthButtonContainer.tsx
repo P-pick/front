@@ -7,11 +7,7 @@ export default function AuthButtonContainer() {
   const { mutate } = useMutation({ mutationFn: signIn });
 
   const handleKakaoLogin = () => {
-    mutate(undefined, {
-      onSuccess: data => {
-        console.log(data);
-      },
-    });
+    mutate();
   };
   const handleGuestLogin = () => {
     navigate('/tour/geo-trip?distance=1000&tour-type=12');

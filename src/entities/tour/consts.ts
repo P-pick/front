@@ -1,5 +1,3 @@
-export const NUM_OF_ROWS = 10;
-
 export const TOUR_TYPE = {
   '': '없음',
   12: '관광지',

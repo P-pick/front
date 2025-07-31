@@ -1,14 +1,13 @@
 import type { GeoTripLocation } from '@/shared';
 import { tourApi } from '@/shared';
 import type { ApiResponse, AroundContentTypeId, TourItem } from '../';
-import { NUM_OF_ROWS } from '../';
 
 export const getLocationBasedItems = async ({
   location,
   pageNo,
   contentTypeId,
   radius = '200000',
-  numOfRows = NUM_OF_ROWS,
+  numOfRows = 10,
 }: {
   numOfRows?: number;
   location: GeoTripLocation;

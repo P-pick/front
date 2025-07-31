@@ -2,7 +2,7 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 import type { User } from '@/entities/auth';
 
-export const waitForUser = (): Promise<User> => {
+const getUser = (): Promise<User> => {
   const auth = getAuth();
   return new Promise((resolve, reject) => {
     const unsubscribe = onAuthStateChanged(auth, user => {
@@ -12,3 +12,5 @@ export const waitForUser = (): Promise<User> => {
     });
   });
 };
+
+export default getUser;

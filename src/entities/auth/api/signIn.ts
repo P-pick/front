@@ -1,7 +1,8 @@
-import { auth, provider } from '@/shared/config/firbaseConfig';
-import { signInWithPopup } from 'firebase/auth';
+import { getAuth, signInWithPopup } from 'firebase/auth';
+import { provider } from '@/shared/config/firbaseConfig';
 
 const signIn = () => {
+  const auth = getAuth();
   return signInWithPopup(auth, provider);
 };
 

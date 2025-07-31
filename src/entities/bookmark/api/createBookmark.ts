@@ -11,7 +11,6 @@ export const createBookmark = async ({ contentId }: CreateBookmarkRequest) => {
   const currentUser = auth.currentUser;
 
   if (!currentUser) {
-    console.error('로그인된 사용자가 없어 북마크를 생성할 수 없습니다.');
     throw new Error('User not authenticated');
   }
 

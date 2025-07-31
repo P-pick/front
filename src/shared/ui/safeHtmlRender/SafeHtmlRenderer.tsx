@@ -1,5 +1,6 @@
-import DOMPurify from 'dompurify';
 import { useMemo } from 'react';
+
+import { sanitizedHtml } from '@/shared';
 
 interface SafeHtmlRendererProps {
   html: string;
@@ -13,19 +14,12 @@ interface SafeHtmlRendererProps {
  * @param {string} html - 렌더링할 HTML 문자열
  */
 const SafeHtmlRenderer = ({ html }: SafeHtmlRendererProps) => {
-  const sanitizedHtml = useMemo(() => {
-    const result = DOMPurify.sanitize(html);
-    if (!result || typeof result !== 'string') {
-      throw new Error('Invalid sanitized HTML content');
-    }
-    return result;
+  const sanitized = useMemo(() => {
+    return sanitizedHtml(html);
   }, [html]);
 
   return (
-    <span
-      key={sanitizedHtml}
-      dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
-    />
+    <span key={sanitized} dangerouslySetInnerHTML={{ __html: sanitized }} />
   );
 };
 

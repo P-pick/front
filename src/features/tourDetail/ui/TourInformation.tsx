@@ -8,14 +8,18 @@ import {
   LeportsInfo,
   TourCourseInfo,
   LodgingInfo,
+  ShoppingInfo,
+  FoodInfo,
 } from '@/features/tourDetail';
 
 import type {
   AroundContentTypeId,
   CultureFacility,
   FestivalEvent,
+  Food,
   Leports,
   Lodging,
+  Shopping,
   TourCourse,
   TouristAttraction,
 } from '@/entities/tour';
@@ -38,8 +42,6 @@ export default function TourInformation({
 
   const tourCommon = tourResponse[0].data;
   const tourIntro = tourResponse[1].data;
-
-  console.log('tourCommon', tourCommon, 'tourIntro', tourIntro);
 
   if (tourCommon.contenttypeid === '12') {
     return (
@@ -80,6 +82,14 @@ export default function TourInformation({
 
   if (tourCommon.contenttypeid === '32') {
     return <LodgingInfo common={tourCommon} intro={tourIntro as Lodging} />;
+  }
+
+  if (tourCommon.contenttypeid === '38') {
+    return <ShoppingInfo common={tourCommon} intro={tourIntro as Shopping} />;
+  }
+
+  if (tourCommon.contenttypeid === '39') {
+    return <FoodInfo common={tourCommon} intro={tourIntro as Food} />;
   }
 
   return null;

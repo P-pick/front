@@ -68,36 +68,35 @@ export default function LodgingInfo({ common, intro }: LodgingInfoProps) {
             </div>
           </div>
         )}
-        <div className="flex flex-col gap-3">
-          <ExtraInfo title="예약정보" content={intro.reservationurl} />
-          <div>
-            <h2 className="text-lg font-bold">호텔 정보</h2>
-            <div className="flex flex-col gap-1">
-              <span>수용가능인원: {intro.accomcountlodging || '정보없음'}</span>
-              <span>객실수: {intro.roomcount || '정보 없음'}</span>
-              <span>객실유형: {intro.roomtype || '정보 없음'}</span>
-              <span>층 수: {intro.scalelodging || '정보 없음'}</span>
-              <span>편의시설: {intro.subfacility || '정보 없음'}</span>
-            </div>
-          </div>
-          <ExtraInfo title="식사" content={intro.foodplace} />
-          <div>
-            <h2 className="text-lg font-bold">부대 시설</h2>
-            <div className="grid grid-cols-4 text-sm ">
-              {intro.barbecue === '1' && <span>바베큐</span>}
-              {intro.beauty === '1' && <span>뷰티 시설</span>}
-              {intro.beverage === '1' && <span>식음료장</span>}
-              {intro.bicycle === '1' && <span>자전거 대여</span>}
-              {intro.campfire === '1' && <span>캠프파이어</span>}
-              {intro.karaoke === '1' && <span>노래방</span>}
-              {intro.publicbath === '1' && <span>공용 목욕탕</span>}
-              {intro.publicpc === '1' && <span>PC방</span>}
-              {intro.sauna === '1' && <span>사우나</span>}
-              {intro.seminar === '1' && <span>세미나실</span>}
-              {intro.sports === '1' && <span>스포츠 시설</span>}
-            </div>
+        <ExtraInfo title="예약정보" content={intro.reservationurl} />
+        <div>
+          <h2 className="text-lg font-bold">호텔 정보</h2>
+          <div className="flex flex-col gap-1">
+            <span>수용가능인원: {intro.accomcountlodging || '정보없음'}</span>
+            <span>객실수: {intro.roomcount || '정보 없음'}</span>
+            <span>객실유형: {intro.roomtype || '정보 없음'}</span>
+            <span>층 수: {intro.scalelodging || '정보 없음'}</span>
+            <span>편의시설: {intro.subfacility || '정보 없음'}</span>
           </div>
         </div>
+        <ExtraInfo title="식사" content={intro.foodplace} />
+        <div>
+          <h2 className="text-lg font-bold">부대 시설</h2>
+          <div className="grid grid-cols-4 text-sm ">
+            {intro.barbecue === '1' && <span>바베큐</span>}
+            {intro.beauty === '1' && <span>뷰티 시설</span>}
+            {intro.beverage === '1' && <span>식음료장</span>}
+            {intro.bicycle === '1' && <span>자전거 대여</span>}
+            {intro.campfire === '1' && <span>캠프파이어</span>}
+            {intro.karaoke === '1' && <span>노래방</span>}
+            {intro.publicbath === '1' && <span>공용 목욕탕</span>}
+            {intro.publicpc === '1' && <span>PC방</span>}
+            {intro.sauna === '1' && <span>사우나</span>}
+            {intro.seminar === '1' && <span>세미나실</span>}
+            {intro.sports === '1' && <span>스포츠 시설</span>}
+          </div>
+        </div>
+        <ExtraInfo title="환불 규정" content={intro.refundregulation} />
       </section>
     </>
   );

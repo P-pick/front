@@ -27,6 +27,7 @@ function TourListContainer({
         location,
         radius: distance,
         contentTypeId: deferredTourContentTypeId,
+        numOfRows: 4,
       }),
     );
   const shouldShowFallback = useShouldShowFallback({
@@ -52,6 +53,7 @@ function TourListContainer({
         isFetching={isFetchingNextPage}
         onIntersect={fetchNextPage}
         LoadingComponent={<SkeletonCard />}
+        triggerClassName="h-50"
       />
     </>
   );

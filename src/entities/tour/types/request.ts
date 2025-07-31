@@ -6,4 +6,5 @@ export type LocationBasedInfiniteQueryParams = {
   contentTypeId: AroundContentTypeId;
   radius: string;
   initialPageParam?: number;
+  numOfRows?: number;
 };

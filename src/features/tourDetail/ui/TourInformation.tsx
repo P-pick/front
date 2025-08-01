@@ -12,17 +12,9 @@ import {
   FoodInfo,
 } from '@/features/tourDetail';
 
-import type {
-  AroundContentTypeId,
-  CultureFacility,
-  FestivalEvent,
-  Food,
-  Leports,
-  Lodging,
-  Shopping,
-  TourCourse,
-  TouristAttraction,
-} from '@/entities/tour';
+import type { AroundContentTypeId } from '@/entities/tour';
+import { getTypedInformation } from '@/features/tourDetail';
+import { SwitchCase } from '@/shared';
 
 interface TourInformationProps {
   contentId: string;
@@ -43,54 +35,61 @@ export default function TourInformation({
   const tourCommon = tourResponse[0].data;
   const tourIntro = tourResponse[1].data;
 
-  if (tourCommon.contenttypeid === '12') {
-    return (
-      <TouristAttractionInfo
-        common={tourCommon}
-        intro={tourIntro as TouristAttraction}
-      />
-    );
-  }
-
-  if (tourCommon.contenttypeid === '14') {
-    return (
-      <CultureFacilityInfo
-        common={tourCommon}
-        intro={tourIntro as CultureFacility}
-      />
-    );
-  }
-
-  if (tourCommon.contenttypeid === '15') {
-    return (
-      <FestivalEventInfo
-        common={tourCommon}
-        intro={tourIntro as FestivalEvent}
-      />
-    );
-  }
-
-  if (tourCommon.contenttypeid === '25') {
-    return (
-      <TourCourseInfo common={tourCommon} intro={tourIntro as TourCourse} />
-    );
-  }
-
-  if (tourCommon.contenttypeid === '28') {
-    return <LeportsInfo common={tourCommon} intro={tourIntro as Leports} />;
-  }
-
-  if (tourCommon.contenttypeid === '32') {
-    return <LodgingInfo common={tourCommon} intro={tourIntro as Lodging} />;
-  }
-
-  if (tourCommon.contenttypeid === '38') {
-    return <ShoppingInfo common={tourCommon} intro={tourIntro as Shopping} />;
-  }
-
-  if (tourCommon.contenttypeid === '39') {
-    return <FoodInfo common={tourCommon} intro={tourIntro as Food} />;
-  }
-
-  return null;
+  return (
+    <SwitchCase
+      value={contentTypeId}
+      cases={{
+        '': <div>정보가 없습니다.</div>,
+        '12': (
+          <TouristAttractionInfo
+            common={tourCommon}
+            intro={getTypedInformation('12', tourIntro)}
+          />
+        ),
+        '14': (
+          <CultureFacilityInfo
+            common={tourCommon}
+            intro={getTypedInformation('14', tourIntro)}
+          />
+        ),
+        '15': (
+          <FestivalEventInfo
+            common={tourCommon}
+            intro={getTypedInformation('15', tourIntro)}
+          />
+        ),
+        '25': (
+          <TourCourseInfo
+            common={tourCommon}
+            intro={getTypedInformation('25', tourIntro)}
+          />
+        ),
+        '28': (
+          <LeportsInfo
+            common={tourCommon}
+            intro={getTypedInformation('28', tourIntro)}
+          />
+        ),
+        '32': (
+          <LodgingInfo
+            common={tourCommon}
+            intro={getTypedInformation('32', tourIntro)}
+          />
+        ),
+        '38': (
+          <ShoppingInfo
+            common={tourCommon}
+            intro={getTypedInformation('38', tourIntro)}
+          />
+        ),
+        '39': (
+          <FoodInfo
+            common={tourCommon}
+            intro={getTypedInformation('39', tourIntro)}
+          />
+        ),
+      }}
+      defaultComponent={<div>정보가 없습니다.</div>}
+    />
+  );
 }

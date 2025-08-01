@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 import { tourDetailSVG, commonSVG } from '@/assets';
 
 import { SafeHtmlRenderer } from '@/shared';
-import { useEmptyChildElements } from '@/features/tourDetail';
+import { ExtraInfo, useEmptyChildElements } from '@/features/tourDetail';
 
 import type { TourDetailCommon } from '@/entities/tour';
 
@@ -101,7 +101,7 @@ const Footer = ({ common, children }: FooterProps) => {
       <hr className="my-2" />
       <section className="p-3">
         <div className="flex flex-col gap-2 text-sm" ref={childRef}>
-          {common.overview && <SafeHtmlRenderer html={common.overview} />}
+          <ExtraInfo title="설명" content={common.overview} />
           {children}
         </div>
       </section>

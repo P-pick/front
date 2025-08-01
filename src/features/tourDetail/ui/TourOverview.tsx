@@ -1,8 +1,10 @@
-import { useSuspenseQuery } from '@tanstack/react-query';
+import { useSuspenseQueries } from '@tanstack/react-query';
 
 import { commonSVG } from '@/assets';
 
 import { tourQueries } from '@/entities/tour';
+import { authOptions } from '@/entities/auth';
+import { BookmarkButtonContainer } from '@/features/bookmark';
 import { TourTypeBadge, DistanceTimeInfo } from '@/shared';
 
 interface TourCardProps {
@@ -14,9 +16,12 @@ export default function TourOverview({
   distance,
   tourContentId,
 }: TourCardProps) {
-  const tourCommon = useSuspenseQuery(
-    tourQueries.detailCommon(tourContentId),
-  ).data;
+  const data = useSuspenseQueries({
+    queries: [tourQueries.detailCommon(tourContentId), authOptions.auth()],
+  });
+
+  const tourCommon = data[0].data;
+  const user = data[1].data;
 
   return (
     <section>
@@ -35,7 +40,10 @@ export default function TourOverview({
             <span className="flex flex-wrap">{tourCommon.addr1}</span>
           </div>
           <div className="flex items-center gap-4 mt-4">
-            <commonSVG.HeartIcon />
+            <BookmarkButtonContainer
+              contentId={tourContentId}
+              userId={user.uid}
+            />
             <commonSVG.ShareIcon />
           </div>
         </div>

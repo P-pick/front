@@ -1,6 +1,6 @@
 import { get, ref } from 'firebase/database';
 
-import { database } from '@/shared/config/firbaseConfig';
+import { database } from '@/shared/config/firebaseConfig';
 
 interface GetBookmarkRequest {
   userId: string;

@@ -1,7 +1,5 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-
 import { commonSVG } from '@/assets';
-import { bookmarkOptions, toggleBookmark } from '@/entities/bookmark';
+import { useToggleBookmarkMutation } from '@/features/bookmark';
 
 interface ToggleBookmarkButtonProps {
   userId: string;
@@ -13,30 +11,16 @@ export default function ToggleBookmarkButton({
   contentId,
   bookmarked,
 }: ToggleBookmarkButtonProps) {
-  const queryClient = useQueryClient();
-  const queryKey = bookmarkOptions.getBookmark({ userId, contentId }).queryKey;
-  const mutation = useMutation({
-    mutationFn: toggleBookmark,
-    onMutate: async () => {
-      await queryClient.cancelQueries({ queryKey });
-
-      const previousBookmark = queryClient.getQueryData(queryKey);
-      queryClient.setQueryData(queryKey, bookmarked);
-
-      return { previousBookmark, bookmarked };
-    },
-    onError: (_error, _, context) => {
-      queryClient.setQueryData(queryKey, context?.previousBookmark);
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey });
-    },
+  const { mutate } = useToggleBookmarkMutation({
+    contentId,
+    userId,
+    bookmarked: Boolean(bookmarked),
   });
 
   return (
     <button
       onClick={() =>
-        mutation.mutate({
+        mutate({
           userId,
           contentId,
           bookmarked: !bookmarked,

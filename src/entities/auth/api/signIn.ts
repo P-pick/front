@@ -1,5 +1,5 @@
 import { getAuth, signInWithPopup } from 'firebase/auth';
-import { provider } from '@/shared/config/firbaseConfig';
+import { provider } from '@/shared/config/firebaseConfig';
 
 const signIn = () => {
   const auth = getAuth();

@@ -1,12 +1,9 @@
 import { ref, set } from 'firebase/database';
 
-import { database } from '@/shared/config/firbaseConfig';
+import { database } from '@/shared/config/firebaseConfig';
 
-import type { GetBookmarkRequest } from '@/entities/bookmark';
+import type { ToggleBookmarkRequest } from '@/entities/bookmark/type';
 
-interface ToggleBookmarkRequest extends GetBookmarkRequest {
-  bookmarked: boolean;
-}
 export const toggleBookmark = async ({
   contentId,
   userId,

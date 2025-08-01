@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { bookmarkOptions, toggleBookmark } from '@/entities/bookmark';
 import { commonSVG } from '@/assets';
+import { bookmarkOptions, toggleBookmark } from '@/entities/bookmark';
 
 interface ToggleBookmarkButtonProps {
   userId: string;

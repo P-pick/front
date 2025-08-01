@@ -3,9 +3,9 @@ import { useSuspenseQueries } from '@tanstack/react-query';
 import { commonSVG } from '@/assets';
 
 import { tourQueries } from '@/entities/tour';
-import { TourTypeBadge, DistanceTimeInfo } from '@/shared';
-import { BookmarkButtonContainer } from '@/features/bookmark';
 import { authOptions } from '@/entities/auth';
+import { BookmarkButtonContainer } from '@/features/bookmark';
+import { TourTypeBadge, DistanceTimeInfo } from '@/shared';
 
 interface TourCardProps {
   distance: string;

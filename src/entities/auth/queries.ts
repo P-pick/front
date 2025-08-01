@@ -1,5 +1,6 @@
-import { getUser } from '@/entities/auth/api';
 import { queryOptions } from '@tanstack/react-query';
+
+import { getUser } from '@/entities/auth/api';
 
 export const authOptions = {
   auth: () =>

@@ -25,7 +25,7 @@ export default function ToggleBookmarkButton({
 
       return { previousBookmark, bookmarked };
     },
-    onError: (error, _, context) => {
+    onError: (_error, _, context) => {
       queryClient.setQueryData(queryKey, context?.previousBookmark);
     },
     onSettled: () => {

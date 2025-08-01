@@ -83,7 +83,7 @@ export function BottomSheet({
                 onDragEnd={handleDragEnd}
                 className="h-full"
               >
-                <div className="bg-white flex flex-col rounded-t-2xl h-full">
+                <div className="bg-white flex flex-col rounded-t-2xl h-full overflow-y-auto">
                   <header
                     data-testid="bottomsheet-header"
                     className="h-[50px] cursor-grab select-none w-full flex items-center justify-center touch-none"

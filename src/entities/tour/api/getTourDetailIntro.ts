@@ -1,17 +1,17 @@
 import { tourApi } from '@/shared';
-import type { ApiResponse, AroundContentTypeId } from '..';
+
+import type {
+  ApiResponse,
+  AroundContentTypeId,
+  DetailIntroResponse,
+} from '@/entities/tour';
 
 type getTourDetailIntroRequest = {
   contentId: string | null;
   contentTypeId: AroundContentTypeId;
 };
 
-interface getTourDetailIntroResponse {
-  playtime: string;
-  usetimeculture: string;
-  usetime: string;
-}
-
+type getTourDetailIntroResponse = DetailIntroResponse;
 export const getTourDetailIntro = async ({
   contentId,
   contentTypeId,

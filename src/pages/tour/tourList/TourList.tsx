@@ -2,11 +2,8 @@ import { Suspense } from 'react';
 
 import { Header } from '@/widgets';
 import { SkeletonCard } from '@/features/tour';
-import {
-  FALLBACK_LIST,
-  TouristFilterQueryUpdater,
-  TourListContainer,
-} from '@/features/tourList';
+import { FALLBACK_LIST, TourListContainer } from '@/features/tourList';
+import { TouristFilterQueryUpdater } from '@/features/tourTypeSelector';
 import { SearchNavigate } from '@/features/tourSearch';
 import { BottomNavigationBar } from '@/shared';
 

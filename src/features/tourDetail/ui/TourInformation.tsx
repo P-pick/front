@@ -11,10 +11,19 @@ import {
   ShoppingInfo,
   FoodInfo,
 } from '@/features/tourDetail';
-
-import type { AroundContentTypeId } from '@/entities/tour';
-import { getTypedInformation } from '@/features/tourDetail';
 import { SwitchCase } from '@/shared';
+
+import type {
+  AroundContentTypeId,
+  CultureFacility,
+  FestivalEvent,
+  Food,
+  Leports,
+  Lodging,
+  Shopping,
+  TourCourse,
+  TouristAttraction,
+} from '@/entities/tour';
 
 interface TourInformationProps {
   contentId: string;
@@ -33,7 +42,7 @@ export default function TourInformation({
   });
 
   const tourCommon = tourResponse[0].data;
-  const tourIntro = tourResponse[1].data;
+  const tourIntro = tourResponse[0].data.contenttypeid;
 
   return (
     <SwitchCase
@@ -43,51 +52,30 @@ export default function TourInformation({
         '12': (
           <TouristAttractionInfo
             common={tourCommon}
-            intro={getTypedInformation('12', tourIntro)}
+            intro={tourIntro as TouristAttraction}
           />
         ),
         '14': (
           <CultureFacilityInfo
             common={tourCommon}
-            intro={getTypedInformation('14', tourIntro)}
+            intro={tourIntro as CultureFacility}
           />
         ),
         '15': (
           <FestivalEventInfo
             common={tourCommon}
-            intro={getTypedInformation('15', tourIntro)}
+            intro={tourIntro as FestivalEvent}
           />
         ),
         '25': (
-          <TourCourseInfo
-            common={tourCommon}
-            intro={getTypedInformation('25', tourIntro)}
-          />
+          <TourCourseInfo common={tourCommon} intro={tourIntro as TourCourse} />
         ),
-        '28': (
-          <LeportsInfo
-            common={tourCommon}
-            intro={getTypedInformation('28', tourIntro)}
-          />
-        ),
-        '32': (
-          <LodgingInfo
-            common={tourCommon}
-            intro={getTypedInformation('32', tourIntro)}
-          />
-        ),
+        '28': <LeportsInfo common={tourCommon} intro={tourIntro as Leports} />,
+        '32': <LodgingInfo common={tourCommon} intro={tourIntro as Lodging} />,
         '38': (
-          <ShoppingInfo
-            common={tourCommon}
-            intro={getTypedInformation('38', tourIntro)}
-          />
+          <ShoppingInfo common={tourCommon} intro={tourIntro as Shopping} />
         ),
-        '39': (
-          <FoodInfo
-            common={tourCommon}
-            intro={getTypedInformation('39', tourIntro)}
-          />
-        ),
+        '39': <FoodInfo common={tourCommon} intro={tourIntro as Food} />,
       }}
       defaultComponent={<div>정보가 없습니다.</div>}
     />

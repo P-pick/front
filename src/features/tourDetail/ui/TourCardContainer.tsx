@@ -7,7 +7,7 @@ import {
   TourOverview,
   TourReview,
 } from '@/features/tourDetail';
-import { LoadingSpinner } from '@/shared';
+import { LoadingSpinner, SwitchCase } from '@/shared';
 
 import type { AroundContentTypeId } from '@/entities/tour';
 import type { TourSectionType } from '@/features/tourDetail';
@@ -44,15 +44,19 @@ export default function TourCardContainer({
             exit={{ opacity: 0, x: 0 }}
             transition={{ duration: 0.3 }}
           >
-            {currentSection === 'overview' && (
-              <TourInformation
-                contentId={contentid}
-                contentTypeId={contenttypeid}
-              />
-            )}
-            {currentSection === 'review' && (
-              <TourReview contentId={contentid} />
-            )}
+            <SwitchCase
+              value={currentSection}
+              cases={{
+                overview: (
+                  <TourInformation
+                    contentId={contentid}
+                    contentTypeId={contenttypeid}
+                  />
+                ),
+                review: <TourReview contentId={contentid} />,
+              }}
+              defaultComponent={<div>해당 섹션은 준비 중입니다.</div>}
+            />
           </motion.div>
         </AnimatePresence>
       </Suspense>

@@ -16,8 +16,6 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 export const database = getDatabase(app);
-const auth = getAuth(app);
-auth.languageCode = 'ko';
 
 export const provider = new GoogleAuthProvider();
 provider.addScope('https://www.googleapis.com/auth/contacts.readonly');

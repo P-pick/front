@@ -1,6 +1,6 @@
-import { tourDetailSVG, commonSVG } from '@/assets';
+import { tourDetailSVG } from '@/assets';
 
-import { ExtraInfo } from '@/features/tourDetail';
+import { ExtraInfo, InfoLayout } from '@/features/tourDetail';
 import { SafeHtmlRenderer } from '@/shared';
 
 import type { Lodging, TourDetailCommon } from '@/entities/tour';
@@ -12,23 +12,8 @@ interface LodgingInfoProps {
 
 export default function LodgingInfo({ common, intro }: LodgingInfoProps) {
   return (
-    <>
-      <section className="p-3 w-full flex flex-col gap-2 text-sm">
-        {common.homepage && (
-          <div className="flex gap-3 justify-start items-center">
-            <tourDetailSVG.WWWIcon className="w-3 h-3" />
-            <SafeHtmlRenderer html={common.homepage} />
-          </div>
-        )}
-        <div className="flex gap-3 justify-start items-center">
-          <commonSVG.LocationIcon className="w-3 h-3" />
-          <div className="flex gap-1">
-            <p>
-              {common.addr1 ?? ''} {common.addr2 ?? ''} (우)
-              {common.zipcode ?? ''}
-            </p>
-          </div>
-        </div>
+    <InfoLayout>
+      <InfoLayout.Header common={common}>
         {(intro.infocenterlodging || intro.reservationlodging) && (
           <div className="flex gap-3 justify-start items-center">
             <tourDetailSVG.CallIcon className="w-3 h-3" />
@@ -44,13 +29,12 @@ export default function LodgingInfo({ common, intro }: LodgingInfoProps) {
         )}
         {intro.parkinglodging && (
           <div className="flex gap-3 justify-start items-center">
-            <tourDetailSVG.ParkingIcon className="w-3 h-3" /> 주차{' '}
-            {intro.parkinglodging}
+            <tourDetailSVG.ParkingIcon className="w-3 h-3" /> 주차
+            <SafeHtmlRenderer html={intro.parkinglodging} />
           </div>
         )}
-      </section>
-      <hr className="my-3" />
-      <section className="p-3 w-full flex flex-col gap-3">
+      </InfoLayout.Header>
+      <InfoLayout.Content>
         {(intro.checkintime || intro.checkouttime) && (
           <div>
             <h2 className="text-lg font-bold">이용시간</h2>
@@ -97,7 +81,8 @@ export default function LodgingInfo({ common, intro }: LodgingInfoProps) {
           </div>
         </div>
         <ExtraInfo title="환불 규정" content={intro.refundregulation} />
-      </section>
-    </>
+      </InfoLayout.Content>
+      <InfoLayout.Footer common={common}></InfoLayout.Footer>
+    </InfoLayout>
   );
 }

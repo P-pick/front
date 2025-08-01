@@ -14,6 +14,7 @@ export const getBookmark = async ({
   const snapshot = await get(bookmarkRef);
 
   if (snapshot.exists()) {
+    console.log('Bookmark data:', snapshot.val());
     return snapshot.val().bookmarked;
   } else {
     return null;

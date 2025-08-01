@@ -1,23 +1,31 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
 
+import { ToggleBookmarkButton } from '@/features/bookmark';
+
 import { authOptions } from '@/entities/auth/queries';
 import { bookmarkOptions } from '@/entities/bookmark';
-import CreateBookmarkButton from '@/features/bookmark/ui/CreateBookmarkButton';
 
-export default function BookmarkButtonContainer() {
+interface BookmarkButtonContainerProps {
+  contentId: string;
+}
+export default function BookmarkButtonContainer({
+  contentId,
+}: BookmarkButtonContainerProps) {
   const { data: user } = useSuspenseQuery(authOptions.auth());
-  const a = useSuspenseQuery(
+  const { data: bookmark } = useSuspenseQuery(
     bookmarkOptions.getBookmark({
       userId: user?.uid,
-      contentId: '126823',
+      contentId,
     }),
   );
-  console.log(a.data);
 
-  console.log(user);
   return (
     <>
-      <CreateBookmarkButton />
+      <ToggleBookmarkButton
+        userId={user?.uid}
+        contentId={contentId}
+        bookmarked={bookmark}
+      />
     </>
   );
 }

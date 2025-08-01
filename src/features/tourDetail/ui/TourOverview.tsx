@@ -4,6 +4,7 @@ import { commonSVG } from '@/assets';
 
 import { tourQueries } from '@/entities/tour';
 import { TourTypeBadge, DistanceTimeInfo } from '@/shared';
+import { BookmarkButtonContainer } from '@/features/bookmark';
 
 interface TourCardProps {
   distance: string;
@@ -35,7 +36,8 @@ export default function TourOverview({
             <span className="flex flex-wrap">{tourCommon.addr1}</span>
           </div>
           <div className="flex items-center gap-4 mt-4">
-            <commonSVG.HeartIcon />
+            <BookmarkButtonContainer />
+
             <commonSVG.ShareIcon />
           </div>
         </div>

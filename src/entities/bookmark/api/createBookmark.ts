@@ -24,6 +24,7 @@ export const createBookmark = async ({ contentId }: CreateBookmarkRequest) => {
     contentId,
     bookmark: true,
     timestamp: Date.now(),
+    authorContentId: `${authorUid}_${contentId}`,
   });
 
   return newBookmarkRef.key;

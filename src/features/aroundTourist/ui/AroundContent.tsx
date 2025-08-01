@@ -1,6 +1,7 @@
 import { Suspense } from 'react';
 
-import { useStartTrip, TourCardContainer } from '@/features/tour';
+import { useStartTrip } from '@/features/tour';
+import { TourCardContainer } from '@/features/tourDetail';
 import { BottomSheet, LoadingSpinner } from '@/shared';
 
 import type { TourItem } from '@/entities/tour';
@@ -41,7 +42,6 @@ export default function AroundContent({
             <TourCardContainer
               contentid={tourist.contentid}
               contenttypeid={tourist.contenttypeid}
-              title={tourist.title}
               dist={tourist.dist}
             />
           </Suspense>

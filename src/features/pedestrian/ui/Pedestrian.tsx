@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { Fragment, useMemo } from 'react';
 import { Map } from 'react-kakao-maps-sdk';
 import { useStore } from 'zustand';
 import { useSuspenseQuery } from '@tanstack/react-query';
@@ -69,7 +69,7 @@ export default function Pedestrian({ start, end }: PedestrianProps) {
         <ResizingMap points={points} viewBounds={[0, 0, 200, 0]} />
         {pedestrianOptions &&
           pedestrianOptions.map(data => (
-            <div key={`${vehicle}-${data.optionId}`}>
+            <Fragment key={`${vehicle}-${data.optionId}`}>
               <PedestrianPolylines
                 destination={data.features as PEDESTRIAN.PedestrianFeatures[]}
                 searchOption={data.optionId as PEDESTRIAN.SearchOptions}
@@ -80,7 +80,7 @@ export default function Pedestrian({ start, end }: PedestrianProps) {
                   destination={data.features}
                 />
               )}
-            </div>
+            </Fragment>
           ))}
         {!isFollowAlong && (
           <>

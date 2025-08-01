@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { Fragment, useMemo } from 'react';
 import { Map } from 'react-kakao-maps-sdk';
 import { useStore } from 'zustand';
 import { useSuspenseQuery } from '@tanstack/react-query';
@@ -65,20 +65,15 @@ export default function Car({ start, end }: CarProps) {
         <ResizingMap points={points} viewBounds={[0, 0, 200, 0]} />
         {carOptions &&
           carOptions.map(data => (
-            <>
+            <Fragment key={`${vehicle}-${data.optionId}`}>
               <CarPolylines
-                key={`${vehicle}-${data.optionId}`}
                 destination={data.features as CAR.CarFeatures[]}
                 searchOption={data.optionId as CAR.SearchOptions}
               />
               {isFollowAlong && data.optionId === searchOptions && (
-                <CarFollowList
-                  start={start}
-                  destination={data.features}
-                  key={`${vehicle}-${data.optionId}`}
-                />
+                <CarFollowList start={start} destination={data.features} />
               )}
-            </>
+            </Fragment>
           ))}
         {!isFollowAlong && (
           <>

@@ -42,7 +42,9 @@ export default function TourInformation({
   });
 
   const tourCommon = tourResponse[0].data;
-  const tourIntro = tourResponse[0].data.contenttypeid;
+  const tourIntro = tourResponse[1].data;
+
+  console.log('common', tourCommon, 'intro', tourIntro);
 
   return (
     <SwitchCase

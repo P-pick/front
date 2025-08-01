@@ -1,30 +1,21 @@
+import { get, ref } from 'firebase/database';
+
 import { database } from '@/shared/config/firbaseConfig';
-import { query, orderByChild, equalTo, get, ref } from 'firebase/database';
 
 interface GetBookmarkRequest {
-  contentId: string;
   userId: string;
+  contentId: string;
 }
 export const getBookmark = async ({
-  contentId,
   userId,
-}: GetBookmarkRequest): Promise<boolean> => {
-  const authorContentId = `${userId}_${contentId}`;
-
-  const bookmarksRef = ref(database, 'bookmarks');
-
-  const bookmarksQuery = query(
-    bookmarksRef,
-    orderByChild('authorContentId'),
-    equalTo(authorContentId),
-  );
-
-  const snapshot = await get(bookmarksQuery);
+  contentId,
+}: GetBookmarkRequest): Promise<boolean | null> => {
+  const bookmarkRef = ref(database, `bookmarks/${userId}/${contentId}`);
+  const snapshot = await get(bookmarkRef);
 
   if (snapshot.exists()) {
-    const firstChildKey = Object.keys(snapshot.val())[0];
-    return snapshot.val()[firstChildKey];
+    return snapshot.val().bookmarked;
+  } else {
+    return null;
   }
-
-  return true;
 };

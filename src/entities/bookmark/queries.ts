@@ -2,10 +2,11 @@ import { queryOptions } from '@tanstack/react-query';
 
 import { getBookmark } from '@/entities/bookmark';
 
-export const bookmarkQueries = {
-  getBookmark: (contentId: string, userId: string) =>
+import { type GetBookmarkRequest } from '@/entities/bookmark';
+export const bookmarkOptions = {
+  getBookmark: ({ userId, contentId }: GetBookmarkRequest) =>
     queryOptions({
-      queryKey: ['bookmark', contentId, userId],
-      queryFn: () => getBookmark({ contentId, userId }),
+      queryKey: ['bookmark', userId, contentId],
+      queryFn: () => getBookmark({ userId, contentId }),
     }),
 };

@@ -1,16 +1,14 @@
 import clsx from 'clsx';
 
-const TOUR_CARDS_NAVIGATE = [
-  { id: 1, type: 'overview', title: '정보' },
-  { id: 2, type: 'review', title: '리뷰' },
-];
+import { TOUR_CARDS_NAVIGATE } from '@/features/tourDetail';
 
-interface TourCardNavigateProps<T> {
+type TourSectionType = (typeof TOUR_CARDS_NAVIGATE)[number]['type'];
+interface TourCardNavigateProps<T extends TourSectionType> {
   currentSection: T;
   onNavigate: (section: T) => void;
 }
 
-export default function TourCardNavigate<T extends string>({
+export default function TourCardNavigate<T extends TourSectionType>({
   currentSection,
   onNavigate,
 }: TourCardNavigateProps<T>) {

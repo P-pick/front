@@ -1,4 +1,5 @@
 import { Suspense, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 
 import {
   TourCardNavigate,
@@ -9,6 +10,7 @@ import {
 import { LoadingSpinner } from '@/shared';
 
 import type { AroundContentTypeId } from '@/entities/tour';
+import type { TourSectionType } from '@/features/tourDetail';
 
 interface TourCardContainerProps {
   dist: string;
@@ -21,7 +23,8 @@ export default function TourCardContainer({
   contenttypeid,
   contentid,
 }: TourCardContainerProps) {
-  const [currentSection, setCurrentSection] = useState('overview');
+  const [currentSection, setCurrentSection] =
+    useState<TourSectionType>('overview');
 
   return (
     <>
@@ -33,15 +36,25 @@ export default function TourCardContainer({
         onNavigate={setCurrentSection}
       />
       <Suspense fallback={<LoadingSpinner centered={true} />}>
-        <>
-          {currentSection === 'overview' && (
-            <TourInformation
-              contentId={contentid}
-              contentTypeId={contenttypeid}
-            />
-          )}
-          {currentSection === 'review' && <TourReview contentId={contentid} />}
-        </>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentSection}
+            initial={{ opacity: 0, x: 0 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            {currentSection === 'overview' && (
+              <TourInformation
+                contentId={contentid}
+                contentTypeId={contenttypeid}
+              />
+            )}
+            {currentSection === 'review' && (
+              <TourReview contentId={contentid} />
+            )}
+          </motion.div>
+        </AnimatePresence>
       </Suspense>
     </>
   );

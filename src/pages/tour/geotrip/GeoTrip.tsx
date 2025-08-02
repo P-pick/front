@@ -3,8 +3,8 @@ import { Suspense, useState } from 'react';
 import { Header } from '@/widgets';
 import { TourSwiperContainer } from '@/features/tour';
 import { TourShortFormTutor } from '@/features/tutorial';
-import { TourFilterSidebar } from '@/features/tourTypeSelector';
 import { LoadingSpinner, BottomNavigationBar } from '@/shared';
+import { TourFilterSidebar } from '@/features/tourFilter';
 
 export default function GeoTrip() {
   const [isSidebarOpen, setSidebarOpen] = useState(false);

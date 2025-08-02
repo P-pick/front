@@ -1,6 +1,6 @@
 import type { Dispatch } from 'react';
 
-import type { Distance } from '@/features/tourTypeSelector';
+import type { Distance } from '@/features/tourFilter';
 
 interface DistanceSliderProps {
   distance: number;

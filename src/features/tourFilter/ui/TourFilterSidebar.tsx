@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
-import { DistanceSlider, SortOptions } from '@/features/tourTypeSelector';
+import { DistanceSlider, SortOptions } from '@/features/tourFilter';
 import { TouristContentsTypeFilter } from '@/shared';
 
-import type { Distance, SortOption } from '@/features/tourTypeSelector';
+import type { Distance, SortOption } from '@/features/tourFilter';
 import type { AroundContentTypeId } from '@/entities/tour';
 
 interface BottomSheetProps {

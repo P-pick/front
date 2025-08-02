@@ -3,7 +3,7 @@ import { Suspense } from 'react';
 import { Header } from '@/widgets';
 import { SkeletonCard } from '@/features/tour';
 import { FALLBACK_LIST, TourListContainer } from '@/features/tourList';
-import { TouristFilterQueryUpdater } from '@/features/tourTypeSelector';
+import { TouristFilterQueryUpdater } from '@/features/tourFilter';
 import { SearchNavigate } from '@/features/tourSearch';
 import { BottomNavigationBar } from '@/shared';
 

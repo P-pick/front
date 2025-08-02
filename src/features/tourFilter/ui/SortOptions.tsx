@@ -1,5 +1,5 @@
-import { SORT_OPTIONS } from '@/features/tourTypeSelector';
-import type { SortOption } from '@/features/tourTypeSelector/type';
+import { SORT_OPTIONS } from '@/features/tourFilter';
+import type { SortOption } from '@/features/tourFilter';
 
 import type { Dispatch } from 'react';
 

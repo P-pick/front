@@ -26,6 +26,11 @@ export default function TourFilterSidebar({
   const [distance, setDistance] = useState(defaultValue.distance);
   const [sortOption, setSortOption] = useState<SortOption>('distance');
 
+  const handleSubmit = () => {
+    updateQuery({ tourType: aroundContentTypeId, distance });
+    onClose();
+  };
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -38,7 +43,11 @@ export default function TourFilterSidebar({
             transition={{ type: 'tween', duration: 0.3 }}
           >
             <header>
-              <button onClick={onClose} className="cursor-pointer">
+              <button
+                onClick={onClose}
+                className="cursor-pointer flex items-center gap-1"
+              >
+                <img src="/common/backIcon.webp" className="w-5 h-5" />
                 닫기
               </button>
             </header>
@@ -74,9 +83,7 @@ export default function TourFilterSidebar({
               </button>
               <button
                 className="w-30 rounded-2xl bg-primary-red px-5 py-2 text-white cursor-pointer"
-                onClick={() =>
-                  updateQuery({ tourType: aroundContentTypeId, distance })
-                }
+                onClick={handleSubmit}
               >
                 적용
               </button>

@@ -32,9 +32,9 @@ export const createNavItems = ({
     {
       id: 'bookmark-navigation-tutorial',
       icon: BookMarkIcon,
-      path: '/bookmark',
+      path: '/tour/bookmark',
       label: 'bookmark Icon',
-      onClick: () => navigate('/bookmark', { replace: true }),
+      onClick: () => navigate('/tour/bookmark', { replace: true }),
     },
     {
       id: 'profile-navigation-tutorial',

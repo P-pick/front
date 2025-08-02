@@ -40,10 +40,14 @@ export default function TourOverview({
             <span className="flex flex-wrap">{tourCommon.addr1}</span>
           </div>
           <div className="flex items-center gap-4 mt-4">
-            <BookmarkButtonContainer
-              contentId={tourContentId}
-              userId={user.uid}
-            />
+            {user !== null ? (
+              <BookmarkButtonContainer
+                contentId={tourContentId}
+                userId={user.uid}
+              />
+            ) : (
+              <commonSVG.BookMarkIcon />
+            )}
             <commonSVG.ShareIcon />
           </div>
         </div>

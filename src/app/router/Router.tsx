@@ -12,6 +12,8 @@ import { Home } from '@/pages/home';
 import { GeoTrip } from '@/pages/tour/geotrip';
 import { GeoSetup } from '@/pages/geoSetup';
 import { Tour } from '@/pages/tour';
+import { Profile } from '@/pages/profile';
+
 import { LoadingSpinner } from '@/shared';
 
 export default function Router() {
@@ -30,6 +32,7 @@ export default function Router() {
             <Route path="list" element={<TourList />} />
             <Route path="search" element={<TourSearch />} />
           </Route>
+          <Route path="/profile" element={<Profile />} />
         </Routes>
       </Suspense>
     </BrowserRouter>

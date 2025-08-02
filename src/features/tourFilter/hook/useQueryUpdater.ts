@@ -3,7 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import type { Distance } from '@/features/tourFilter';
 import type { AroundContentTypeId } from '@/entities/tour';
 
-type updateType = {
+type UpdateType = {
   tourType: AroundContentTypeId;
   distance: Distance;
 };
@@ -11,7 +11,7 @@ type updateType = {
 export const useQueryUpdater = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const updateQuery = ({ tourType, distance }: updateType) => {
+  const updateQuery = ({ tourType, distance }: UpdateType) => {
     searchParams.set('tour-type', tourType);
     searchParams.set('distance', String(distance * 1000));
     // searchParams.set('sort', sortOption);

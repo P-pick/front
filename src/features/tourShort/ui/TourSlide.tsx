@@ -6,7 +6,7 @@ import { StartTripButton } from '@/features/tour';
 import { TourSlideImages } from '@/features/tourShort';
 import { DistanceTimeInfo, LoadingSpinner } from '@/shared/ui';
 
-import type { TourItem } from '@/pages/types';
+import type { TourItem } from '@/entities/tour';
 
 interface TourSlideProps {
   tourInfo: TourItem;

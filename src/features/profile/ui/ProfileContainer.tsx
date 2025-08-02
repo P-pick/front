@@ -1,5 +1,4 @@
-import { useNavigate } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
+import { useSuspenseQuery } from '@tanstack/react-query';
 
 import { authOptions } from '@/entities/auth';
 
@@ -10,21 +9,17 @@ import {
 import { AuthButtonContainer } from '@/features/auth';
 
 export default function ProfileContainer() {
-  const navigate = useNavigate();
-
-  const { data: user } = useQuery(authOptions.auth());
+  const { data: user } = useSuspenseQuery(authOptions.auth());
   const signOutMutation = useSignOutMutation();
   const deleteUserMutation = useDeleteCurrentUserMutation();
 
   const handleSignOut = () => {
     signOutMutation.mutate();
-    navigate('/', { replace: false });
   };
 
   const handleDeleteUser = () => {
     if (confirm('정말로 회원탈퇴를 하시겠습니까?')) {
       deleteUserMutation.mutate();
-      navigate('/', { replace: false });
     }
   };
 

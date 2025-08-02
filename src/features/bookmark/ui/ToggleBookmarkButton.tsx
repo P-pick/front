@@ -21,6 +21,7 @@ export default function ToggleBookmarkButton({
 
   return (
     <button
+      className="flex items-center justify-center"
       onClick={() =>
         mutate({
           userId,

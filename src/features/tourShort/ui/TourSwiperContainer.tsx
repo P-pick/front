@@ -50,7 +50,7 @@ function TourSwiperContainer({
   };
 
   return (
-    <>
+    <div className="relative w-full h-full">
       <TourSwiperLoadingOverlay
         isInitializing={isInitializing}
         isFetchingPreviousPage={isFetchingPreviousPage}
@@ -71,7 +71,7 @@ function TourSwiperContainer({
         isOpen={isBottomSheetOpen}
         onClose={() => setIsBottomSheetOpen(false)}
       />
-    </>
+    </div>
   );
 }
 

@@ -3,7 +3,7 @@ import { Suspense, useState } from 'react';
 import { Header } from '@/widgets';
 import { TourSwiperContainer } from '@/features/tour';
 import { TourShortFormTutor } from '@/features/tutorial';
-import { AroundContentTypeFilter } from '@/features/tourTypeSelector';
+import { TourFilterSidebar } from '@/features/tourTypeSelector';
 import { LoadingSpinner, BottomNavigationBar } from '@/shared';
 
 export default function GeoTrip() {
@@ -17,7 +17,10 @@ export default function GeoTrip() {
             className="w-full absolute flex items-center justify-between top-4 px-5 z-(--z-layer5)"
             onClick={() => setSidebarOpen(!isSidebarOpen)}
           />
-          {isSidebarOpen && <AroundContentTypeFilter />}
+          <TourFilterSidebar
+            onClose={() => setSidebarOpen(false)}
+            isOpen={isSidebarOpen}
+          />
           <Suspense fallback={<LoadingSpinner />}>
             <TourShortFormTutor />
             <TourSwiperContainer />

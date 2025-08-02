@@ -1,31 +1,31 @@
-import { signIn } from '@/entities/auth';
-import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
+
+import { useSignInMutation } from '@/features/auth';
 
 export default function AuthButtonContainer() {
   const navigate = useNavigate();
-  const { mutate } = useMutation({ mutationFn: signIn });
+  const mutation = useSignInMutation();
 
-  const handleKakaoLogin = () => {
-    mutate();
+  const handleGoogleLogin = () => {
+    mutation.mutate();
   };
   const handleGuestLogin = () => {
-    navigate('/tour/geo-trip?distance=1000&tour-type=12');
+    navigate('/tour/geo-trip?distance=20000&tour-type=12');
   };
 
   return (
     <div className="flex flex-col items-center justify-center m-2 p-2 w-full gap-2">
       <div className="w-full">
         <button
-          onClick={handleKakaoLogin}
-          className="bg-[#FEE500] w-full h-full py-3 rounded-xl cursor-pointer text-[#191919] font-bold"
+          onClick={handleGoogleLogin}
+          className="bg-[#F2F2F2] w-full h-full py-3 rounded-xl cursor-pointer text-[#1F1F1F] font-medium"
         >
           <img
-            src="/kakaotalk.png"
-            alt="KakaoTalk Logo"
-            className="inline-block mr-2 w-5 h-5"
+            src="/common/devicon_google.svg"
+            alt="Google Logo"
+            className="inline-block mr-[10px] w-5 h-5"
           />
-          카카오로 시작하기
+          Google 계정으로 로그인
         </button>
       </div>
       <div className="w-full">

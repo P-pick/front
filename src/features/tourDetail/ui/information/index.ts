@@ -8,3 +8,4 @@ export { default as ShoppingInfo } from './ShoppingInfo';
 export { default as FoodInfo } from './FoodInfo';
 
 export { default as ExtraInfo } from './ExtraInfo';
+export { default as InfoLayout } from './InfoLayout';

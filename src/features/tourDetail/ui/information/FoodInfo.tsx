@@ -1,6 +1,6 @@
-import { tourDetailSVG, commonSVG } from '@/assets';
+import { tourDetailSVG } from '@/assets';
 
-import { ExtraInfo } from '@/features/tourDetail';
+import { ExtraInfo, InfoLayout } from '@/features/tourDetail';
 import { SafeHtmlRenderer } from '@/shared';
 
 import type { Food, TourDetailCommon } from '@/entities/tour';
@@ -12,9 +12,9 @@ interface FoodInfoProps {
 
 export default function FoodInfo({ common, intro }: FoodInfoProps) {
   return (
-    <>
-      <section className="p-3 w-full flex flex-col gap-2 text-sm">
-        {(intro.opendatefood || intro.opentimefood) && (
+    <InfoLayout>
+      <InfoLayout.Header common={common}>
+        {(intro.opendatefood || intro.opentimefood || intro.restdatefood) && (
           <div className="flex gap-3 justify-start items-center">
             <div>
               <tourDetailSVG.TimeIcon className="w-3 h-3" />
@@ -54,21 +54,6 @@ export default function FoodInfo({ common, intro }: FoodInfoProps) {
             </div>
           </div>
         )}
-        {common.homepage && (
-          <div className="flex gap-3 justify-start items-center">
-            <tourDetailSVG.WWWIcon className="w-3 h-3" />
-            <SafeHtmlRenderer html={common.homepage} />
-          </div>
-        )}
-        <div className="flex gap-3 justify-start items-center">
-          <commonSVG.LocationIcon className="w-3 h-3" />
-          <div className="flex gap-1">
-            <p>
-              {common.addr1 ?? ''} {common.addr2 ?? ''} (우)
-              {common.zipcode ?? ''}
-            </p>
-          </div>
-        </div>
         {intro.parkingfood && (
           <div className="flex gap-3 justify-start items-center">
             <div>
@@ -80,14 +65,14 @@ export default function FoodInfo({ common, intro }: FoodInfoProps) {
             </div>
           </div>
         )}
-      </section>
-      <hr className="my-3" />
-      <section className="p-3 w-full flex flex-col gap-3">
+      </InfoLayout.Header>
+      <InfoLayout.Content>
         <ExtraInfo title="대표 메뉴" content={intro.firstmenu} />
         <ExtraInfo title="메뉴" content={intro.treatmenu} />
         <ExtraInfo title="포장" content={intro.packing} />
         <ExtraInfo title="흡연" content={intro.smoking} />
-      </section>
-    </>
+      </InfoLayout.Content>
+      <InfoLayout.Footer common={common}></InfoLayout.Footer>
+    </InfoLayout>
   );
 }

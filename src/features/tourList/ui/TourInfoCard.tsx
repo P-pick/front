@@ -8,6 +8,7 @@ import { TOUR_TYPE } from '@/entities/tour';
 import { DistanceTimeInfo, truncate } from '@/shared';
 
 import type { TourItem } from '@/entities/tour';
+import { BookmarkButtonContainer } from '@/features/bookmark';
 interface TourInfoCardProps {
   tourInfo: TourItem;
 }
@@ -47,7 +48,7 @@ export default function TourInfoCard({ tourInfo }: TourInfoCardProps) {
             <commonSVG.ShareIcon />
           </button>
           <button aria-label="찜하기">
-            <commonSVG.HeartIcon />
+            {/* <BookmarkButtonContainer /> */}
           </button>
         </nav>
       </header>

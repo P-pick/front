@@ -1,4 +1,4 @@
-import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
+import { useQuery, useSuspenseInfiniteQuery } from '@tanstack/react-query';
 import { useDeferredValue } from 'react';
 
 import { tourQueries } from '@/entities/tour';
@@ -8,6 +8,7 @@ import { InfiniteScroll, useSyncedState } from '@/shared';
 
 import { type AroundContentTypeId } from '@/entities/tour';
 import { type GeoTripLocation } from '@/shared';
+import { authOptions } from '@/entities/auth';
 interface TourListContainerProps {
   location: GeoTripLocation;
   distance: string;
@@ -30,6 +31,7 @@ function TourListContainer({
         numOfRows: 4,
       }),
     );
+  const { data: authData } = useQuery(authOptions.auth());
   const shouldShowFallback = useShouldShowFallback({
     location,
     radius: distance,

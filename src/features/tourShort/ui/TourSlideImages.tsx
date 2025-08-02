@@ -1,7 +1,8 @@
-import { tourQueries } from '@/entities/tour';
+import { Swiper, SwiperSlide } from 'swiper/react';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { Pagination } from 'swiper/modules';
-import { Swiper, SwiperSlide } from 'swiper/react';
+
+import { tourQueries } from '@/entities/tour';
 
 interface TourSlideImagesProps {
   contentId: string;

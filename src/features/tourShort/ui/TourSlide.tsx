@@ -1,9 +1,12 @@
-import { commonSVG } from '@/assets';
-import type { TourItem } from '@/pages/types';
-import { DistanceTimeInfo, LoadingSpinner } from '@/shared/ui';
 import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
-import { StartTripButton, TourSlideImages } from '..';
+
+import { commonSVG } from '@/assets';
+import { StartTripButton } from '@/features/tour';
+import { TourSlideImages } from '@/features/tourShort';
+import { DistanceTimeInfo, LoadingSpinner } from '@/shared/ui';
+
+import type { TourItem } from '@/entities/tour';
 
 interface TourSlideProps {
   tourInfo: TourItem;

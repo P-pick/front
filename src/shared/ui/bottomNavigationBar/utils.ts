@@ -32,16 +32,20 @@ export const createNavItems = ({
     {
       id: 'bookmark-navigation-tutorial',
       icon: BookMarkIcon,
-      path: '/bookmark',
+      path: '/tour/bookmark',
       label: 'bookmark Icon',
-      onClick: () => navigate('/bookmark', { replace: true }),
+      onClick: () =>
+        navigate(`/tour/bookmark?${currentParams.toString()}`, {
+          replace: true,
+        }),
     },
     {
       id: 'profile-navigation-tutorial',
       icon: ProfileIcon,
       path: '/profile',
       label: 'profile Icon',
-      onClick: () => navigate('/profile', { replace: true }),
+      onClick: () =>
+        navigate(`/profile?${currentParams.toString()}`, { replace: true }),
     },
   ];
 };

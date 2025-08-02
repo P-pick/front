@@ -1,7 +1,6 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
 
 import { authOptions } from '@/entities/auth';
-
 import {
   useSignOutMutation,
   useDeleteCurrentUserMutation,

@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 
 import { commonSVG } from '@/assets';
-import { StartTripButton } from '@/features/tour';
+import { SideButtonGroupContainer, StartTripButton } from '@/features/tour';
 import { TourSlideImages } from '@/features/tourShort';
 import { DistanceTimeInfo, LoadingSpinner } from '@/shared/ui';
 
@@ -37,8 +37,10 @@ export default function TourSlide({
           }
         >
           <TourSlideImages contentId={tourInfo.contentid} />
+          <SideButtonGroupContainer goToAroundTouristButtonProps={tourInfo} />
         </Suspense>
       </ErrorBoundary>
+
       <footer className="w-full absolute z-[var(--z-layer2)] bottom-0 left-0 px-4 bg-gradient-to-t from-black/70 to-transparent max-h-60">
         <div className="flex flex-col gap-2 py-4">
           <div className="flex gap-1 items-center">

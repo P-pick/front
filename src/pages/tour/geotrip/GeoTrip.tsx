@@ -1,9 +1,9 @@
 import { Suspense, useState } from 'react';
 
 import { Header } from '@/widgets';
-import { TourSwiperContainer } from '@/features/tour';
 import { TourShortFormTutor } from '@/features/tutorial';
 import { TourFilterSidebar } from '@/features/tourFilter';
+import { TourSwiperContainer } from '@/features/tourShort';
 import { LoadingSpinner, BottomNavigationBar } from '@/shared';
 
 export default function GeoTrip() {

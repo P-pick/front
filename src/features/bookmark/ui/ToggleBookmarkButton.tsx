@@ -5,7 +5,9 @@ interface ToggleBookmarkButtonProps {
   userId: string;
   contentId: string;
   bookmarked: boolean | null;
+  className?: string;
 }
+
 export default function ToggleBookmarkButton({
   userId,
   contentId,
@@ -27,7 +29,11 @@ export default function ToggleBookmarkButton({
         })
       }
     >
-      {!bookmarked ? <commonSVG.BookMarkIcon /> : <commonSVG.HeartIcon />}
+      {!bookmarked ? (
+        <commonSVG.BookMarkIcon className="text-black" />
+      ) : (
+        <commonSVG.HeartIcon />
+      )}
     </button>
   );
 }

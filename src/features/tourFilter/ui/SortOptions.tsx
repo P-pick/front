@@ -1,7 +1,7 @@
 import { SORT_OPTIONS } from '@/features/tourFilter';
-import type { SortOption } from '@/features/tourFilter';
 
 import type { Dispatch } from 'react';
+import type { SortOption } from '@/features/tourFilter';
 
 interface SortOptionsProps {
   selected: SortOption;

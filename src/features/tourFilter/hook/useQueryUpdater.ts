@@ -1,7 +1,7 @@
 import { useSearchParams } from 'react-router-dom';
 
-import type { AroundContentTypeId } from '@/entities/tour';
 import type { Distance } from '@/features/tourFilter';
+import type { AroundContentTypeId } from '@/entities/tour';
 
 type updateType = {
   tourType: AroundContentTypeId;

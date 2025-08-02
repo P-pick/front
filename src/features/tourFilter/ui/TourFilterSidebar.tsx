@@ -1,11 +1,14 @@
 import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
-import { DistanceSlider, SortOptions } from '@/features/tourFilter';
+import {
+  DistanceSlider,
+  SortOptions,
+  useQueryUpdater,
+} from '@/features/tourFilter';
 import { TouristContentsTypeFilter } from '@/shared';
 
-import type { Distance, SortOption } from '@/features/tourFilter';
-import type { AroundContentTypeId } from '@/entities/tour';
+import type { SortOption } from '@/features/tourFilter';
 
 interface BottomSheetProps {
   onClose: () => void;
@@ -16,9 +19,11 @@ export default function TourFilterSidebar({
   onClose,
   isOpen,
 }: BottomSheetProps) {
-  const [aroundContentTypeId, setAroundContentTypeId] =
-    useState<AroundContentTypeId>('12');
-  const [distance, setDistance] = useState<Distance>(5);
+  const { defaultValue, updateQuery } = useQueryUpdater();
+  const [aroundContentTypeId, setAroundContentTypeId] = useState(
+    defaultValue.tourType,
+  );
+  const [distance, setDistance] = useState(defaultValue.distance);
   const [sortOption, setSortOption] = useState<SortOption>('distance');
 
   return (
@@ -67,7 +72,12 @@ export default function TourFilterSidebar({
               <button className="w-30 rounded-2xl bg-gray-300 px-5 py-2 text-black cursor-pointer ">
                 초기화
               </button>
-              <button className="w-30 rounded-2xl bg-primary-red px-5 py-2 text-white cursor-pointer">
+              <button
+                className="w-30 rounded-2xl bg-primary-red px-5 py-2 text-white cursor-pointer"
+                onClick={() =>
+                  updateQuery({ tourType: aroundContentTypeId, distance })
+                }
+              >
                 적용
               </button>
             </footer>

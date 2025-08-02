@@ -1,8 +1,13 @@
-import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
+import {
+  useQueryClient,
+  useSuspenseInfiniteQuery,
+  useSuspenseQuery,
+} from '@tanstack/react-query';
 
 import { getDistanceFromLatLonInMeters } from '@/features/tourSearch';
 import { TourInfoCard } from '@/features/tourList';
 import { tourQueries } from '@/entities/tour';
+import { authOptions } from '@/entities/auth';
 import { getSuspenseLocation, InfiniteScroll, LoadingSpinner } from '@/shared';
 
 interface SearchResultProps {
@@ -10,12 +15,16 @@ interface SearchResultProps {
 }
 
 export default function SearchResult({ keyword }: SearchResultProps) {
+  const queryClient = useQueryClient();
+  queryClient.prefetchQuery(authOptions.auth());
   const {
     data: searchData,
     hasNextPage,
     isFetchingNextPage,
     fetchNextPage,
   } = useSuspenseInfiniteQuery(tourQueries.searchKeyWord(keyword));
+  const { data: authData } = useSuspenseQuery(authOptions.auth());
+
   const filterSearchData = searchData.pages.filter(data => data.items);
   const flatSearchData = filterSearchData.flatMap(page => page.items.item);
   const location = getSuspenseLocation();
@@ -37,7 +46,7 @@ export default function SearchResult({ keyword }: SearchResultProps) {
           };
           return (
             <li key={item.contentid}>
-              <TourInfoCard tourInfo={newItem} />
+              <TourInfoCard tourInfo={newItem} userId={authData?.uid || ''} />
             </li>
           );
         })}

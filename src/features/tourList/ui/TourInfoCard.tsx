@@ -5,15 +5,16 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { TourCardImages } from '@/features/tourList';
 import { SkeletonCard } from '@/features/tour';
 import { TOUR_TYPE } from '@/entities/tour';
-import { DistanceTimeInfo, truncate } from '@/shared';
+import { DistanceTimeInfo, LoadingSpinner, truncate } from '@/shared';
 
 import type { TourItem } from '@/entities/tour';
 import { BookmarkButtonContainer } from '@/features/bookmark';
 interface TourInfoCardProps {
   tourInfo: TourItem;
+  userId: string;
 }
 
-export default function TourInfoCard({ tourInfo }: TourInfoCardProps) {
+export default function TourInfoCard({ tourInfo, userId }: TourInfoCardProps) {
   return (
     <article className="flex flex-col my-8">
       <ErrorBoundary
@@ -47,9 +48,12 @@ export default function TourInfoCard({ tourInfo }: TourInfoCardProps) {
           <button aria-label="옵션 보기">
             <commonSVG.ShareIcon />
           </button>
-          <button aria-label="찜하기">
-            {/* <BookmarkButtonContainer /> */}
-          </button>
+          <Suspense fallback={<LoadingSpinner />}>
+            <BookmarkButtonContainer
+              contentId={tourInfo.contentid}
+              userId={userId}
+            />
+          </Suspense>
         </nav>
       </header>
 

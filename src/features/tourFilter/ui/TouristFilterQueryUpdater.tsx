@@ -1,7 +1,9 @@
-import type { AroundContentTypeId } from '@/pages/types';
-import { TouristContentsTypeFilter } from '@/shared/ui';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+
+import { TouristContentsTypeFilter } from '@/shared/ui';
+
+import type { AroundContentTypeId } from '@/entities/tour';
 
 export default function TouristFilterQueryUpdater() {
   const [searchParams, setSearchParams] = useSearchParams();

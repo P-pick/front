@@ -4,12 +4,16 @@ import type { PropsWithChildren } from 'react';
 export default function Header({
   children,
   className,
-}: PropsWithChildren<{ className?: string }>) {
+  onClick,
+}: PropsWithChildren<{
+  className?: string;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+}>) {
   return (
     <header className={className}>
       <BackButton />
       {children}
-      <MenuIcon />
+      <MenuIcon onClick={onClick} />
     </header>
   );
 }

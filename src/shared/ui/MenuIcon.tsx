@@ -1,6 +1,14 @@
-export default function MenuIcon() {
+interface MenuIconProps {
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+}
+export default function MenuIcon({ onClick }: MenuIconProps) {
   return (
-    <button type="button" className="cursor-pointer" id="tour-setting-tutorial">
+    <button
+      type="button"
+      className="cursor-pointer"
+      id="tour-setting-tutorial"
+      onClick={onClick}
+    >
       <svg
         width="35"
         height="35"

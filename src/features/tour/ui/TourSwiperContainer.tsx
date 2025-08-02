@@ -4,12 +4,12 @@ import {
   persistSlideSession,
   TourBottomSheet,
   TourSwiperLoadingOverlay,
-  TourSwiperView,
   useInfiniteSwiperControl,
   useTourSwiperInfiniteQuery,
   SideButtonGroupContainer,
   withGeoTripParams,
 } from '@/features/tour';
+import { TourSwiperView } from '@/features/tourShort';
 import type { AroundContentTypeId } from '@/entities/tour';
 import type { GeoTripLocation } from '@/shared';
 

@@ -4,11 +4,11 @@ import { ErrorBoundary } from 'react-error-boundary';
 
 import { TourCardImages } from '@/features/tourList';
 import { SkeletonCard } from '@/features/tour';
+import { BookmarkButtonContainer } from '@/features/bookmark';
 import { TOUR_TYPE } from '@/entities/tour';
 import { DistanceTimeInfo, LoadingSpinner, truncate } from '@/shared';
 
 import type { TourItem } from '@/entities/tour';
-import { BookmarkButtonContainer } from '@/features/bookmark';
 interface TourInfoCardProps {
   tourInfo: TourItem;
   userId: string;

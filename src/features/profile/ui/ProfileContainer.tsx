@@ -3,8 +3,10 @@ import { useQuery } from '@tanstack/react-query';
 
 import { authOptions } from '@/entities/auth';
 
-import { useSignOutMutation } from '@/features/profile';
-import { useDeleteCurrentUserMutation } from '../model/useDeleteCurrentUserMutation';
+import {
+  useSignOutMutation,
+  useDeleteCurrentUserMutation,
+} from '@/features/profile';
 import { AuthButtonContainer } from '@/features/auth';
 
 export default function ProfileContainer() {

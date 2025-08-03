@@ -18,11 +18,14 @@ export default function TourReview({ contentId }: TourReviewProps) {
   const mutation = useCreateReviewMutation({ contentId });
 
   const handleCreateReview = () => {
+    if (!auth) {
+      alert('로그인이 필요합니다.');
+    }
     mutation.mutate({
+      user: auth,
       contentId,
-      userId: auth.currentUser!.uid,
       rating: 5,
-      reviewContent: 'Great tour!',
+      content: 'Great tour!',
       images: [],
     });
   };

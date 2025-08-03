@@ -4,14 +4,26 @@ import { push, ref, set } from 'firebase/database';
 
 const createTourReview = async ({
   contentId,
-  userId,
-  reviewContent,
+  user,
+  content,
 }: CreateReviewRequest) => {
   const reviewRef = ref(database, `tour/${contentId}/reviews`);
   const newReviewRef = push(reviewRef);
-  await set(newReviewRef, {
+  const userId = user.currentUser?.uid;
+
+  if (!userId) {
+    throw new Error('User is not authenticated');
+  }
+
+  const newReviewData = {
     user_id: userId,
-    review_contents: reviewContent,
+    user: {
+      uid: userId,
+      displayName: user.currentUser?.displayName || '',
+      email: user.currentUser?.email || '',
+      photoURL: user.currentUser?.photoURL || '',
+    },
+    contents: content,
     rating: 5,
     images: [
       'https://example.com/image1.jpg',
@@ -19,7 +31,14 @@ const createTourReview = async ({
     ],
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
-  });
+  };
+
+  try {
+    await set(newReviewRef, newReviewData);
+  } catch (error) {
+    console.error('Error creating review:', error);
+    throw new Error('Failed to create review');
+  }
 };
 
 export default createTourReview;

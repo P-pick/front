@@ -1,3 +1,5 @@
+import type { Auth } from 'firebase/auth';
+
 export interface ReviewRequest {
   contentId: string;
 }
@@ -7,8 +9,8 @@ export interface getReviewRequest extends ReviewRequest {
 }
 
 export interface CreateReviewRequest extends ReviewRequest {
-  userId: string;
-  reviewContent: string;
+  user: Auth;
+  content: string;
   rating: number;
   images?: string[];
 }

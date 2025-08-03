@@ -1,6 +1,7 @@
-import type { ReviewResponse } from '@/entities/review';
 import { FreeMode } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
+
+import type { ReviewResponse } from '@/entities/review';
 
 export default function Review(review: ReviewResponse) {
   return (

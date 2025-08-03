@@ -1,6 +1,7 @@
-import { getAuth } from 'firebase/auth';
 import { useState } from 'react';
-import { useCreateReviewMutation } from '../model';
+import { getAuth } from 'firebase/auth';
+
+import { useCreateReviewMutation } from '@/features/tourReview';
 
 interface TourDetailCreateReviewProps {
   contentId: string;

@@ -1,12 +1,12 @@
+import { useState } from 'react';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { AnimatePresence, motion } from 'framer-motion';
+import { getAuth } from 'firebase/auth';
 
 import { tourDetailSVG } from '@/assets';
 
 import { CreateReview, Review } from '@/features/tourReview';
 import { reviewOptions } from '@/entities/review';
-import { useState } from 'react';
-import { getAuth } from 'firebase/auth';
 
 interface TourReviewProps {
   contentId: string;

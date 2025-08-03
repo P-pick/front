@@ -5,30 +5,29 @@ import { push, ref, set } from 'firebase/database';
 const createTourReview = async ({
   contentId,
   user,
-  contents,
+  contents = '',
+  rating = 5,
+  images = [],
 }: CreateReviewRequest) => {
   const reviewRef = ref(database, `tour/${contentId}/reviews`);
   const newReviewRef = push(reviewRef);
-  const userId = user.currentUser?.uid;
+  const userData = user.currentUser;
 
-  if (!userId) {
+  if (!userData) {
     throw new Error('User is not authenticated');
   }
 
   const newReviewData = {
-    user_id: userId,
+    userId: userData.uid,
     user: {
-      uid: userId,
-      displayName: user.currentUser?.displayName || '',
-      email: user.currentUser?.email || '',
-      photoURL: user.currentUser?.photoURL || '',
+      uid: userData.uid,
+      displayName: userData.displayName,
+      email: userData.email,
+      photoURL: userData.photoURL,
     },
-    contents: contents,
-    rating: 5,
-    images: [
-      'https://example.com/image1.jpg',
-      'https://example.com/image2.jpg',
-    ],
+    contents,
+    rating,
+    images,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   };

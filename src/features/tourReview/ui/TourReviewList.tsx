@@ -53,14 +53,16 @@ export default function TourReviewList({ contentId }: TourReviewProps) {
           </button>
         </div>
       )}
-      <div className="fixed bottom-20 right-0 pr-5 z-(--z-layer1)">
-        <button
-          onClick={handleOpenReviewModal}
-          className="bg-(--color-primary) text-white rounded-full flex items-center gap-2 w-12 h-12"
-        >
-          <tourDetailSVG.EditIcon className="fill-white w-full h-full p-3" />
-        </button>
-      </div>
+      {auth.currentUser && (
+        <div className="fixed bottom-20 right-0 pr-5 z-(--z-layer1)">
+          <button
+            onClick={handleOpenReviewModal}
+            className="bg-(--color-primary) text-white rounded-full flex items-center gap-2 w-12 h-12"
+          >
+            <tourDetailSVG.EditIcon className="fill-white w-full h-full p-3" />
+          </button>
+        </div>
+      )}
       <AnimatePresence>
         {isOpen && (
           <motion.div

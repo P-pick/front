@@ -1,7 +1,7 @@
 import { tourDetailSVG } from '@/assets';
 
-import { ExtraInfo, InfoLayout, formattedDate } from '@/features/tourDetail';
-import { SafeHtmlRenderer } from '@/shared';
+import { ExtraInfo, InfoLayout } from '@/features/tourDetail';
+import { SafeHtmlRenderer, formattedDate } from '@/shared';
 
 import type { FestivalEvent, TourDetailCommon } from '@/entities/tour';
 

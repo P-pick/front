@@ -5,7 +5,7 @@ import { push, ref, set } from 'firebase/database';
 const createTourReview = async ({
   contentId,
   user,
-  content,
+  contents,
 }: CreateReviewRequest) => {
   const reviewRef = ref(database, `tour/${contentId}/reviews`);
   const newReviewRef = push(reviewRef);
@@ -23,7 +23,7 @@ const createTourReview = async ({
       email: user.currentUser?.email || '',
       photoURL: user.currentUser?.photoURL || '',
     },
-    contents: content,
+    contents: contents,
     rating: 5,
     images: [
       'https://example.com/image1.jpg',

@@ -10,7 +10,7 @@ export interface getReviewRequest extends ReviewRequest {
 
 export interface CreateReviewRequest extends ReviewRequest {
   user: Auth;
-  content: string;
+  contents: string;
   rating: number;
   images?: string[];
 }

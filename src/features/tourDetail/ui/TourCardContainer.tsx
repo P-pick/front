@@ -9,7 +9,7 @@ import {
 import { LoadingSpinner, SwitchCase } from '@/shared';
 
 import type { TourSectionType } from '@/features/tourDetail';
-import { TourReview } from '@/features/tourReview';
+import { TourReviewList } from '@/features/tourReview';
 import type { AroundContentTypeId } from '@/entities/tour';
 
 interface TourCardContainerProps {
@@ -53,7 +53,7 @@ export default function TourCardContainer({
                     contentTypeId={contenttypeid}
                   />
                 ),
-                review: <TourReview contentId={contentid} />,
+                review: <TourReviewList contentId={contentid} />,
               }}
               defaultComponent={<div>해당 섹션은 준비 중입니다.</div>}
             />

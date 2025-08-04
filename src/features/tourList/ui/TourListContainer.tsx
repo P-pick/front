@@ -1,13 +1,18 @@
-import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
+import {
+  useQueryClient,
+  useSuspenseInfiniteQuery,
+  useSuspenseQuery,
+} from '@tanstack/react-query';
 import { useDeferredValue } from 'react';
 
-import { tourQueries } from '@/entities/tour';
 import { SkeletonCard, withGeoTripParams } from '@/features/tour';
 import { TourInfoCard, useShouldShowFallback } from '@/features/tourList';
+import { tourQueries } from '@/entities/tour';
+import { authOptions } from '@/entities/auth';
 import { InfiniteScroll, useSyncedState } from '@/shared';
 
-import { type AroundContentTypeId } from '@/entities/tour';
-import { type GeoTripLocation } from '@/shared';
+import type { AroundContentTypeId } from '@/entities/tour';
+import type { GeoTripLocation } from '@/shared';
 interface TourListContainerProps {
   location: GeoTripLocation;
   distance: string;
@@ -19,6 +24,9 @@ function TourListContainer({
   distance,
   tourContentTypeId,
 }: TourListContainerProps) {
+  const queryClient = useQueryClient();
+  queryClient.prefetchQuery(authOptions.auth());
+
   const [localTourContentTypeId] = useSyncedState(tourContentTypeId);
   const deferredTourContentTypeId = useDeferredValue(localTourContentTypeId);
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
@@ -30,6 +38,8 @@ function TourListContainer({
         numOfRows: 4,
       }),
     );
+
+  const { data: authData } = useSuspenseQuery(authOptions.auth());
   const shouldShowFallback = useShouldShowFallback({
     location,
     radius: distance,
@@ -42,7 +52,11 @@ function TourListContainer({
     <>
       <section className="relative">
         {tourItems.map(tourInfo => (
-          <TourInfoCard tourInfo={tourInfo} key={tourInfo.contentid} />
+          <TourInfoCard
+            tourInfo={tourInfo}
+            userId={authData?.uid || ''}
+            key={tourInfo.contentid}
+          />
         ))}
         {shouldShowFallback && (
           <div className="absolute inset-0 bg-primary-gray/40 z-10" />

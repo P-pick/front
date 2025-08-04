@@ -13,9 +13,11 @@ import SearchIcon from './searchIcon.svg?react';
 import ShareIcon from './share.svg?react';
 import SoundIcon from './soundIcon.svg?react';
 import DownArrowIcon from './downArrow.svg?react';
+import BookmarkPageIcon from './bookMarkPageIcon.svg?react';
 
 export {
   BookMarkIcon,
+  BookmarkPageIcon,
   CheckIcon,
   DeleteIcon,
   GeoMapIcon,

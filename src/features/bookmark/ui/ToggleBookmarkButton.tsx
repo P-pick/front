@@ -5,7 +5,9 @@ interface ToggleBookmarkButtonProps {
   userId: string;
   contentId: string;
   bookmarked: boolean | null;
+  className?: string;
 }
+
 export default function ToggleBookmarkButton({
   userId,
   contentId,
@@ -17,8 +19,11 @@ export default function ToggleBookmarkButton({
     bookmarked: Boolean(bookmarked),
   });
 
+  const bookMarkIconColor = bookmarked ? 'text-primary-red' : 'none';
+
   return (
     <button
+      className="flex items-center justify-center w-5 h-5"
       onClick={() =>
         mutate({
           userId,
@@ -27,7 +32,7 @@ export default function ToggleBookmarkButton({
         })
       }
     >
-      {!bookmarked ? <commonSVG.BookMarkIcon /> : <commonSVG.HeartIcon />}
+      <commonSVG.BookMarkIcon className={bookMarkIconColor} />
     </button>
   );
 }

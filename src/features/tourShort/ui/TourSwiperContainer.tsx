@@ -6,7 +6,6 @@ import {
   TourSwiperLoadingOverlay,
   useInfiniteSwiperControl,
   useTourSwiperInfiniteQuery,
-  SideButtonGroupContainer,
   withGeoTripParams,
 } from '@/features/tour';
 import { TourSwiperView } from '@/features/tourShort';
@@ -51,7 +50,7 @@ function TourSwiperContainer({
   };
 
   return (
-    <>
+    <div className="relative w-full h-full">
       <TourSwiperLoadingOverlay
         isInitializing={isInitializing}
         isFetchingPreviousPage={isFetchingPreviousPage}
@@ -67,13 +66,12 @@ function TourSwiperContainer({
         isInitializing={isInitializing}
       />
 
-      <SideButtonGroupContainer goToAroundTouristButtonProps={currentSlide} />
       <TourBottomSheet
         {...currentSlide}
         isOpen={isBottomSheetOpen}
         onClose={() => setIsBottomSheetOpen(false)}
       />
-    </>
+    </div>
   );
 }
 

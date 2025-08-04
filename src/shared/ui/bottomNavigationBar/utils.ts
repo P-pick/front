@@ -1,5 +1,10 @@
 import { type NavigateOptions, type To } from 'react-router-dom';
-import { BookMarkIcon, HomeIcon, ListIcon, ProfileIcon } from '@/assets/common';
+import {
+  BookmarkPageIcon,
+  HomeIcon,
+  ListIcon,
+  ProfileIcon,
+} from '@/assets/common';
 
 type createNavItemsParams = {
   currentParams: URLSearchParams;
@@ -31,7 +36,7 @@ export const createNavItems = ({
     },
     {
       id: 'bookmark-navigation-tutorial',
-      icon: BookMarkIcon,
+      icon: BookmarkPageIcon,
       path: '/tour/bookmark',
       label: 'bookmark Icon',
       onClick: () =>

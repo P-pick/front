@@ -6,6 +6,7 @@ import { TourSlide } from '@/features/tourShort';
 
 import type { Swiper as SwiperType } from 'swiper/types';
 import type { SlideEntries } from '@/features/tour/types';
+import { useLayoutEffect } from 'react';
 
 interface TourSwiperViewProps {
   onSwiper: (swiper: SwiperType) => Promise<void>;
@@ -14,6 +15,7 @@ interface TourSwiperViewProps {
   handlePrepend: () => Promise<void>;
   slideEntries: SlideEntries[];
   openBottomSheet: () => void;
+  handleSlideTo: () => Promise<void>;
   isInitializing: boolean;
 }
 
@@ -25,7 +27,12 @@ export default function TourSwiperView({
   openBottomSheet,
   slideEntries,
   isInitializing,
+  handleSlideTo,
 }: TourSwiperViewProps) {
+  useLayoutEffect(() => {
+    handleSlideTo();
+  }, []);
+
   const className = clsx(
     isInitializing
       ? 'opacity-0 pointer-events-none'

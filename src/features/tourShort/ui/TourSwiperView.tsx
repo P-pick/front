@@ -31,6 +31,7 @@ export default function TourSwiperView({
       ? 'opacity-0 pointer-events-none'
       : 'h-full transition-opacity duration-300',
   );
+
   return (
     <Swiper
       direction="vertical"

@@ -35,13 +35,12 @@ export const useInfiniteSwiperControl = ({
     const prependLength = result?.data?.pages[0]?.items.item.length ?? 0;
 
     const targetIndex = currentIndex + prependLength;
-
     const handleSlidesUpdated = () => {
       swiper.slideTo(targetIndex, 0);
       swiper.off('slidesUpdated', handleSlidesUpdated);
-      setIsInitializing(false);
     };
 
+    setIsInitializing(false);
     swiper.on('slidesUpdated', handleSlidesUpdated);
   };
 

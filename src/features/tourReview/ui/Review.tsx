@@ -15,7 +15,7 @@ export default function Review(review: ReviewResponse) {
         </div>
         <div className="flex flex-col">
           <span>{review.user.displayName}</span>
-          <span>{review.rating}</span>
+          <span className="align-middle text-sm">⭐&nbsp;{review.rating}</span>
         </div>
       </div>
       {review.images && review.images?.length > 0 && (

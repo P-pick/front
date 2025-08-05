@@ -1,4 +1,4 @@
-import TwoOClockDirection from './tenOClockDirection.svg?react';
+import TwoOClockDirection from './twoOClockDirection.svg?react';
 import FourOClockDirection from './fourOClockDirection.svg?react';
 import EightOClockDirection from './eightOClockDirection.svg?react';
 import TenOClockDirection from './tenOClockDirection.svg?react';

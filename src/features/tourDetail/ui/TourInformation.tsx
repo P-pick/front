@@ -1,6 +1,5 @@
 import { useSuspenseQueries } from '@tanstack/react-query';
 
-import { tourQueries } from '@/entities/tour';
 import {
   TouristAttractionInfo,
   CultureFacilityInfo,
@@ -10,11 +9,12 @@ import {
   LodgingInfo,
   ShoppingInfo,
   FoodInfo,
+  castTourIntro,
 } from '@/features/tourDetail';
+import { tourQueries } from '@/entities/tour';
 import { SwitchCase } from '@/shared';
 
 import type { AroundContentTypeId } from '@/entities/tour';
-import { castTourIntro } from '../util/castTourIntro';
 
 interface TourInformationProps {
   contentId: string;

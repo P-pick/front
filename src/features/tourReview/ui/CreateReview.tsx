@@ -47,14 +47,20 @@ export default function TourDetailCreateReview({
     if (!auth.currentUser) {
       alert('로그인이 필요합니다.');
     }
-    mutation.mutate({
-      user: auth,
-      contentId,
-      rating: newReview.rating,
-      contents: newReview.contents,
-      images: newReview.images || [],
-    });
-    setIsOpen(false);
+    mutation.mutate(
+      {
+        user: auth,
+        contentId,
+        rating: newReview.rating,
+        contents: newReview.contents,
+        images: newReview.images || [],
+      },
+      {
+        onSuccess: () => {
+          setIsOpen(false);
+        },
+      },
+    );
   };
 
   return (

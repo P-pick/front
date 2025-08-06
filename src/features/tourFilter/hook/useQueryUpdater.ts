@@ -15,6 +15,8 @@ export const useQueryUpdater = () => {
     searchParams.set('tour-type', tourType);
     searchParams.set('distance', String(distance * 1000));
     // searchParams.set('sort', sortOption);
+    searchParams.delete('slide-index');
+    searchParams.delete('page-param');
     setSearchParams(searchParams, { replace: true });
   };
 

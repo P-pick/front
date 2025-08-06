@@ -15,8 +15,8 @@ interface TourSwiperViewProps {
   handlePrepend: () => Promise<void>;
   slideEntries: SlideEntries[];
   openBottomSheet: () => void;
-  handleSlideTo: () => Promise<void>;
-  isInitializing: boolean;
+  initSlideTo: () => Promise<void>;
+  isSliding: boolean;
 }
 
 export default function TourSwiperView({
@@ -26,15 +26,15 @@ export default function TourSwiperView({
   handlePrepend,
   openBottomSheet,
   slideEntries,
-  isInitializing,
-  handleSlideTo,
+  isSliding,
+  initSlideTo,
 }: TourSwiperViewProps) {
   useLayoutEffect(() => {
-    handleSlideTo();
+    initSlideTo();
   }, []);
 
   const className = clsx(
-    isInitializing
+    isSliding
       ? 'opacity-0 pointer-events-none'
       : 'h-full transition-opacity duration-300',
   );

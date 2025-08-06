@@ -28,7 +28,7 @@ function TourSwiperContainer({
 }: TourSwiperContainerProps) {
   const { setSlideParams, getSlideIndex, getPageParam } = usePersistSlideUrl();
 
-  const { slideEntries, fetchAppend, fetchPrepend, isFetchingPreviousPage } =
+  const { slideEntries, fetchAppend, fetchPrepend } =
     useTourSwiperInfiniteQuery({
       location,
       radius: distance,
@@ -41,8 +41,8 @@ function TourSwiperContainer({
     onSwiper,
     handlePrepend,
     handleAppend,
-    isInitializing,
-    handleSlideTo,
+    isSliding,
+    initSlideTo,
   } = useInfiniteSwiperControl({
     fetchPrepend,
     fetchAppend,
@@ -63,19 +63,16 @@ function TourSwiperContainer({
 
   return (
     <div className="relative w-full h-full">
-      <TourSwiperLoadingOverlay
-        isInitializing={isInitializing}
-        isFetchingPreviousPage={isFetchingPreviousPage}
-      />
+      <TourSwiperLoadingOverlay isInitializing={isSliding} />
       <TourSwiperView
         handleAppend={handleAppend}
         handlePrepend={handlePrepend}
         handleSlideChange={handleSlideChange}
-        handleSlideTo={handleSlideTo}
+        initSlideTo={initSlideTo}
         onSwiper={onSwiper}
         slideEntries={slideEntries}
         openBottomSheet={() => setIsBottomSheetOpen(true)}
-        isInitializing={isInitializing}
+        isSliding={isSliding}
       />
 
       <TourBottomSheet

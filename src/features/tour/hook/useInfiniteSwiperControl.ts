@@ -3,7 +3,7 @@ import type {
   InfiniteData,
   InfiniteQueryObserverResult,
 } from '@tanstack/react-query';
-import { useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import type { Swiper as SwiperType } from 'swiper/types';
 
 type PageFetchQuery = () =>
@@ -29,21 +29,17 @@ export const useInfiniteSwiperControl = ({
   const swiperRef = useRef<SwiperType | null>(null);
   const onSwiper = async (swiper: SwiperType) => {
     swiperRef.current = swiper;
+  };
 
+  const handleSlideTo = useCallback(async () => {
     const currentIndex = Number(sessionStorage.getItem('currentIndex') ?? 0);
     const result = await fetchPrepend();
     const prependLength = result?.data?.pages[0]?.items.item.length ?? 0;
 
     const targetIndex = currentIndex + prependLength;
-
-    const handleSlidesUpdated = () => {
-      swiper.slideTo(targetIndex, 0);
-      swiper.off('slidesUpdated', handleSlidesUpdated);
-      setIsInitializing(false);
-    };
-
-    swiper.on('slidesUpdated', handleSlidesUpdated);
-  };
+    swiperRef.current?.slideTo(targetIndex, 0);
+    setIsInitializing(false);
+  }, []);
 
   const handleAppend = async () => {
     await fetchAppend();
@@ -63,5 +59,6 @@ export const useInfiniteSwiperControl = ({
     onSwiper,
     handlePrepend,
     handleAppend,
+    handleSlideTo,
   };
 };

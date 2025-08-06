@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 interface handleSlideChangeProps {
@@ -16,6 +16,10 @@ export const usePersistSlideUrl = () => {
     },
     [],
   );
+  useEffect(() => {
+    setSlideParams({ index: 0, pageParam: 1 });
+  }, []);
+
   const getSlideIndex = () => {
     const slideIndex = searchParams.get('slide-index');
     if (slideIndex === null) {

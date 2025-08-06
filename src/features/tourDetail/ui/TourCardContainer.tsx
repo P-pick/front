@@ -5,11 +5,12 @@ import {
   TourCardNavigate,
   TourInformation,
   TourOverview,
+  ReviewSkeleton,
 } from '@/features/tourDetail';
+import { TourReviewList } from '@/features/tourReview';
 import { LoadingSpinner, SwitchCase } from '@/shared';
 
 import type { TourSectionType } from '@/features/tourDetail';
-import { TourReviewList } from '@/features/tourReview';
 import type { AroundContentTypeId } from '@/entities/tour';
 
 interface TourCardContainerProps {
@@ -35,7 +36,7 @@ export default function TourCardContainer({
         currentSection={currentSection}
         onNavigate={setCurrentSection}
       />
-      <Suspense fallback={<LoadingSpinner centered={true} />}>
+      <Suspense fallback={<ReviewSkeleton />}>
         <AnimatePresence mode="wait">
           <motion.div
             key={currentSection}

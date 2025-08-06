@@ -12,5 +12,10 @@ export interface CreateReviewRequest extends ReviewRequest {
   user: Auth;
   contents: string;
   rating: number;
-  images?: string[];
+  images?: File[];
+}
+
+export interface ReviewImageRequest extends ReviewRequest {
+  reviewId: string;
+  images: File[];
 }

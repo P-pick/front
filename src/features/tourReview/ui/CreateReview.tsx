@@ -15,7 +15,7 @@ export default function TourDetailCreateReview({
   const [newReview, setNewReview] = useState({
     rating: 5,
     contents: '',
-    images: [],
+    images: [] as File[],
   });
 
   const auth = getAuth();
@@ -38,8 +38,10 @@ export default function TourDetailCreateReview({
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
-    const imageUrls = files.map(file => URL.createObjectURL(file));
-    console.log(imageUrls); //이미지 만들어지기 전까지 콘솔로 확인
+    setNewReview({
+      ...newReview,
+      images: files,
+    });
   };
 
   const handleCreateReview = (e: React.FormEvent<HTMLFormElement>) => {
@@ -53,7 +55,7 @@ export default function TourDetailCreateReview({
         contentId,
         rating: newReview.rating,
         contents: newReview.contents,
-        images: newReview.images || [],
+        images: newReview.images,
       },
       {
         onSuccess: () => {

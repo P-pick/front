@@ -1,6 +1,7 @@
 import type { CreateReviewRequest } from '@/entities/review';
 import { database } from '@/shared';
 import { push, ref, set } from 'firebase/database';
+import createReviewImages from './createReviewImages';
 
 const createTourReview = async ({
   contentId,
@@ -13,9 +14,21 @@ const createTourReview = async ({
   const newReviewRef = push(reviewRef);
   const userData = user.currentUser;
 
-  if (!userData) {
-    throw new Error('User is not authenticated');
+  const reviewId = newReviewRef.key;
+
+  if (!reviewId) {
+    throw new Error('리뷰 ID 생성 실패');
   }
+
+  if (!userData) {
+    throw new Error('사용자 정보가 없습니다. 로그인이 필요합니다.');
+  }
+
+  const imageUrls = await createReviewImages({
+    contentId,
+    reviewId,
+    images,
+  });
 
   const newReviewData = {
     userId: userData.uid,
@@ -27,7 +40,7 @@ const createTourReview = async ({
     },
     contents,
     rating,
-    images,
+    images: imageUrls,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   };

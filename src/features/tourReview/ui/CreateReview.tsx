@@ -114,8 +114,9 @@ export default function TourDetailCreateReview({
           <button
             type="submit"
             className="bg-(--color-primary) text-white rounded-lg px-4 py-2"
+            disabled={mutation.isPending}
           >
-            리뷰 작성
+            {mutation.isPending ? '리뷰 업로드 중...' : '리뷰 작성'}
           </button>
         </div>
       </div>

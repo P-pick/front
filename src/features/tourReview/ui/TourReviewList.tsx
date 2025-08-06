@@ -32,7 +32,7 @@ export default function TourReviewList({ contentId }: TourReviewProps) {
       {reviews.length !== 0 ? (
         reviews.map(review => (
           <div className="my-3" key={review.id}>
-            <Review {...review} />
+            <Review contentId={contentId} review={review} />
           </div>
         ))
       ) : (

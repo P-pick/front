@@ -1,7 +1,9 @@
-import type { CreateReviewRequest } from '@/entities/review';
 import { database } from '@/shared';
 import { push, ref, set } from 'firebase/database';
-import createReviewImages from './createReviewImages';
+
+import { createReviewImages } from '@/entities/review';
+
+import type { CreateReviewRequest } from '@/entities/review';
 
 const createTourReview = async ({
   contentId,
@@ -40,7 +42,7 @@ const createTourReview = async ({
     },
     contents,
     rating,
-    images: imageUrls,
+    images: imageUrls || [],
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   };

@@ -1,15 +1,15 @@
+import { reviewOptions, updateReview } from '@/entities/review';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { createTourReview, reviewOptions } from '@/entities/review';
-
-const useCreateReviewMutation = ({ contentId }: { contentId: string }) => {
+const useModifiedReviewMutation = ({ contentId }: { contentId: string }) => {
   const queryClient = useQueryClient();
   const queryKey = reviewOptions.getReview({ contentId }).queryKey;
   const mutation = useMutation({
-    mutationFn: createTourReview,
+    mutationFn: updateReview,
     onMutate: async () => {
       await queryClient.cancelQueries({ queryKey });
       const previousReviews = queryClient.getQueryData(queryKey);
+
       const newReview = {
         contentId,
       };
@@ -28,4 +28,4 @@ const useCreateReviewMutation = ({ contentId }: { contentId: string }) => {
   return mutation;
 };
 
-export default useCreateReviewMutation;
+export default useModifiedReviewMutation;

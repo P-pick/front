@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
 import {
-  persistSlideSession,
   TourBottomSheet,
   TourSwiperLoadingOverlay,
   withGeoTripParams,
@@ -10,12 +9,12 @@ import {
   TourSwiperView,
   useTourSwiperInfiniteQuery,
   useInfiniteSwiperControl,
+  usePersistSlideUrl,
 } from '@/features/tourShort';
 import type { AroundContentTypeId } from '@/entities/tour';
 import type { GeoTripLocation } from '@/shared';
 
 import type { Swiper as SwiperType } from 'swiper/types';
-
 interface TourSwiperContainerProps {
   location: GeoTripLocation;
   distance: string;
@@ -27,12 +26,16 @@ function TourSwiperContainer({
   distance,
   tourContentTypeId,
 }: TourSwiperContainerProps) {
+  const { setSlideParams, getSlideIndex, getPageParam } = usePersistSlideUrl();
+
   const { slideEntries, fetchAppend, fetchPrepend, isFetchingPreviousPage } =
     useTourSwiperInfiniteQuery({
       location,
       radius: distance,
       contentTypeId: tourContentTypeId,
+      initialPageParam: getPageParam(),
     });
+
   const {
     swiperRef,
     onSwiper,
@@ -43,6 +46,7 @@ function TourSwiperContainer({
   } = useInfiniteSwiperControl({
     fetchPrepend,
     fetchAppend,
+    getSlideIndex,
   });
 
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
@@ -51,9 +55,9 @@ function TourSwiperContainer({
 
   const handleSlideChange = (swiper: SwiperType) => {
     const index = swiper.activeIndex;
-    persistSlideSession({
-      slideEntries: slideEntries[index],
-      activeIndex: index,
+    setSlideParams({
+      index,
+      pageParam: slideEntries[index].pageParam,
     });
   };
 

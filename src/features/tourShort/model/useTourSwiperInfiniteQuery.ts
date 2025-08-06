@@ -9,9 +9,8 @@ export const useTourSwiperInfiniteQuery = ({
   location,
   radius,
   contentTypeId,
+  initialPageParam = 1,
 }: LocationBasedInfiniteQueryParams) => {
-  const initialPageParam = Number(sessionStorage.getItem('currentPage') ?? 1);
-
   const {
     data: infiniteData,
     fetchNextPage,

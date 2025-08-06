@@ -18,11 +18,13 @@ type PageFetchQuery = () =>
 interface UseInfiniteSwiperControlProps {
   fetchPrepend: PageFetchQuery;
   fetchAppend: PageFetchQuery;
+  getSlideIndex: () => number;
 }
 
 export const useInfiniteSwiperControl = ({
   fetchPrepend,
   fetchAppend,
+  getSlideIndex,
 }: UseInfiniteSwiperControlProps) => {
   const [isInitializing, setIsInitializing] = useState(true);
 
@@ -32,7 +34,7 @@ export const useInfiniteSwiperControl = ({
   };
 
   const handleSlideTo = useCallback(async () => {
-    const currentIndex = Number(sessionStorage.getItem('currentIndex') ?? 0);
+    const currentIndex = getSlideIndex();
     const result = await fetchPrepend();
     const prependLength = result?.data?.pages[0]?.items.item.length ?? 0;
 

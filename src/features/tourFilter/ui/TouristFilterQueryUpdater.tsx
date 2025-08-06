@@ -7,6 +7,7 @@ import type { AroundContentTypeId } from '@/entities/tour';
 
 export default function TouristFilterQueryUpdater() {
   const [searchParams, setSearchParams] = useSearchParams();
+
   const [contentTypeId, setContentTypeId] = useState<AroundContentTypeId>(
     searchParams.get('tour-type') as AroundContentTypeId,
   );

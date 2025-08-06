@@ -9,9 +9,7 @@ import type { AroundContentTypeId } from '@/entities/tour';
 
 interface TouristContentsTypeFilterProps {
   contentTypeId: AroundContentTypeId;
-  setContentTypeId: React.Dispatch<
-    React.SetStateAction<Exclude<AroundContentTypeId, ''>>
-  >;
+  setContentTypeId: React.Dispatch<React.SetStateAction<AroundContentTypeId>>;
 }
 export default function TouristContentsTypeFilter({
   contentTypeId,

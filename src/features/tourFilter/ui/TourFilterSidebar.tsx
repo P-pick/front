@@ -22,7 +22,7 @@ export default function TourFilterSidebar({
   const { getQuery, updateQuery } = useTourFilterQuery();
 
   const [aroundContentTypeId, setAroundContentTypeId] = useState(
-    getQuery()?.tourType || '12',
+    getQuery()?.tourType ?? '12',
   );
   const [distance, setDistance] = useState(getQuery()?.distance || 1);
   const [sortOption, setSortOption] = useState<SortOption>('distance');

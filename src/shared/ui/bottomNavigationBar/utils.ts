@@ -15,16 +15,22 @@ export const createNavItems = ({
   currentParams,
   navigate,
 }: createNavItemsParams) => {
+  const saveTourSearchToSession = () => {
+    sessionStorage.setItem('prevTourSearch', currentParams.toString());
+  };
+
   return [
     {
       id: 'home-navigation-tutorial',
       icon: HomeIcon,
       path: '/tour/geo-trip',
       label: 'home Icon',
-      onClick: () =>
-        navigate(`/tour/geo-trip?${currentParams.toString()}`, {
+      onClick: () => {
+        const prevSearch = sessionStorage.getItem('prevTourSearch') || '';
+        navigate(`/tour/geo-trip?${prevSearch}`, {
           replace: true,
-        }),
+        });
+      },
     },
     {
       id: 'list-navigation-tutorial',
@@ -49,8 +55,10 @@ export const createNavItems = ({
       icon: ProfileIcon,
       path: '/profile',
       label: 'profile Icon',
-      onClick: () =>
-        navigate(`/profile?${currentParams.toString()}`, { replace: true }),
+      onClick: () => {
+        saveTourSearchToSession();
+        navigate(`/profile`, { replace: false });
+      },
     },
   ];
 };

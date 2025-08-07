@@ -1,8 +1,9 @@
 import { useSearchParams } from 'react-router-dom';
 
 import { isValidTourType } from '@/features/map';
+import { isValidDistance } from '@/features/tourFilter';
 
-import { isValidDistance, type Distance } from '@/features/tourFilter';
+import type { Distance } from '@/features/tourFilter';
 import type { AroundContentTypeId } from '@/entities/tour';
 
 type UpdateType = {

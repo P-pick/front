@@ -8,10 +8,5 @@ export const isValidDistance = (value: unknown): value is Distance => {
     value <= 20
   );
 };
+
 export default isValidDistance;
-
-const val = 1;
-
-if (isValidDistance(val)) {
-  console.log('Valid distance:', val);
-}

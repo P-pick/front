@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import {
+  LocationPermissionOverlay,
   TourBottomSheet,
   TourSwiperLoadingOverlay,
   withGeoTripParams,
@@ -12,25 +13,24 @@ import {
   usePersistSlideUrl,
 } from '@/features/tourShort';
 import type { AroundContentTypeId } from '@/entities/tour';
-import type { GeoTripLocation } from '@/shared';
+import { getSuspenseLocation } from '@/shared';
 
 import type { Swiper as SwiperType } from 'swiper/types';
 interface TourSwiperContainerProps {
-  location: GeoTripLocation;
   distance: string;
   tourContentTypeId: AroundContentTypeId;
 }
 
 function TourSwiperContainer({
-  location,
   distance,
   tourContentTypeId,
 }: TourSwiperContainerProps) {
   const { setSlideParams, getSlideIndex, getPageParam } = usePersistSlideUrl();
+  const geoLocation = getSuspenseLocation();
 
   const { slideEntries, fetchAppend, fetchPrepend } =
     useTourSwiperInfiniteQuery({
-      location,
+      location: geoLocation,
       radius: distance,
       contentTypeId: tourContentTypeId,
       initialPageParam: getPageParam(),
@@ -64,6 +64,9 @@ function TourSwiperContainer({
 
   return (
     <div className="relative w-full h-full">
+      <LocationPermissionOverlay
+        isDenied={geoLocation.permission === 'denied'}
+      />
       <TourSwiperLoadingOverlay isInitializing={isSliding} />
       <TourSwiperView
         handleAppend={handleAppend}

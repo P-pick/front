@@ -5,22 +5,24 @@ import {
 } from '@tanstack/react-query';
 import { useDeferredValue } from 'react';
 
-import { SkeletonCard, withGeoTripParams } from '@/features/tour';
+import {
+  LocationPermissionOverlay,
+  SkeletonCard,
+  withGeoTripParams,
+} from '@/features/tour';
 import { TourInfoCard, useShouldShowFallback } from '@/features/tourList';
 import { tourQueries } from '@/entities/tour';
 import { authOptions } from '@/entities/auth';
-import { InfiniteScroll, useSyncedState } from '@/shared';
+import { getSuspenseLocation, InfiniteScroll, useSyncedState } from '@/shared';
 
 import type { AroundContentTypeId } from '@/entities/tour';
-import type { GeoTripLocation } from '@/shared';
+
 interface TourListContainerProps {
-  location: GeoTripLocation;
   distance: string;
   tourContentTypeId: AroundContentTypeId;
 }
 
 function TourListContainer({
-  location,
   distance,
   tourContentTypeId,
 }: TourListContainerProps) {
@@ -29,10 +31,11 @@ function TourListContainer({
 
   const [localTourContentTypeId] = useSyncedState(tourContentTypeId);
   const deferredTourContentTypeId = useDeferredValue(localTourContentTypeId);
+  const geoLocation = getSuspenseLocation();
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useSuspenseInfiniteQuery(
       tourQueries.locationBasedList({
-        location,
+        location: geoLocation,
         radius: distance,
         contentTypeId: deferredTourContentTypeId,
         numOfRows: 4,
@@ -41,7 +44,7 @@ function TourListContainer({
 
   const { data: authData } = useSuspenseQuery(authOptions.auth());
   const shouldShowFallback = useShouldShowFallback({
-    location,
+    location: geoLocation,
     radius: distance,
     localContentTypeId: localTourContentTypeId,
     deferredContentTypeId: deferredTourContentTypeId,
@@ -50,6 +53,9 @@ function TourListContainer({
 
   return (
     <>
+      <LocationPermissionOverlay
+        isDenied={geoLocation.permission === 'denied'}
+      />
       <section className="relative">
         {tourItems.map(tourInfo => (
           <TourInfoCard

@@ -2,7 +2,12 @@ import { getCurrentLocation } from '@/shared';
 
 import type { GeoTripLocation } from '@/shared';
 
-let locationCache: GeoTripLocation | null = null;
+type PermissionStateLite = 'granted' | 'denied' | 'prompt' | 'unknown';
+type SuspenseLocation = GeoTripLocation & {
+  permission: PermissionStateLite;
+};
+
+let locationCache: SuspenseLocation | null = null;
 let locationPromise: Promise<GeoTripLocation> | null = null;
 let locationError: unknown = null;
 
@@ -11,21 +16,20 @@ const DEFAULT_LOCATION = {
   lng: 126.976882,
 } as const;
 
-export default function getSuspenseLocation(): GeoTripLocation {
+export default function getSuspenseLocation(): SuspenseLocation {
   if (locationCache) return locationCache;
   if (locationError) throw locationError;
 
   if (!locationPromise) {
     locationPromise = getCurrentLocation()
       .then(loc => {
-        locationCache = loc;
-        return loc;
+        locationCache = { ...loc, permission: 'granted' };
+        return locationCache;
       })
       .catch(err => {
         if (err.code === 1) {
-          // 권한 거부 시 기본 위치 사용
-          locationCache = DEFAULT_LOCATION;
-          return DEFAULT_LOCATION;
+          locationCache = { ...DEFAULT_LOCATION, permission: 'denied' };
+          return locationCache;
         }
         if (err.code === 2) {
           throw new Error(

@@ -1,26 +1,35 @@
 // LocationPermissionOverlay.tsx
-import { useState, type SVGProps } from 'react';
+import { useMemo, useState } from 'react';
 import clsx from 'clsx';
+
+import type { SVGProps } from 'react';
 
 interface LocationPermissionOverlayProps {
   isDenied: boolean;
 }
 
+const STORAGE_KEY = 'dismiss_location_overlay_session';
+
 export default function LocationPermissionOverlay({
   isDenied,
 }: LocationPermissionOverlayProps) {
+  const dismissedInSession = useMemo(() => {
+    return sessionStorage.getItem(STORAGE_KEY) === '1';
+  }, []);
   const [open, setOpen] = useState(isDenied);
+  if (!open || dismissedInSession) return null;
 
-  if (!open) return null;
-
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    sessionStorage.setItem(STORAGE_KEY, '1');
+    setOpen(false);
+  };
 
   return (
     <div
       role="dialog"
       aria-live="polite"
       className={clsx(
-        'absolute inset-0 z-[var(--z-layer9)] bg-black/50 backdrop-blur-[2px]',
+        'absolute inset-0 z-[var(--z-layer9)] bg-black/50 backdrop-blur-[2px] inert',
         'flex items-center justify-center cursor-pointer select-none',
         'transition-opacity duration-200 ease-out',
       )}

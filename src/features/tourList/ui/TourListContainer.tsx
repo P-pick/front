@@ -50,13 +50,12 @@ function TourListContainer({
     deferredContentTypeId: deferredTourContentTypeId,
   });
   const tourItems = data.pages.flatMap(page => page.items.item);
+  const isDenied = geoLocation.permission === 'denied';
 
   return (
     <>
-      <LocationPermissionOverlay
-        isDenied={geoLocation.permission === 'denied'}
-      />
-      <section className="relative">
+      <LocationPermissionOverlay isDenied={isDenied} />
+      <section className="relative overflow-y-auto h-full">
         {tourItems.map(tourInfo => (
           <TourInfoCard
             tourInfo={tourInfo}
@@ -67,14 +66,14 @@ function TourListContainer({
         {shouldShowFallback && (
           <div className="absolute inset-0 bg-primary-gray/40 z-10" />
         )}
+        <InfiniteScroll
+          hasNextPage={hasNextPage}
+          isFetching={isFetchingNextPage}
+          onIntersect={fetchNextPage}
+          LoadingComponent={<SkeletonCard />}
+          triggerClassName="h-50"
+        />
       </section>
-      <InfiniteScroll
-        hasNextPage={hasNextPage}
-        isFetching={isFetchingNextPage}
-        onIntersect={fetchNextPage}
-        LoadingComponent={<SkeletonCard />}
-        triggerClassName="h-50"
-      />
     </>
   );
 }

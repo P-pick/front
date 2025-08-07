@@ -1,10 +1,11 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 interface handleSlideChangeProps {
   pageParam: number;
   index: number;
 }
+
 export const usePersistSlideUrl = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -16,9 +17,6 @@ export const usePersistSlideUrl = () => {
     },
     [],
   );
-  useEffect(() => {
-    setSlideParams({ index: 0, pageParam: 1 });
-  }, []);
 
   const getSlideIndex = () => {
     const slideIndex = searchParams.get('slide-index');
@@ -36,9 +34,17 @@ export const usePersistSlideUrl = () => {
     return Number(pageParam);
   };
 
+  const slideReset = () => {
+    const nextParams = new URLSearchParams(searchParams);
+    nextParams.delete('slide-index');
+    nextParams.delete('page-param');
+    setSearchParams(nextParams);
+  };
+
   return {
     setSlideParams,
     getSlideIndex,
     getPageParam,
+    slideReset,
   };
 };

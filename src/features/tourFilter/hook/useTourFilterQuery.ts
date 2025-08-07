@@ -15,10 +15,13 @@ export const useTourFilterQuery = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const updateQuery = ({ tourType, distance }: UpdateType) => {
-    searchParams.set('tour-type', tourType);
-    searchParams.set('distance', String(distance * 1000));
-    // searchParams.set('sort', sortOption);
-    setSearchParams(searchParams, { replace: true });
+    const nextParams = new URLSearchParams(searchParams);
+    nextParams.set('tour-type', tourType);
+    nextParams.set('distance', String(distance * 1000));
+    // nextParams.set('sort', sortOption);
+    nextParams.delete('slide-index');
+    nextParams.delete('page-param');
+    setSearchParams(nextParams, { replace: true });
   };
 
   const getQuery = () => {

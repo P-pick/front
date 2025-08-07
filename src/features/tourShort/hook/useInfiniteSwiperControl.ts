@@ -26,7 +26,7 @@ export const useInfiniteSwiperControl = ({
   fetchAppend,
   getSlideIndex,
 }: UseInfiniteSwiperControlProps) => {
-  const [isSliding, setIsSliding] = useState(false);
+  const [isSliding, setIsSliding] = useState(true);
 
   const swiperRef = useRef<SwiperType | null>(null);
   const onSwiper = async (swiper: SwiperType) => {
@@ -35,7 +35,6 @@ export const useInfiniteSwiperControl = ({
 
   const initSlideTo = useCallback(async () => {
     const currentIndex = getSlideIndex();
-    setIsSliding(true);
     swiperRef.current?.slideTo(currentIndex, 0);
     setIsSliding(false);
   }, []);

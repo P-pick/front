@@ -54,6 +54,7 @@ function TourSwiperContainer({
   const currentSlide = slideEntries[swiperRef.current?.activeIndex ?? 0].slide;
 
   const handleSlideChange = (swiper: SwiperType) => {
+    if (isSliding) return;
     const index = swiper.activeIndex;
     setSlideParams({
       index,

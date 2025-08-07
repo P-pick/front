@@ -47,11 +47,11 @@ export const createReviewImages = async ({
 export const removeReviewImage = async ({
   contentId,
   reviewId,
-  prevImages,
+  deletedImages,
 }: DeleteReviewRequest) => {
   const storage = getStorage();
 
-  for (const image of prevImages) {
+  for (const image of deletedImages) {
     const desertRef = ref(
       storage,
       `tour/${contentId}/reviews/${reviewId}/${image.name}`,

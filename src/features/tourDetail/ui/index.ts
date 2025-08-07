@@ -2,6 +2,6 @@ export { default as TourCardContainer } from './TourCardContainer';
 export { default as TourCardNavigate } from './TourCardNavigate';
 export { default as TourOverview } from './TourOverview';
 export { default as TourInformation } from './TourInformation';
-export { default as ReviewSkeleton } from './ReiveSkeleton';
+export { default as ReviewSkeleton } from './ReviewSkeleton';
 
 export * from './information';

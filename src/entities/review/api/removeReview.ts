@@ -8,15 +8,15 @@ import type { DeleteReviewRequest } from '@/entities/review';
 const removeReview = async ({
   contentId,
   reviewId,
-  prevImages,
+  deletedImages,
 }: DeleteReviewRequest) => {
   const removeRef = ref(database, `tour/${contentId}/reviews/${reviewId}`);
 
-  if (prevImages && prevImages.length > 0) {
+  if (deletedImages && deletedImages.length > 0) {
     await removeReviewImage({
       contentId,
       reviewId,
-      prevImages,
+      deletedImages,
     });
   }
   try {

@@ -27,10 +27,10 @@ export interface UpdateReviewRequest extends ReviewRequest {
   contents?: string;
   rating?: number;
   images?: File[];
-  prevImages?: ImageType[];
+  deletedImages?: ImageType[];
 }
 
 export interface DeleteReviewRequest extends ReviewRequest {
   reviewId: string;
-  prevImages: ImageType[];
+  deletedImages: ImageType[];
 }

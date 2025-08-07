@@ -1,29 +1,32 @@
 import { useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { getAuth } from 'firebase/auth';
 import { FreeMode } from 'swiper/modules';
 
-import { useCreateReviewMutation } from '@/features/tourReview';
+import { useModifiedReviewMutation } from '@/features/tourReview';
 
-interface TourDetailCreateReviewProps {
+import type { ImageType, ReviewResponse } from '@/entities/review';
+
+interface TourDetailModifyReviewProps {
   contentId: string;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  prevReview: ReviewResponse;
 }
 
-export default function TourDetailCreateReview({
+export default function TourDetailModifyReview({
   contentId,
   setIsOpen,
-}: TourDetailCreateReviewProps) {
+  prevReview,
+}: TourDetailModifyReviewProps) {
   const [newReview, setNewReview] = useState({
-    rating: 5,
-    contents: '',
+    rating: prevReview.rating,
+    contents: prevReview.contents,
     images: [] as File[],
-    blobUrls: [] as string[],
+    blobUrls:
+      prevReview.images && prevReview.images.map(image => image.imageUrl),
+    deletedImages: [] as ImageType[],
   });
 
-  const auth = getAuth();
-
-  const mutation = useCreateReviewMutation({ contentId });
+  const mutation = useModifiedReviewMutation({ contentId });
 
   const newReviewHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setNewReview({
@@ -50,6 +53,7 @@ export default function TourDetailCreateReview({
   };
 
   const handleRemoveImage = (index: number) => {
+    const deletedImages = prevReview.images[index];
     const updatedImages = [...newReview.images];
     const updatedBlobUrls = [...newReview.blobUrls];
     updatedImages.splice(index, 1);
@@ -58,21 +62,20 @@ export default function TourDetailCreateReview({
       ...newReview,
       images: updatedImages,
       blobUrls: updatedBlobUrls,
+      deletedImages: [...newReview.deletedImages, deletedImages],
     });
   };
 
-  const handleCreateReview = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleModifyReview = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!auth.currentUser) {
-      alert('로그인이 필요합니다.');
-    }
     mutation.mutate(
       {
-        user: auth,
         contentId,
+        reviewId: prevReview.id,
         rating: newReview.rating,
         contents: newReview.contents,
         images: newReview.images,
+        deletedImages: newReview.deletedImages,
       },
       {
         onSuccess: () => {
@@ -83,7 +86,7 @@ export default function TourDetailCreateReview({
   };
 
   return (
-    <form className="w-full h-full" onSubmit={handleCreateReview}>
+    <form className="w-full h-full" onSubmit={handleModifyReview}>
       <div className="bg-white rounded-lg p-5 max-w-md w-full">
         <h2 className="text-xl font-bold mb-4">리뷰 작성</h2>
         <textarea
@@ -126,17 +129,18 @@ export default function TourDetailCreateReview({
             direction="horizontal"
             className="cursor-grab flex w-full justify-start items-center"
           >
-            {newReview.blobUrls.map((url, index) => (
-              <SwiperSlide key={index} className="min-w-20 max-w-20 mr-2">
-                <img
-                  key={index}
-                  src={url}
-                  alt={`업로드된 이미지 ${index + 1}`}
-                  className="w-20 h-20 object-cover rounded-lg"
-                  onClick={() => handleRemoveImage(index)}
-                />
-              </SwiperSlide>
-            ))}
+            {newReview.blobUrls &&
+              newReview.blobUrls.map((url, index) => (
+                <SwiperSlide key={index} className="min-w-20 max-w-20 mr-2">
+                  <img
+                    key={index}
+                    src={url}
+                    alt={`업로드된 이미지 ${index + 1}`}
+                    className="w-20 h-20 object-cover rounded-lg"
+                    onClick={() => handleRemoveImage(index)}
+                  />
+                </SwiperSlide>
+              ))}
             <SwiperSlide className="min-w-20 max-w-20">
               <label
                 htmlFor="image-upload"

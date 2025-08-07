@@ -11,15 +11,15 @@ const updateReview = async ({
   contents,
   rating,
   images,
-  prevImages,
+  deletedImages,
 }: UpdateReviewRequest) => {
   const updateRef = ref(database, `tour/${contentId}/reviews/${reviewId}`);
 
-  if (prevImages && prevImages.length > 0) {
+  if (deletedImages && deletedImages.length > 0) {
     await removeReviewImage({
       contentId,
       reviewId,
-      prevImages,
+      deletedImages,
     });
   }
 

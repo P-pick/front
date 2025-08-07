@@ -45,10 +45,13 @@ export const createNavItems = ({
       icon: BookmarkPageIcon,
       path: '/tour/bookmark',
       label: 'bookmark Icon',
-      onClick: () =>
+
+      onClick: () => {
+        saveTourSearchToSession();
         navigate(`/tour/bookmark?${currentParams.toString()}`, {
           replace: true,
-        }),
+        });
+      },
     },
     {
       id: 'profile-navigation-tutorial',
@@ -57,7 +60,7 @@ export const createNavItems = ({
       label: 'profile Icon',
       onClick: () => {
         saveTourSearchToSession();
-        navigate(`/profile`, { replace: false });
+        navigate(`/profile`, { replace: true });
       },
     },
   ];

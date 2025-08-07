@@ -37,8 +37,11 @@ export const createNavItems = ({
       icon: ListIcon,
       path: '/tour/list',
       label: 'list Icon',
-      onClick: () =>
-        navigate(`/tour/list?${currentParams.toString()}`, { replace: true }),
+
+      onClick: () => {
+        saveTourSearchToSession();
+        navigate(`/tour/list?${currentParams.toString()}`, { replace: true });
+      },
     },
     {
       id: 'bookmark-navigation-tutorial',

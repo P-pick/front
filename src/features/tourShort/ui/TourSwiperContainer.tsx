@@ -1,19 +1,20 @@
 import { useState } from 'react';
 
 import {
-  persistSlideSession,
   TourBottomSheet,
   TourSwiperLoadingOverlay,
-  useInfiniteSwiperControl,
-  useTourSwiperInfiniteQuery,
   withGeoTripParams,
 } from '@/features/tour';
-import { TourSwiperView } from '@/features/tourShort';
+import {
+  TourSwiperView,
+  useTourSwiperInfiniteQuery,
+  useInfiniteSwiperControl,
+  usePersistSlideUrl,
+} from '@/features/tourShort';
 import type { AroundContentTypeId } from '@/entities/tour';
 import type { GeoTripLocation } from '@/shared';
 
 import type { Swiper as SwiperType } from 'swiper/types';
-
 interface TourSwiperContainerProps {
   location: GeoTripLocation;
   distance: string;
@@ -25,22 +26,27 @@ function TourSwiperContainer({
   distance,
   tourContentTypeId,
 }: TourSwiperContainerProps) {
-  const { slideEntries, fetchAppend, fetchPrepend, isFetchingPreviousPage } =
+  const { setSlideParams, getSlideIndex, getPageParam } = usePersistSlideUrl();
+
+  const { slideEntries, fetchAppend, fetchPrepend } =
     useTourSwiperInfiniteQuery({
       location,
       radius: distance,
       contentTypeId: tourContentTypeId,
+      initialPageParam: getPageParam(),
     });
+
   const {
     swiperRef,
     onSwiper,
     handlePrepend,
     handleAppend,
-    isInitializing,
-    handleSlideTo,
+    isSliding,
+    initSlideTo,
   } = useInfiniteSwiperControl({
     fetchPrepend,
     fetchAppend,
+    getSlideIndex,
   });
 
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
@@ -48,28 +54,26 @@ function TourSwiperContainer({
   const currentSlide = slideEntries[swiperRef.current?.activeIndex ?? 0].slide;
 
   const handleSlideChange = (swiper: SwiperType) => {
+    if (isSliding) return;
     const index = swiper.activeIndex;
-    persistSlideSession({
-      slideEntries: slideEntries[index],
-      activeIndex: index,
+    setSlideParams({
+      index,
+      pageParam: slideEntries[index].pageParam,
     });
   };
 
   return (
     <div className="relative w-full h-full">
-      <TourSwiperLoadingOverlay
-        isInitializing={isInitializing}
-        isFetchingPreviousPage={isFetchingPreviousPage}
-      />
+      <TourSwiperLoadingOverlay isInitializing={isSliding} />
       <TourSwiperView
         handleAppend={handleAppend}
         handlePrepend={handlePrepend}
         handleSlideChange={handleSlideChange}
-        handleSlideTo={handleSlideTo}
+        initSlideTo={initSlideTo}
         onSwiper={onSwiper}
         slideEntries={slideEntries}
         openBottomSheet={() => setIsBottomSheetOpen(true)}
-        isInitializing={isInitializing}
+        isSliding={isSliding}
       />
 
       <TourBottomSheet

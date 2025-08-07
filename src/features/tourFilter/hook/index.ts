@@ -1,1 +1,1 @@
-export * from './useQueryUpdater';
+export * from './useTourFilterQuery';

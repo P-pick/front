@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import {
   DistanceSlider,
   SortOptions,
-  useQueryUpdater,
+  useTourFilterQuery,
 } from '@/features/tourFilter';
 import { TouristContentsTypeFilter } from '@/shared';
 
@@ -19,11 +19,12 @@ export default function TourFilterSidebar({
   onClose,
   isOpen,
 }: BottomSheetProps) {
-  const { defaultValue, updateQuery } = useQueryUpdater();
+  const { getQuery, updateQuery } = useTourFilterQuery();
+
   const [aroundContentTypeId, setAroundContentTypeId] = useState(
-    defaultValue.tourType,
+    getQuery()?.tourType ?? '12',
   );
-  const [distance, setDistance] = useState(defaultValue.distance);
+  const [distance, setDistance] = useState(getQuery()?.distance || 1);
   const [sortOption, setSortOption] = useState<SortOption>('distance');
 
   const handleSubmit = () => {

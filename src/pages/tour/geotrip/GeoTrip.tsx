@@ -2,12 +2,13 @@ import { Suspense, useState } from 'react';
 
 import { Header } from '@/widgets';
 import { TourShortFormTutor } from '@/features/tutorial';
-import { TourFilterSidebar } from '@/features/tourFilter';
+import { TourFilterSidebar, useTourFilterQuery } from '@/features/tourFilter';
 import { TourSwiperContainer } from '@/features/tourShort';
 import { LoadingSpinner, BottomNavigationBar } from '@/shared';
 
 export default function GeoTrip() {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
+  const { getQuery } = useTourFilterQuery();
 
   return (
     <section className="flex flex-col h-full w-full">
@@ -23,7 +24,7 @@ export default function GeoTrip() {
           />
           <Suspense fallback={<LoadingSpinner />}>
             <TourShortFormTutor />
-            <TourSwiperContainer />
+            <TourSwiperContainer key={getQuery()?.tourType} />
           </Suspense>
         </div>
       </div>

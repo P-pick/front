@@ -18,27 +18,25 @@ type PageFetchQuery = () =>
 interface UseInfiniteSwiperControlProps {
   fetchPrepend: PageFetchQuery;
   fetchAppend: PageFetchQuery;
+  getSlideIndex: () => number;
 }
 
 export const useInfiniteSwiperControl = ({
   fetchPrepend,
   fetchAppend,
+  getSlideIndex,
 }: UseInfiniteSwiperControlProps) => {
-  const [isInitializing, setIsInitializing] = useState(true);
+  const [isSliding, setIsSliding] = useState(true);
 
   const swiperRef = useRef<SwiperType | null>(null);
   const onSwiper = async (swiper: SwiperType) => {
     swiperRef.current = swiper;
   };
 
-  const handleSlideTo = useCallback(async () => {
-    const currentIndex = Number(sessionStorage.getItem('currentIndex') ?? 0);
-    const result = await fetchPrepend();
-    const prependLength = result?.data?.pages[0]?.items.item.length ?? 0;
-
-    const targetIndex = currentIndex + prependLength;
-    swiperRef.current?.slideTo(targetIndex, 0);
-    setIsInitializing(false);
+  const initSlideTo = useCallback(async () => {
+    const currentIndex = getSlideIndex();
+    swiperRef.current?.slideTo(currentIndex, 0);
+    setIsSliding(false);
   }, []);
 
   const handleAppend = async () => {
@@ -47,18 +45,25 @@ export const useInfiniteSwiperControl = ({
 
   const handlePrepend = async () => {
     const result = await fetchPrepend();
-    if (!result) return;
-    if (result.data && swiperRef.current) {
-      swiperRef.current.slideTo(result.data.pages[0]?.items.item.length, 0);
-    }
+    if (!result?.data || !swiperRef.current) return;
+
+    const prependLength = result.data.pages[0]?.items.item.length ?? 0;
+
+    const onSlidesUpdated = (swiper: SwiperType) => {
+      swiper.slideTo(prependLength, 0);
+      swiper.off('slidesUpdated', onSlidesUpdated);
+      setIsSliding(false);
+    };
+    setIsSliding(true);
+    swiperRef.current.on('slidesUpdated', onSlidesUpdated);
   };
 
   return {
-    isInitializing,
+    isSliding,
     swiperRef,
     onSwiper,
     handlePrepend,
     handleAppend,
-    handleSlideTo,
+    initSlideTo,
   };
 };

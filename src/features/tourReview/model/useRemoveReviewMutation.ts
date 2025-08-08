@@ -1,4 +1,4 @@
-import { reviewOptions, ReviewResponse } from '@/entities/review';
+import { reviewOptions } from '@/entities/review';
 import removeReview from '@/entities/review/api/removeReview';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 

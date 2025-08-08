@@ -1,8 +1,14 @@
-import { reviewOptions } from '@/entities/review';
+import { reviewOptions, ReviewResponse } from '@/entities/review';
 import removeReview from '@/entities/review/api/removeReview';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-const useRemoveReviewMutation = ({ contentId }: { contentId: string }) => {
+const useRemoveReviewMutation = ({
+  contentId,
+  reviewId,
+}: {
+  contentId: string;
+  reviewId: string;
+}) => {
   const queryClient = useQueryClient();
   const queryKey = reviewOptions.getReview({ contentId }).queryKey;
   const mutation = useMutation({
@@ -11,13 +17,13 @@ const useRemoveReviewMutation = ({ contentId }: { contentId: string }) => {
       await queryClient.cancelQueries({ queryKey });
       const previousReviews = queryClient.getQueryData(queryKey);
 
-      const newReview = {
-        contentId,
-      };
+      queryClient.setQueryData(queryKey, old =>
+        old ? old.filter(r => r.id !== reviewId) : [],
+      );
 
       queryClient.setQueryData(queryKey, previousReviews);
 
-      return { previousReviews, newReview };
+      return { previousReviews };
     },
     onError: (_error, _, context) => {
       queryClient.setQueryData(queryKey, context?.previousReviews);

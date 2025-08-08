@@ -1,9 +1,4 @@
-export type UserType = {
-  uid: string;
-  displayName: string;
-  email: string;
-  photoURL: string;
-};
+import type { User } from '@/entities/auth';
 
 export type ImageType = {
   imageUrl: string;
@@ -14,7 +9,7 @@ export interface ReviewResponse {
   id: string;
   contents: string;
   userId: string;
-  user: UserType;
+  user: User;
   rating: number;
   createdAt: string;
   updatedAt: string;

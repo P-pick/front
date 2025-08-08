@@ -10,15 +10,22 @@ interface TourDetailCreateReviewProps {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+interface TourDetailCreateReviewState {
+  rating: number;
+  contents: string;
+  images: File[];
+  blobUrls: string[];
+}
+
 export default function TourDetailCreateReview({
   contentId,
   setIsOpen,
 }: TourDetailCreateReviewProps) {
-  const [newReview, setNewReview] = useState({
+  const [newReview, setNewReview] = useState<TourDetailCreateReviewState>({
     rating: 5,
     contents: '',
-    images: [] as File[],
-    blobUrls: [] as string[],
+    images: [],
+    blobUrls: [],
   });
 
   const auth = getAuth();
@@ -129,7 +136,6 @@ export default function TourDetailCreateReview({
             {newReview.blobUrls.map((url, index) => (
               <SwiperSlide key={index} className="min-w-20 max-w-20 mr-2">
                 <img
-                  key={index}
                   src={url}
                   alt={`업로드된 이미지 ${index + 1}`}
                   className="w-20 h-20 object-cover rounded-lg"

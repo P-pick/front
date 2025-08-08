@@ -145,7 +145,6 @@ export default function TourDetailModifyReview({
             {modifyReview.existingImages.map((image, index) => (
               <SwiperSlide key={image.name} className="min-w-20 max-w-20 mr-2">
                 <img
-                  key={index}
                   src={image.imageUrl}
                   alt={`업로드된 이미지 ${image.name}`}
                   className="w-20 h-20 object-cover rounded-lg"

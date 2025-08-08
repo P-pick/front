@@ -5,14 +5,13 @@ import {
   ControlButtonContainer,
   ModifyReview,
   ReviewActionModal,
-  useReviewModalState,
 } from '@/features/tourReview';
 
 import type { ReviewProps } from '@/features/tourReview';
+import { PrefetchImage, useToggleState } from '@/shared';
 
 export default function Review({ contentId, review }: ReviewProps) {
-  const { isOpen, setIsOpen, handleOpenModal, handleCloseModal } =
-    useReviewModalState();
+  const { isToggle, setIsToggle, enable, disable } = useToggleState();
 
   return (
     <div className="flex flex-col gap-2 border-b border-gray-300">
@@ -36,7 +35,7 @@ export default function Review({ contentId, review }: ReviewProps) {
         <ControlButtonContainer
           contentId={contentId}
           review={review}
-          handleOpenModal={handleOpenModal}
+          handleOpenModal={enable}
         />
       </div>
       {review.images && review.images?.length > 0 && (
@@ -50,12 +49,24 @@ export default function Review({ contentId, review }: ReviewProps) {
           {review.images?.map((image, index) => (
             <SwiperSlide
               key={index}
-              className="mx-3 max-w-60 max-h-30 border-2 border-gray-300 rounded-2xl"
+              className="mx-3 max-w-60 max-h-30 border-1 border-gray-300 rounded-2xl"
             >
-              <img
+              <PrefetchImage
+                preloadStrategy="preload"
+                loadingStrategy="lazy"
+                fallback={
+                  <div className="w-60 h-30 bg-gray-200 animate-pulse" />
+                }
+                errorFallback={
+                  <img
+                    src="/common/fallback.webp"
+                    className="w-60 h-30"
+                    alt="error-fallback-image"
+                  />
+                }
                 src={image.imageUrl}
                 alt={`${image.name}-이미지`}
-                className="w-60 max-h-30 object-cover p-2"
+                className="w-60 max-h-30 min-h-30 object-cover p-2"
               />
             </SwiperSlide>
           ))}
@@ -66,13 +77,13 @@ export default function Review({ contentId, review }: ReviewProps) {
         <span className="text-xs">{review.createdAt.slice(0, 10)}</span>
       </div>
       <ReviewActionModal
-        isOpen={isOpen}
-        handleCloseModal={handleCloseModal}
-        handleOpenModal={handleOpenModal}
+        isOpen={isToggle}
+        handleCloseModal={disable}
+        handleOpenModal={enable}
       >
         <ModifyReview
           contentId={contentId}
-          setIsOpen={setIsOpen}
+          setIsOpen={setIsToggle}
           prevReview={review}
         />
       </ReviewActionModal>

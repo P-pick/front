@@ -5,9 +5,9 @@ import {
   NotFoundReview,
   Review,
   ReviewActionModal,
-  useReviewModalState,
 } from '@/features/tourReview';
 import { reviewOptions } from '@/entities/review';
+import { useToggleState } from '@/shared';
 
 interface TourReviewProps {
   contentId: string;
@@ -18,8 +18,7 @@ export default function TourReviewList({ contentId }: TourReviewProps) {
     reviewOptions.getReview({ contentId }),
   );
 
-  const { isOpen, setIsOpen, handleOpenModal, handleCloseModal } =
-    useReviewModalState();
+  const { isToggle, setIsToggle, toggle, enable, disable } = useToggleState();
 
   return (
     <div className="w-full relative">
@@ -30,14 +29,14 @@ export default function TourReviewList({ contentId }: TourReviewProps) {
           </div>
         ))
       ) : (
-        <NotFoundReview handleOpenReviewModal={handleOpenModal} />
+        <NotFoundReview handleOpenReviewModal={enable} />
       )}
       <ReviewActionModal
-        isOpen={isOpen}
-        handleCloseModal={handleCloseModal}
-        handleOpenModal={handleOpenModal}
+        isOpen={isToggle}
+        handleCloseModal={disable}
+        handleOpenModal={toggle}
       >
-        <CreateReview contentId={contentId} setIsOpen={setIsOpen} />
+        <CreateReview contentId={contentId} setIsOpen={setIsToggle} />
       </ReviewActionModal>
     </div>
   );

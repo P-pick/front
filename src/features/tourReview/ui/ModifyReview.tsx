@@ -101,7 +101,7 @@ export default function TourDetailModifyReview({
   return (
     <form className="w-full h-full" onSubmit={handleCreateReview}>
       <div className="bg-white rounded-lg p-5 max-w-md w-full">
-        <h2 className="text-xl font-bold mb-4">리뷰 작성</h2>
+        <h2 className="text-xl font-bold mb-4">리뷰 수정</h2>
         <textarea
           value={modifyReview.contents}
           onChange={handleContentsChange}

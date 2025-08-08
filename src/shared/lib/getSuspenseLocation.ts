@@ -27,20 +27,36 @@ export default function getSuspenseLocation(): SuspenseLocation {
         return locationCache;
       })
       .catch(err => {
-        if (err.code === 1) {
-          locationCache = { ...DEFAULT_LOCATION, permission: 'denied' };
-          return locationCache;
-        }
-        if (err.code === 2) {
-          throw new Error(
-            '위치를 찾을 수 없습니다. GPS가 켜져 있는지 확인해주세요.',
-          );
-        }
-
-        locationError = err;
-        throw err;
+        return handleLocationError(err);
       });
   }
 
   throw locationPromise;
+}
+
+function isGeoLocationError(err: unknown): err is GeolocationPositionError {
+  return (
+    typeof err === 'object' &&
+    err !== null &&
+    'code' in err &&
+    typeof err.code === 'number'
+  );
+}
+
+function handleLocationError(err: unknown) {
+  if (isGeoLocationError(err)) {
+    if (err.code === 1) {
+      locationCache = { ...DEFAULT_LOCATION, permission: 'denied' };
+      return locationCache;
+    }
+
+    if (err.code === 2) {
+      throw new Error(
+        '위치를 찾을 수 없습니다. GPS가 켜져 있는지 확인해주세요.',
+      );
+    }
+  }
+
+  locationError = err;
+  throw err;
 }

@@ -76,7 +76,7 @@ export default function TourDetailModifyReview({
     }));
   };
 
-  const handleCreateReview = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleModifiedReview = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!auth.currentUser) {
       alert('로그인이 필요합니다.');
@@ -99,7 +99,7 @@ export default function TourDetailModifyReview({
   };
 
   return (
-    <form className="w-full h-full" onSubmit={handleCreateReview}>
+    <form className="w-full h-full" onSubmit={handleModifiedReview}>
       <div className="bg-white rounded-lg p-5 max-w-md w-full">
         <h2 className="text-xl font-bold mb-4">리뷰 수정</h2>
         <textarea

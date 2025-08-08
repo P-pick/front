@@ -1,11 +1,14 @@
 import { useState } from 'react';
 import { FreeMode } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { AnimatePresence, motion } from 'framer-motion';
 
 import type { ReviewResponse } from '@/entities/review';
 import { getAuth } from 'firebase/auth';
-import { ModifyReview, useRemoveReviewMutation } from '@/features/tourReview';
+import {
+  ModifyReview,
+  ReviewActionModal,
+  useRemoveReviewMutation,
+} from '@/features/tourReview';
 
 interface ReviewProps {
   contentId: string;
@@ -94,24 +97,13 @@ export default function Review({ contentId, review }: ReviewProps) {
         <p className="flex-1 text-sm">{review.contents}</p>
         <span className="text-xs">{review.createdAt.slice(0, 10)}</span>
       </div>
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            key="review-modal"
-            initial={{ opacity: 0, y: -50 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -50 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 opacity-50 z-(--z-layer1) flex justify-center item-end bg-gradient-to-b from-black/60"
-          >
-            <ModifyReview
-              contentId={contentId}
-              setIsOpen={setIsOpen}
-              prevReview={review}
-            />
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <ReviewActionModal isOpen={isOpen} setIsOpen={setIsOpen}>
+        <ModifyReview
+          contentId={contentId}
+          setIsOpen={setIsOpen}
+          prevReview={review}
+        />
+      </ReviewActionModal>
     </div>
   );
 }

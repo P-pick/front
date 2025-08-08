@@ -26,7 +26,8 @@ export interface UpdateReviewRequest extends ReviewRequest {
   reviewId: string;
   contents?: string;
   rating?: number;
-  images?: File[];
+  remainingImages: ImageType[]; // 기존 이미지
+  newImages?: File[]; // 새로 추가한 이미지
   deletedImages?: ImageType[];
 }
 

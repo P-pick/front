@@ -10,11 +10,18 @@ const updateReview = async ({
   reviewId,
   contents,
   rating,
-  images,
+  remainingImages,
+  newImages,
   deletedImages,
 }: UpdateReviewRequest) => {
-  const updateRef = ref(database, `tour/${contentId}/reviews/${reviewId}`);
+  // 1. 새 이미지 업로드
+  const uploadedImages = await createReviewImages({
+    contentId,
+    reviewId,
+    images: newImages,
+  });
 
+  // 2. Storage에서 삭제
   if (deletedImages && deletedImages.length > 0) {
     await removeReviewImage({
       contentId,
@@ -23,19 +30,16 @@ const updateReview = async ({
     });
   }
 
-  const imageUrls = await createReviewImages({
-    contentId,
-    reviewId,
-    images,
-  });
+  // 3. 최종 이미지 배열
+  const updatedImages = [...remainingImages, ...uploadedImages];
 
-  const updateData = {
+  // 4. DB 업데이트
+  await update(ref(database, `tour/${contentId}/reviews/${reviewId}`), {
     contents,
     rating,
-    images: imageUrls,
+    images: updatedImages,
     updatedAt: new Date().toISOString(),
-  };
-  await update(updateRef, updateData);
+  });
 };
 
 export default updateReview;

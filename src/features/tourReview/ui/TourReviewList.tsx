@@ -1,11 +1,15 @@
 import { useState } from 'react';
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { AnimatePresence, motion } from 'framer-motion';
 import { getAuth } from 'firebase/auth';
 
 import { tourDetailSVG } from '@/assets';
 
-import { CreateReview, Review } from '@/features/tourReview';
+import {
+  CreateReview,
+  NotFoundReview,
+  Review,
+  ReviewActionModal,
+} from '@/features/tourReview';
 import { reviewOptions } from '@/entities/review';
 
 interface TourReviewProps {
@@ -36,22 +40,7 @@ export default function TourReviewList({ contentId }: TourReviewProps) {
           </div>
         ))
       ) : (
-        <div className="flex flex-col items-center justify-center h-full m-10 text-sm">
-          <p>아직 리뷰가 없습니다😭</p>
-          <p>
-            장소를
-            <span className="text-3xl font-bold text-(--color-primary-red)">
-              Pick
-            </span>
-            하고 리뷰를 남겨주세요!❤️
-          </p>
-          <button
-            className="text-(--color-primary-red)"
-            onClick={handleOpenReviewModal}
-          >
-            리뷰 작성하러 가기 ↗️
-          </button>
-        </div>
+        <NotFoundReview handleOpenReviewModal={handleOpenReviewModal} />
       )}
       {auth.currentUser && (
         <div className="fixed bottom-20 right-0 pr-5 z-(--z-layer1)">
@@ -63,20 +52,9 @@ export default function TourReviewList({ contentId }: TourReviewProps) {
           </button>
         </div>
       )}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            key="review-modal"
-            initial={{ opacity: 0, y: -50 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -50 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 opacity-50 z-(--z-layer1) flex justify-center item-end bg-gradient-to-b from-black/60"
-          >
-            <CreateReview contentId={contentId} setIsOpen={setIsOpen} />
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <ReviewActionModal isOpen={isOpen} setIsOpen={setIsOpen}>
+        <CreateReview contentId={contentId} setIsOpen={setIsOpen} />
+      </ReviewActionModal>
     </div>
   );
 }

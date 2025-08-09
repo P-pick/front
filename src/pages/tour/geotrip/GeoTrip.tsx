@@ -1,4 +1,5 @@
 import { Suspense, useState } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
 
 import { Header } from '@/widgets';
 import { TourShortFormTutor } from '@/features/tutorial';
@@ -22,10 +23,12 @@ export default function GeoTrip() {
             onClose={() => setSidebarOpen(false)}
             isOpen={isSidebarOpen}
           />
-          <Suspense fallback={<LoadingSpinner />}>
-            <TourShortFormTutor />
-            <TourSwiperContainer key={getQuery()?.tourType} />
-          </Suspense>
+          <ErrorBoundary fallback={<div>Something went wrong</div>}>
+            <Suspense fallback={<LoadingSpinner />}>
+              <TourShortFormTutor />
+              <TourSwiperContainer key={getQuery()?.tourType} />
+            </Suspense>
+          </ErrorBoundary>
         </div>
       </div>
       <BottomNavigationBar />

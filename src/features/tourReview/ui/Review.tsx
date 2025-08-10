@@ -8,10 +8,11 @@ import {
 } from '@/features/tourReview';
 
 import type { ReviewProps } from '@/features/tourReview';
-import { useToggleState, ImageHint } from '@/shared';
+import { useToggleState } from '@/shared';
+import ReviewSwiperImage from './ReviewSwiperImage';
 
 export default function Review({ contentId, review }: ReviewProps) {
-  const { isToggle, setIsToggle, enable, disable } = useToggleState();
+  const { isToggle, setIsToggle, enable } = useToggleState();
 
   return (
     <div className="flex flex-col gap-2 border-b border-gray-300">
@@ -51,22 +52,8 @@ export default function Review({ contentId, review }: ReviewProps) {
               key={index}
               className="mx-3 max-w-60 max-h-30 border-1 border-gray-300 rounded-2xl"
             >
-              <ImageHint
-                preloadStrategy="prefetch"
-                loadingStrategy="lazy"
-                fallback={
-                  <div className="w-60 h-30 bg-gray-200 animate-pulse" />
-                }
-                errorFallback={
-                  <img
-                    src="/common/fallback.webp"
-                    className="w-60 h-30"
-                    alt="error-fallback-image"
-                  />
-                }
-                src={image.imageUrl}
-                alt={`${image.name}-이미지`}
-                className="w-60 max-h-30 min-h-30 object-cover p-2"
+              <ReviewSwiperImage
+                src={`tour/${contentId}/reviews/${review.id}/${image.name}`}
               />
             </SwiperSlide>
           ))}
@@ -76,11 +63,7 @@ export default function Review({ contentId, review }: ReviewProps) {
         <p className="flex-1 text-sm">{review.contents}</p>
         <span className="text-xs">{review.createdAt.slice(0, 10)}</span>
       </div>
-      <ReviewActionModal
-        isOpen={isToggle}
-        handleCloseModal={disable}
-        handleOpenModal={enable}
-      >
+      <ReviewActionModal isOpen={isToggle} setIsOpen={setIsToggle}>
         <ModifyReview
           contentId={contentId}
           setIsOpen={setIsToggle}

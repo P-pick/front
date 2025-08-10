@@ -18,7 +18,7 @@ export default function TourReviewList({ contentId }: TourReviewProps) {
     reviewOptions.getReview({ contentId }),
   );
 
-  const { isToggle, setIsToggle, toggle, enable, disable } = useToggleState();
+  const { isToggle, setIsToggle, enable } = useToggleState();
 
   return (
     <div className="w-full relative">
@@ -31,11 +31,7 @@ export default function TourReviewList({ contentId }: TourReviewProps) {
       ) : (
         <NotFoundReview handleOpenReviewModal={enable} />
       )}
-      <ReviewActionModal
-        isOpen={isToggle}
-        handleCloseModal={disable}
-        handleOpenModal={toggle}
-      >
+      <ReviewActionModal isOpen={isToggle} setIsOpen={setIsToggle}>
         <CreateReview contentId={contentId} setIsOpen={setIsToggle} />
       </ReviewActionModal>
     </div>

@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 interface ImageHintProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   preloadStrategy?: 'preload' | 'prefetch' | 'none';
   loadingStrategy?: 'eager' | 'lazy';
   fallback?: React.ReactNode;
   errorFallback?: React.ReactNode;
+  normalizeCacheKey?: boolean;
 }
 
 /**
@@ -20,6 +21,7 @@ interface ImageHintProps extends React.ImgHTMLAttributes<HTMLImageElement> {
  *  - lazy: 이미지가 뷰포트에 들어올 때까지 로드를 지연합니다.
  * @param fallback - 이미지 로딩 전 표시할 fallback 요소
  * @param errorFallback - 이미지 로드 실패 시 표시할 요소
+ * @param normalizeCacheKey - firebase storage에 대해서 고유한 token값을 제거한 캐시 키를 생성할지 여부
  *
  * @example
  * <PrefetchImage
@@ -38,24 +40,31 @@ export const ImageHint: React.FC<ImageHintProps> = ({
   loadingStrategy = 'lazy',
   fallback = null,
   errorFallback = null,
+  normalizeCacheKey = true,
   ...props
 }) => {
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState(false);
 
+  const normalizedSrc = useMemo(() => {
+    if (!src || !normalizeCacheKey) return src;
+    const [base] = src.split('?');
+    return base;
+  }, [src, normalizeCacheKey]);
+
   useEffect(() => {
-    if (!src || preloadStrategy === 'none') return;
+    if (!normalizedSrc || preloadStrategy === 'none') return;
 
     const link = document.createElement('link');
     link.rel = preloadStrategy;
     link.as = 'image';
-    link.href = src;
+    link.href = normalizedSrc;
     document.head.appendChild(link);
 
     return () => {
       document.head.removeChild(link);
     };
-  }, [src, preloadStrategy]);
+  }, [normalizedSrc, preloadStrategy]);
 
   useEffect(() => {
     if (!src) return;

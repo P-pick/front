@@ -11,6 +11,10 @@ import type {
   ReviewImageRequest,
 } from '@/entities/review';
 
+const metadata = {
+  cacheControl: 'public,max-age=31536000,immutable',
+};
+
 export const createReviewImages = async ({
   contentId,
   reviewId,
@@ -28,7 +32,7 @@ export const createReviewImages = async ({
       `tour/${contentId}/reviews/${reviewId}/${image.name}`,
     );
     try {
-      await uploadBytes(imageRef, image);
+      await uploadBytes(imageRef, image, metadata);
       const imageUrl = await getDownloadURL(imageRef);
       return { imageUrl, name: image.name };
     } catch (error) {
@@ -59,4 +63,12 @@ export const removeReviewImage = async ({
   });
 
   await Promise.all(deletePromises);
+};
+
+export const getReviewImage = async ({ src }: { src: string }) => {
+  const storage = getStorage();
+  const imageRef = ref(storage, src);
+
+  const downloadURL = await getDownloadURL(imageRef);
+  return downloadURL;
 };

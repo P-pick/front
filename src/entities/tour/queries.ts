@@ -71,10 +71,12 @@ export const tourQueries = {
     queryOptions({
       queryKey: [...tourQueries.detail(contentId), 'info', contentTypeId],
       queryFn: () => getTourDetailIntro({ contentId, contentTypeId }),
+      gcTime: Infinity,
     }),
   detailCommon: (contentId: string) =>
     queryOptions({
       queryKey: [...tourQueries.detail(contentId), 'common'],
-      queryFn: () => getTourDetailCommon({ contentId }), // Assuming '12' is a valid contentTypeId for common details
+      queryFn: () => getTourDetailCommon({ contentId }),
+      gcTime: Infinity,
     }),
 };

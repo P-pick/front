@@ -3,20 +3,30 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { tourDetailSVG } from '@/assets';
 
 import type { ReactNode } from 'react';
+import { getAuth } from 'firebase/auth';
 
 interface ReviewActionModalProps {
   children: ReactNode;
   isOpen: boolean;
-  handleOpenModal: () => void;
-  handleCloseModal: () => void;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function ReviewActionModal({
   children,
   isOpen,
-  handleOpenModal,
-  handleCloseModal,
+  setIsOpen,
 }: ReviewActionModalProps) {
+  const auth = getAuth();
+
+  const handleOpenModal = () => {
+    if (!auth.currentUser) {
+      alert('리뷰를 작성하려면 로그인이 필요합니다.');
+      setIsOpen(false);
+      return;
+    }
+    setIsOpen(true);
+  };
+
   return (
     <>
       <AnimatePresence>
@@ -28,7 +38,7 @@ export default function ReviewActionModal({
             exit={{ opacity: 0, y: -50 }}
             transition={{ duration: 0.3 }}
             className="fixed flex justify-center item-end inset-0  w-full h-full opacity-50 bg-gradient-to-b from-black/60 z-(--z-layer1)"
-            onMouseDown={handleCloseModal}
+            onMouseDown={() => setIsOpen(false)}
           >
             <div
               className="min-w-100 max-h-100"

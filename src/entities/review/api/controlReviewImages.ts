@@ -64,11 +64,3 @@ export const removeReviewImage = async ({
 
   await Promise.all(deletePromises);
 };
-
-export const getReviewImage = async ({ src }: { src: string }) => {
-  const storage = getStorage();
-  const imageRef = ref(storage, src);
-
-  const downloadURL = await getDownloadURL(imageRef);
-  return downloadURL;
-};

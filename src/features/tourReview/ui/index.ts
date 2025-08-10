@@ -5,4 +5,3 @@ export { default as ModifyReview } from './ModifyReview';
 export { default as ReviewActionModal } from './ReviewActionModal';
 export { default as NotFoundReview } from './NotFoundReview';
 export { default as ControlButtonContainer } from './ControlButtonContainer';
-export { default as ReviewSwiperImage } from './ReviewSwiperImage';

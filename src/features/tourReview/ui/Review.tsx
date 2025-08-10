@@ -8,8 +8,7 @@ import {
 } from '@/features/tourReview';
 
 import type { ReviewProps } from '@/features/tourReview';
-import { useToggleState } from '@/shared';
-import ReviewSwiperImage from './ReviewSwiperImage';
+import { ImageHint, useToggleState } from '@/shared';
 
 export default function Review({ contentId, review }: ReviewProps) {
   const { isToggle, setIsToggle, enable } = useToggleState();
@@ -52,8 +51,22 @@ export default function Review({ contentId, review }: ReviewProps) {
               key={index}
               className="mx-3 max-w-60 max-h-30 border-1 border-gray-300 rounded-2xl"
             >
-              <ReviewSwiperImage
-                src={`tour/${contentId}/reviews/${review.id}/${image.name}`}
+              <ImageHint
+                preloadStrategy="prefetch"
+                loadingStrategy="lazy"
+                fallback={
+                  <div className="w-60 h-30 bg-gray-200 animate-pulse" />
+                }
+                errorFallback={
+                  <img
+                    src="/common/fallback.webp"
+                    className="w-60 h-30"
+                    alt="error-fallback-image"
+                  />
+                }
+                src={image.imageUrl}
+                alt={`${image.name}-이미지`}
+                className="w-60 max-h-30 min-h-30 object-cover p-2"
               />
             </SwiperSlide>
           ))}

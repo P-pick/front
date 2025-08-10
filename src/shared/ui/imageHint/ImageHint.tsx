@@ -55,15 +55,16 @@ export const ImageHint: React.FC<ImageHintProps> = ({
   useEffect(() => {
     if (!normalizedSrc || preloadStrategy === 'none') return;
 
+    const existingLink = document.querySelector(
+      `link[rel="${preloadStrategy}"][href="${normalizedSrc}"]`,
+    );
+    if (existingLink) return;
+
     const link = document.createElement('link');
     link.rel = preloadStrategy;
     link.as = 'image';
     link.href = normalizedSrc;
     document.head.appendChild(link);
-
-    return () => {
-      document.head.removeChild(link);
-    };
   }, [normalizedSrc, preloadStrategy]);
 
   useEffect(() => {

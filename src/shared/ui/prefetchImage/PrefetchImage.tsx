@@ -43,7 +43,6 @@ export const PrefetchImage: React.FC<PrefetchImageProps> = ({
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState(false);
 
-  // 브라우저에 사전 로드 요청
   useEffect(() => {
     if (!src || preloadStrategy === 'none') return;
 
@@ -58,7 +57,6 @@ export const PrefetchImage: React.FC<PrefetchImageProps> = ({
     };
   }, [src, preloadStrategy]);
 
-  // 캐시 로드
   useEffect(() => {
     if (!src) return;
     const img = new Image();

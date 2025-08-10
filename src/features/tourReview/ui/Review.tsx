@@ -52,7 +52,7 @@ export default function Review({ contentId, review }: ReviewProps) {
               className="mx-3 max-w-60 max-h-30 border-1 border-gray-300 rounded-2xl"
             >
               <PrefetchImage
-                preloadStrategy="preload"
+                preloadStrategy="prefetch"
                 loadingStrategy="lazy"
                 fallback={
                   <div className="w-60 h-30 bg-gray-200 animate-pulse" />

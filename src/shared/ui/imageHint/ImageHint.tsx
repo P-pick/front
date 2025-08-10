@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-interface PrefetchImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
+interface ImageHintProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   preloadStrategy?: 'preload' | 'prefetch' | 'none';
   loadingStrategy?: 'eager' | 'lazy';
   fallback?: React.ReactNode;
@@ -14,7 +14,7 @@ interface PrefetchImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
  * @param imgProps - 이미지 속성
  * @param preloadStrategy - 이미지 사전 로드 방식 (preload, prefetch, none)
  *  - preload: 페이지 로드 시 이미지를 미리 로드합니다.
- *  - prefetch: 사용자가 이미지를 필요로 할 가능성이 높은 경우 미리 로드합니다.
+ *  - prefetch: 메모리가 남을 때 로드합니다 (페이지 전환시 최적화)
  * @param loadingStrategy - 이미지 로딩 방식 (eager, lazy)
  *  - eager: 이미지가 뷰포트에 들어오면 즉시 로드합니다.
  *  - lazy: 이미지가 뷰포트에 들어올 때까지 로드를 지연합니다.
@@ -31,7 +31,7 @@ interface PrefetchImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
  *   errorFallback={<div>Error loading image</div>}
  * />
  */
-export const PrefetchImage: React.FC<PrefetchImageProps> = ({
+export const ImageHint: React.FC<ImageHintProps> = ({
   src,
   alt = '',
   preloadStrategy = 'none',

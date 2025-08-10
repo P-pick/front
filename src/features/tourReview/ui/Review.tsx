@@ -8,7 +8,7 @@ import {
 } from '@/features/tourReview';
 
 import type { ReviewProps } from '@/features/tourReview';
-import { PrefetchImage, useToggleState } from '@/shared';
+import { useToggleState, ImageHint } from '@/shared';
 
 export default function Review({ contentId, review }: ReviewProps) {
   const { isToggle, setIsToggle, enable, disable } = useToggleState();
@@ -51,7 +51,7 @@ export default function Review({ contentId, review }: ReviewProps) {
               key={index}
               className="mx-3 max-w-60 max-h-30 border-1 border-gray-300 rounded-2xl"
             >
-              <PrefetchImage
+              <ImageHint
                 preloadStrategy="prefetch"
                 loadingStrategy="lazy"
                 fallback={

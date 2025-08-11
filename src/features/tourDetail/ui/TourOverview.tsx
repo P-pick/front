@@ -2,9 +2,10 @@ import { useSuspenseQueries } from '@tanstack/react-query';
 
 import { commonSVG } from '@/assets';
 
+import { BookmarkButtonContainer } from '@/features/bookmark';
+import { ShareButton } from '@/features/tourDetail';
 import { tourQueries } from '@/entities/tour';
 import { authOptions } from '@/entities/auth';
-import { BookmarkButtonContainer } from '@/features/bookmark';
 import { TourTypeBadge, DistanceTimeInfo } from '@/shared';
 
 interface TourCardProps {
@@ -48,7 +49,7 @@ export default function TourOverview({
             ) : (
               <commonSVG.BookMarkIcon />
             )}
-            <commonSVG.ShareIcon />
+            <ShareButton />
           </div>
         </div>
       </div>

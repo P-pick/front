@@ -49,7 +49,7 @@ export default function Review({ contentId, review }: ReviewProps) {
           {review.images?.map((image, index) => (
             <SwiperSlide
               key={index}
-              className="mx-3 max-w-60 max-h-30 border-1 border-gray-300 rounded-2xl"
+              className="mx-3 max-w-60 max-h-30 border-1 border-gray-300 rounded-2xl overflow-hidden"
             >
               <ImageHint
                 preloadStrategy="prefetch"

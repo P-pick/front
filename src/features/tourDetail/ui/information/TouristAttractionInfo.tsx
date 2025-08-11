@@ -48,15 +48,8 @@ export default function TouristAttractionInfo({
         )}
       </InfoLayout.Header>
       <InfoLayout.Content>
-        {(intro.expagerange || intro.expguide) && (
-          <>
-            <hr className="my-3" />
-            <section className="p-3 w-full flex flex-col gap-3">
-              <ExtraInfo title="체험 안내" content={intro.expguide} />
-              <ExtraInfo title="체험 가능 연령" content={intro.expagerange} />
-            </section>
-          </>
-        )}
+        <ExtraInfo title="체험 안내" content={intro.expguide} />
+        <ExtraInfo title="체험 가능 연령" content={intro.expagerange} />
       </InfoLayout.Content>
       <InfoLayout.Footer common={common}></InfoLayout.Footer>
     </InfoLayout>

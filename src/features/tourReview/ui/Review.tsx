@@ -1,22 +1,42 @@
 import { FreeMode } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-import type { ReviewResponse } from '@/entities/review';
+import {
+  ControlButtonContainer,
+  ModifyReview,
+  ReviewActionModal,
+} from '@/features/tourReview';
 
-export default function Review(review: ReviewResponse) {
+import type { ReviewProps } from '@/features/tourReview';
+import { ImageHint, useToggleState } from '@/shared';
+
+export default function Review({ contentId, review }: ReviewProps) {
+  const { isToggle, setIsToggle, enable } = useToggleState();
+
   return (
     <div className="flex flex-col gap-2 border-b border-gray-300">
-      <div className="flex justify-start gap-2 items-center px-3">
-        <div className="w-10 h-10 rounded-full overflow-hidden">
-          <img
-            src={review.user.photoURL}
-            className="w-full h-full object-cover"
-          />
+      <div className="flex justify-between items-center px-3">
+        <div className="flex justify-start gap-2">
+          <div className="w-10 h-10 rounded-full overflow-hidden">
+            {review.user.photoURL && (
+              <img
+                src={review.user.photoURL}
+                className="w-full h-full object-cover"
+              />
+            )}
+          </div>
+          <div className="flex flex-col">
+            <span>{review.user.displayName}</span>
+            <span className="align-middle text-sm">
+              ⭐&nbsp;{review.rating}
+            </span>
+          </div>
         </div>
-        <div className="flex flex-col">
-          <span>{review.user.displayName}</span>
-          <span className="align-middle text-sm">⭐&nbsp;{review.rating}</span>
-        </div>
+        <ControlButtonContainer
+          contentId={contentId}
+          review={review}
+          handleOpenModal={enable}
+        />
       </div>
       {review.images && review.images?.length > 0 && (
         <Swiper
@@ -29,21 +49,40 @@ export default function Review(review: ReviewResponse) {
           {review.images?.map((image, index) => (
             <SwiperSlide
               key={index}
-              className="mx-3 min-w-60 max-w-60 bg-gray-300 rounded-2xl"
+              className="mx-3 max-w-60 max-h-30 border-1 border-gray-300 rounded-2xl overflow-hidden"
             >
-              <img
-                src={image}
-                alt={`Review image ${index + 1}`}
-                className="w-full h-auto object-cover p-3"
+              <ImageHint
+                preloadStrategy="prefetch"
+                loadingStrategy="lazy"
+                fallback={
+                  <div className="w-60 h-30 bg-gray-200 animate-pulse" />
+                }
+                errorFallback={
+                  <img
+                    src="/common/fallback.webp"
+                    className="w-60 h-30"
+                    alt="error-fallback-image"
+                  />
+                }
+                src={image.imageUrl}
+                alt={`${image.name}-이미지`}
+                className="w-60 max-h-30 min-h-30 object-cover p-2"
               />
             </SwiperSlide>
           ))}
         </Swiper>
       )}
-      <div className="flex justify-between items-center gap-2 p-3">
+      <div className="flex justify-between items-end gap-2 p-3">
         <p className="flex-1 text-sm">{review.contents}</p>
         <span className="text-xs">{review.createdAt.slice(0, 10)}</span>
       </div>
+      <ReviewActionModal isOpen={isToggle} setIsOpen={setIsToggle}>
+        <ModifyReview
+          contentId={contentId}
+          setIsOpen={setIsToggle}
+          prevReview={review}
+        />
+      </ReviewActionModal>
     </div>
   );
 }

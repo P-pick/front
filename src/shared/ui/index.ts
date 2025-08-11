@@ -5,6 +5,7 @@ export * from './loading';
 export * from './portal';
 export * from './bottomNavigationBar';
 export * from './safeHtmlRender';
+export * from './imageHint';
 
 export { default as DistanceTimeInfo } from './DistanceTimeInfo';
 export { default as InfiniteScroll } from './InfiniteScroll';

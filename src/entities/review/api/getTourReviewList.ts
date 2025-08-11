@@ -1,33 +1,28 @@
-import { onValue, ref } from 'firebase/database';
+import { get, ref } from 'firebase/database';
 
 import { database } from '@/shared';
-import type { getReviewRequest } from '../type/request';
-import type { ReviewResponse } from '../type/response';
+import type { getReviewRequest, ReviewResponse } from '../type';
 
 async function getTourReviewList({
   contentId,
 }: getReviewRequest): Promise<ReviewResponse[]> {
   const reviewRef = ref(database, `tour/${contentId}/reviews`);
-  return new Promise((resolve, reject) => {
-    onValue(
-      reviewRef,
-      snapshot => {
-        const reviews: ReviewResponse[] = [];
-        snapshot.forEach(childSnapshot => {
-          const childKey = childSnapshot.key;
-          const childData = childSnapshot.val();
-          reviews.push({
-            id: childKey,
-            ...childData,
-          });
-        });
-        resolve(reviews);
-      },
-      () => {
-        reject([]);
-      },
-    );
-  });
+  try {
+    const snapshot = await get(reviewRef);
+    if (!snapshot.exists()) return [];
+    const reviews: ReviewResponse[] = [];
+    snapshot.forEach(childSnapshot => {
+      const childKey = childSnapshot.key;
+      const childData = childSnapshot.val();
+      reviews.push({
+        id: childKey,
+        ...childData,
+      });
+    });
+    return reviews;
+  } catch {
+    return [];
+  }
 }
 
 export default getTourReviewList;

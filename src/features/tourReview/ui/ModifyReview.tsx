@@ -3,99 +3,108 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { getAuth } from 'firebase/auth';
 import { FreeMode } from 'swiper/modules';
 
-import { useCreateReviewMutation } from '@/features/tourReview';
+import { useModifiedReviewMutation } from '@/features/tourReview';
+import type { ImageType, ReviewResponse } from '@/entities/review';
 
-interface TourDetailCreateReviewProps {
+interface TourDetailModifyReviewProps {
   contentId: string;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  prevReview: ReviewResponse;
 }
 
-interface TourDetailCreateReviewState {
+interface ModifyReview {
   rating: number;
   contents: string;
-  images: File[];
-  blobUrls: string[];
+  existingImages: ImageType[]; // 기존 이미지
+  newImages: File[]; // 새로 추가한 이미지
+  deletedImages: ImageType[]; // 삭제할 기존 이미지
 }
 
-export default function TourDetailCreateReview({
+export default function TourDetailModifyReview({
   contentId,
   setIsOpen,
-}: TourDetailCreateReviewProps) {
-  const [newReview, setNewReview] = useState<TourDetailCreateReviewState>({
-    rating: 5,
-    contents: '',
-    images: [],
-    blobUrls: [],
+  prevReview,
+}: TourDetailModifyReviewProps) {
+  const [modifyReview, setModifyReview] = useState<ModifyReview>({
+    rating: prevReview.rating || 5,
+    contents: prevReview.contents || '',
+    existingImages: prevReview.images || [],
+    newImages: [],
+    deletedImages: [],
   });
 
   const auth = getAuth();
+  const mutation = useModifiedReviewMutation({ contentId });
 
-  const mutation = useCreateReviewMutation({ contentId });
-
-  const newReviewHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setNewReview({
-      ...newReview,
+  const handleContentsChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setModifyReview(prev => ({
+      ...prev,
       contents: e.target.value,
-    });
+    }));
   };
 
   const handleRatingChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setNewReview({
-      ...newReview,
+    setModifyReview(prev => ({
+      ...prev,
       rating: Number(e.target.value),
-    });
+    }));
   };
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
-    const blobUrls = files.map(file => URL.createObjectURL(file));
-    setNewReview({
-      ...newReview,
-      images: [...newReview.images, ...files],
-      blobUrls: [...newReview.blobUrls, ...blobUrls],
-    });
+    setModifyReview(prev => ({
+      ...prev,
+      newImages: [...prev.newImages, ...files],
+    }));
   };
 
-  const handleRemoveImage = (index: number) => {
-    const updatedImages = [...newReview.images];
-    const updatedBlobUrls = [...newReview.blobUrls];
-    updatedImages.splice(index, 1);
-    updatedBlobUrls.splice(index, 1);
-    setNewReview({
-      ...newReview,
-      images: updatedImages,
-      blobUrls: updatedBlobUrls,
-    });
+  // 기존 이미지 삭제
+  const handleRemoveExistingImage = (index: number) => {
+    const imageToRemove = modifyReview.existingImages[index];
+    setModifyReview(prev => ({
+      ...prev,
+      existingImages: prev.existingImages.filter((_, i) => i !== index),
+      deletedImages: [...prev.deletedImages, imageToRemove],
+    }));
   };
 
-  const handleCreateReview = (e: React.FormEvent<HTMLFormElement>) => {
+  // 새로 추가한 이미지 삭제
+  const handleRemoveNewImage = (index: number) => {
+    setModifyReview(prev => ({
+      ...prev,
+      newImages: prev.newImages.filter((_, i) => i !== index),
+    }));
+  };
+
+  const handleModifiedReview = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!auth.currentUser) {
       alert('로그인이 필요합니다.');
+      return;
     }
     mutation.mutate(
       {
-        user: auth,
+        reviewId: prevReview.id,
         contentId,
-        rating: newReview.rating,
-        contents: newReview.contents,
-        images: newReview.images,
+        rating: modifyReview.rating,
+        contents: modifyReview.contents,
+        remainingImages: modifyReview.existingImages,
+        newImages: modifyReview.newImages,
+        deletedImages: modifyReview.deletedImages,
       },
       {
-        onSuccess: () => {
-          setIsOpen(false);
-        },
+        onSuccess: () => setIsOpen(false),
       },
     );
   };
 
   return (
-    <form className="w-full h-full" onSubmit={handleCreateReview}>
+    <form className="w-full h-full" onSubmit={handleModifiedReview}>
       <div className="bg-white rounded-lg p-5 max-w-md w-full">
-        <h2 className="text-xl font-bold mb-4">리뷰 작성</h2>
+        <h2 className="text-xl font-bold mb-4">리뷰 수정</h2>
         <textarea
-          value={newReview.contents}
-          onChange={newReviewHandler}
+          value={modifyReview.contents}
+          onChange={handleContentsChange}
           className="w-full h-32 p-3 border border-gray-300 rounded-lg mb-4"
           placeholder="리뷰 내용을 입력하세요."
         />
@@ -103,7 +112,7 @@ export default function TourDetailCreateReview({
           <label className="block mb-2">
             평점:
             <select
-              value={newReview.rating}
+              value={modifyReview.rating}
               onChange={handleRatingChange}
               className="ml-2 border border-gray-300 rounded-lg p-2"
             >
@@ -133,13 +142,23 @@ export default function TourDetailCreateReview({
             direction="horizontal"
             className="cursor-grab flex w-full justify-start items-center"
           >
-            {newReview.blobUrls.map((url, index) => (
+            {modifyReview.existingImages.map((image, index) => (
+              <SwiperSlide key={image.name} className="min-w-20 max-w-20 mr-2">
+                <img
+                  src={image.imageUrl}
+                  alt={`업로드된 이미지 ${image.name}`}
+                  className="w-20 h-20 object-cover rounded-lg"
+                  onClick={() => handleRemoveExistingImage(index)}
+                />
+              </SwiperSlide>
+            ))}
+            {modifyReview.newImages.map((url, index) => (
               <SwiperSlide key={index} className="min-w-20 max-w-20 mr-2">
                 <img
-                  src={url}
+                  src={URL.createObjectURL(url)}
                   alt={`업로드된 이미지 ${index + 1}`}
                   className="w-20 h-20 object-cover rounded-lg"
-                  onClick={() => handleRemoveImage(index)}
+                  onClick={() => handleRemoveNewImage(index)}
                 />
               </SwiperSlide>
             ))}

@@ -12,6 +12,7 @@ import {
 import { LoadingSpinner, useCurrentLocation } from '@/shared';
 
 import type { GeoTripLocation } from '@/shared';
+import type { TransportationType } from '@/entities/navigate';
 
 interface WithDestinationProps {
   start: GeoTripLocation;
@@ -26,7 +27,9 @@ export default function withDestination<P extends WithDestinationProps>(
   ) {
     const { isFollowAlong, reset: resetFollowAlong } =
       useStore(useFollowAlongStore);
-    const { reset: resetTransportation } = useStore(useTransportationStore);
+    const { reset: resetTransportation, setVehicle } = useStore(
+      useTransportationStore,
+    );
     const { reset: resetMapLevel } = useStore(useMapLevelStore);
 
     const [searchParams] = useSearchParams();
@@ -37,6 +40,12 @@ export default function withDestination<P extends WithDestinationProps>(
       lng: lng ? parseFloat(lng) : 0,
       lat: lat ? parseFloat(lat) : 0,
     };
+
+    const vehicle = searchParams.get('vehicle');
+
+    useEffect(() => {
+      setVehicle(vehicle as TransportationType);
+    }, [vehicle]);
 
     const { geoLocation } = useCurrentLocation();
 

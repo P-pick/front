@@ -11,7 +11,10 @@ export default function useAddressFromCoords({ lng, lat }: GeoTripLocation) {
 
       geocoder.coord2Address(lng, lat, (result, status) => {
         if (status === window.kakao.maps.services.Status.OK) {
-          setAddress(result[0].address.address_name);
+          setAddress(
+            result[0].road_address?.building_name ||
+              result[0].address.address_name,
+          );
         }
       });
     });

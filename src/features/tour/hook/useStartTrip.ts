@@ -7,7 +7,7 @@ export const useStartTrip = () => {
 
   const handleStartTrip = (destination: GeoTripLocation) => {
     const { lng, lat } = destination;
-    navigate(`/map/destination?lnt=${lng}&lat=${lat}`);
+    navigate(`/map/destination?lnt=${lng}&lat=${lat}&vehicle=pedestrian`);
   };
 
   return { handleStartTrip };

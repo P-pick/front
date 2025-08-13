@@ -1,4 +1,6 @@
 import clsx from 'clsx';
+import { useEffect } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useStore } from 'zustand';
 
 import { commonSVG, destinationSVG } from '@/assets';
@@ -8,7 +10,6 @@ import {
   selectedTransportationList,
   useTransportationStore,
 } from '@/features/navigate';
-import { truncate } from '@/shared';
 
 import type { TransportationType } from '@/entities/navigate';
 import type { GeoTripLocation } from '@/shared';
@@ -22,9 +23,18 @@ export default function SelectTransportationFromGeoMap({
   start,
   end,
 }: SelectTransportationFromGeoMapProps) {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
   const { vehicle, setVehicle, setSearchOptions } = useStore(
     useTransportationStore,
   );
+
+  useEffect(() => {
+    const vehicleParam = searchParams.get('vehicle');
+    if (vehicleParam) {
+      setVehicle(vehicleParam as TransportationType);
+    }
+  }, [searchParams, setVehicle]);
 
   const startName = useAddressFromCoords(start);
   const endName = useAddressFromCoords(end);
@@ -32,6 +42,13 @@ export default function SelectTransportationFromGeoMap({
   const onChangeVehicle = (transportation: TransportationType) => {
     setVehicle(transportation);
     setSearchOptions(0);
+    setSearchParams(
+      prev => {
+        prev.set('vehicle', transportation);
+        return prev;
+      },
+      { replace: true },
+    );
   };
 
   const selectedTransportation = (transportation: TransportationType) =>
@@ -51,14 +68,17 @@ export default function SelectTransportationFromGeoMap({
       <div className="border-1 rounded-2xl w-full border-gray-300 flex justify-between items-center py-3 px-6">
         <div className="flex justify-center items-center gap-2 text-xs font-bold">
           <destinationSVG.StartPoint width={10} height={10} />
-          <span>{truncate(startName, { length: 10 })}</span>
+          <span>{startName}</span>
         </div>
         <commonSVG.RightArrowIcon />
         <div className="flex justify-center items-center gap-2 text-xs font-bold">
           <destinationSVG.EndPoint width={10} height={10} />
-          <span>{truncate(endName, { length: 10 })}</span>
+          <span>{endName}</span>
         </div>
-        <commonSVG.DeleteIcon className="cursor-pointer" />
+        <commonSVG.DeleteIcon
+          className="cursor-pointer"
+          onClick={() => navigate(-1)}
+        />
       </div>
       <div>
         <ul className="w-full flex justify-between items-center overflow-x-auto gap-2">

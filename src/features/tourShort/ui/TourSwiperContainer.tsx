@@ -79,11 +79,11 @@ function TourSwiperContainer({
         isSliding={isSliding}
       />
 
-      <TourBottomSheet
+      {/* <TourBottomSheet
         {...currentSlide}
         isOpen={isBottomSheetOpen}
         onClose={() => setIsBottomSheetOpen(false)}
-      />
+      /> */}
     </div>
   );
 }

@@ -6,4 +6,5 @@ export { default as SelectedFollow } from './SelectedFollow';
 export { default as PrefetchMap } from './PrefetchMap';
 export { default as TakeTimeToGo } from './TakeTimeToGo';
 export { default as Point } from './Point';
+export { default as DepartureAndArrivalAddress } from './DepartureAndArrivalAddress';
 export { default as GeoDestinationMap } from './GeoDestinationMap';

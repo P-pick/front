@@ -59,6 +59,7 @@ export default function TourSlide({
           <StartTripButton
             lng={tourInfo.mapx}
             lat={tourInfo.mapy}
+            contentId={tourInfo.contentid}
             className="mb-[24px] bg-white rounded-[15px] w-[320px] h-[50px] text-black font-bold text-[16px] cursor-pointer"
           />
         </nav>

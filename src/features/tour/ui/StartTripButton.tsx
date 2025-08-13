@@ -1,13 +1,16 @@
+import { useStartTrip } from '@/features/tour';
+
 import type { GeoTripLocation } from '@/shared';
-import { useStartTrip } from '../';
 
 interface StartTripButtonProps extends GeoTripLocation {
+  contentId: string;
   className?: string;
 }
 
 export default function StartTripButton({
   lng,
   lat,
+  contentId,
   className,
 }: StartTripButtonProps) {
   const { handleStartTrip } = useStartTrip();
@@ -21,6 +24,7 @@ export default function StartTripButton({
         handleStartTrip({
           lng,
           lat,
+          contentId,
         });
       }}
     >

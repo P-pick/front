@@ -29,6 +29,7 @@ export default function TourBottomSheet({
           <StartTripButton
             lng={mapx}
             lat={mapy}
+            contentId={contentid}
             className="bg-gradient-to-r from-primary-orange to-primary-red rounded-[15px] w-[320px] h-[50px] text-black font-bold text-[16px] shadow-[0_4px_16px_0_rgba(250,129,47,0.3)]"
           />
         </div>

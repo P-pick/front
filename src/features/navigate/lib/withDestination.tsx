@@ -8,6 +8,7 @@ import {
   useTransportationStore,
   SelectTransportationFromGeoMap,
   isValidationLocation,
+  DepartureAndArrivalAddress,
 } from '@/features/navigate';
 import { LoadingSpinner, useCurrentLocation } from '@/shared';
 
@@ -31,8 +32,9 @@ export default function withDestination<P extends WithDestinationProps>(
       useTransportationStore,
     );
     const { reset: resetMapLevel } = useStore(useMapLevelStore);
-
     const [searchParams] = useSearchParams();
+
+    //좌표
     const lng = searchParams.get('lnt');
     const lat = searchParams.get('lat');
 
@@ -41,6 +43,10 @@ export default function withDestination<P extends WithDestinationProps>(
       lat: lat ? parseFloat(lat) : 0,
     };
 
+    //컨텐츠 ID, Type
+    const id = searchParams.get('id') && atob(searchParams.get('id') as string);
+
+    //이동수단
     const vehicle = searchParams.get('vehicle');
 
     useEffect(() => {
@@ -59,7 +65,8 @@ export default function withDestination<P extends WithDestinationProps>(
 
     if (
       !isValidationLocation(geoLocation) ||
-      !isValidationLocation(destination)
+      !isValidationLocation(destination) ||
+      !id
     ) {
       return <LoadingSpinner centered={true} />;
     }
@@ -67,10 +74,12 @@ export default function withDestination<P extends WithDestinationProps>(
     return (
       <>
         {!isFollowAlong && (
-          <SelectTransportationFromGeoMap
-            start={geoLocation}
-            end={destination}
-          />
+          <Suspense fallback={<></>}>
+            <div className="px-5 w-full h-auto bg-white z-(--z-layer2)">
+              <DepartureAndArrivalAddress start={geoLocation} id={id} />
+              <SelectTransportationFromGeoMap />
+            </div>
+          </Suspense>
         )}
         <Suspense fallback={<LoadingSpinner centered={true} />}>
           <WrappedComponent

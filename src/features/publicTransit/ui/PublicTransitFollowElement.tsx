@@ -27,7 +27,10 @@ export default function PublicTransitFollowElement({
         <p className="flex-1 text-xs text-white">{option.description}</p>
       </div>
       <div className="absolute right-5 top-3 cursor-pointer z-(--z-layer4) fill-white">
-        <commonSVG.DeleteIcon onClick={() => setIsFollowAlong(false)} />
+        <commonSVG.DeleteIcon
+          onClick={() => setIsFollowAlong(false)}
+          className="fill-white"
+        />
       </div>
     </>
   );

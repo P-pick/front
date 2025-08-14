@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import {
   Map,
@@ -15,17 +15,12 @@ import { Tour } from '@/pages/tour';
 import { Profile } from '@/pages/profile';
 
 import { LoadingSpinner } from '@/shared';
-import TourDetail from '@/pages/tour/tourDetail/tourDetail';
 
 export default function Router() {
-  const location = useLocation();
-  const state = location.state as { backgroundLocation?: Location } | undefined;
-  const bg = state?.backgroundLocation ?? location;
-
   return (
-    <>
+    <BrowserRouter>
       <Suspense fallback={<LoadingSpinner centered />}>
-        <Routes location={bg}>
+        <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/geo-setup" element={<GeoSetup />} />
           <Route path="/map" element={<Map />}>
@@ -39,12 +34,7 @@ export default function Router() {
           </Route>
           <Route path="/profile" element={<Profile />} />
         </Routes>
-        {state?.backgroundLocation && (
-          <Routes>
-            <Route path="/tour/:id" element={<TourDetail />} />
-          </Routes>
-        )}
       </Suspense>
-    </>
+    </BrowserRouter>
   );
 }

@@ -7,7 +7,6 @@ import { TourSlideImages } from '@/features/tourShort';
 import { DistanceTimeInfo, LoadingSpinner } from '@/shared/ui';
 
 import type { TourItem } from '@/entities/tour';
-import { Link, useLocation } from 'react-router-dom';
 
 interface TourSlideProps {
   tourInfo: TourItem;
@@ -16,9 +15,8 @@ interface TourSlideProps {
 
 export default function TourSlide({
   tourInfo,
-  // openBottomSheet,
+  openBottomSheet,
 }: TourSlideProps) {
-  const location = useLocation();
   return (
     <article className="relative text-white w-full h-full flex flex-col items-center">
       <ErrorBoundary
@@ -47,17 +45,11 @@ export default function TourSlide({
         <div className="flex flex-col gap-2 py-4">
           <div className="flex gap-1 items-center">
             <h1 className="text-2xl font-bold max-w-60">{tourInfo.title}</h1>
-            <Link
-              to={`/tour/${tourInfo.contentid}`}
-              state={{ backgroundLocation: location }}
-              className="text-white underline"
-            >
-              <commonSVG.InfoIcon
-                id="tour-detail-tutorial"
-                className="text-white cursor-pointer fill-white"
-                // onClick={openBottomSheet}
-              />
-            </Link>
+            <commonSVG.InfoIcon
+              id="tour-detail-tutorial"
+              className="text-white cursor-pointer fill-white"
+              onClick={openBottomSheet}
+            />
           </div>
           <div className="flex justify-between">
             <DistanceTimeInfo dist={tourInfo.dist} iconFill="white" />

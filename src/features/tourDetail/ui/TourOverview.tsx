@@ -34,7 +34,7 @@ export default function TourOverview({
             />
             <span className="flex flex-wrap">{detailCommon.addr1}</span>
           </div>
-          <div className="flex items-center gap-4 mt-4">
+          <div className="flex items-center gap-4 mt-4 bg-white">
             <BookmarkButtonContainer contentId={tourContentId} />
             <ShareButton />
           </div>

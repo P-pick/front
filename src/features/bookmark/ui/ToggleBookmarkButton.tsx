@@ -19,7 +19,7 @@ export default function ToggleBookmarkButton({
     bookmarked: Boolean(bookmarked),
   });
 
-  const bookMarkIconColor = bookmarked ? 'text-primary-red' : 'none';
+  const bookMarkIconColor = bookmarked ? 'text-primary-red' : 'text-white';
 
   return (
     <button

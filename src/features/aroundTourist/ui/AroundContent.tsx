@@ -55,6 +55,7 @@ export default function AroundContent({
             handleStartTrip({
               lng: tourist.mapx,
               lat: tourist.mapy,
+              contentId: tourist.contentid,
             })
           }
         >

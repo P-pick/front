@@ -13,6 +13,7 @@ import TurnRight from './rightTurn.svg?react';
 import UTurn from './uTurn.svg?react';
 import Underpass from './underpass.svg?react';
 import Tunnel from './tunnel.svg?react';
+import RoadLeft from './roadleft.svg?react';
 
 export {
   TwoOClockDirection,
@@ -30,4 +31,5 @@ export {
   UTurn,
   Underpass,
   Tunnel,
+  RoadLeft,
 };

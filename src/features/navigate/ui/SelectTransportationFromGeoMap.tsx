@@ -1,37 +1,37 @@
 import clsx from 'clsx';
+import { useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { useStore } from 'zustand';
 
-import { commonSVG, destinationSVG } from '@/assets';
-
-import { useAddressFromCoords } from '@/features/map';
 import {
   selectedTransportationList,
   useTransportationStore,
 } from '@/features/navigate';
-import { truncate } from '@/shared';
 
 import type { TransportationType } from '@/entities/navigate';
-import type { GeoTripLocation } from '@/shared';
-
-interface SelectTransportationFromGeoMapProps {
-  start: GeoTripLocation;
-  end: GeoTripLocation;
-}
-
-export default function SelectTransportationFromGeoMap({
-  start,
-  end,
-}: SelectTransportationFromGeoMapProps) {
+export default function SelectTransportationFromGeoMap() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const { vehicle, setVehicle, setSearchOptions } = useStore(
     useTransportationStore,
   );
 
-  const startName = useAddressFromCoords(start);
-  const endName = useAddressFromCoords(end);
+  useEffect(() => {
+    const vehicleParam = searchParams.get('vehicle');
+    if (vehicleParam) {
+      setVehicle(vehicleParam as TransportationType);
+    }
+  }, [searchParams, setVehicle]);
 
   const onChangeVehicle = (transportation: TransportationType) => {
     setVehicle(transportation);
     setSearchOptions(0);
+    setSearchParams(
+      prev => {
+        prev.set('vehicle', transportation);
+        return prev;
+      },
+      { replace: true },
+    );
   };
 
   const selectedTransportation = (transportation: TransportationType) =>
@@ -42,40 +42,22 @@ export default function SelectTransportationFromGeoMap({
       },
     );
 
-  if (!startName || !endName) {
-    return null;
-  }
-
   return (
-    <div className="px-5 w-full h-auto bg-white z-(--z-layer2)">
-      <div className="border-1 rounded-2xl w-full border-gray-300 flex justify-between items-center py-3 px-6">
-        <div className="flex justify-center items-center gap-2 text-xs font-bold">
-          <destinationSVG.StartPoint width={10} height={10} />
-          <span>{truncate(startName, { length: 10 })}</span>
-        </div>
-        <commonSVG.RightArrowIcon />
-        <div className="flex justify-center items-center gap-2 text-xs font-bold">
-          <destinationSVG.EndPoint width={10} height={10} />
-          <span>{truncate(endName, { length: 10 })}</span>
-        </div>
-        <commonSVG.DeleteIcon className="cursor-pointer" />
-      </div>
-      <div>
-        <ul className="w-full flex justify-between items-center overflow-x-auto gap-2">
-          {selectedTransportationList.map(transport => {
-            return (
-              <li
-                key={transport.id}
-                className={selectedTransportation(transport.id)}
-                onClick={() => onChangeVehicle(transport.id)}
-              >
-                <span>{transport.icon}</span>
-                <span className="text-[10px]">{transport.label}</span>
-              </li>
-            );
-          })}
-        </ul>
-      </div>
+    <div>
+      <ul className="w-full flex justify-between items-center overflow-x-auto gap-2">
+        {selectedTransportationList.map(transport => {
+          return (
+            <li
+              key={transport.id}
+              className={selectedTransportation(transport.id)}
+              onClick={() => onChangeVehicle(transport.id)}
+            >
+              <span>{transport.icon}</span>
+              <span className="text-[10px]">{transport.label}</span>
+            </li>
+          );
+        })}
+      </ul>
     </div>
   );
 }

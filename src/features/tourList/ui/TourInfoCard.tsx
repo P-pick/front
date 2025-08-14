@@ -11,10 +11,9 @@ import { DistanceTimeInfo, LoadingSpinner, truncate } from '@/shared';
 import type { TourItem } from '@/entities/tour';
 interface TourInfoCardProps {
   tourInfo: TourItem;
-  userId: string;
 }
 
-export default function TourInfoCard({ tourInfo, userId }: TourInfoCardProps) {
+export default function TourInfoCard({ tourInfo }: TourInfoCardProps) {
   return (
     <article className="flex flex-col my-8">
       <ErrorBoundary
@@ -49,10 +48,7 @@ export default function TourInfoCard({ tourInfo, userId }: TourInfoCardProps) {
             <commonSVG.ShareIcon />
           </button>
           <Suspense fallback={<LoadingSpinner />}>
-            <BookmarkButtonContainer
-              contentId={tourInfo.contentid}
-              userId={userId}
-            />
+            <BookmarkButtonContainer contentId={tourInfo.contentid} />
           </Suspense>
         </nav>
       </header>

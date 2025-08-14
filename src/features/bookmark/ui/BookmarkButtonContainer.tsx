@@ -1,31 +1,23 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
 
-import { ToggleBookmarkButton } from '@/features/bookmark';
-import { bookmarkOptions } from '@/entities/bookmark';
+import { BookmarkLoader } from '@/features/bookmark';
+import { authOptions } from '@/entities/auth';
+import { commonSVG } from '@/assets';
 
 interface BookmarkButtonContainerProps {
   contentId: string;
-  userId: string;
+}
+
+interface BookmarkButtonContainerProps {
+  contentId: string;
 }
 
 export default function BookmarkButtonContainer({
   contentId,
-  userId,
 }: BookmarkButtonContainerProps) {
-  const { data: bookmark } = useSuspenseQuery(
-    bookmarkOptions.getBookmark({
-      userId,
-      contentId,
-    }),
-  );
+  const { data: auth } = useSuspenseQuery(authOptions.auth());
 
-  return (
-    <>
-      <ToggleBookmarkButton
-        userId={userId}
-        contentId={contentId}
-        bookmarked={bookmark}
-      />
-    </>
-  );
+  if (!auth) return <commonSVG.BookMarkIcon />;
+
+  return <BookmarkLoader uid={auth.uid} contentId={contentId} />;
 }

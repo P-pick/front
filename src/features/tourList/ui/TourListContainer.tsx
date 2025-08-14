@@ -1,7 +1,6 @@
 import {
   useQueryClient,
   useSuspenseInfiniteQuery,
-  useSuspenseQuery,
 } from '@tanstack/react-query';
 import { useDeferredValue } from 'react';
 
@@ -42,7 +41,6 @@ function TourListContainer({
       }),
     );
 
-  const { data: authData } = useSuspenseQuery(authOptions.auth());
   const shouldShowFallback = useShouldShowFallback({
     location: geoLocation,
     radius: distance,
@@ -57,11 +55,7 @@ function TourListContainer({
       <LocationPermissionOverlay isDenied={isDenied} />
       <section className="relative overflow-y-auto h-full">
         {tourItems.map(tourInfo => (
-          <TourInfoCard
-            tourInfo={tourInfo}
-            userId={authData?.uid || ''}
-            key={tourInfo.contentid}
-          />
+          <TourInfoCard tourInfo={tourInfo} key={tourInfo.contentid} />
         ))}
         {shouldShowFallback && (
           <div className="absolute inset-0 bg-primary-gray/40 z-10" />

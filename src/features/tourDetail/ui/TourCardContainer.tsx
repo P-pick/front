@@ -6,9 +6,10 @@ import {
   TourInformation,
   TourOverview,
   ReviewSkeleton,
+  DetailOverviewSkeleton,
 } from '@/features/tourDetail';
 import { TourReviewList } from '@/features/tourReview';
-import { LoadingSpinner, SwitchCase } from '@/shared';
+import { SwitchCase } from '@/shared';
 
 import type { TourSectionType } from '@/features/tourDetail';
 import type { AroundContentTypeId } from '@/entities/tour';
@@ -29,7 +30,7 @@ export default function TourCardContainer({
 
   return (
     <>
-      <Suspense fallback={<LoadingSpinner centered={true} />}>
+      <Suspense fallback={<DetailOverviewSkeleton />}>
         <TourOverview distance={dist} tourContentId={contentid} />
       </Suspense>
       <TourCardNavigate

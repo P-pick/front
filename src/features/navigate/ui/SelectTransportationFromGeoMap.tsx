@@ -52,7 +52,13 @@ export default function SelectTransportationFromGeoMap() {
               className={selectedTransportation(transport.id)}
               onClick={() => onChangeVehicle(transport.id)}
             >
-              <span>{transport.icon}</span>
+              <span
+                className={clsx('fill-black', {
+                  'fill-white': transport.id === vehicle,
+                })}
+              >
+                {transport.icon}
+              </span>
               <span className="text-[10px]">{transport.label}</span>
             </li>
           );

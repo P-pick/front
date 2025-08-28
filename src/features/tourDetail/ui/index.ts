@@ -4,5 +4,6 @@ export { default as TourOverview } from './TourOverview';
 export { default as TourInformation } from './TourInformation';
 export { default as ReviewSkeleton } from './ReviewSkeleton';
 export { default as ShareButton } from './ShareButton';
+export { default as DetailOverviewSkeleton } from './DetailOverviewSkeleton';
 
 export * from './information';

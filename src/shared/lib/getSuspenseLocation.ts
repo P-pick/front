@@ -28,7 +28,7 @@ export default function getSuspenseLocation(): SuspenseLocation {
   if (!locationPromise) {
     const locationOptions = {
       enableHighAccuracy: false,
-      timeout: 5000,
+      timeout: 3000,
       maximumAge: 0,
     };
     locationPromise = getCurrentLocation(locationOptions)

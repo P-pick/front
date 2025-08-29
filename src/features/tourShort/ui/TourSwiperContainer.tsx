@@ -62,8 +62,6 @@ function TourSwiperContainer({
     });
   };
 
-  console.log(geoLocation.permission);
-
   return (
     <div className="relative w-full h-full">
       <LocationPermissionOverlay

@@ -18,11 +18,13 @@ export default function LocationPermissionOverlay({
   const dismissedInSession = useMemo(() => {
     return sessionStorage.getItem(STORAGE_KEY) === '1';
   }, []);
-  const [open, setOpen] = useState(isDenied);
+  const [open, setOpen] = useState(!isDenied);
   if (!open || dismissedInSession) return null;
 
   const handleClose = () => {
-    sessionStorage.setItem(STORAGE_KEY, '1');
+    if (isDenied) {
+      sessionStorage.setItem(STORAGE_KEY, '1');
+    }
     setOpen(false);
   };
 

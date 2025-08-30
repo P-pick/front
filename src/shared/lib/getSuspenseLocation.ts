@@ -2,12 +2,7 @@ import { getCurrentLocation } from '@/shared';
 
 import type { GeoTripLocation } from '@/shared';
 
-type PermissionStateLite =
-  | 'granted'
-  | 'denied'
-  | 'retry'
-  | 'prompt'
-  | 'unknown';
+type PermissionStateLite = 'granted' | 'denied' | 'prompt' | 'unknown';
 type SuspenseLocation = GeoTripLocation & {
   permission: PermissionStateLite;
 };
@@ -55,15 +50,7 @@ function isGeoLocationError(err: unknown): err is GeolocationPositionError {
 
 function handleLocationError(err: unknown) {
   if (isGeoLocationError(err)) {
-    if (err.code === 1) {
-      locationCache = { ...DEFAULT_LOCATION, permission: 'denied' };
-      return locationCache;
-    }
-    if (err.code === 2) {
-      locationCache = { ...DEFAULT_LOCATION, permission: 'denied' };
-      return locationCache;
-    }
-    if (err.code === 3) {
+    if (err.code === 1 || err.code === 2 || err.code === 3) {
       locationCache = { ...DEFAULT_LOCATION, permission: 'denied' };
       return locationCache;
     }

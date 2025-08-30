@@ -5,26 +5,22 @@ import clsx from 'clsx';
 import type { SVGProps } from 'react';
 
 interface LocationPermissionOverlayProps {
-  description?: string;
   isDenied: boolean;
 }
 
 const STORAGE_KEY = 'dismiss_location_overlay_session';
 
 export default function LocationPermissionOverlay({
-  description = '정확한 주변 정보를 위해 위치 권한을 켜주세요',
   isDenied,
 }: LocationPermissionOverlayProps) {
   const dismissedInSession = useMemo(() => {
     return sessionStorage.getItem(STORAGE_KEY) === '1';
   }, []);
-  const [open, setOpen] = useState(!isDenied);
+  const [open, setOpen] = useState(isDenied);
   if (!open || dismissedInSession) return null;
 
   const handleClose = () => {
-    if (isDenied) {
-      sessionStorage.setItem(STORAGE_KEY, '1');
-    }
+    sessionStorage.setItem(STORAGE_KEY, '1');
     setOpen(false);
   };
 
@@ -63,7 +59,7 @@ export default function LocationPermissionOverlay({
         onClick={e => e.stopPropagation()}
       >
         <h3 className="text-base md:text-lg font-semibold text-gray-900">
-          {description}
+          정확한 주변 정보를 위해 위치 권한을 켜주세요
         </h3>
         <p className="mt-2 text-sm md:text-[15px] text-gray-600">
           현재는 기본 위치로 보여드리고 있어요. 권한을 허용하면 더 가까운 장소를

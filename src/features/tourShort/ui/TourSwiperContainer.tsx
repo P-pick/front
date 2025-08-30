@@ -65,11 +65,6 @@ function TourSwiperContainer({
   return (
     <div className="relative w-full h-full">
       <LocationPermissionOverlay
-        description={
-          geoLocation.permission === 'retry'
-            ? '위치를 불러오지 못했습니다. 위치를 잘 불러올 수 있는 위치에서 다시 시도해 주세요'
-            : undefined
-        }
         isDenied={geoLocation.permission === 'denied'}
       />
       <TourSwiperLoadingOverlay isInitializing={isSliding} />

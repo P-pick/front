@@ -21,7 +21,12 @@ export default function getSuspenseLocation(): SuspenseLocation {
   if (locationError) throw locationError;
 
   if (!locationPromise) {
-    locationPromise = getCurrentLocation()
+    const locationOptions = {
+      enableHighAccuracy: true,
+      timeout: 5000,
+      maximumAge: 0,
+    };
+    locationPromise = getCurrentLocation(locationOptions)
       .then(loc => {
         locationCache = { ...loc, permission: 'granted' };
         return locationCache;
@@ -45,15 +50,9 @@ function isGeoLocationError(err: unknown): err is GeolocationPositionError {
 
 function handleLocationError(err: unknown) {
   if (isGeoLocationError(err)) {
-    if (err.code === 1) {
+    if (err.code === 1 || err.code === 2 || err.code === 3) {
       locationCache = { ...DEFAULT_LOCATION, permission: 'denied' };
       return locationCache;
-    }
-
-    if (err.code === 2) {
-      throw new Error(
-        '위치를 찾을 수 없습니다. GPS가 켜져 있는지 확인해주세요.',
-      );
     }
   }
 

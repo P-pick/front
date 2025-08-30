@@ -15,6 +15,7 @@ interface SearchResultProps {
 
 export default function SearchResult({ keyword }: SearchResultProps) {
   const queryClient = useQueryClient();
+
   queryClient.prefetchQuery(authOptions.auth());
   const {
     data: searchData,

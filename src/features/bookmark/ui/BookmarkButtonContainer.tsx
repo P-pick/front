@@ -17,7 +17,7 @@ export default function BookmarkButtonContainer({
 }: BookmarkButtonContainerProps) {
   const { data: auth } = useSuspenseQuery(authOptions.auth());
 
-  if (!auth) return <commonSVG.BookMarkIcon />;
+  if (!auth) return <commonSVG.BookMarkIcon className="text-white" />;
 
   return <BookmarkLoader uid={auth.uid} contentId={contentId} />;
 }

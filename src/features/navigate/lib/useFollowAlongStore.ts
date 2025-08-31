@@ -20,7 +20,7 @@ const useFollowAlong = create<State & Action>(set => ({
   ...initialState,
   setIsFollowAlong: (isFollowAlong: boolean) => set(() => ({ isFollowAlong })),
   setCurrentFollowIndex: (index: number) =>
-    set(() => ({ currentFollowIndex: index })),
+    set(() => ({ isFollowAlong: true, currentFollowIndex: index })),
   reset: () => set(initialState),
 }));
 

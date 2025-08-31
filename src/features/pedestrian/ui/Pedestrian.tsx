@@ -16,7 +16,6 @@ import {
   PedestrianFollowList,
   PedestrianOptions,
 } from '@/features/pedestrian';
-
 import { destinationQueries } from '@/entities/navigate';
 
 import type { PEDESTRIAN } from '@/entities/navigate';
@@ -66,7 +65,7 @@ export default function Pedestrian({ start, end }: PedestrianProps) {
       }}
     >
       <div className="absolute bottom-0 left-0 right-0 w-full max-h-4/7 flex flex-col">
-        <ResizingMap points={points} viewBounds={[0, 0, 200, 0]} />
+        <ResizingMap points={points} viewBounds={[0, 0, 250, 0]} />
         {pedestrianOptions &&
           pedestrianOptions.map(data => (
             <Fragment key={`${vehicle}-${data.optionId}`}>

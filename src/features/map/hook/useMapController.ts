@@ -7,8 +7,7 @@ import { useFollowAlongStore } from '@/features/navigate';
  */
 const useMapController = () => {
   const map = useMap();
-  const { setIsFollowAlong, setCurrentFollowIndex } =
-    useStore(useFollowAlongStore);
+  const { setCurrentFollowIndex } = useStore(useFollowAlongStore);
 
   /**
    * @description 따라가기시 위치 변경 핸들러
@@ -42,9 +41,10 @@ const useMapController = () => {
   ) => {
     const switchLocation = new kakao.maps.LatLng(position.lat, position.lng);
 
-    setIsFollowAlong(true);
-    map.panTo(switchLocation);
     setCurrentFollowIndex(index);
+    requestAnimationFrame(() => {
+      map.panTo(switchLocation);
+    });
   };
 
   return {

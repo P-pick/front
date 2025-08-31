@@ -39,8 +39,8 @@ export const createNavItems = ({
       label: 'list Icon',
 
       onClick: () => {
-        saveTourSearchToSession();
-        navigate(`/tour/list?${currentParams.toString()}`, { replace: true });
+        const prevSearch = sessionStorage.getItem('prevTourSearch') || '';
+        navigate(`/tour/list?${prevSearch}`, { replace: true });
       },
     },
     {
@@ -51,7 +51,7 @@ export const createNavItems = ({
 
       onClick: () => {
         saveTourSearchToSession();
-        navigate(`/tour/bookmark?${currentParams.toString()}`, {
+        navigate(`/tour/bookmark`, {
           replace: true,
         });
       },

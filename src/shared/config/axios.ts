@@ -13,6 +13,7 @@ export const tourApi = axios.create({
     serviceKey: import.meta.env.VITE_TOUR_SERVICE_KEY,
     _type: 'json',
   },
+  timeout: 5000,
 });
 
 /**
@@ -27,4 +28,5 @@ export const tmapApi = axios.create({
   headers: {
     appKey: import.meta.env.VITE_TMAP_APP_KEY,
   },
+  timeout: 5000,
 });

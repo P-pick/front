@@ -9,6 +9,7 @@ import {
   SelectTransportationFromGeoMap,
   isValidationLocation,
   DepartureAndArrivalAddress,
+  DestinationSkeleton,
 } from '@/features/navigate';
 import { getSuspenseLocation, LoadingSpinner } from '@/shared';
 
@@ -74,12 +75,12 @@ export default function withDestination<P extends WithDestinationProps>(
     return (
       <>
         {!isFollowAlong && (
-          <Suspense fallback={<></>}>
-            <div className="px-5 w-full h-auto bg-white z-(--z-layer2)">
+          <div className="px-5 w-full h-auto bg-white z-(--z-layer2)">
+            <Suspense fallback={<DestinationSkeleton />}>
               <DepartureAndArrivalAddress start={geoLocation} id={id} />
-              <SelectTransportationFromGeoMap />
-            </div>
-          </Suspense>
+            </Suspense>
+            <SelectTransportationFromGeoMap />
+          </div>
         )}
         <Suspense fallback={<LoadingSpinner centered={true} />}>
           <WrappedComponent

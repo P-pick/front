@@ -3,10 +3,10 @@ import { useStore } from 'zustand';
 
 import { destinationSVG } from '@/assets';
 
-import { useCurrentLocation, useMapController } from '@/features/map';
+import { useMapController } from '@/features/map';
 import { useTransportationStore } from '@/features/navigate';
 
-import type { GeoTripLocation } from '@/shared';
+import { getSuspenseLocation, type GeoTripLocation } from '@/shared';
 
 interface ResizingMapProps {
   points: GeoTripLocation[];
@@ -36,7 +36,7 @@ export default function ResizingMap({
     }
   };
 
-  const { geoLocation } = useCurrentLocation();
+  const geoLocation = getSuspenseLocation();
   useEffect(() => {
     handleMapResizing({ points });
   }, [map, searchOptions]);

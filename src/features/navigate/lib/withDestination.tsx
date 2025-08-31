@@ -10,7 +10,7 @@ import {
   isValidationLocation,
   DepartureAndArrivalAddress,
 } from '@/features/navigate';
-import { LoadingSpinner, useCurrentLocation } from '@/shared';
+import { getSuspenseLocation, LoadingSpinner } from '@/shared';
 
 import type { GeoTripLocation } from '@/shared';
 import type { TransportationType } from '@/entities/navigate';
@@ -53,7 +53,7 @@ export default function withDestination<P extends WithDestinationProps>(
       setVehicle(vehicle as TransportationType);
     }, [vehicle]);
 
-    const { geoLocation } = useCurrentLocation();
+    const geoLocation = getSuspenseLocation();
 
     useEffect(() => {
       return () => {

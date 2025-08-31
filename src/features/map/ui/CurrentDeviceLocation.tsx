@@ -1,9 +1,9 @@
 import { MapMarker } from 'react-kakao-maps-sdk';
 
-import { useCurrentLocation } from '@/features/map';
+import { getSuspenseLocation } from '@/shared';
 
 export default function CurrentDeviceLocation() {
-  const { geoLocation } = useCurrentLocation();
+  const geoLocation = getSuspenseLocation();
 
   return (
     <MapMarker

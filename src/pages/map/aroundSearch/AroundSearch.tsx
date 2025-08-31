@@ -1,9 +1,8 @@
 import { Suspense } from 'react';
 
-import { useCurrentLocation } from '@/features/map';
 import { isValidationLocation } from '@/features/navigate';
 import { GeoAroundTouristMap } from '@/features/aroundTourist';
-import { LoadingSpinner } from '@/shared';
+import { getSuspenseLocation, LoadingSpinner } from '@/shared';
 
 const destination = {
   lat: 37.629362,
@@ -11,7 +10,7 @@ const destination = {
 };
 
 export default function AroundSearch() {
-  const { geoLocation } = useCurrentLocation();
+  const geoLocation = getSuspenseLocation();
 
   if (
     !isValidationLocation(geoLocation) ||

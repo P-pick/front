@@ -9,8 +9,13 @@ import {
   SelectTransportationFromGeoMap,
   isValidationLocation,
   DepartureAndArrivalAddress,
+  DestinationSkeleton,
 } from '@/features/navigate';
-import { LoadingSpinner, useCurrentLocation } from '@/shared';
+import {
+  getSuspenseLocation,
+  LoadingSpinner,
+  QueryErrorBoundary,
+} from '@/shared';
 
 import type { GeoTripLocation } from '@/shared';
 import type { TransportationType } from '@/entities/navigate';
@@ -53,7 +58,7 @@ export default function withDestination<P extends WithDestinationProps>(
       setVehicle(vehicle as TransportationType);
     }, [vehicle]);
 
-    const { geoLocation } = useCurrentLocation();
+    const geoLocation = getSuspenseLocation();
 
     useEffect(() => {
       return () => {
@@ -74,12 +79,14 @@ export default function withDestination<P extends WithDestinationProps>(
     return (
       <>
         {!isFollowAlong && (
-          <Suspense fallback={<></>}>
-            <div className="px-5 w-full h-auto bg-white z-(--z-layer2)">
-              <DepartureAndArrivalAddress start={geoLocation} id={id} />
-              <SelectTransportationFromGeoMap />
-            </div>
-          </Suspense>
+          <div className="px-5 w-full h-auto bg-white z-(--z-layer2)">
+            <QueryErrorBoundary>
+              <Suspense fallback={<DestinationSkeleton />}>
+                <DepartureAndArrivalAddress start={geoLocation} id={id} />
+              </Suspense>
+            </QueryErrorBoundary>
+            <SelectTransportationFromGeoMap />
+          </div>
         )}
         <Suspense fallback={<LoadingSpinner centered={true} />}>
           <WrappedComponent

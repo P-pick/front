@@ -25,12 +25,12 @@ export default function DepartureAndArrivalAddress({
 
   return (
     <div className="border-1 rounded-2xl w-full border-gray-300 flex justify-between items-center py-3 px-6">
-      <div className="flex justify-center items-center gap-2 text-xs font-bold">
+      <div className="flex justify-center items-center gap-2 text-xs font-bold max-w-32">
         <destinationSVG.StartPoint width={10} height={10} />
         <span>{startName}</span>
       </div>
       <commonSVG.RightArrowIcon />
-      <div className="flex justify-center items-center gap-2 text-xs font-bold">
+      <div className="flex justify-center items-center gap-2 text-xs font-bold max-w-32">
         <destinationSVG.EndPoint width={10} height={10} />
         <span>{endName}</span>
       </div>

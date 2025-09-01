@@ -3,10 +3,13 @@ import { useStore } from 'zustand';
 
 import { destinationSVG } from '@/assets';
 
-import { useCurrentLocation, useMapController } from '@/features/map';
-import { useTransportationStore } from '@/features/navigate';
+import { useMapController } from '@/features/map';
+import {
+  useFollowAlongStore,
+  useTransportationStore,
+} from '@/features/navigate';
 
-import type { GeoTripLocation } from '@/shared';
+import { getSuspenseLocation, type GeoTripLocation } from '@/shared';
 
 interface ResizingMapProps {
   points: GeoTripLocation[];
@@ -18,6 +21,7 @@ export default function ResizingMap({
   viewBounds = [0, 0, 0, 0],
 }: ResizingMapProps) {
   const { searchOptions } = useStore(useTransportationStore);
+  const { isFollowAlong } = useStore(useFollowAlongStore);
   const { map } = useMapController();
 
   const handleMapResizing = ({ points }: Pick<ResizingMapProps, 'points'>) => {
@@ -36,10 +40,12 @@ export default function ResizingMap({
     }
   };
 
-  const { geoLocation } = useCurrentLocation();
+  const geoLocation = getSuspenseLocation();
   useEffect(() => {
-    handleMapResizing({ points });
-  }, [map, searchOptions]);
+    if (!isFollowAlong) {
+      handleMapResizing({ points });
+    }
+  }, [map, searchOptions, isFollowAlong]);
 
   const goToMyLocation = () => {
     const bounds = new kakao.maps.LatLngBounds();
@@ -55,16 +61,16 @@ export default function ResizingMap({
 
   return (
     <>
-      <div className="shrink flex justify-between w-full p-4 z-(--z-layer3)">
+      <div className="shrink flex justify-between w-full p-4">
         <button
           onClick={() => handleMapResizing({ points })}
-          className="bg-white border-1 border-black rounded-full py-0 px-5 flex items-center justify-center cursor-pointer text-xs"
+          className="bg-white border-1 border-black rounded-full py-0 px-5 flex items-center justify-center cursor-pointer text-xs z-(--z-layer2)"
         >
           모든 경로 보기
         </button>
         <button
           onClick={goToMyLocation}
-          className="fill-black border-black  border-1 w-10 h-10 bg-white rounded-full flex items-center justify-center cursor-pointer "
+          className="fill-black border-black  border-1 w-10 h-10 bg-white rounded-full flex items-center justify-center cursor-pointer z-(--z-layer2)"
         >
           <destinationSVG.MyLocationIcon />
         </button>

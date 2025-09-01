@@ -1,12 +1,16 @@
 import { Suspense } from 'react';
 import { commonSVG } from '@/assets';
-import { ErrorBoundary } from 'react-error-boundary';
 
 import { TourCardImages } from '@/features/tourList';
 import { SkeletonCard } from '@/features/tour';
 import { BookmarkButtonContainer } from '@/features/bookmark';
 import { TOUR_TYPE } from '@/entities/tour';
-import { DistanceTimeInfo, LoadingSpinner, truncate } from '@/shared';
+import {
+  DistanceTimeInfo,
+  LoadingSpinner,
+  QueryErrorBoundary,
+  truncate,
+} from '@/shared';
 
 import type { TourItem } from '@/entities/tour';
 interface TourInfoCardProps {
@@ -16,22 +20,14 @@ interface TourInfoCardProps {
 export default function TourInfoCard({ tourInfo }: TourInfoCardProps) {
   return (
     <article className="flex flex-col my-8">
-      <ErrorBoundary
-        FallbackComponent={() => (
-          <img
-            src="/common/fallback.webp"
-            alt="임시 에러처리"
-            className="w-full aspect-[3/2]"
-          />
-        )}
-      >
+      <QueryErrorBoundary>
         <Suspense fallback={<SkeletonCard />}>
           <TourCardImages
             contentId={tourInfo.contentid}
             title={tourInfo.title}
           />
         </Suspense>
-      </ErrorBoundary>
+      </QueryErrorBoundary>
 
       {/* 타이틀 및 옵션 */}
       <header className="flex mt-4 items-center justify-between px-5">

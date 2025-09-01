@@ -105,7 +105,7 @@ export default function PublicTransit({ start, end }: PublicTransitProps) {
 
   return (
     <div className="absolute bg-white w-full h-[80%]">
-      {requestParams && <TransitCountList requestParams={requestParams} />}
+      <TransitCountList requestParams={requestParams} />
       <ul className="scroll-auto w-full h-full overflow-y-scroll">
         {itineraries?.map(({ fare, legs, ...etc }, index) => {
           return (

@@ -3,7 +3,7 @@ import { commonSVG } from '@/assets';
 import { ErrorBoundary } from 'react-error-boundary';
 
 import { TourCardImages } from '@/features/tourList';
-import { SkeletonCard } from '@/features/tour';
+import { SkeletonCard, StartTripButton } from '@/features/tour';
 import { BookmarkButtonContainer } from '@/features/bookmark';
 import { TOUR_TYPE } from '@/entities/tour';
 import { DistanceTimeInfo, LoadingSpinner, truncate } from '@/shared';
@@ -64,6 +64,12 @@ export default function TourInfoCard({ tourInfo }: TourInfoCardProps) {
           <address className="not-italic">
             {truncate(tourInfo.addr1 ?? '', { omission: '', length: 10 })}
           </address>
+          <StartTripButton
+            lng={tourInfo.mapx}
+            lat={tourInfo.mapy}
+            contentId={tourInfo.contentid}
+            className="bg-primary-orange px-3 py-1 rounded-2xl text-white cursor-pointer"
+          />
         </div>
         <p className="text-gray-700 mt-1"></p>
       </section>

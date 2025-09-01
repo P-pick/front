@@ -154,11 +154,6 @@ export const selectedTransportationList = [
     icon: <vehicleSVG.TransportationIcon width={16} height={16} />,
     label: '대중교통',
   },
-  {
-    id: 'bicycle',
-    icon: <vehicleSVG.BicycleIcon width={16} height={16} />,
-    label: '자전거',
-  },
 ] as const;
 
 export const TRAFFIC = {

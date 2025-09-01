@@ -11,7 +11,11 @@ import {
   DepartureAndArrivalAddress,
   DestinationSkeleton,
 } from '@/features/navigate';
-import { getSuspenseLocation, LoadingSpinner } from '@/shared';
+import {
+  getSuspenseLocation,
+  LoadingSpinner,
+  QueryErrorBoundary,
+} from '@/shared';
 
 import type { GeoTripLocation } from '@/shared';
 import type { TransportationType } from '@/entities/navigate';
@@ -76,9 +80,11 @@ export default function withDestination<P extends WithDestinationProps>(
       <>
         {!isFollowAlong && (
           <div className="px-5 w-full h-auto bg-white z-(--z-layer2)">
-            <Suspense fallback={<DestinationSkeleton />}>
-              <DepartureAndArrivalAddress start={geoLocation} id={id} />
-            </Suspense>
+            <QueryErrorBoundary>
+              <Suspense fallback={<DestinationSkeleton />}>
+                <DepartureAndArrivalAddress start={geoLocation} id={id} />
+              </Suspense>
+            </QueryErrorBoundary>
             <SelectTransportationFromGeoMap />
           </div>
         )}

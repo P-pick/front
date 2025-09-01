@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import type { PUBLICTRANSIT } from '@/entities/navigate';
 
 interface TransitCountListProps {
-  requestParams: PUBLICTRANSIT.RequestParameters;
+  requestParams?: PUBLICTRANSIT.RequestParameters;
 }
 
 export default function TransitCountList({
@@ -22,10 +22,10 @@ export default function TransitCountList({
   return (
     <div className="w-full h-8 border-b-1 border-gray-300 flex justify-start items-center px-2">
       <ul className="flex justify-center items-center gap-2 text-xs font-bold">
-        <li>전체 {totalCount}</li>
-        <li>버스 {requestParams?.busCount}</li>
-        <li>지하철 {requestParams?.subwayCount}</li>
-        <li>버스+지하철 {requestParams?.subwayBusCount}</li>
+        <li>전체 {totalCount ?? 0}</li>
+        <li>버스 {requestParams?.busCount ?? 0}</li>
+        <li>지하철 {requestParams?.subwayCount ?? 0}</li>
+        <li>버스+지하철 {requestParams?.subwayBusCount ?? 0}</li>
       </ul>
     </div>
   );

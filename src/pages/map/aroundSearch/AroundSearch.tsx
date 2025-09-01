@@ -2,7 +2,11 @@ import { Suspense } from 'react';
 
 import { isValidationLocation } from '@/features/navigate';
 import { GeoAroundTouristMap } from '@/features/aroundTourist';
-import { getSuspenseLocation, LoadingSpinner } from '@/shared';
+import {
+  getSuspenseLocation,
+  LoadingSpinner,
+  QueryErrorBoundary,
+} from '@/shared';
 
 const destination = {
   lat: 37.629362,
@@ -21,9 +25,11 @@ export default function AroundSearch() {
 
   return (
     <>
-      <Suspense fallback={<LoadingSpinner centered={true} />}>
-        <GeoAroundTouristMap />
-      </Suspense>
+      <QueryErrorBoundary>
+        <Suspense fallback={<LoadingSpinner centered={true} />}>
+          <GeoAroundTouristMap />
+        </Suspense>
+      </QueryErrorBoundary>
     </>
   );
 }

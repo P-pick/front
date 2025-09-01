@@ -1,11 +1,14 @@
 import { Suspense, useState } from 'react';
-import { ErrorBoundary } from 'react-error-boundary';
 
 import { Header } from '@/widgets';
 import { TourShortFormTutor } from '@/features/tutorial';
 import { TourFilterSidebar, useTourFilterQuery } from '@/features/tourFilter';
 import { TourSwiperContainer } from '@/features/tourShort';
-import { LoadingSpinner, BottomNavigationBar } from '@/shared';
+import {
+  LoadingSpinner,
+  BottomNavigationBar,
+  QueryErrorBoundary,
+} from '@/shared';
 
 export default function GeoTrip() {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
@@ -23,12 +26,12 @@ export default function GeoTrip() {
             onClose={() => setSidebarOpen(false)}
             isOpen={isSidebarOpen}
           />
-          <ErrorBoundary fallback={<div>Something went wrong</div>}>
+          <QueryErrorBoundary>
             <Suspense fallback={<LoadingSpinner />}>
               <TourShortFormTutor />
               <TourSwiperContainer key={getQuery()?.tourType} />
             </Suspense>
-          </ErrorBoundary>
+          </QueryErrorBoundary>
         </div>
       </div>
       <BottomNavigationBar />

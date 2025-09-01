@@ -1,7 +1,7 @@
 import { tourDetailSVG } from '@/assets';
 
 import { InfoLayout, ExtraInfo } from '@/features/tourDetail';
-import { SafeHtmlRenderer } from '@/shared';
+import { getCopyClipBoard, SafeHtmlRenderer } from '@/shared';
 
 import type { TourDetailCommon, TouristAttraction } from '@/entities/tour';
 
@@ -35,6 +35,12 @@ export default function TouristAttractionInfo({
           <div className="flex gap-3 justify-start items-center">
             <tourDetailSVG.CallIcon className="w-3 h-3" />
             {intro.infocenter}
+            <button
+              onClick={() => getCopyClipBoard(intro.infocenter)}
+              className="text-xs text-blue-500"
+            >
+              복사
+            </button>
           </div>
         )}
         {intro.parking && (

@@ -1,6 +1,6 @@
 import { tourDetailSVG } from '@/assets';
 
-import { SafeHtmlRenderer } from '@/shared';
+import { getCopyClipBoard, SafeHtmlRenderer } from '@/shared';
 
 import type { Leports, TourDetailCommon } from '@/entities/tour';
 
@@ -35,6 +35,12 @@ export default function LeportsInfo({ common, intro }: LeportsInfoProps) {
           <div className="flex gap-3 justify-start items-center">
             <tourDetailSVG.CallIcon className="w-3 h-3" />{' '}
             <SafeHtmlRenderer html={intro.infocenterleports} />
+            <button
+              onClick={() => getCopyClipBoard(intro.infocenterleports)}
+              className="text-xs text-blue-500"
+            >
+              복사
+            </button>
           </div>
         )}
         {intro.parkingleports && (

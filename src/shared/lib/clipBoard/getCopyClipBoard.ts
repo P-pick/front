@@ -1,4 +1,6 @@
-const getCopyClipBoard = async (text: string) => {
+const getCopyClipBoard = async (text: string | undefined) => {
+  if (!text) return;
+
   try {
     await navigator.clipboard.writeText(text);
     alert('복사에 성공했습니다!');

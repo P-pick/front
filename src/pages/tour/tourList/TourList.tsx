@@ -5,7 +5,7 @@ import { SkeletonCard } from '@/features/tour';
 import { FALLBACK_LIST, TourListContainer } from '@/features/tourList';
 import { TouristFilterQueryUpdater } from '@/features/tourFilter';
 import { SearchNavigate } from '@/features/tourSearch';
-import { BottomNavigationBar } from '@/shared';
+import { BottomNavigationBar, QueryErrorBoundary } from '@/shared';
 
 export default function TourList() {
   return (
@@ -16,15 +16,17 @@ export default function TourList() {
             <SearchNavigate />
           </Header>
           <TouristFilterQueryUpdater />
-          <Suspense
-            fallback={FALLBACK_LIST.map(v => (
-              <div key={v} className="my-1">
-                <SkeletonCard />
-              </div>
-            ))}
-          >
-            <TourListContainer />
-          </Suspense>
+          <QueryErrorBoundary>
+            <Suspense
+              fallback={FALLBACK_LIST.map(v => (
+                <div key={v} className="my-1">
+                  <SkeletonCard />
+                </div>
+              ))}
+            >
+              <TourListContainer />
+            </Suspense>
+          </QueryErrorBoundary>
         </div>
       </div>
       <BottomNavigationBar />

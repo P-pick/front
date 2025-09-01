@@ -6,7 +6,6 @@ export default function ErrorFallback({
   error,
   resetErrorBoundary,
 }: FallbackProps) {
-  console.log(error);
   if (error.message === 'timeout of 5000ms exceeded') {
     return <UnknownError onClickRetry={resetErrorBoundary} />;
   }

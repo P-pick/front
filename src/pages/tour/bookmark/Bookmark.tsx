@@ -1,6 +1,7 @@
 import { authOptions } from '@/entities/auth';
 import { bookmarkOptions } from '@/entities/bookmark';
 import { BookmarkCard } from '@/features/bookmark';
+import { BottomNavigationBar } from '@/shared';
 import { useSuspenseQuery } from '@tanstack/react-query';
 
 export default function Bookmark() {
@@ -10,10 +11,13 @@ export default function Bookmark() {
   );
 
   return (
-    <div>
-      {bookmarkList?.map(contentId => (
-        <BookmarkCard key={contentId} contentId={contentId} />
-      ))}
-    </div>
+    <section className="flex flex-col h-full w-full">
+      <ul className="w-full h-full overflow-auto">
+        {bookmarkList?.map(contentId => (
+          <BookmarkCard key={contentId} contentId={contentId} />
+        ))}
+      </ul>
+      <BottomNavigationBar />
+    </section>
   );
 }

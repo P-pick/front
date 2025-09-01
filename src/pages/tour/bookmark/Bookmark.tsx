@@ -11,8 +11,8 @@ export default function Bookmark() {
   );
 
   return (
-    <section className="flex flex-col h-full w-full">
-      <ul className="w-full h-full overflow-auto">
+    <section className="flex max-w-[375px] flex-col h-full">
+      <ul className="relative w-full h-full overflow-auto">
         {bookmarkList?.map(contentId => (
           <BookmarkCard key={contentId} contentId={contentId} />
         ))}

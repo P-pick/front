@@ -14,8 +14,8 @@ export interface TourDetailCommon {
   firstimage2?: string; // 대표이미지(썸네일)
   cpyrhtDivCd?: string; // 저작권 유형
 
-  areacode?: string; // 지역코드
-  sigungucode?: string; // 시군구코드
+  areacode?: number; // 지역코드
+  sigungucode?: number; // 시군구코드
   cat1?: string; // 대분류
   cat2?: string; // 중분류
   cat3?: string; // 소분류
@@ -24,9 +24,9 @@ export interface TourDetailCommon {
   addr2?: string; // 상세주소
   zipcode?: string; // 우편번호
 
-  mapx?: string; // GPS X좌표
-  mapy?: string; // GPS Y좌표
-  mlevel?: string; // 지도 확대레벨
+  mapx: number; // GPS X좌표
+  mapy: number; // GPS Y좌표
+  mlevel?: number; // 지도 확대레벨
 
   overview?: string; // 콘텐츠 개요
 

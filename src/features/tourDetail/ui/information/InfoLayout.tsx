@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 
 import { tourDetailSVG, commonSVG } from '@/assets';
 
-import { SafeHtmlRenderer } from '@/shared';
+import { getCopyClipBoard, SafeHtmlRenderer } from '@/shared';
 import { ExtraInfo, useEmptyChildElements } from '@/features/tourDetail';
 
 import type { TourDetailCommon } from '@/entities/tour';
@@ -48,12 +48,28 @@ const Header = ({ common, children }: HeaderProps) => {
                 <p>
                   {common.addr1}&nbsp;{common.addr2}&nbsp;(우){common.zipcode}
                 </p>
+                <button
+                  onClick={() =>
+                    getCopyClipBoard(
+                      `${common.addr1} ${common.addr2} (우)${common.zipcode}`,
+                    )
+                  }
+                  className="text-xs text-blue-500"
+                >
+                  복사
+                </button>
               </div>
             </div>
           )}
           {common.tel && (
             <div className="flex gap-3 justify-start items-center">
               <tourDetailSVG.CallIcon className="w-3 h-3" /> {common.tel}
+              <button
+                onClick={() => getCopyClipBoard(common.tel)}
+                className="text-xs text-blue-500"
+              >
+                복사
+              </button>
             </div>
           )}
           {children}

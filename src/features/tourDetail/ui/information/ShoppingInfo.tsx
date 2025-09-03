@@ -1,7 +1,7 @@
 import { tourDetailSVG } from '@/assets';
 
 import { ExtraInfo, InfoLayout } from '@/features/tourDetail';
-import { SafeHtmlRenderer } from '@/shared';
+import { getCopyClipBoard, SafeHtmlRenderer } from '@/shared';
 
 import type { Shopping, TourDetailCommon } from '@/entities/tour';
 
@@ -44,6 +44,12 @@ export default function ShoppingInfo({ common, intro }: ShoppingInfoProps) {
           <div className="flex gap-3 justify-start items-center">
             <tourDetailSVG.CallIcon className="w-3 h-3" />
             <span>{intro.infocentershopping}</span>
+            <button
+              onClick={() => getCopyClipBoard(intro.infocentershopping)}
+              className="text-xs text-blue-500"
+            >
+              복사
+            </button>
           </div>
         )}
         {intro.parkingshopping && (

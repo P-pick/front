@@ -1,7 +1,7 @@
 import { tourDetailSVG } from '@/assets';
 
 import type { CultureFacility, TourDetailCommon } from '@/entities/tour';
-import { SafeHtmlRenderer } from '@/shared';
+import { getCopyClipBoard, SafeHtmlRenderer } from '@/shared';
 import InfoLayout from './InfoLayout';
 import ExtraInfo from './ExtraInfo';
 
@@ -39,6 +39,12 @@ export default function CultureFacilityInfo({
               <tourDetailSVG.CallIcon className="w-3 h-3" />
             </div>
             <SafeHtmlRenderer html={intro.infocenterculture} />
+            <button
+              onClick={() => getCopyClipBoard(intro.infocenterculture)}
+              className="text-xs text-blue-500"
+            >
+              복사
+            </button>
           </div>
         )}
         {intro.parkingculture && (

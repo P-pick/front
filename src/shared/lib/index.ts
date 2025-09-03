@@ -1,4 +1,5 @@
 export * from './switchCase';
+export * from './clipBoard';
 
 export { default as truncate } from './truncate';
 export { default as getCurrentLocation } from './getCurrentLocation';

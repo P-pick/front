@@ -1,7 +1,7 @@
 import { tourDetailSVG } from '@/assets';
 
 import { ExtraInfo, InfoLayout } from '@/features/tourDetail';
-import { SafeHtmlRenderer } from '@/shared';
+import { getCopyClipBoard, SafeHtmlRenderer } from '@/shared';
 
 import type { Food, TourDetailCommon } from '@/entities/tour';
 
@@ -46,10 +46,26 @@ export default function FoodInfo({ common, intro }: FoodInfoProps) {
             <tourDetailSVG.CallIcon className="w-3 h-3" />
             <div className="flex flex-col gap-1">
               {intro.infocenterfood && (
-                <span>일반&nbsp;{intro.infocenterfood}</span>
+                <>
+                  <span>일반&nbsp;{intro.infocenterfood}</span>
+                  <button
+                    onClick={() => getCopyClipBoard(intro.infocenterfood)}
+                    className="text-xs text-blue-500"
+                  >
+                    복사
+                  </button>
+                </>
               )}
               {intro.reservationfood && (
-                <span>예약&nbsp;{intro.reservationfood}</span>
+                <>
+                  <span>예약&nbsp;{intro.reservationfood}</span>
+                  <button
+                    onClick={() => getCopyClipBoard(intro.reservationfood)}
+                    className="text-xs text-blue-500"
+                  >
+                    복사
+                  </button>
+                </>
               )}
             </div>
           </div>

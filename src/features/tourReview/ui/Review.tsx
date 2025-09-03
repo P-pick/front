@@ -5,6 +5,7 @@ import {
   ControlButtonContainer,
   ModifyReview,
   ReviewActionModal,
+  ReviewRating,
 } from '@/features/tourReview';
 
 import type { ReviewProps } from '@/features/tourReview';
@@ -28,7 +29,7 @@ export default function Review({ contentId, review }: ReviewProps) {
           <div className="flex flex-col">
             <span>{review.user.displayName}</span>
             <span className="align-middle text-sm">
-              ⭐&nbsp;{review.rating}
+              <ReviewRating rating={review.rating} />
             </span>
           </div>
         </div>
@@ -74,7 +75,15 @@ export default function Review({ contentId, review }: ReviewProps) {
       )}
       <div className="flex justify-between items-end gap-2 p-3">
         <p className="flex-1 text-sm">{review.contents}</p>
-        <span className="text-xs">{review.createdAt.slice(0, 10)}</span>
+        <div>
+          {review.updatedAt !== review.createdAt ? (
+            <span className="text-xs">
+              {review.updatedAt.slice(0, 10)} (수정됨)
+            </span>
+          ) : (
+            <span className="text-xs">{review.createdAt.slice(0, 10)}</span>
+          )}
+        </div>
       </div>
       <ReviewActionModal isOpen={isToggle} setIsOpen={setIsToggle}>
         <ModifyReview

@@ -1,9 +1,10 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
 
+import { commonSVG } from '@/assets';
+
 import { BookmarkButtonContainer } from '@/features/bookmark';
-import { ShareButton } from '@/features/tourDetail';
 import { tourQueries } from '@/entities/tour';
-import { TourTypeBadge, DistanceTimeInfo } from '@/shared';
+import { TourTypeBadge, DistanceTimeInfo, getCopyClipBoard } from '@/shared';
 
 interface TourCardProps {
   distance: string;
@@ -36,7 +37,10 @@ export default function TourOverview({
           </div>
           <div className="flex items-center gap-4 mt-4 bg-white">
             <BookmarkButtonContainer contentId={tourContentId} />
-            <ShareButton />
+            <commonSVG.ShareIcon
+              className="cursor-pointer"
+              onClick={() => getCopyClipBoard(window.location.href)}
+            />
           </div>
         </div>
       </div>

@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
 
-import { createNavItems } from '@/shared/ui/bottomNavigationBar/utils';
+import { createNavItems } from '@/widgets/bottomNavigationBar/utils';
 
 export function BottomNavigationBar() {
   const location = useLocation();

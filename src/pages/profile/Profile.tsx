@@ -1,5 +1,6 @@
 import { ProfileContainer } from '@/features/profile';
-import { BottomNavigationBar, LoadingSpinner } from '@/shared';
+import { LoadingSpinner } from '@/shared';
+import { BottomNavigationBar } from '@/widgets';
 import { Suspense } from 'react';
 
 export default function Profile() {

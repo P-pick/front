@@ -1,9 +1,9 @@
+import { useSuspenseQuery } from '@tanstack/react-query';
+
+import { BottomNavigationBar, Header } from '@/widgets';
+import { BookmarkCard } from '@/features/bookmark';
 import { authOptions } from '@/entities/auth';
 import { bookmarkOptions } from '@/entities/bookmark';
-import { BookmarkCard } from '@/features/bookmark';
-import { BottomNavigationBar } from '@/shared';
-import { Header } from '@/widgets';
-import { useSuspenseQuery } from '@tanstack/react-query';
 
 export default function Bookmark() {
   const { data: user } = useSuspenseQuery(authOptions.auth());

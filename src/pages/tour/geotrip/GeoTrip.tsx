@@ -1,14 +1,10 @@
 import { Suspense, useState } from 'react';
 
-import { Header } from '@/widgets';
+import { BottomNavigationBar, Header } from '@/widgets';
 import { TourShortFormTutor } from '@/features/tutorial';
 import { TourFilterSidebar, useTourFilterQuery } from '@/features/tourFilter';
 import { TourSwiperContainer } from '@/features/tourShort';
-import {
-  LoadingSpinner,
-  BottomNavigationBar,
-  QueryErrorBoundary,
-} from '@/shared';
+import { LoadingSpinner, QueryErrorBoundary } from '@/shared';
 
 export default function GeoTrip() {
   const [isSidebarOpen, setSidebarOpen] = useState(false);

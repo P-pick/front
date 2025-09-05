@@ -15,8 +15,11 @@ export const createNavItems = ({
   currentParams,
   navigate,
 }: createNavItemsParams) => {
-  const saveTourSearchToSession = () => {
-    sessionStorage.setItem('prevTourSearch', currentParams.toString());
+  const paramsString = currentParams.toString();
+
+  const navigateTo = (path: string) => {
+    const destination = paramsString ? `${path}?${paramsString}` : path;
+    navigate(destination, { replace: false });
   };
 
   return [
@@ -25,46 +28,28 @@ export const createNavItems = ({
       icon: HomeIcon,
       path: '/tour/geo-trip',
       label: 'home Icon',
-      onClick: () => {
-        const prevSearch = sessionStorage.getItem('prevTourSearch') || '';
-        navigate(`/tour/geo-trip?${prevSearch}`, {
-          replace: true,
-        });
-      },
+      onClick: () => navigateTo('/tour/geo-trip'),
     },
     {
       id: 'list-navigation-tutorial',
       icon: ListIcon,
       path: '/tour/list',
       label: 'list Icon',
-
-      onClick: () => {
-        const prevSearch = sessionStorage.getItem('prevTourSearch') || '';
-        navigate(`/tour/list?${prevSearch}`, { replace: true });
-      },
+      onClick: () => navigateTo('/tour/list'),
     },
     {
       id: 'bookmark-navigation-tutorial',
       icon: BookmarkPageIcon,
       path: '/tour/bookmark',
       label: 'bookmark Icon',
-
-      onClick: () => {
-        saveTourSearchToSession();
-        navigate(`/tour/bookmark`, {
-          replace: true,
-        });
-      },
+      onClick: () => navigateTo('/tour/bookmark'),
     },
     {
       id: 'profile-navigation-tutorial',
       icon: ProfileIcon,
       path: '/profile',
       label: 'profile Icon',
-      onClick: () => {
-        saveTourSearchToSession();
-        navigate(`/profile`, { replace: true });
-      },
+      onClick: () => navigateTo('/profile'),
     },
   ];
 };

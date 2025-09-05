@@ -19,7 +19,7 @@ export const createNavItems = ({
 
   const navigateTo = (path: string) => {
     const destination = paramsString ? `${path}?${paramsString}` : path;
-    navigate(destination, { replace: false });
+    navigate(destination, { replace: true });
   };
 
   return [

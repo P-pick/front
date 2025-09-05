@@ -1,10 +1,15 @@
-import { QueryProvider } from '@/app/';
+import { MetadataProvider, QueryProvider } from '@/app/';
 import { Router } from '@/app/';
+import { HelmetProvider } from 'react-helmet-async';
 
 export default function App() {
   return (
-    <QueryProvider>
-      <Router />
-    </QueryProvider>
+    <HelmetProvider>
+      <MetadataProvider>
+        <QueryProvider>
+          <Router />
+        </QueryProvider>
+      </MetadataProvider>
+    </HelmetProvider>
   );
 }

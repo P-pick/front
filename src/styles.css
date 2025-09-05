@@ -1,19 +1,84 @@
 @import 'tailwindcss/preflight';
 @import 'tailwindcss/utilities';
-
+@import 'tailwindcss';
+@import 'swiper/css';
+@import 'swiper/css/navigation';
+@import 'swiper/css/pagination';
 /* 선택적 사용자 정의 스타일 */
 html,
 body,
 #root {
+  overflow-y: hidden;
   margin: 0;
   padding: 0;
   height: 100%;
   width: 100%;
   display: flex;
   justify-content: center;
+  font-family: 'Pretendard';
+  font-display: swap;
 }
 
 #app-wrapper {
-  max-width: 375px;
   width: 100%;
+  max-width: 768px;
+  min-width: 375px;
+  border: 1px solid #e5e7eb;
+}
+
+@media (min-width: 768px) {
+  #app-wrapper {
+    width: auto;
+  }
+}
+
+@theme {
+  --color-primary: #fa812f;
+  --color-secondary: #fa4032;
+}
+@layer base {
+  :root {
+    --z-layer1: 10;
+    --z-layer2: 20;
+    --z-layer3: 30;
+    --z-layer4: 40;
+    --z-layer5: 50;
+    --z-layer6: 60;
+    --z-layer7: 70;
+    --z-layer8: 80;
+    --z-layer9: 90;
+    --z-layer1000: 1000;
+    --z-layer2000: 2000;
+  }
+}
+
+@layer components {
+  .my-swiper .swiper-pagination {
+    @apply !top-5 h-0 w-0;
+  }
+}
+
+@theme {
+  --animate-slide-up: slide-up 1s ease-in-out;
+  @keyframes slide-up {
+    0% {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    50% {
+    }
+  }
+}
+
+@theme {
+  --color-primary-red: #fa4032;
+  --color-secondary-red: #a51a0f;
+  --color-primary-orange: #fa812f;
+  --color-primary-dark: #3d444c;
+  --color-primary-gray: #d9d9d9;
+  --color-secondary-gray: #e5eaf0;
 }

@@ -1,0 +1,22 @@
+export const getDistanceFromLatLonInMeters = (
+  lat1: number,
+  lon1: number,
+  lat2: number,
+  lon2: number,
+): number => {
+  const R = 6371000; // 지구 반지름 (미터 단위)
+  const dLat = (lat2 - lat1) * (Math.PI / 180);
+  const dLon = (lon2 - lon1) * (Math.PI / 180);
+
+  const haversine =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(lat1 * (Math.PI / 180)) *
+      Math.cos(lat2 * (Math.PI / 180)) *
+      Math.sin(dLon / 2) ** 2;
+
+  const angularDistance =
+    2 * Math.atan2(Math.sqrt(haversine), Math.sqrt(1 - haversine));
+  const distance = R * angularDistance;
+
+  return distance;
+};

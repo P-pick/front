@@ -7,5 +7,5 @@ createRoot(document.getElementById('root')!).render(
     <div id="app-wrapper">
       <App />
     </div>
-  </StrictMode>
+  </StrictMode>,
 );

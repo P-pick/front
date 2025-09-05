@@ -1,11 +1,11 @@
 import { Suspense } from 'react';
 
-import { Header, Seo } from '@/widgets';
+import { BottomNavigationBar, Header, Seo } from '@/widgets';
 import { SkeletonCard } from '@/features/tour';
 import { FALLBACK_LIST, TourListContainer } from '@/features/tourList';
 import { TouristFilterQueryUpdater } from '@/features/tourFilter';
 import { SearchNavigate } from '@/features/tourSearch';
-import { BottomNavigationBar, QueryErrorBoundary } from '@/shared';
+import { QueryErrorBoundary } from '@/shared';
 
 export default function TourList() {
   return (

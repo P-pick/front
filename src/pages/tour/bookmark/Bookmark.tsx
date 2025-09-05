@@ -1,16 +1,27 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
+import { Suspense } from 'react';
 
-import { Header, Seo } from '@/widgets';
-import { BookmarkCard } from '@/features/bookmark';
+import { BottomNavigationBar, Header, Seo } from '@/widgets';
+import { BookmarkList } from '@/features/bookmark';
 import { authOptions } from '@/entities/auth';
-import { bookmarkOptions } from '@/entities/bookmark';
-import { BottomNavigationBar } from '@/shared';
+import { LoadingSpinner, QueryErrorBoundary } from '@/shared';
 
 export default function Bookmark() {
   const { data: user } = useSuspenseQuery(authOptions.auth());
-  const { data: bookmarkList } = useSuspenseQuery(
-    bookmarkOptions.getBookmarkList(user?.uid || ''),
-  );
+
+  if (!user) {
+    return (
+      <section className="flex max-w-[375px] flex-col h-full">
+        <Header className="w-full flex items-center justify-between px-3 pt-1">
+          <span>북마크</span>
+        </Header>
+        <div className="flex flex-col items-center justify-center h-full">
+          <p className="mb-4">로그인이 필요합니다.</p>
+        </div>
+        <BottomNavigationBar />
+      </section>
+    );
+  }
 
   return (
     <>
@@ -23,11 +34,11 @@ export default function Bookmark() {
         <Header className="w-full flex items-center justify-between px-3 pt-1">
           <span>북마크</span>
         </Header>
-        <ul className="relative w-full h-full overflow-auto">
-          {bookmarkList?.map(contentId => (
-            <BookmarkCard key={contentId} contentId={contentId} />
-          ))}
-        </ul>
+        <QueryErrorBoundary>
+          <Suspense fallback={<LoadingSpinner centered />}>
+            <BookmarkList user={user} />
+          </Suspense>
+        </QueryErrorBoundary>
         <BottomNavigationBar />
       </section>
     </>

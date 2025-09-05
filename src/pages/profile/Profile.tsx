@@ -1,8 +1,8 @@
 import { Suspense } from 'react';
 
-import { Seo } from '@/widgets';
+import { Seo,BottomNavigationBar } from '@/widgets';
 import { ProfileContainer } from '@/features/profile';
-import { BottomNavigationBar, LoadingSpinner } from '@/shared';
+import { LoadingSpinner } from '@/shared';
 
 export default function Profile() {
   return (

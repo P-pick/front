@@ -1,8 +1,8 @@
 import { Suspense } from 'react';
 
-import { Seo,BottomNavigationBar } from '@/widgets';
+import { Seo, BottomNavigationBar, Header } from '@/widgets';
 import { ProfileContainer } from '@/features/profile';
-import { LoadingSpinner } from '@/shared';
+import { LoadingSpinner, QueryErrorBoundary } from '@/shared';
 
 export default function Profile() {
   return (
@@ -13,12 +13,15 @@ export default function Profile() {
         canonicalUrl="https://p-pick.com/profile"
       />
       <section className="flex flex-col h-full w-full">
-        <div className="h-full w-full relative">
-          <div className="absolute h-full w-full overflow-y-auto overflow-hidden">
+        <Header className="w-full flex items-center justify-between px-3 pt-1">
+          <span>내 프로필</span>
+        </Header>
+        <div className="flex items-center justify-start flex-col h-full">
+          <QueryErrorBoundary>
             <Suspense fallback={<LoadingSpinner centered={true} />}>
               <ProfileContainer />
             </Suspense>
-          </div>
+          </QueryErrorBoundary>
         </div>
         <BottomNavigationBar />
       </section>

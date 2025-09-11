@@ -33,6 +33,7 @@ export default function TourShortFormTutor() {
                   prevStepId={step.prevStepId}
                   nextStepId={step.nextStepId}
                   onStep={setStep}
+                  isEnd={!step.nextStepId}
                 />
                 {currentStep === 'shortform-slide-tutorial' && (
                   // 아래로 향하는 화살표 아이콘

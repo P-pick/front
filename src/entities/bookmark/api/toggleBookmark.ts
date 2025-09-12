@@ -12,6 +12,8 @@ export const toggleBookmark = async ({
   const bookmarkRef = ref(database, `bookmarks/${userId}/${contentId}`);
 
   await set(bookmarkRef, {
+    contentId,
+    userId,
     bookmarked,
     timestamp: Date.now(),
   });

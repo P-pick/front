@@ -19,7 +19,7 @@ interface TourInfoCardProps {
 
 export default function TourInfoCard({ tourInfo }: TourInfoCardProps) {
   return (
-    <article className="flex flex-col my-8">
+    <article className="w-full flex flex-col">
       <QueryErrorBoundary>
         <Suspense fallback={<SkeletonCard />}>
           <TourCardImages

@@ -13,7 +13,8 @@ export const bookmarkOptions = {
   getBookmarkList: (userId: string) =>
     infiniteQueryOptions({
       queryKey: ['bookmarkList', userId],
-      queryFn: () => getBookmarkList({ userId }),
+      queryFn: ({ pageParam }: { pageParam: number | null | undefined }) =>
+        getBookmarkList({ userId, pageParam }),
       initialPageParam: null,
       getNextPageParam: lastPage => lastPage?.nextCursor || undefined,
     }),

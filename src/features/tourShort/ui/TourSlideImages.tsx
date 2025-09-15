@@ -19,13 +19,13 @@ export default function TourSlideImages({ contentId }: TourSlideImagesProps) {
       className="w-full h-full relative my-swiper"
       pagination={{ clickable: true }}
     >
-      {images.map(img => (
+      {images.map((img, index) => (
         <SwiperSlide key={img.serialnum}>
           <img
             src={img.originimgurl || undefined}
             alt={img.imgname}
             className="w-full h-full object-cover"
-            loading="lazy"
+            loading={index === 0 ? 'eager' : 'lazy'}
           />
         </SwiperSlide>
       ))}

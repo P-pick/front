@@ -57,6 +57,12 @@ export function BottomSheet({
     showOverlay && 'bg-black/40',
   );
 
+  const isDragStyle = clsx(
+    yPosition !== '0%' && 'bg-white flex flex-col rounded-t-2xl',
+    yPosition === '0%' &&
+      'bg-white flex flex-col rounded-t-2xl h-full overflow-y-auto',
+  );
+
   return (
     <Portal containerId="bottomsheet-root">
       <AnimatePresence>
@@ -83,7 +89,7 @@ export function BottomSheet({
                 onDragEnd={handleDragEnd}
                 className="h-full"
               >
-                <div className="bg-white flex flex-col rounded-t-2xl h-full overflow-y-auto">
+                <div className={isDragStyle}>
                   <header
                     data-testid="bottomsheet-header"
                     className="h-[50px] cursor-grab select-none w-full flex items-center justify-center touch-none"

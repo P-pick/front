@@ -5,6 +5,7 @@ import type { TutorialStep } from '@/features/tutorial';
 interface TutorialFocusStepProps
   extends Pick<TutorialStep, 'prevStepId' | 'nextStepId' | 'description'> {
   onStep: (stepId: string) => void;
+  isEnd: boolean;
 }
 
 export default function TutorialFocusStep({
@@ -12,6 +13,7 @@ export default function TutorialFocusStep({
   nextStepId,
   onStep,
   description,
+  isEnd,
 }: TutorialFocusStepProps) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, setTutorial] = useLocalStorage('isTutorial', true);
@@ -27,12 +29,16 @@ export default function TutorialFocusStep({
     <div className="fixed top-25 max-w-[300px] left-1/2 -translate-x-1/2 bg-white text-black p-4 rounded-lg shadow-lg z-(--z-layer2000)">
       <p>{description}</p>
       <div className="flex justify-between mt-3">
-        <button
-          onClick={() => setTutorial(false)}
-          className="px-3 py-1 bg-(--color-secondary) text-white rounded"
-        >
-          종료
-        </button>
+        {!isEnd ? (
+          <button
+            onClick={() => setTutorial(false)}
+            className="px-3 py-1 bg-(--color-secondary) text-white rounded"
+          >
+            종료
+          </button>
+        ) : (
+          <span></span>
+        )}
         <div className="flex">
           {prevStepId && (
             <button
@@ -42,12 +48,20 @@ export default function TutorialFocusStep({
               이전
             </button>
           )}
-          {nextStepId && (
+          {nextStepId && !isEnd && (
             <button
               onClick={handleNext}
               className="px-3 py-1 bg-blue-500 text-white rounded"
             >
               다음
+            </button>
+          )}
+          {isEnd && (
+            <button
+              onClick={() => setTutorial(false)}
+              className="px-3 py-1 bg-(--color-primary-red) text-white rounded"
+            >
+              종료
             </button>
           )}
         </div>

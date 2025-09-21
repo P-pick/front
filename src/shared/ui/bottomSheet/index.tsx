@@ -58,9 +58,8 @@ export function BottomSheet({
   );
 
   const isDragStyle = clsx(
-    yPosition !== '0%' && 'bg-white flex flex-col rounded-t-2xl',
-    yPosition === '0%' &&
-      'bg-white flex flex-col rounded-t-2xl h-full overflow-y-auto',
+    'bg-white flex flex-col rounded-t-2xl',
+    yPosition === '0%' && 'h-full overflow-y-auto',
   );
 
   return (

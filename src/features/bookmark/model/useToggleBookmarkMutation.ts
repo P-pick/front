@@ -10,6 +10,7 @@ export const useToggleBookmarkMutation = ({
 }: ToggleBookmarkRequest) => {
   const queryClient = useQueryClient();
   const queryKey = bookmarkOptions.getBookmark({ userId, contentId }).queryKey;
+  const listQueryKey = bookmarkOptions.getBookmarkList({ userId }).queryKey;
   const mutation = useMutation({
     mutationFn: toggleBookmark,
     onMutate: async () => {
@@ -25,6 +26,7 @@ export const useToggleBookmarkMutation = ({
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey });
+      queryClient.invalidateQueries({ queryKey: listQueryKey });
     },
   });
 

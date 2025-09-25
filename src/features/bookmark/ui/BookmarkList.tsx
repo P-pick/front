@@ -17,7 +17,7 @@ export default function BookmarkList({ user }: BookmarkListProps) {
     hasNextPage,
     isFetchingNextPage,
   } = useSuspenseInfiniteQuery(
-    bookmarkOptions.getBookmarkList(user?.uid || ''),
+    bookmarkOptions.getBookmarkList({ userId: user?.uid || '' }),
   );
 
   const bookmarks = bookmarkList?.pages.flatMap(page => page?.bookmarks) || [];
@@ -36,9 +36,11 @@ export default function BookmarkList({ user }: BookmarkListProps) {
 
   return (
     <section className="relative overflow-y-auto h-full">
-      {bookmarks.map(bookmark => (
-        <BookmarkCard key={bookmark?.spotId} contentId={bookmark?.spotId} />
-      ))}
+      {bookmarks
+        .filter(bookmark => bookmark?.bookmarked)
+        .map(bookmark => (
+          <BookmarkCard key={bookmark?.spotId} contentId={bookmark?.spotId} />
+        ))}
       <InfiniteScroll
         hasNextPage={hasNextPage}
         isFetching={isFetchingNextPage}

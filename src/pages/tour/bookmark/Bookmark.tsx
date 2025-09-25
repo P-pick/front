@@ -6,8 +6,6 @@ import { BookmarkList } from '@/features/bookmark';
 import { authOptions } from '@/entities/auth';
 import { QueryErrorBoundary } from '@/shared';
 import { Link } from 'react-router-dom';
-import { SearchNavigate } from '@/features/tourSearch';
-import { TouristFilterQueryUpdater } from '@/features/tourFilter';
 import { FALLBACK_LIST } from '@/features/tourList';
 import { SkeletonCard } from '@/features/tour';
 
@@ -51,9 +49,8 @@ export default function Bookmark() {
         <div className="h-full w-full relative">
           <div className="absolute h-full w-full overflow-hidden">
             <Header className="w-full flex items-center justify-between px-5 mt-1.5 mb-6">
-              <SearchNavigate />
+              북마크
             </Header>
-            <TouristFilterQueryUpdater />
             <QueryErrorBoundary>
               <Suspense
                 fallback={FALLBACK_LIST.map(v => (

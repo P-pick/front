@@ -1,16 +1,17 @@
 import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 
-import { bookmarkOptions } from '@/entities/bookmark';
-import type { User } from '@/entities/auth';
-import BookmarkCard from './BookmarkCard';
-import { InfiniteScroll } from '@/shared';
 import { SkeletonCard } from '@/features/tour';
+import { BookmarkCard } from '@/features/bookmark';
+import { bookmarkOptions } from '@/entities/bookmark';
+import { InfiniteScroll } from '@/shared';
+
+import type { User } from '@/entities/auth';
 
 interface BookmarkListProps {
   user: User | null;
 }
 
-export default function BookmarkList({ user }: BookmarkListProps) {
+function BookmarkList({ user }: BookmarkListProps) {
   const {
     data: bookmarkList,
     fetchNextPage,
@@ -51,3 +52,5 @@ export default function BookmarkList({ user }: BookmarkListProps) {
     </section>
   );
 }
+
+export default BookmarkList;

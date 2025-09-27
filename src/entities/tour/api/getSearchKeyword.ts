@@ -11,10 +11,6 @@ export const getSearchKeyword = async ({
   keyword,
   pageNo,
 }: GetSearchKeywordParams) => {
-  if (!keyword) {
-    throw new Error('검색어가 없습니다.');
-  }
-
   const response = await tourApi.get<ApiResponse<TourItem[]>>(
     `/searchKeyword2`,
     {

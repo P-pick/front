@@ -2,6 +2,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { Pagination } from 'swiper/modules';
 
+import { convertHttpToHttps } from '@/features/tourShort';
 import { tourQueries } from '@/entities/tour';
 
 interface TourSlideImagesProps {
@@ -19,13 +20,13 @@ export default function TourSlideImages({ contentId }: TourSlideImagesProps) {
       className="w-full h-full relative my-swiper"
       pagination={{ clickable: true }}
     >
-      {images.map(img => (
+      {images.map((img, index) => (
         <SwiperSlide key={img.serialnum}>
           <img
-            src={img.originimgurl || undefined}
+            src={convertHttpToHttps(img.originimgurl) || undefined}
             alt={img.imgname}
             className="w-full h-full object-cover"
-            loading="lazy"
+            loading={index === 0 ? 'eager' : 'lazy'}
           />
         </SwiperSlide>
       ))}

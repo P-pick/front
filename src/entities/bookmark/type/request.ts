@@ -6,3 +6,8 @@ export interface GetBookmarkRequest {
 export interface ToggleBookmarkRequest extends GetBookmarkRequest {
   bookmarked: boolean;
 }
+
+export interface getBookmarkListRequest {
+  userId: string;
+  pageParam?: number | null | undefined;
+}

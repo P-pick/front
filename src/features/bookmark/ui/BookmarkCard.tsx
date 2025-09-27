@@ -5,12 +5,12 @@ import { getDistanceFromLatLonInMeters } from '@/features/tourSearch';
 import { getSuspenseLocation } from '@/shared/';
 
 interface BookmarkCardProps {
-  contentId: string | undefined;
+  contentId: string;
 }
 
 export default function BookmarkCard({ contentId }: BookmarkCardProps) {
   const { data: tourCommon } = useSuspenseQuery(
-    tourQueries.detailCommon(contentId || '0'),
+    tourQueries.detailCommon(contentId),
   );
   const location = getSuspenseLocation();
 

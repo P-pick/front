@@ -39,9 +39,15 @@ function BookmarkList({ user }: BookmarkListProps) {
     <section className="relative overflow-y-auto h-full">
       {bookmarks
         .filter(bookmark => bookmark?.bookmarked)
-        .map(bookmark => (
-          <BookmarkCard key={bookmark?.spotId} contentId={bookmark?.spotId} />
-        ))}
+        .map(
+          bookmark =>
+            bookmark && (
+              <BookmarkCard
+                key={bookmark?.spotId}
+                contentId={bookmark?.spotId}
+              />
+            ),
+        )}
       <InfiniteScroll
         hasNextPage={hasNextPage}
         isFetching={isFetchingNextPage}

@@ -15,7 +15,7 @@ export default function BookmarkCard({ contentId }: BookmarkCardProps) {
   const location = getSuspenseLocation();
 
   return (
-    <li className="w-full">
+    <div className="w-full">
       <TourInfoCard
         tourInfo={{
           ...tourCommon,
@@ -29,6 +29,6 @@ export default function BookmarkCard({ contentId }: BookmarkCardProps) {
           ),
         }}
       />
-    </li>
+    </div>
   );
 }

@@ -9,9 +9,19 @@ export default function Header({
   className?: string;
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }>) {
+  if (!onClick) {
+    return (
+      <header className={className}>
+        <BackButton isMain={true} />
+        {children}
+        <span></span>
+      </header>
+    );
+  }
+
   return (
     <header className={className}>
-      <BackButton />
+      <span></span>
       {children}
       <MenuIcon onClick={onClick} />
     </header>

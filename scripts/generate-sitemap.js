@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-const DOMAIN = 'https://yourdomain.com'; // ✅ 본인 도메인으로 수정
+const DOMAIN = 'https://p-pick.com'; // ✅ 본인 도메인으로 수정
 const DIST_PATH = path.resolve('dist');
 
 function getAllHtmlFiles(dir, basePath = '') {

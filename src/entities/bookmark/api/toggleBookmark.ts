@@ -11,6 +11,11 @@ export const toggleBookmark = async ({
 }: ToggleBookmarkRequest) => {
   const bookmarkRef = ref(database, `bookmarks/${userId}/${contentId}`);
 
+  if (!bookmarked) {
+    await set(bookmarkRef, null);
+    return bookmarkRef.key;
+  }
+
   await set(bookmarkRef, {
     contentId,
     userId,

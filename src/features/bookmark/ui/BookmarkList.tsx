@@ -1,23 +1,24 @@
 import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 
-import { bookmarkOptions } from '@/entities/bookmark';
-import type { User } from '@/entities/auth';
-import BookmarkCard from './BookmarkCard';
-import { InfiniteScroll } from '@/shared';
 import { SkeletonCard } from '@/features/tour';
+import { BookmarkCard } from '@/features/bookmark';
+import { bookmarkOptions } from '@/entities/bookmark';
+import { InfiniteScroll } from '@/shared';
+
+import type { User } from '@/entities/auth';
 
 interface BookmarkListProps {
   user: User | null;
 }
 
-export default function BookmarkList({ user }: BookmarkListProps) {
+function BookmarkList({ user }: BookmarkListProps) {
   const {
     data: bookmarkList,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
   } = useSuspenseInfiniteQuery(
-    bookmarkOptions.getBookmarkList(user?.uid || ''),
+    bookmarkOptions.getBookmarkList({ userId: user?.uid || '' }),
   );
 
   const bookmarks = bookmarkList?.pages.flatMap(page => page?.bookmarks) || [];
@@ -36,9 +37,17 @@ export default function BookmarkList({ user }: BookmarkListProps) {
 
   return (
     <section className="relative overflow-y-auto h-full">
-      {bookmarks.map(bookmark => (
-        <BookmarkCard key={bookmark?.spotId} contentId={bookmark?.spotId} />
-      ))}
+      {bookmarks
+        .filter(bookmark => bookmark?.bookmarked)
+        .map(
+          bookmark =>
+            bookmark && (
+              <BookmarkCard
+                key={bookmark?.spotId}
+                contentId={bookmark?.spotId}
+              />
+            ),
+        )}
       <InfiniteScroll
         hasNextPage={hasNextPage}
         isFetching={isFetchingNextPage}
@@ -49,3 +58,5 @@ export default function BookmarkList({ user }: BookmarkListProps) {
     </section>
   );
 }
+
+export default BookmarkList;

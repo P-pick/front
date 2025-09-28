@@ -10,7 +10,7 @@ export const bookmarkOptions = {
       queryKey: ['bookmark', userId, contentId],
       queryFn: () => getBookmark({ userId, contentId }),
     }),
-  getBookmarkList: (userId: string) =>
+  getBookmarkList: ({ userId }: Pick<GetBookmarkRequest, 'userId'>) =>
     infiniteQueryOptions({
       queryKey: ['bookmarkList', userId],
       queryFn: ({ pageParam }: { pageParam: number | null | undefined }) =>

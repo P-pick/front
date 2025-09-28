@@ -1,9 +1,19 @@
 import { useNavigate } from 'react-router-dom';
 
-export default function BackButton() {
+interface BackButtonProps {
+  isMain?: boolean;
+}
+
+export default function BackButton({ isMain = false }: BackButtonProps) {
   const navigate = useNavigate();
 
   const handleBack = () => {
+    if (isMain) {
+      navigate('/tour/geo-trip?distance=20000&tour-type=12', {
+        replace: true,
+      });
+      return;
+    }
     navigate(-1);
   };
 

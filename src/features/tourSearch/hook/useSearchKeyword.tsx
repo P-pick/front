@@ -14,6 +14,10 @@ export const useSearchKeyword = () => {
   }, 300);
 
   const onSearch = () => {
+    if (input.trim() === '') {
+      alert('검색어를 입력해주세요.');
+      return;
+    }
     setSearchParams({ q: input }, { replace: true });
     setIsTyping(false);
   };

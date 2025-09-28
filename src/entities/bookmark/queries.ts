@@ -1,4 +1,4 @@
-import { queryOptions } from '@tanstack/react-query';
+import { infiniteQueryOptions, queryOptions } from '@tanstack/react-query';
 
 import { getBookmark, getBookmarkList } from '@/entities/bookmark';
 
@@ -10,9 +10,12 @@ export const bookmarkOptions = {
       queryKey: ['bookmark', userId, contentId],
       queryFn: () => getBookmark({ userId, contentId }),
     }),
-  getBookmarkList: (userId: string) =>
-    queryOptions({
+  getBookmarkList: ({ userId }: Pick<GetBookmarkRequest, 'userId'>) =>
+    infiniteQueryOptions({
       queryKey: ['bookmarkList', userId],
-      queryFn: () => getBookmarkList(userId),
+      queryFn: ({ pageParam }: { pageParam: number | null | undefined }) =>
+        getBookmarkList({ userId, pageParam }),
+      initialPageParam: null,
+      getNextPageParam: lastPage => lastPage?.nextCursor || undefined,
     }),
 };

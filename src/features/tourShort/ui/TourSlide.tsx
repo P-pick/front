@@ -31,17 +31,9 @@ export default function TourSlide({
       >
         <Suspense
           fallback={
-            <>
-              <img
-                src={tourInfo.firstimage}
-                alt={tourInfo.title}
-                className="w-full h-full object-cover"
-                loading="lazy"
-              />
-              <div className="absolute w-full h-full flex ">
-                <LoadingSpinner />
-              </div>
-            </>
+            <div className="absolute w-full h-full flex justify-center items-center">
+              <LoadingSpinner />
+            </div>
           }
         >
           <TourSlideImages contentId={tourInfo.contentid} />

@@ -1,4 +1,4 @@
-name = "ppick-front" # Cloudflare Pages 프로젝트 이름
+name = "p-pick-front" # Cloudflare Pages 프로젝트 이름
 compatibility_date = "2023-10-26"
 
 [pages]

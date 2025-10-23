@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "test": "vitest",
     "format": "prettier --write .",
-    "check-format": "prettier --check ."
+    "check-format": "prettier --check .",
+    "deploy": "pnpm run build && wrangler pages deploy dist"
   },
   "dependencies": {
     "@aws-sdk/client-polly": "^3.864.0",

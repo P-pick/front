@@ -2,7 +2,7 @@ name = "p-pick-front" # Cloudflare Pages 프로젝트 이름
 compatibility_date = "2023-10-26"
 
 [pages]
+pages_build_output_dir = "dist"
 # 배포할 에셋이 포함된 디렉토리
-build_output_dir = "dist"
 # 빌드 프로세스를 시작하기 전에 실행할 명령
 build_command = "pnpm run build"

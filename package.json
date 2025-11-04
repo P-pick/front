@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "test": "vitest",
     "format": "prettier --write .",
-    "check-format": "prettier --check ."
+    "check-format": "prettier --check .",
+    "deploy": "pnpm run build && wrangler pages deploy dist"
   },
   "dependencies": {
     "@aws-sdk/client-polly": "^3.864.0",
@@ -33,6 +34,7 @@
     "zustand": "^5.0.7"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^4.20251014.0",
     "@eslint/js": "^9.33.0",
     "@tanstack/react-query-devtools": "^5.84.2",
     "@testing-library/dom": "^10.4.1",

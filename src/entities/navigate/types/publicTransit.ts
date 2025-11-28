@@ -77,7 +77,7 @@ export type SubwayLeg = LegBase & {
   routeId: string;
   service: number;
   passStopList: {
-    stationList: Station[];
+    stations: Station[];
   };
   type: number;
   passShape?: PassShape;
@@ -92,7 +92,7 @@ export type BusLeg = LegBase & {
   service: number;
   type: number;
   passStopList: {
-    stationList: Station[];
+    stations: Station[];
   };
   passShape?: PassShape;
 };
@@ -117,7 +117,7 @@ export type TrainLeg = Omit<LegBase, 'mode'> & {
   type: number;
   Lane: TrainLane[];
   passStopList: {
-    stationList: Station[];
+    stations: Station[];
   };
   passShape?: PassShape;
   routePayment: number;

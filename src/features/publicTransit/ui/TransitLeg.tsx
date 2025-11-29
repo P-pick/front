@@ -56,12 +56,12 @@ export default function TransitLeg({ leg, isDetail = false }: TransitLegProps) {
             <div className="flex gap-2 justify-start items-center">
               <p>{leg.start.name}역</p>
               <span className="text-xs text-gray-500">
-                {leg.passStopList.stationList[1].stationName} 방면
+                {leg.passStopList.stations[1].stationName} 방면
               </span>
             </div>
-            {isDetail && leg.passStopList.stationList.length > 2 && (
+            {isDetail && leg.passStopList.stations.length > 2 && (
               <ul className="my-2 p-2 w-full h-auto border-1 border-gray-300 rounded-2xl">
-                {leg.passStopList.stationList.slice(1, -1).map(station => (
+                {leg.passStopList.stations.slice(1, -1).map(station => (
                   <li
                     key={station.stationName}
                     className="text-xs text-gray-500 my-1"

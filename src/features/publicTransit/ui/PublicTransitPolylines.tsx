@@ -28,8 +28,8 @@ export default function PublicTransitPolylines({
       if (leg.mode === 'WALK') {
         size = leg.steps?.length ?? 0;
       } else {
-        // SUBWAY/BUS/TRAIN 등은 passStopList.stationList 길이를 사용
-        size = leg.passStopList?.stationList?.length ?? 0;
+        // SUBWAY/BUS/TRAIN 등은 passStopList.stations 길이를 사용
+        size = leg.passStopList?.stations?.length ?? 0;
       }
       running += size;
     }
@@ -104,7 +104,7 @@ export default function PublicTransitPolylines({
                 strokeWeight={5}
               />
               {mapLevel < 6 &&
-                leg.passStopList?.stationList?.map((station, i) => {
+                leg.passStopList?.stations?.map((station, i) => {
                   const globalIndex = startIndex + i;
                   return (
                     <MapMarker

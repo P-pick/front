@@ -1,38 +1,78 @@
-name: Release, Deploy & Sync
+name: Manual Release and Deploy
 
 on:
   workflow_dispatch:
     inputs:
-      release_version:
-        description: '릴리즈 버전 (예: v1.0.0)'
+      bumpLevel:
+        description: '버전 업 방식 (Semver) 선택'
         required: true
-        type: string
-        default: 'v'
-      target_branch:
-        description: '릴리즈할 브랜치 (보통 develop)'
-        required: true
-        default: 'develop'
+        default: 'patch'
         type: choice
-        options:
-          - develop
-          - main
+        options: [major, minor, patch]
 
 jobs:
   release:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    outputs:
+      new_version: ${{ steps.get-new-version.outputs.new_version }}
     steps:
-      - uses: actions/checkout@v3
+      - name: 체크아웃
+        uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.inputs.target_branch }}
+          fetch-depth: 0
 
-      - name: Create Release
+      - name: Git 사용자 설정
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: main 브랜치로 전환
+        run: git checkout main
+
+      - name: develop 브랜치를 main으로 머지
+        run: |
+          git merge origin/develop --no-ff -m "feat: Merge develop for release"
+
+      - name: Node.js 및 pnpm 설정
+        uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: 의존성 설치
+        run: pnpm install --frozen-lockfile
+
+      - name: 현재 버전 가져오기
+        id: get-version
+        run: echo "CURRENT_VERSION=$(node -p -e 'require("./package.json").version')" >> $GITHUB_OUTPUT
+
+      - name: 새로운 버전 생성
+        id: get-new-version
+        uses: actions-ecosystem/action-bump-semver@v1
+        with:
+          current_version: ${{ steps.get-version.outputs.CURRENT_VERSION }}
+          level: ${{ inputs.bumpLevel }}
+
+      - name: package.json 버전 업데이트
+        run: pnpm version ${{ steps.get-new-version.outputs.new_version }} --no-git-tag-version
+
+      - name: 버전 업데이트 커밋 및 태그 생성
+        run: |
+          git add package.json pnpm-lock.yaml
+          git commit -m "chore(release): v${{ steps.get-new-version.outputs.new_version }}"
+          git tag -a v${{ steps.get-new-version.outputs.new_version }} -m "Release v${{ steps.get-new-version.outputs.new_version }}"
+
+      - name: main 브랜치와 태그 푸시
+        run: git push origin main --follow-tags
+
+      - name: 릴리즈 생성
         uses: softprops/action-gh-release@v1
         with:
+          tag_name: v${{ steps.get-new-version.outputs.new_version }}
           generate_release_notes: true
-          tag_name: ${{ github.event.inputs.release_version }}
-          target_commitish: ${{ github.event.inputs.target_branch }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -41,58 +81,28 @@ jobs:
     needs: release
     name: Deploy to Cloudflare Pages
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+      - name: 체크아웃
+        uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.inputs.target_branch }}
+          ref: v${{ needs.release.outputs.new_version }}
 
-      - name: Setup pnpm
+      - name: pnpm 설정
         uses: pnpm/action-setup@v4
 
-      - name: Setup Node.js
+      - name: Node.js 설정
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'pnpm'
 
-      - name: Install dependencies
+      - name: 의존성 설치
         run: pnpm install --frozen-lockfile
 
-      - name: Build
+      - name: 빌드
         run: pnpm run build
 
-      - name: Deploy to Cloudflare Pages
-        run: npx wrangler pages deploy ./dist --commit-hash ${{ github.sha }} --branch ${{ github.event.inputs.target_branch }}
+      - name: Cloudflare Pages에 배포
+        run: npx wrangler pages deploy dist
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-
-  sync-main:
-    runs-on: ubuntu-latest
-    needs: deploy
-    if: github.event.inputs.target_branch == 'develop'
-    permissions:
-      contents: write
-    steps:
-      - name: Checkout main branch
-        uses: actions/checkout@v3
-        with:
-          ref: main
-          fetch-depth: 0
-
-      - name: Merge develop into main
-        run: |
-          # Git 유저 설정 (Bot 이름으로 설정)
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-
-          # develop 브랜치 가져오기
-          git fetch origin develop
-
-          # develop을 main으로 병합
-          git merge origin/develop --no-ff -m "Merge develop into main for release ${{ github.event.inputs.release_version }}"
-
-          # 변경사항 Push
-          git push origin main
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

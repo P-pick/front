@@ -12,7 +12,7 @@ export default function Header({
   if (!onClick) {
     return (
       <header className={className}>
-        <BackButton isMain={true} />
+        <BackButton />
         {children}
         <span></span>
       </header>

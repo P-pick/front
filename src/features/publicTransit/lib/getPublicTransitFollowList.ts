@@ -3,6 +3,7 @@ import type { FollowBase, PUBLICTRANSIT } from '@/entities/navigate';
 export default function getPublicTransitFollowList(
   itinerary: PUBLICTRANSIT.Itinerary,
 ) {
+  console.log('itinerary legs', itinerary.legs);
   const followList = itinerary.legs.flatMap((leg, legIndex): FollowBase[] => {
     if (leg.mode === 'WALK') {
       return (
@@ -26,9 +27,9 @@ export default function getPublicTransitFollowList(
       );
     }
     if (leg.mode === 'BUS') {
-      return leg.passStopList.stationList.flatMap((station, stationIndex) => {
+      return leg.passStopList.stations.flatMap((station, stationIndex) => {
         return {
-          id: leg.mode + legIndex + '-' + stationIndex,
+          id: station.stationID || leg.mode + legIndex + '-' + stationIndex,
           path: [
             {
               lat: Number(station.lat),
@@ -41,9 +42,9 @@ export default function getPublicTransitFollowList(
       });
     }
     if (leg.mode === 'SUBWAY') {
-      return leg.passStopList.stationList.flatMap((station, stationIndex) => {
+      return leg.passStopList.stations.flatMap((station, stationIndex) => {
         return {
-          id: leg.mode + legIndex + '-' + stationIndex,
+          id: station.stationID || leg.mode + legIndex + '-' + stationIndex,
           path: [
             {
               lat: Number(station.lat),

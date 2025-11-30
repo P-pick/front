@@ -1,9 +1,21 @@
-name: Release and Deploy
+name: Release, Deploy & Sync
 
 on:
-  push:
-    tags:
-      - 'v*.*.*'
+  workflow_dispatch:
+    inputs:
+      release_version:
+        description: '릴리즈 버전 (예: v1.0.0)'
+        required: true
+        type: string
+        default: 'v'
+      target_branch:
+        description: '릴리즈할 브랜치 (보통 develop)'
+        required: true
+        default: 'develop'
+        type: choice
+        options:
+          - develop
+          - main
 
 jobs:
   release:
@@ -12,11 +24,15 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.inputs.target_branch }}
 
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
           generate_release_notes: true
+          tag_name: ${{ github.event.inputs.release_version }}
+          target_commitish: ${{ github.event.inputs.target_branch }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -27,6 +43,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.inputs.target_branch }}
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
@@ -44,7 +62,37 @@ jobs:
         run: pnpm run build
 
       - name: Deploy to Cloudflare Pages
-        run: npx wrangler pages deploy
+        run: npx wrangler pages deploy ./dist --commit-hash ${{ github.sha }} --branch ${{ github.event.inputs.target_branch }}
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+  sync-main:
+    runs-on: ubuntu-latest
+    needs: deploy
+    if: github.event.inputs.target_branch == 'develop'
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout main branch
+        uses: actions/checkout@v3
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Merge develop into main
+        run: |
+          # Git 유저 설정 (Bot 이름으로 설정)
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+          # develop 브랜치 가져오기
+          git fetch origin develop
+
+          # develop을 main으로 병합
+          git merge origin/develop --no-ff -m "Merge develop into main for release ${{ github.event.inputs.release_version }}"
+
+          # 변경사항 Push
+          git push origin main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

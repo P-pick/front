@@ -6,7 +6,7 @@ const isLocal = import.meta.env.DEV;
  * TourAPI 요청을 위한 Axios 인스턴스
  */
 export const tourApi = axios.create({
-  baseURL: import.meta.env.VITE_TOUR_BASE_URL,
+  baseURL: isLocal ? '/api' : import.meta.env.VITE_TOUR_BASE_URL,
   params: {
     MobileOS: 'WEB',
     MobileApp: 'p_pick',

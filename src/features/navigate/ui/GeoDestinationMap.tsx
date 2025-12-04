@@ -5,17 +5,21 @@ import {
   useTransportationStore,
   withDestination,
 } from '@/features/navigate';
-import { Car } from '@/features/car';
-import { Pedestrian } from '@/features/pedestrian';
-import { PublicTransit } from '@/features/publicTransit';
 import { LoadingSpinner } from '@/shared';
 
 import type { GeoTripLocation } from '@/shared';
+import { lazy } from 'react';
 
 interface GeoDestinationMapProps {
   start: GeoTripLocation;
   end: GeoTripLocation;
 }
+
+const Pedestrian = lazy(() => import('@/features/pedestrian/ui/Pedestrian'));
+const Car = lazy(() => import('@/features/car/ui/Car'));
+const PublicTransit = lazy(
+  () => import('@/features/publicTransit/ui/PublicTransit'),
+);
 
 function GeoDestinationMap({ start, end }: GeoDestinationMapProps) {
   const { vehicle } = useStore(useTransportationStore);

@@ -8,7 +8,12 @@ export default function BackButton() {
   };
 
   return (
-    <button onClick={handleBack} type="button" className="cursor-pointer">
+    <button
+      onClick={handleBack}
+      type="button"
+      className="cursor-pointer"
+      role="button"
+    >
       <svg
         width="35"
         height="35"

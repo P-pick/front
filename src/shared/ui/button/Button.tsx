@@ -13,7 +13,7 @@ export default function Button({
   ...props
 }: ButtonProps) {
   const baseStyles =
-    'px-4 py-2 rounded-2xl font-medium shadow-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2';
+    'rounded-2xl font-medium shadow-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2';
 
   const variants = {
     primary: 'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500',
@@ -25,6 +25,8 @@ export default function Button({
   return (
     <button
       className={clsx(baseStyles, variants[variant], className)}
+      role="button"
+      type="button"
       {...props}
     >
       {children}

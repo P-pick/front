@@ -15,7 +15,14 @@ body,
   width: 100%;
   display: flex;
   justify-content: center;
+  font-family: 'Pretendard', sans-serif;
+}
+
+@font-face {
   font-family: 'Pretendard';
+  src: url('/fonts/Pretendard-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
   font-display: swap;
 }
 

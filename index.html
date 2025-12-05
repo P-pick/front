@@ -9,17 +9,19 @@
     />
     <title>"P-PICK | 스와이프로 발견하는 나만의 여행지"</title>
     <link rel="icon" href="/meta-images/favicon.ico" sizes="any" />
-    <link
-      rel="stylesheet"
-      as="style"
-      crossorigin
-      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css"
-    />
     <script
       type="text/javascript"
       src="//dapi.kakao.com/v2/maps/sdk.js?appkey=%VITE_KAKAO_MAP_KEY%&libraries=services,clusterer&autoload=false"
+      defer
     ></script>
     <link href="/src/styles.css" rel="stylesheet" />
+    <link
+      rel="preload"
+      href="/fonts/Pretendard-Regular.woff"
+      as="font"
+      type="font/woff"
+      crossorigin
+    />
   </head>
   <body>
     <div id="root"></div>

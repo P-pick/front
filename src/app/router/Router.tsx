@@ -11,7 +11,6 @@ import {
 import { Home } from '@/pages/home';
 import { GeoTrip } from '@/pages/tour/geotrip';
 import { Bookmark } from '@/pages/tour/bookmark';
-import { GeoSetup } from '@/pages/geoSetup';
 import { Tour } from '@/pages/tour';
 import { Profile } from '@/pages/profile';
 
@@ -23,7 +22,6 @@ export default function Router() {
       <Suspense fallback={<LoadingSpinner centered />}>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/geo-setup" element={<GeoSetup />} />
           <Route path="/map" element={<Map />}>
             <Route path="destination" element={<Destination />} />
             <Route path="around-search" element={<AroundSearch />} />

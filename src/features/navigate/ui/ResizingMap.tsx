@@ -9,7 +9,7 @@ import {
   useTransportationStore,
 } from '@/features/navigate';
 
-import { getSuspenseLocation, type GeoTripLocation } from '@/shared';
+import { Button, getSuspenseLocation, type GeoTripLocation } from '@/shared';
 
 interface ResizingMapProps {
   points: GeoTripLocation[];
@@ -68,12 +68,12 @@ export default function ResizingMap({
         >
           모든 경로 보기
         </button>
-        <button
+        <Button
           onClick={goToMyLocation}
           className="fill-black border-black  border-1 w-10 h-10 bg-white rounded-full flex items-center justify-center cursor-pointer z-(--z-layer2)"
         >
           <destinationSVG.MyLocationIcon />
-        </button>
+        </Button>
       </div>
     </>
   );

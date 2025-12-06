@@ -9,9 +9,9 @@ interface SharedButtonContainerProps {
 export default function SharedButtonContainer({
   contentId,
 }: SharedButtonContainerProps) {
-  const link = window.location.href;
-  const { shareKakao } = useKakaoShare({ contentId, link });
+  const link = `${window.location.origin}/tour/single/${contentId}`;
 
+  const { shareKakao } = useKakaoShare({ contentId, link });
   return (
     <button
       aria-label="공유하기"

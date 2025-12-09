@@ -48,7 +48,7 @@ describe('BottomNavigationBar 컴포넌트', () => {
     await user.click(homeButton);
 
     expect(mockNavigate).toHaveBeenCalledWith(
-      expect.stringContaining('/tour/geo-trip'),
+      expect.stringContaining('/tour/geo/1234566'),
       { replace: true },
     );
   });

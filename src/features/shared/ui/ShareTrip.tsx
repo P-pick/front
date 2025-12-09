@@ -5,7 +5,7 @@ import { tourQueries, type TourItem } from '@/entities/tour';
 import { LoadingSpinner } from '@/shared/ui';
 import { TourSlide } from '@/features/tourShort';
 
-export default function Single() {
+export default function ShareTrip() {
   const { contentId } = useParams();
   const navigate = useNavigate();
 

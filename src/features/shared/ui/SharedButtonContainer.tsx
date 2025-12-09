@@ -9,7 +9,7 @@ interface SharedButtonContainerProps {
 export default function SharedButtonContainer({
   contentId,
 }: SharedButtonContainerProps) {
-  const link = `${window.location.origin}/tour/single/${contentId}`;
+  const link = `${window.location.origin}/tour/share/${contentId}`;
 
   const { shareKakao } = useKakaoShare({ contentId, link });
   return (

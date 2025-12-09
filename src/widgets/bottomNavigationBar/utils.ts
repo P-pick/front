@@ -7,19 +7,12 @@ import {
 } from '@/assets/common';
 
 type createNavItemsParams = {
-  currentParams: URLSearchParams;
   navigate: (to: To, options?: NavigateOptions) => void | Promise<void>;
 };
 
-export const createNavItems = ({
-  currentParams,
-  navigate,
-}: createNavItemsParams) => {
-  const paramsString = currentParams.toString();
-
+export const createNavItems = ({ navigate }: createNavItemsParams) => {
   const navigateTo = (path: string) => {
-    const destination = paramsString ? `${path}?${paramsString}` : path;
-    navigate(destination, { replace: true });
+    navigate(path, { replace: true });
   };
 
   return [

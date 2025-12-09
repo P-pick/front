@@ -1,14 +1,9 @@
-import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
-import {
-  DistanceSlider,
-  SortOptions,
-  useTourFilterQuery,
-} from '@/features/tourFilter';
-import { TouristContentsTypeFilter } from '@/shared';
-
-import type { SortOption } from '@/features/tourFilter';
+import { DistanceSlider } from '@/features/tourFilter';
+import { TouristContentsTypeFilter, useLocalStorage } from '@/shared';
+import type { TourInjected } from '@/features/tour/types';
+import { useState } from 'react';
 
 interface BottomSheetProps {
   onClose: () => void;
@@ -19,17 +14,29 @@ export default function TourFilterSidebar({
   onClose,
   isOpen,
 }: BottomSheetProps) {
-  const { getQuery, updateQuery } = useTourFilterQuery();
+  const [tourFilter, setTourFilter] = useLocalStorage('tourInfo', {
+    distance: '20000',
+    contentTypeId: '12',
+  } as TourInjected);
 
-  const [aroundContentTypeId, setAroundContentTypeId] = useState(
-    getQuery()?.tourType ?? '12',
-  );
-  const [distance, setDistance] = useState(getQuery()?.distance || 1);
-  const [sortOption, setSortOption] = useState<SortOption>('distance');
+  const [currentTourFilter, setCurrentTourFilter] = useState<TourInjected>({
+    distance: tourFilter.distance,
+    contentTypeId: tourFilter.contentTypeId,
+  });
 
   const handleSubmit = () => {
-    updateQuery({ tourType: aroundContentTypeId, distance });
+    setTourFilter({
+      distance: currentTourFilter.distance,
+      contentTypeId: currentTourFilter.contentTypeId,
+    });
     onClose();
+  };
+
+  const handleReset = () => {
+    setCurrentTourFilter({
+      distance: '20000',
+      contentTypeId: '12',
+    });
   };
 
   return (
@@ -58,28 +65,25 @@ export default function TourFilterSidebar({
                   관광 타입
                 </label>
                 <TouristContentsTypeFilter
-                  contentTypeId={aroundContentTypeId}
-                  setContentTypeId={setAroundContentTypeId}
+                  contentTypeId={currentTourFilter.contentTypeId}
+                  setContentTypeId={setCurrentTourFilter}
                 />
               </section>
               <section className="my-5 py-5 px-5 rounded-xl shadow mr-3">
                 <label className="block mb-2 text-lg font-semibold text-black">
                   거리
                 </label>
-                <DistanceSlider distance={distance} setDistance={setDistance} />
-              </section>
-              <section className="my-5 py-5 px-5 rounded-xl shadow mr-3">
-                <label className="block mb-2 text-lg font-semibold text-black">
-                  정렬
-                </label>
-                <SortOptions
-                  selected={sortOption}
-                  setSelected={setSortOption}
+                <DistanceSlider
+                  distance={currentTourFilter.distance}
+                  setDistance={setCurrentTourFilter}
                 />
               </section>
             </main>
             <footer className="flex gap-3">
-              <button className="w-30 rounded-2xl bg-gray-300 px-5 py-2 text-black cursor-pointer ">
+              <button
+                className="w-30 rounded-2xl bg-gray-300 px-5 py-2 text-black cursor-pointer"
+                onClick={handleReset}
+              >
                 초기화
               </button>
               <button

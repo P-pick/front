@@ -6,10 +6,13 @@ import clsx from 'clsx';
 import { markerList } from '@/features/aroundTourist';
 
 import type { AroundContentTypeId } from '@/entities/tour';
+import type { TourInjected } from '@/features/tour';
 
 interface TouristContentsTypeFilterProps {
   contentTypeId: AroundContentTypeId;
-  setContentTypeId: React.Dispatch<React.SetStateAction<AroundContentTypeId>>;
+  setContentTypeId: (
+    value: TourInjected | ((val: TourInjected) => TourInjected),
+  ) => void;
 }
 export default function TouristContentsTypeFilter({
   contentTypeId,
@@ -37,7 +40,12 @@ export default function TouristContentsTypeFilter({
         <SwiperSlide className=" !w-auto bg-white" key={marker.contentTypeId}>
           <button
             className={getButtonClass(contentTypeId === marker.contentTypeId)}
-            onClick={() => setContentTypeId(marker.contentTypeId)}
+            onClick={() =>
+              setContentTypeId(prev => ({
+                distance: prev.distance,
+                contentTypeId: marker.contentTypeId,
+              }))
+            }
           >
             <span className="text-xs">{marker.altText}</span>
           </button>

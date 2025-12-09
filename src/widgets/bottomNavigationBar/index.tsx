@@ -1,14 +1,12 @@
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
 
 import { createNavItems } from '@/widgets/bottomNavigationBar/utils';
 
 export function BottomNavigationBar() {
-  const location = useLocation();
   const navigate = useNavigate();
-  const currentParams = new URLSearchParams(location.search);
 
-  const navItems = createNavItems({ currentParams, navigate });
+  const navItems = createNavItems({ navigate });
   const getIconClass = (path: string) =>
     clsx({
       'text-black': location.pathname !== path,

@@ -28,6 +28,7 @@ export default function Router() {
             <Route path="around-search" element={<AroundSearch />} />
           </Route>
           <Route path="/tour" element={<Tour />}>
+            <Route path=":contentId" element={<GeoTrip />} />
             <Route path="geo-trip" element={<GeoTrip />} />
             <Route path="single/:contentId" element={<TourSingleInfo />} />
             <Route path="list" element={<TourList />} />

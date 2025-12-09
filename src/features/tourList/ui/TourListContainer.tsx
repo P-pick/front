@@ -14,21 +14,13 @@ import { tourQueries } from '@/entities/tour';
 import { authOptions } from '@/entities/auth';
 import { getSuspenseLocation, InfiniteScroll, useSyncedState } from '@/shared';
 
-import type { AroundContentTypeId } from '@/entities/tour';
+import type { TourInjected } from '@/features/tour';
 
-interface TourListContainerProps {
-  distance: string;
-  tourContentTypeId: AroundContentTypeId;
-}
-
-function TourListContainer({
-  distance,
-  tourContentTypeId,
-}: TourListContainerProps) {
+function TourListContainer({ distance, contentTypeId }: TourInjected) {
   const queryClient = useQueryClient();
   queryClient.prefetchQuery(authOptions.auth());
 
-  const [localTourContentTypeId] = useSyncedState(tourContentTypeId);
+  const [localTourContentTypeId] = useSyncedState(contentTypeId);
   const deferredTourContentTypeId = useDeferredValue(localTourContentTypeId);
   const geoLocation = getSuspenseLocation();
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =

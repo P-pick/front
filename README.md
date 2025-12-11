@@ -18,7 +18,7 @@ MBTI의 P처럼 즉흥적으로 여행지를 Pick해 여행을 떠나보세요!
     </tr>
   </table>
 
-### 백엔드 & DevOps
+### 기획 & 디자인
 
   <table>
     <tr>
@@ -34,10 +34,7 @@ MBTI의 P처럼 즉흥적으로 여행지를 Pick해 여행을 떠나보세요!
 
 ### 배포
 
-![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
-![Nginx](https://img.shields.io/badge/nginx-%23009639.svg?style=for-the-badge&logo=nginx&logoColor=white)
 ![GitHub Actions](https://img.shields.io/badge/github%20actions-%232671E5.svg?style=for-the-badge&logo=githubactions&logoColor=white)
-![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)
 ![Cloudflare](https://img.shields.io/badge/CloudFlare-%23F6821F.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)
 
 ### 개발

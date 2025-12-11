@@ -35,7 +35,8 @@ MBTI의 P처럼 즉흥적으로 여행지를 Pick해 여행을 떠나보세요!
 ### 배포
 
 ![GitHub Actions](https://img.shields.io/badge/github%20actions-%232671E5.svg?style=for-the-badge&logo=githubactions&logoColor=white)
-![Cloudflare](https://img.shields.io/badge/CloudFlare-%23F6821F.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)
+![Cloudflare](https://img.shields.io/badge/CloudFlare-%23F6821F.svg?style=for-the-badge&logo=cloudFlare&logoColor=white)
+![Firebase](https://img.shields.io/badge/Firebase-%23DD2C00.svg?style=for-the-badge&logo=firebase&logoColor=white)
 
 ### 개발
 
@@ -43,7 +44,7 @@ MBTI의 P처럼 즉흥적으로 여행지를 Pick해 여행을 떠나보세요!
 ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
 ![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white)<br>
 ![Tailwindcss](https://img.shields.io/badge/tailwindcss-00bcff?style=for-the-badge&logo=tailwindcss&logoColor=white)
-![React Query](https://img.shields.io/badge/-React%20Query-FF4154?style=for-the-badge&logo=react%20query&logoColor=white)<br>
+![React Query](https://img.shields.io/badge/Tanstack-%23000000?style=for-the-badge&logo=Tanstack&logoColor=white)<br>
 ![Zustand](https://img.shields.io/badge/zustand-%23FFFFFF.svg?style=for-the-badge&logo=zustand&logoColor=white)
 
 ### 소통

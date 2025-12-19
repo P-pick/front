@@ -10,7 +10,7 @@ import {
   TourSwiperView,
   useTourSwiperInfiniteQuery,
   useInfiniteSwiperControl,
-  usePersistSlideUrl,
+  usePersistSlideStorage,
 } from '@/features/tourShort';
 import { getSuspenseLocation } from '@/shared';
 
@@ -18,7 +18,8 @@ import type { Swiper as SwiperType } from 'swiper/types';
 import type { TourInjected } from '@/features/tour';
 
 function TourSwiperContainer({ distance, contentTypeId }: TourInjected) {
-  const { setSlideParams, getSlideIndex, getPageParam } = usePersistSlideUrl();
+  const { setSlideParams, getSlideIndex, getPageParam } =
+    usePersistSlideStorage();
   const geoLocation = getSuspenseLocation();
 
   const { slideEntries, fetchAppend, fetchPrepend } =

@@ -19,9 +19,9 @@ export const createNavItems = ({ navigate }: createNavItemsParams) => {
     {
       id: 'home-navigation-tutorial',
       icon: HomeIcon,
-      path: '/tour/geo-trip',
+      path: '/tour/geo',
       label: 'home Icon',
-      onClick: () => navigateTo('/tour/geo-trip'),
+      onClick: () => navigateTo('/tour/geo'),
     },
     {
       id: 'list-navigation-tutorial',

@@ -10,29 +10,23 @@ import {
   TourSwiperView,
   useTourSwiperInfiniteQuery,
   useInfiniteSwiperControl,
-  usePersistSlideUrl,
+  usePersistSlideStorage,
 } from '@/features/tourShort';
-import type { AroundContentTypeId } from '@/entities/tour';
 import { getSuspenseLocation } from '@/shared';
 
 import type { Swiper as SwiperType } from 'swiper/types';
-interface TourSwiperContainerProps {
-  distance: string;
-  tourContentTypeId: AroundContentTypeId;
-}
+import type { TourInjected } from '@/features/tour';
 
-function TourSwiperContainer({
-  distance,
-  tourContentTypeId,
-}: TourSwiperContainerProps) {
-  const { setSlideParams, getSlideIndex, getPageParam } = usePersistSlideUrl();
+function TourSwiperContainer({ distance, contentTypeId }: TourInjected) {
+  const { setSlideParams, getSlideIndex, getPageParam } =
+    usePersistSlideStorage();
   const geoLocation = getSuspenseLocation();
 
   const { slideEntries, fetchAppend, fetchPrepend } =
     useTourSwiperInfiniteQuery({
       location: geoLocation,
       radius: distance,
-      contentTypeId: tourContentTypeId,
+      contentTypeId: contentTypeId,
       initialPageParam: getPageParam(),
     });
 

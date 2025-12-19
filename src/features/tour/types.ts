@@ -33,3 +33,8 @@ export type TourDetailImage = {
   originimgurl?: string;
   serialnum: string;
 };
+
+export type TourInjected = {
+  distance: string;
+  contentTypeId: AroundContentTypeId;
+};

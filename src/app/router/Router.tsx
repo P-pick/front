@@ -7,6 +7,7 @@ import {
   AroundSearch,
   TourList,
   TourSearch,
+  TourShare,
 } from '@/app/router';
 import { Home } from '@/pages/home';
 import { GeoTrip } from '@/pages/tour/geotrip';
@@ -27,7 +28,8 @@ export default function Router() {
             <Route path="around-search" element={<AroundSearch />} />
           </Route>
           <Route path="/tour" element={<Tour />}>
-            <Route path="geo-trip" element={<GeoTrip />} />
+            <Route path="geo" element={<GeoTrip />} />
+            <Route path="share/:contentId" element={<TourShare />} />
             <Route path="list" element={<TourList />} />
             <Route path="search" element={<TourSearch />} />
             <Route path="bookmark" element={<Bookmark />} />

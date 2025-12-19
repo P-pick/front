@@ -9,3 +9,4 @@ export const AroundSearch = lazy(
 );
 export const TourList = lazy(() => import('@/pages/tour/tourList/TourList'));
 export const TourSearch = lazy(() => import('@/pages/tour/search/TourSearch'));
+export const TourShare = lazy(() => import('@/pages/tour/geotrip/Share'));

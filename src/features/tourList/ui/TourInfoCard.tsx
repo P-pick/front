@@ -1,5 +1,4 @@
 import { Suspense } from 'react';
-import { commonSVG } from '@/assets';
 
 import { TourCardImages } from '@/features/tourList';
 import { SkeletonCard, StartTripButton } from '@/features/tour';
@@ -13,6 +12,7 @@ import {
 } from '@/shared';
 
 import type { TourItem } from '@/entities/tour';
+import SharedButtonContainer from '@/features/shared/ui/SharedButtonContainer';
 interface TourInfoCardProps {
   tourInfo: TourItem;
 }
@@ -40,9 +40,7 @@ export default function TourInfoCard({ tourInfo }: TourInfoCardProps) {
           </span>
         </div>
         <nav className="flex gap-2.5" aria-label="카드 옵션">
-          <button aria-label="옵션 보기">
-            <commonSVG.ShareIcon />
-          </button>
+          <SharedButtonContainer contentId={tourInfo.contentid} />
           <Suspense fallback={<LoadingSpinner />}>
             <BookmarkButtonContainer contentId={tourInfo.contentid} />
           </Suspense>
@@ -51,15 +49,17 @@ export default function TourInfoCard({ tourInfo }: TourInfoCardProps) {
 
       {/* 상세 정보 */}
       <section className="flex flex-col px-5 mt-2 text-sm">
-        <div className="flex items-center gap-2">
-          <DistanceTimeInfo
-            dist={tourInfo.dist}
-            iconFill="#FA4032"
-            className="text-primary-red font-bold"
-          />
-          <address className="not-italic">
-            {truncate(tourInfo.addr1 ?? '', { omission: '', length: 10 })}
-          </address>
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex gap-2">
+            <DistanceTimeInfo
+              dist={tourInfo.dist}
+              iconFill="#FA4032"
+              className="text-primary-red font-bold"
+            />
+            <address className="not-italic">
+              {truncate(tourInfo.addr1 ?? '', { omission: '...', length: 15 })}
+            </address>
+          </div>
           <StartTripButton
             lng={tourInfo.mapx}
             lat={tourInfo.mapy}

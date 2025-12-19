@@ -2,13 +2,16 @@ import { Suspense, useState } from 'react';
 
 import { BottomNavigationBar, Header, Seo } from '@/widgets';
 import { TourShortFormTutor } from '@/features/tutorial';
-import { TourFilterSidebar, useTourFilterQuery } from '@/features/tourFilter';
+import { TourFilterSidebar } from '@/features/tourFilter';
 import { TourSwiperContainer } from '@/features/tourShort';
-import { LoadingSpinner, QueryErrorBoundary } from '@/shared';
+import { LoadingSpinner, QueryErrorBoundary, useLocalStorage } from '@/shared';
 
 export default function GeoTrip() {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
-  const { getQuery } = useTourFilterQuery();
+  const [tourFilter] = useLocalStorage('tourInfo', {
+    distance: '20000',
+    contentTypeId: '12',
+  });
 
   return (
     <>
@@ -31,7 +34,9 @@ export default function GeoTrip() {
             <QueryErrorBoundary>
               <Suspense fallback={<LoadingSpinner />}>
                 <TourShortFormTutor />
-                <TourSwiperContainer key={getQuery()?.tourType} />
+                <TourSwiperContainer
+                  key={`${tourFilter.contentTypeId}-${tourFilter.distance}`}
+                />
               </Suspense>
             </QueryErrorBoundary>
           </div>

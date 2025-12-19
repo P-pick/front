@@ -1,28 +1,37 @@
-import type { Dispatch } from 'react';
-import type { Distance } from '@/features/tourFilter';
+import type { TourInjected } from '@/features/tour/types';
 
 interface DistanceSliderProps {
-  distance: number;
-  setDistance: Dispatch<React.SetStateAction<Distance>>;
+  distance: string;
+  setDistance: (
+    value: TourInjected | ((val: TourInjected) => TourInjected),
+  ) => void;
 }
 
 export default function DistanceSlider({
   distance,
   setDistance,
 }: DistanceSliderProps) {
+  const handleDistanceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setDistance(prev => ({
+      ...prev,
+      distance: e.target.value,
+    }));
+  };
+
   return (
     <>
       <div className="flex items-center justify-between text-sm text-black mb-1">
         <span>1km</span>
+        <span>{distance}m</span>
         <span>20km</span>
       </div>
       <input
         type="range"
-        min={1}
-        max={20}
-        step={1}
+        min={'1000'}
+        max={'20000'}
+        step={'1000'}
         value={distance}
-        onChange={e => setDistance(Number(e.target.value) as Distance)}
+        onChange={handleDistanceChange}
         className="w-full"
       />
     </>

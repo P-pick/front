@@ -9,7 +9,7 @@ export const useSignInMutation = () => {
     mutationFn: signIn,
     onSuccess: () => {
       queryClient.clear();
-      navigate('/tour/geo-trip?distance=20000&tour-type=12');
+      navigate('/tour/geo');
     },
     onError: error => {
       console.error('로그인 실패', error);
